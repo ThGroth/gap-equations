@@ -22,15 +22,18 @@
 %\pagestyle{empty}
 %\newpage
 
-% \begin{abstract}
-
-% \end{abstract}
+\begin{abstract}
+Let $G$ be the Grigorchuk group. In \cite{Lysenok:QudraticEquationsInGrig} it was shown that the commutator width of $G$ is finite but not explicit bound was given.
+In the present paper we show that in fact each element of the derived subgroup $g\in G'$ is a product of two commutators. This means that all equations
+of the form $[x_1,x_2][x_3,x_4]g=1$ are solvable for $g\in G'$. The computer algebra system \cite{GAP4} is used to derive a series of equations with increasing 
+genus. 
+\end{abstract}
 %\setcounter{page}{1}
 \tableofcontents
 \section{Equations}
 In this section some standard notations similar to the ones introduced in\cite{ComerfordEquationsFreeGroups} are established.
-$X$ is a set of \emph{variables}. As it should always be infinite countable it can be assumed to be equal to $\NN$. $G$ is some arbitrary group and $S_n$ is the 
-Permutation group on $n$-Elements. $F_X$ denotes the free group on the generating set $X$.
+$X$ is a set of \emph{variables}. As it should always be infinite countable it can be assumed to be equal to $\NN$. $G$ is some
+arbitrary group and $F_X$ denotes the free group on the generating set $X$.
 
 A $G$\emph{-equation} $E$ is an element of the group $F_X * G$ regarded as reduced word.
 A $G$-\emph{homomorphism} from $F_X * G$ to $H*G$ is a homomorphism which is the identity on $G$.
@@ -147,7 +150,14 @@ From now on we will consider oriented equations $O_{(n,1)}$. For this we will us
 \end{defi}
 
 \section{Grigorchuks Group}
-The Grigorchuk $2$-group is a finitely generated group with finite state generators:
+Let $T_n$ be an infinite regular rooted $n$-ary tree. The group $\Aut(T_n)$ consists of all root preserving graph automorphisms of the tree $T_n$. 
+Note that $T_n$ is isomorphic to any $n$-ary subtree and therefore $\Aut(T_n)\simeq \Aut(T)\wr S_n$ where $S_n$ is the symmetric group of $n$ symbols. 
+
+A self similar subgroup of $\Aut(T_n)$ is a group $G$ with an embedding $G\hookrightarrow G\wr P$  where $P<S_n$. For the sake of an easy notation we
+will identify elements with the image of these embedding and will write $g=\pair{g_1,\ldots,g_n}\pi$ for elements $g\in G$. 
+Furthermore we will call the $g_i$ states of the element $g$ and write $g\at{i}:=g_i$ 
+
+The Grigorchuk $2$-group is a finitely generated self-similar group with finite state generators:
 \[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
 
 Some useful identities are
