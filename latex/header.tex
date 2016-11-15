@@ -1,0 +1,235 @@
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{setspace}
+%\usepackage[ngerman]{babel}
+\usepackage{lmodern}
+
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+% Boldface Zahlen
+\usepackage{bbm}
+\usepackage{enumerate}
+\usepackage{mathtools}
+
+%For include without pagebreak
+\usepackage{newclude}
+
+% For relative Textsizes
+\usepackage{relsize}
+
+\usepackage[disable]{todonotes}
+
+\usepackage{graphicx}
+% Bibliographi
+%\usepackage{natbib}
+
+%Für Quellcode
+\usepackage{listings}
+
+%Für Verlinkungen im Dokument
+\usepackage{xcolor}
+\definecolor{white}{rgb}{1,1,1}
+\usepackage[linkbordercolor=white,urlbordercolor=white ,citebordercolor=white, plainpages=false]{hyperref}
+
+%Zum Erstellen von Graphen für Automaten
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes.geometric,automata,positioning}
+\tikzset{elliptic state/.style={draw,ellipse}}
+
+%Diagrams
+\usepackage[arrow, matrix, curve]{xy}
+
+
+%For extra small fraction \sfrac 
+\usepackage{xfrac}
+
+%Reset the equation counter after each subsection
+\usepackage{chngcntr}
+\counterwithin*{equation}{section}
+\counterwithin*{equation}{subsection}
+%Für Zeilennummern
+%\usepackage[modulo]{lineno}
+%\linenumbers
+
+%Counter für Automaten
+\newcounter{automatonnumber}[section]
+\renewcommand{\theautomatonnumber}{\mathcal{A}_{\thesection,\arabic{automatonnumber}}}
+\newcommand{\autno}[1]{
+  \refstepcounter{automatonnumber}
+  \label{#1}
+  (\theautomatonnumber)
+}
+
+%Quellcode Aussehen:
+\lstset {
+basicstyle=\footnotesize,
+breaklines=true,
+showstringspaces=false,
+tabsize=2
+}
+
+\newtheorem{pro}{Proposition}[section]
+\newtheorem{con}[pro]{Conjecture}
+\newtheorem{thm}[pro]{Theorem}
+\newtheorem{cor}[pro]{Corollary}
+\newtheorem{lem}[pro]{Lemma}
+
+\newtheorem{task}{Task}
+
+\theoremstyle{definition}
+\newtheorem*{ex}{Example}
+\newtheorem*{re}{Remark}
+\newtheorem{defi}[pro]{Definition}
+\newtheorem{cordef}[pro]{Corolary/Definition}
+
+
+%Für Quotienten
+\newcommand{\RRNK}[2]{
+  \raisebox{1ex}{\ensuremath{#1}}
+  \ensuremath{\mkern-3mu} \bigg/  \ensuremath{\mkern-3mu}
+  \raisebox{-1ex}{\ensuremath{#2}}
+}
+\newcommand{\RNK}[2]{
+  \mathchoice{ \raisebox{1ex}{\ensuremath{#1}}%
+	       \ensuremath{\mkern-4mu} \big/  \ensuremath{\mkern-4mu}%
+	       \raisebox{-1ex}{\ensuremath{#2}}}%
+	     { \raisebox{0.2ex}{\ensuremath{#1}}%
+	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
+	       \raisebox{-0.2ex}{\ensuremath{#2}}}%
+	     { \raisebox{0.1ex}{\ensuremath{\scriptstyle#1}}%
+	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
+	       \raisebox{-0.1ex}{\ensuremath{\scriptstyle#2}}}%
+	     { {\ensuremath{#1}}%
+	        /%
+	       {\ensuremath{#2}}}%
+  \ 
+}
+\newcommand{\LNK}[2]{
+  \raisebox{-1ex}{\ensuremath{#1}}
+  \ensuremath{\mkern-3mu} \backslash  \ensuremath{\mkern-3mu}
+  \raisebox{1ex}{\ensuremath{#2}}
+  \ 
+}
+
+%uppergausian bracket
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+%Pfeile für exakte Sequenzen
+\newcommand{\exar}[1][ ]{\overset{#1}{\longrightarrow}}
+%Normalteiler/Ideal 
+\newcommand{\normal}{{\mathrel\trianglelefteq}}
+
+%großer Strich
+\newcommand{\bigmid}{\ \middle \vert }
+
+%Besondere Buchstaben
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\one}{\mathbbm{1}}
+
+%das d hinter dem Integral
+\newcommand{\intd}{d}
+
+%Sprachen
+\newcommand{\La}{\mathcal{L}}
+\newcommand{\emptyword}{\epsilon}
+%Zustandmenge
+\newcommand{\States}{\zeta}
+%Alphabet
+\newcommand{\Al}{\mathcal{A}}
+%Zentrum
+\newcommand{\Ce}{\mathfrak{C}}
+%Free Variables in a groupword
+\newcommand{\Var}{\textup{Var}}
+%Commutator width
+\newcommand{\cw}{\textup{width}}
+%Stabilizer
+\newcommand{\Sta}{\textup{St}}
+%Projektion auf Alphabet
+\newcommand{\alphab}{\mathfrak{wr}}
+\newcommand{\state}{\mathfrak{state}} 
+%zugehörige Mealy
+\newcommand{\mealy}[1]{\mathfrak{M}_{#1}}
+%Aktivität eines Automorphismus
+%\newcommand{\act}{\mathcal{A}\mathcal{CT}}
+%\newcommand{\act}{{\scalebox{0.9}{$\mathcal{A}$}\mspace{-2mu}\raisebox{-0.3ex}{\tiny$\mathbf{ct}$}}}
+\newcommand{\act}{{\textup{\smaller$\mathcal{A}\mathbf{ct}$}}}
+%PairKlammern
+\DeclarePairedDelimiter{\pair}{\langle\negthickspace\langle}{\rangle\negthickspace\rangle}
+%\newcommand{\pair}[1]{{\langle\negthickspace\langle #1 \rangle\negthickspace\rangle}}
+%Nucleus
+\newcommand{\Nuc}{\mathcal{N}}
+%Commutatror Width
+\newcommand{\mcount}{{\#_M}}
+%Normal normal_form
+\newcommand{\Normal}{\mathfrak{nf}}
+%Reduced constraints
+\newcommand{\Red}{\mathfrak{R}}
+%Ideale
+\newcommand{\ai}{\mathfrak{a}}
+\newcommand{\bi}{\mathfrak{b}}
+\newcommand{\Ji}{\mathcal{Ji}}
+
+%Zustände von Automaten
+
+%\newcommand{\at}[1]{  {\raisebox{-0.3ex}[1ex]{$\mathbin{@}$}#1} }
+\newcommand{\at}[1]{  {{\textup{\smaller @}}#1} }
+\newcommand{\att}[1]{  {{\bar{\textup{\smaller @}}}#1} }
+%\newcommand{\at}[1]{  |_{#1} }
+
+%Centralizer:
+\newcommand{\centra}{\mathcal{C}}
+%Stabilizer
+\newcommand{\Stab}{\textup{Stab}}
+%Undefined elememts
+\newcommand{\undef}{\varnothing}
+
+%Funktionen aufrecht
+\newcommand{\Aut}{\textup{Aut}}
+\newcommand{\RAut}{\textup{RAut}}
+\newcommand{\FAut}{\textup{FAut}}
+\newcommand{\Poly}{\textup{Poly}}
+\newcommand{\EPoly}{\mbox{\smaller$\frac{1}{2}$}\Poly}
+%\newcommand{\EPoly}{\textup{EPoly}}
+\newcommand{\Orb}{\textup{Orb}}
+\newcommand{\OS}{\textup{OS}}
+\newcommand{\OSA}{\textup{OSA}}
+\newcommand{\supp}{\textup{supp}}
+\newcommand{\End}{\textup{End}}
+\newcommand{\rad}{\textup{rad}}
+\newcommand{\ad}{\textup{ad}}
+\newcommand{\id}{\mathbbm{1}}
+\newcommand{\im}{\textup{i}}
+\newcommand{\Min}{\textup{Min}}
+\newcommand{\Imm}{\textup{Im}}
+\newcommand{\Span}{\textup{span}}
+\newcommand{\Spec}{\textup{Spec}}
+\newcommand{\Spur}{\textup{tr}}
+\newcommand{\rk}{\textup{rk}}
+\newcommand{\sign}{\textup{sign}}
+\newcommand{\diag}{\textup{diag}}
+\newcommand{\Sym}{\textup{Sym}}
+\newcommand{\ord}{\textup{ord}}
+\newcommand{\suc}{\textup{suc}}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\operp}{{ \bigcirc\!\!\!\!\!\!\!\perp}}
+
+\newcommand{\BIGOP}[1]{\mathop{\mathchoice%
+{\raise-0.22em\hbox{\huge $#1$}}%
+{\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
+\newcommand{\bigtimes}{\BIGOP{\times}}
+
+\newcommand{\bigcomp}{\BIGOP{\circ}}
+
+% nur fuer Bigboxplus andere Korrekturen
+\newcommand{\BIGboxplus}{\mathop{\mathchoice%
+{\raise-0.35em\hbox{\huge $\boxplus$}}%
+{\raise-0.15em\hbox{\Large $\boxplus$}}{\hbox{\large $\boxplus$}}{\boxplus}}}
+\parindent=0em

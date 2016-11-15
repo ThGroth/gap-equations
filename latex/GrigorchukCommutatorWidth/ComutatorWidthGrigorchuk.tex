@@ -1,0 +1,592 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{geometry}
+\geometry{a4paper,left=35mm,right=35mm, top = 35mm, bottom=35mm}
+
+\input{../header.tex}
+%\bibliographystyle{THdeutsch}
+%\bibliographystyle{alphaTH}
+%\bibliographystyle{dinat}
+%\bibliographystyle{TH}
+\bibliographystyle{../hamsalpha}
+
+\hyphenation{Al-go-rith-mus}
+
+
+%opening
+\title{Commutator width of the Grigorchuk Group}
+\author{Thorsten Groth}
+
+\begin{document}
+\maketitle
+%\include{Abschnitte/Titelseite}
+%\pagestyle{empty}
+%\newpage
+
+% \begin{abstract}
+
+% \end{abstract}
+%\setcounter{page}{1}
+\tableofcontents
+\section{Equations}
+In this section some standard notations similar to the ones introduced in\cite{ComerfordEquationsFreeGroups} are established.
+$X$ is a set of \emph{variables}. As it should always be infinite countable it can be assumed to be equal to $\NN$. $G$ is some arbitrary group and $S_n$ is the 
+Permutation group on $n$-Elements. $F_X$ denotes the free group on the generating set $X$.
+
+A $G$\emph{-equation} $E$ is an element of the group $F_X * G$ regarded as reduced word.
+A $G$-\emph{homomorphism} from $F_X * G$ to $H*G$ is a homomorphism which is the identity on $G$.
+Define:
+\[\Var \colon F_X * G \to \PP(X), E \mapsto \Var(E), \quad x\in \Var(E) \textup{ iff the symbol $x$ occurs in $w$}\]
+
+An \emph{evaluation} is a $G$-endomorphism $e\colon F_X * G \to G$.
+A \emph{solution} of an equation $E$ is an evaluation $s$ with $s(E)=1$. If a solution exists the equation is called \emph{solvable}.
+
+The set of elements $x\in X$ such that $s(x)\neq 1$ is called the \emph{support} of the solution.
+Often the support of a solution for an equation $E$ is assumed to be minimal and thus a subset of $F_{\Var(E)}$. 
+As the solution is uniquely described by the image of $X$ the data of a minimal solution is equivalent to a map $\Var(E) \to G$.
+The question of whether an equation $E$ is solvable will be referred to as the \emph{diophantine} problem of $E$.
+Any homomorphism $\varphi \colon G \to H$ extends to a homomorphism $\varphi^* \colon F_X*G \to F_X*H$ by extending it as the identity on $F_X$. 
+\begin{defi}
+ Two equations $E,F\in F_X* G$ are equivalent if there is a $G$-automorphism $\varphi$ which maps $E$ to $F$.
+\end{defi}
+\begin{lem}
+ Let $\varphi$ be a $G$-homomorphism and $E$ an equation. If $\varphi(E)$ is solvable, then so is $E$.
+\end{lem}
+\begin{proof}
+ Let $s$ be the solution of $\varphi(w)$. Write $E$ as $E=\prod_{i=1}^m g_i x_i$ where $g_i\in G$ and $x_i \in X$. Define the evaluation $s'$ by $x\mapsto s(\varphi(x))$. Then
+ \[s'(E) = \prod_{i=1}^m g_i s'(x_i)=\prod_{i=1}^m g_i s(\varphi(x_i)) = s\left(\prod_{i=1}^m g_i \varphi(x_i)\right)=s(\varphi(E))=1.\] 
+ So $s'$ is a solution for $E$.
+\end{proof}
+\begin{cor}
+ The diophantine problem is the same for equivalent equations.
+\end{cor}
+
+
+
+\subsection{Quadratic equations}
+A $G$-equation $E$ is called \emph{quadratic} if each $x\in \Var(E)$ occurs exactly twice in $E$ regarded as reduced word. 
+
+It is called \emph{oriented} if for each variable $x\in \Var(E)$ the number of occurrences with positive and with negative sign coincide.
+Otherwise the word is called \emph{unoriented}. 
+\begin{lem}
+ Being oriented or not is invariant under $G$-automorphisms.
+\end{lem}
+\begin{proof} 
+Let $\varphi$ be some $G$-homomorphism.
+ Fix some $x \in X$. Let $n_{+,y}$ be the number of positive occurrences of $x$ in $\varphi(y)$ and $n_{-,y}$ accordingly. If $E$ is an oriented word then 
+ \[\sum_{y\in \Var(E)} n_{+,y} = \sum_{y\in \Var(E)} n_{-,y^{-1}} = \sum_{y\in \Var(E)} n_{-,y}\ .\] So $\varphi(E)$ is oriented too. 
+\end{proof}
+\subsection{Normal form of quadratic equations} \label{sec:normal_form}
+\begin{defi}
+ For $x_i,y_i,z_i \in F$ and $c_i \in G$ the following two kind of equations are called in \emph{normal form}:
+ \begin{align}
+  O_{n,m}:\qquad & [x_1,y_1][x_2,y_2]\cdots[x_n,y_n]c_1^{z_1}\cdots c_{m-1}^{z_{m-1}}c_m  \\
+   U_{n,m}:\qquad & x_1^2x_2^2\cdots x_n^2 c_1^{z_1}\cdots c_{m-1}^{z_{m-1}}c_m\ .
+ \end{align} 
+ The form $O_{n,m}$ is called the oriented case and $U_{n,m}$ for $n>0$ the unoriented.
+  The parameter $n$ is referred to as \emph{genus} of the normal form of an equation. 
+\end{defi}
+We are going to prove the following theorem:
+\begin{thm}[\cite{ComerfordEquationsFreeGroups}] \label{Thm:equationNormalForm}
+ Each quadratic equation $E \in F_X*G$ is equivalent to an equation in normal form and the 
+ isomorphism can be effectively computed.
+\end{thm}
+
+\begin{proof}
+The proof goes through an induction on the number of variables. 
+ Starting with the oriented case: 
+ If the reduced equation $E$ has no variables then it is already in normal form $O_{0,1}$. If there is a variable $x\in X$ occurring in $E$ then it does also appear with opposite sign.
+ So the equation has the form $E = ux^{-1}vxw$ or can be brought to this form by applying the automorphism $x \mapsto x^{-1}$. Choose $x\in X$ in a way such that $\Var(v)$ is minimal. 
+ 
+ We're distinguish between multiple cases: 
+ \begin{itemize}
+  \item[Case $1.0$] $v\in G$. The word $uw$ has less variables then $E$ and can thus be brought into normal form $N\in O_{r,s}$ by 
+  $G$-isomorphism $\varphi$. If $N$ ends with a variable we can use the $G$-isomorphism $\varphi \circ (x\mapsto xw^{-1}) $ to map $E$ to the equation $Nv^x \in O_{r,s+1}$.
+    
+    If $N$ ends with a group constant $b$, $N=Mb$ we can use the isomorphism $\varphi \circ(x \mapsto xbw^{-1}) $ to map $E$ to the equation $Mv^xb\in O_{r,s+1}$.
+   \item[Case $1.1$] $v\in X\cup X^{-1}$. For simplicity let us assume that $v\in X$. In the other case we can apply $v \mapsto v^{-1}$.
+    Now there are two possibilities: Either $v^{-1} \in u$ or  $v^{-1} \in w$. In the first case $E= u_1v^{-1}u_2x^{-1}vxw$ then the isomorphism $x \mapsto x^{u_1}u_2$, 
+    $v \mapsto v^{u_1}$ results in the equation $[v,x]u_1u_2w$. In the second case $E= ux^{-1}vxw_1v^{-1}w_2$ is transformed to $[x,v]uw_1w_2$ by the isomorphism 
+    $x \mapsto x^{uw_1}w_1^{-1}$, $v\mapsto v^{-uw_1}$. In both cases $u_1u_2w$, resp. $uw_1w_2$ are of less variable and so composition with the corresponding isomorphism 
+    results the normal form.
+   \item[Case $2$] Length$(v)>1$. Then $v$ is a word consisting of elements $X\cup X^{-1}$ with each symbol occurring at most once as $v$ was chosen with minimal variable set, and some elements of $G$. 
+   If $v$ starts with a constant $b\in G$ we can use the homomorphism $x\mapsto bx$ to achieve that $v$ starts with a variable $y\in X$ by eventually using $y \mapsto y^{-1}$. Like in case $1.1$ there
+   are two possibilities either $y^{-1}$ is part of $u$ or part of $w$. In the first place $E= u_1 y^{-1} u_2 x^{-1}yv_1xw$ we can use the isomorphism $x\mapsto x^{u_1v_1}u_2$, $y\mapsto y^{u_1v_1}v_1^{-1}$
+   to obtain $[y,x]u_1v_1u_2w$. In the second take the isomorphism
+   \begin{align*}
+    x&\mapsto x^{uw_1v_1}v_1^{-1}w_1^{-1}, & y&\mapsto y^{-uw_1v_1}v_1^{-1}
+   \end{align*}
+   to get $[x,y]uw_1v_1w_2$. In both cases the second subword has again less variable and can be brought into normal form by induction.
+    \end{itemize}
+ 
+ Therefore each oriented equation can be brought to normal form by $G$-iso\-morphisms. 
+ For the unoriented case decompose the equation into $E = uxvxw$ with again $v$ with a minimal number of variables. 
+ The shorter word $uv^{-1}w$ is equivalent by $\varphi$ to a normal form $N$ by induction.
+ 
+ The $G$-isomorphism $\varphi \circ (x\mapsto x^uv^{-1})$ maps $E$ to $x^2N$. If $N\in U_{r,s}\cup\thinspace O_{0,t}$ for some $r,s,t$, nothing else is to do.
+ Otherwise $N=[y,z]M$. Then the homomorphism
+ \begin{align*}
+  x&\mapsto xyz, & y&\mapsto z^{-1}y^{-1}x^{-1}yzxyz, & z&\mapsto z^{-1}y^{-1}x^{-1}z
+ \end{align*}
+maps $x^2N$ to $x^2y^2z^2M$. This homomorphism is indeed an isomorphism as 
+\begin{align*}
+  x&\mapsto x^2y^{-1}x^{-1}, & y&\mapsto xyx^{-1}z^{-1}x^{-1}, & z&\mapsto xz
+ \end{align*}
+ is an inverse homomorphism. If $M$ is still not in $O_{0,s}$ this procedure can be repeated with $z$ instead of $x$. 
+\end{proof}
+For an quadratic equation $E$ we denote by $\Normal(E) := \Normal_E(E)$ the image of the such constructed isomorphism $\Normal_E$ of $E$. 
+
+From now on we will consider oriented equations $O_{(n,1)}$. For this we will use the abbreviation 
+\[R_n(x_1,\ldots,x_{2n})=\prod_{i=1}^n [x_{2i-1},x_{2i}]\] and often write $R_n=R_n(x_1,\ldots,x_{2n})$ if the $x_i$ are the first generators of $F_X$. 
+
+\subsection{Constrainted equations}
+\begin{defi}[\cite{Lysenok:QudraticEquationsInGrig}]
+ Given an equation $E \in F_X*G$, a group $H$, a homomorphism $\pi\colon G \to H$ and a homomorphism $\gamma\colon F_X \to H$ then the pair $(E,\gamma)$ is called a \emph{constrainted} equation and $\gamma$ a constraint for the equation
+ $E$ on $H$.
+ 
+ A solution for $(E,\gamma)$ is a solution $s$ for $E$ with the additional property, that $s(x)^\pi = \gamma(x)$ for all $x\in F_X$.
+\end{defi}
+
+\section{Grigorchuks Group}
+The Grigorchuk $2$-group is a finitely generated group with finite state generators:
+\[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
+
+Some useful identities are
+\begin{itemize}
+ \item $a^2=b^2=c^2=d^2=\id$ 
+ \item $b^a= \pair{c,a}, c^a=\pair{d,a}, d^a=\pair{b,\id}$
+ \item $(ad)^4=(ac)^8=(ab)^{16}= \id$.
+\end{itemize}
+
+\begin{lem}
+The Grigorchuk group is regular branched with branching subgroup 
+ $K:= \left< (ab)^2,(bada)^2,(abad)^2 \right>$.  
+ 
+ The Quotient $Q := \RNK{G}{K}$ is of order $16$.
+\end{lem}
+
+\begin{lem}[\cite{Lysenok:QudraticEquationsInGrig}]
+ Given $n\in \NN$ and any homomorphism $\gamma\colon F_X \to Q$ with $\supp(\gamma) \subset \left<x_1,\ldots x_{2n}\right>$
+ there is an element $\varphi \in \Stab(R_n)<\Aut(F_X)$ such that $\supp(\gamma\circ\varphi) \in \left<x_1,\ldots,x_5\right>$.
+\end{lem}
+\begin{re}
+ Implemented in GAP: \emph{GammaSimplify}.
+\end{re}
+
+\begin{lem}
+ Identify the group of homomorphisms $\{\gamma \colon F_X \to Q \mid \supp(\gamma) \subset \left<x_1,\ldots x_6\right>\}$ with $Q^6$. 
+ Then \[\left|\RNK{Q^6}{\Stab(R_3)}\right|=90.\]
+\end{lem}
+\begin{proof}
+ Shown by GAP calculation.
+\end{proof}
+\begin{defi}
+ Fix some representative system $\Red$ of the above $90$ orbits and for 
+ $\gamma \colon F_X \to Q$ with finite support denote by $\varphi_\gamma$ the $G$-homomorphism in $\Stab(R_\NN)$ such that $\gamma\circ \varphi_\gamma \in \Red$.
+ 
+ The element $\gamma \circ \varphi_\gamma$ will be called reduced constraint.
+\end{defi}
+
+\begin{cor}
+ The solvability of a constrainted equation $(R_n g,\gamma)$ is equivalent to the solvability of $(R_n g,\gamma\circ \varphi_\gamma)$.
+\end{cor}
+ \begin{proof}
+ If $s$ is a solution for $(R_n g,\gamma)$ then $s\circ \varphi_\gamma$ is
+ a solution for $(R_n g,\gamma\circ \varphi_\gamma)$. 
+\end{proof}
+
+
+\begin{defi}[\cite{Bartholdi:BranchGroups}] %TODO Wer ist der Urheber? Laurent in FR, Igor in QE in Grigorchuks Groups?
+A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of  
+\begin{itemize}
+ \item a branching subgroup $K\normal G$ of finite index. 
+ \item the corresponding Quotient $Q=\RNK{G}{K}$ and the factor homomorphism $\pi\colon G \to Q$.
+ %TODO Q_1 or \mathcal{F}?????
+ \item A group $Q_1 \subset Q \wr P$ such that $\pair{q_1,q_2}\sigma\in Q_1$ if and only if $\pair{g_1,g_2}\sigma \in G$ for all $g_i \in \pi^{-1}(q_i)$.
+ \item A map $\omega\colon Q_1 \to Q$ with the following property. If $g=\pair{g_1,g_2}\sigma \in G$ then $\omega(\pair{\pi(g_1),\pi(g_2)}\sigma) = \pi(g)$.
+\end{itemize}
+\end{defi}
+\begin{lem}
+ The Grigorchuk Group has a branch structure.
+\end{lem}
+
+\begin{thm}[\cite{Lysenok:QudraticEquationsInGrig}]\label{IgorsThm}
+ The Grigorchuk group has finite commutator width. That is
+ there exists an $N\in\NN$ such that for all $g\in G'$ the equation $R_Ng$ is solvable.
+\end{thm}
+\begin{re}
+ This is not true for constrainted equations: For example
+ \[R_n((ab)^2),\gamma\colon x_i\mapsto 1\ \forall i\] is not solvable for any $n$ because otherwise it would be $ac,ca\in G'$.
+\end{re}
+
+\subsection{Good Pairs}
+\begin{defi}
+Given $g\in G'$ and $\gamma\in\Red$ . The tuple $(g,\gamma)$ is called a \emph{good pair} if there exists an $n$ such that
+$(R_ng,\gamma)$ is solvable.  
+\end{defi}
+
+\begin{lem}
+ Denote by 
+ \[\tau\colon G\to\RNK{G}{K'}\quad\text{ and }\quad\varpi\colon \RNK{G}{K'} \to \RNK{\RNK{G}{K'}}{\RNK{K}{K'}}\simeq \RNK{G}{K}\]
+ the natural projections.
+ 
+ The pair $(g,\gamma)$ is a good pair if and only if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with $s(x_i) \in \varpi^{-1}(\gamma(x_i))$. 
+\end{lem}
+\begin{proof}
+ If $(g,\gamma)$ is a good pair, $s$ a solution for $R_ng,\gamma$ then $s(x_i)\in K$ for $i\geq6$, so $s(R_n) = s(R_3) \cdot k'$ for some $k'\in K'$ 
+ therefore there is a solution $\tau\circ s$ for $R_3g^\tau$ with $s(x_i) = \gamma(x_i)$.
+ 
+ On the other hand if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with for each $s(x_i) \in \varpi^{-1}(\gamma(x_i))$ then
+ for $g_i \in \tau^{-1}(s(x_i))$ there is some $k'\in K'$ such that $R_n(x_1,\ldots,x_6)gk'=1$ and so $(g,\gamma)$ is a good pair.
+\end{proof}
+The previous lemma shows that the question if $(g,\gamma)$ is a good pair depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. So 
+$(q,\gamma)$ will be called a good pair if $(g,\gamma)$ is a good pair for one (and hence all) preimages of $q$ under $\tau$.
+\begin{cor}\label{cor:finiteCommutatorWidthKimpliesBoundedConstraintedCommutators}
+The following are equivalent:
+\begin{enumerate}[a)]
+ \item $K$ is of finite commutator width. \label{Cor:EqStatement1}
+ \item There is a $N\in\NN$ uniform for all good pairs $(g,\gamma),g \in G',\gamma\in\Red$ such that $(R_Ng,\gamma)$ is solvable.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+ First the easy direction: If $k\in K'$ then $(k,\id)$ is a good pair. So $(R_nk,\id)$ is solvable in $G$ for an $n\leq N$ but the constraints ensures that it is solvable in $K$.
+ Therefore the commutator width of $K$ is at most $N$.
+ 
+ If $(g,\gamma)$ is a good pair there is an $m\in \NN$ and a solution $s$ for $R_mg,\gamma$. As $s(x_i)^\pi =1$ for all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
+ a solution for $R_3kg,\gamma$. By \ref{Cor:EqStatement1}) there is an $N$ such that all $k\in K'$ can be written as product of $N$ commutators of elements of $K$ and
+ therefore there is a solution for $(R_{N+3}g,\gamma)$.
+\end{proof}
+This motivates to study $K'$ and $\RNK{G}{K'}$ further.
+\begin{lem} \label{lem:subgroupsOfG}
+Denote by $k_1 := (ab)^2, k_2:=\pair{1,k_1} = (abad)^2$ and $k_3:=\pair{k_1,1} = (bada)^2$ then 
+ \begin{align*}
+  G' &= \left< k_1,k_2,k_3,(ad)^2\right>, \\
+  K &= \left< k_1,k_2,k_3\right>, \\
+  K\times K &= \{\pair{k,k'} \mid k,k'\in K\} \\&= \left< k_2,k_3,k_2k_1^{-1}k_2^{-1}k_1,(k_2k_1^{-1}k_2^{-1}k_1)^a,k_2k_1k_2k_1^{-1},(k_2k_1k_2k_1^{-1})^a  \right>,\\
+  K' &= \left< [k_1,k_2] \right>^G \\ 
+  &= \left<(dacabaca)^2(baca)^4,((ca)^2baca)^2,(dacabaca)^2c(acab)^3acad,\right.\\
+  &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{1,a}\ .
+ \end{align*}
+Furthermore we have this chain of indices:
+\begin{align*}
+  [G:G']&=8, & [G':K]&=2, &[K:K\times K]&= 4, &[K\times K:K']&=16. 
+\end{align*}
+\end{lem}
+
+\subsection{Main proposition}
+\begin{defi}
+ We define the activity of an element $q\in Q$ as the activity of an arbitrary element of $\pi^{-1}(q)$. 
+ This is well defined as $K<\Stab(1)$. 
+
+ Consider a constraint $\gamma\colon F_X \to Q$. 
+ Define $\act(\gamma):= x \mapsto \act(\gamma(x))$.
+ 
+ Denote by $\Red_{act}$ the reduced constraints which have a nontrivial activity.
+\end{defi}
+
+\begin{lem} \label{lem:existsGoodGamma}
+ For each $q\in\RNK{G'}{K'}$ there is $\gamma\in \Red_{act}$ such that $(q,\gamma)$ is a 
+ good pair.
+\end{lem}
+\begin{proof}
+ Assert(ForAll(GPmodKP,q->ForAny(AGPnontrivial,L->q in L)))
+\end{proof}
+
+
+\begin{pro}\label{pro:existsNextPair}
+ For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{act}$ there
+ is a pair $(\gamma',x)$, with $\gamma'\in\Red_{act}$ and 
+ %\[x\in \{1,a,ad,ada,adad,d,da,dad,b,ba,bad,bada,badad,c,ca,cad\}\]
+ \[x\in \{1,a,b,c,d,ab,ad,ba\}\] 
+ such that for all $g$ with $g^\tau =q$ the following holds
+ \begin{itemize}
+  \item $(\gamma',(g\at{2})^x \cdot g\at{1})$ is a good pair.
+  \item The solvability of $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma')$ implies
+  the solvability of $(R_ng,\gamma)$.
+ \end{itemize}
+ This pair $(\gamma',x)$ can be effectively computed. 
+\end{pro}
+ For fixed $g\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(g,\gamma)$ is a good pair
+ denote by $(g_k,\gamma_k)_{k\in\NN}$ the following sequence of pairs:
+ First set $(g_1,\gamma_1)=(g,\gamma)$ then define $(g_k,\gamma_k)$ recursively by apply Proposition \ref{pro:existsNextPair}
+ to the pair $(g_{k-1},\gamma_{k-1})$ and fix a pair $(\gamma',x)$ with the described properties.
+ Then set $\gamma_k := \gamma'$ and $g_k:=(g_{k-1}\at{2})^{x} \cdot g_{k-1}\at{1}$.
+ 
+ \begin{cor} \label{cor:finiteCommutatorWidthKimpliesCommutatorWidth3} 
+ If $K$ has finite commutator width, this implies that the commutator width of $G$ 
+ is at most $3$.
+\end{cor}
+\begin{proof}
+ Starting with some element $g\in G'$ there is a $\gamma\in\Red_{act}$ such that
+ $(g,\gamma)$ is a good pair. (Lemma \ref{lem:existsGoodGamma}).
+ 
+ By Proposition \ref{pro:existsNextPair} there exist good pairs $(g_k,\gamma_k)_{k\in\NN}$ such 
+ that $(R_3g,\gamma)$ is solvable if one (and hence all) of the constrainted equations $(R_{2^k+1}g_k,\gamma_k)$ is solvable.
+ 
+ If $K$ is of finite commutator width then by Corollary \ref{cor:finiteCommutatorWidthKimpliesBoundedConstraintedCommutators} 
+ there is an $N\in\NN$ such that all for all good pairs $(h,\gamma)$ and $n\geq N$ the constrainted equations $(R_ng,\gamma)$ are solvable.
+ Therefore the sequence of good pairs $(g_k,\gamma_k)$ is a sequence of solvable equations $(R_{2^k+1}g_k,\gamma_k)$.
+ \end{proof}
+ 
+ \begin{cor} \label{cor:finiteCyclesimpliesCommutatorWidth3}
+  If for each $g\in G'$ the set $\{h\in G'\mid \exists \gamma': (h,\gamma') \in (g_k,\gamma_k)_{k\in\NN}\}$ is finite, then the commutator width of $G$ is at most $3$.
+ \end{cor}
+ \begin{proof}
+  If the sequence $g_k$ is finite then as $\Red_{act}$ is finite there is a circle in the sequence of $(g_k,\gamma_k)$ 
+   say $(g_k,\gamma_k) = (g_l,\gamma_l)$ for some $k\neq l$. Thus the solvablility of $(R_ng_k,\gamma_k)$ is equivalent to the solvability of
+   $(R_mg_k,\gamma_k)$ for arbitrary large $m$ but the latter is solvable since $(g_k,\gamma_k)$ is a good pair.
+ \end{proof}
+ \begin{re}
+  If the ``$x$'' in Proposition \ref{pro:existsNextPair} would be always trivial then the assumption of the previous lemma would be true as the sequence
+  $g_1 = g, g_k=g_{k-1}\at{2} \cdot g_{k-1}\at{1}$ is finite for all $g$.
+ \end{re}
+
+ \begin{re}
+  Computer experiments of ``random'' elements of $G'$ (words of at most $100$ generators) did always result in finite sequences $(g_k,\gamma_k)$ of size at most $30$.
+ \end{re}
+
+\begin{proof}[Proof of Proposition \ref{pro:existsNextPair}]
+ The proof constructs for each good pair $(q,\gamma)$ a set $\Gamma^q(\gamma)\subset \Red_{act}\times Q$ where the elements 
+ fulfill the asked properties by replacing $Q$ by a fixed representative system in $G$.
+ Then GAP is used to show that for all choices $q\in\RNK{G'}{K'}$,$\gamma\in\Red_{act}$ the  constructed sets are never empty.
+ \smallskip
+ 
+ Take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the Grigorchuk group as before and the representative system
+ \[S=\{1,a,b,c,d,ab,ad,ba\}\] for $Q$ in $G$. Denote by $\textup{rep}\colon Q\to S$ 
+ the map such that $\textup{rep}(q)^\pi = q$.
+ 
+ Denote $x_i\in X$ such that $\supp(\gamma) \subset \left<x_1,\ldots,x_6\right>$ and choose $y_1,\ldots,y_{12} \in X \setminus \{x_1,\ldots,x_6\}$.  
+ \[\Gamma_1(\gamma) = \{\gamma' \colon \left< y_1,\ldots ,y_{12}\right> \to Q \mid \pair{\gamma'(y_{2i-1}),\gamma'(y_{2i})}\in w^{-1}(\gamma(x_i)\}\] 
+ Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
+ Now define a homomorphism 
+ \begin{align*}
+  \Phi_{\gamma}\colon F_X*F_1 &\to (F_X*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ x_i\qquad &\mapsto \pair{x_i^{(1)},x_i^{(2)}}\act(\gamma(x_i)).
+ \end{align*}
+Take $q_1,q_2 \in Q,n>3\in \NN$ arbitrary and define
+ \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
+										g_1\mapsto q_1 \\
+										g_2\mapsto q_2 }, (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{1,1}\right\}.\] 
+ Denote by $v,w=v_n,w_n$ the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$. By the following Lemma \ref{lem:commonVar} there is 
+ $x \in X\cup X^{-1}$ such that $v=v_1xv_2$ and $w=w_1x^{-1}w_2$. Then the homomorphism
+ \[l_x\colon F_X*F_2\to F_X*F_2, x_i \mapsto \begin{cases}
+						x_i &\text{ if } x_i\neq x \\
+						w_2g_2w_1 &\text{ if }x_i= x 
+                                             \end{cases}\]
+ maps $vg_1 \mapsto v_1w_2g_2w_1v_1g_1$ and $wg_2\mapsto 1$. 
+ For $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ it is $x^{\gamma'*\pi}=(w_2g_2w_1)^{\gamma'*\pi}$ so with $X'=X\setminus x$ there is no loss of information if 
+ we consider $\gamma'|_{F_{X'}}$ instead of $\gamma'$.
+ From section \ref{sec:normal_form} remember the normalization 
+ automorphism $\Normal_{\gamma,n,x}:=\Normal_{v_1w_2g_2w_1v_1g_1}\colon F_{X'}*F_2 \to F_{X'}*F_2$
+  and note that
+ $\Normal_{\gamma,n,x}(l_x(v))=R_{2n-1}g_2^{x_{4n-1}}g_1$ .
+ This leads to the following definition.
+ \[\Gamma_3^{q_1,q_2,n,x}(\gamma) = \left\{(\gamma''|_{X\setminus\{x_{4n-1}\}},\gamma''(x_{4n-1})) \bigmid
+ \gamma''= \gamma'|_{X'} \circ \Normal_{\gamma,n,x},\gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
+ A solution for the the constrainted equation
+ \[(R_{2n-1}(g\at2)^{\textup{rep}(y)}(g\at1),\gamma''')\textup{ for }(\gamma''',y) \in \Gamma_3^{(g\at{1})^\pi,(g\at{2})^\pi,n,x}\]
+ can be 
+ extended by sending $x_{4n-1}\mapsto \textup{rep}(y)$ to a solution $s'$ 
+ of the equation $(R_{2n-1} g\at{2}^{x_{4n-1}} g\at{1},\gamma'')$. The map $s'\circ \Normal_{\gamma,n,x}^{-1}$ 
+ is a solution for the constrainted equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'})$. Which can be extended by the mapping $x\mapsto w_2(g\at{2})w_1$ to a solution $s$ of $(\Phi_\gamma(R_n g),\gamma')$.
+ By definition of $\omega$ it is $t_i:=\pair{s(y_{2i-1}),s(y_{2i})}\act(\gamma(x_i)) \in G$ for all $i$. So the mapping $x_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
+ 
+ The map $\Gamma_3^{q_1,q_2,n,x}$ does not depend on the value of $n$: 
+ Choose fitting $v,w$ such that $\Phi_\gamma(R_3g)=\pair{v,w}\pair{g_1,g_2}$ then $\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-3}g_1,R_{n-3}'g_2}$ 
+ then after applying the homomorphism $l_x$ 
+ the word which needs to be normalized is $v_1w_2R_{n-3}g_2w_1v_1R_{n-3}'g_1$. The automorphisms
+ \begin{align*}
+ \psi_1 \colon F_X*F_2 &\to F_X*F_2, & \psi_2 \colon F_X*F_2 &\to F_X*F_2\\
+ y &\mapsto y^{g_1^{-1}}, & y &\mapsto y^{g_2^{x_{11}}g_1}, & &\text{ for }y\in \Var(R_{n-3}')\\
+ z &\mapsto z^{(g_2w_1v_1g_1)^{-1}}& z &\mapsto z^{g_2^{x_{11}}g_1}  & &\text{ for }z\in \Var(R_{n-3})\\
+ x &\mapsto x & & & &\text{ for all other generators}
+ \end{align*}
+ have the property that $\Normal_{v_1w_2R_{n-3}g_2w_1v_1R_{n-3}'g_1} = \psi_2\circ\Normal_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and 
+ $\gamma' \circ \psi_i = \gamma'$.
+ The map $\Gamma_3^{q_1,q_2,n,x}$ does depend on $x$, therefore we take the union of all of them and define
+  \[\Gamma_4^{q_1,q_2}(\gamma) := \left\{(\gamma''' = \gamma''\circ \varphi_{\gamma''},y) \bigmid (\gamma'',y) \in \bigcup_{x\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n}(\gamma)\right\}.\]
+ Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
+ then $q_i = q\att{i}$ (Lemma \ref{lem:atIsWellDefinedModK'}). So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and finally define
+ \[\Gamma^q(\gamma) := \{\gamma' \in \Gamma_4^q(\gamma) \mid \act(\gamma')\neq 1 \}.\]
+ 
+ As a next step we want to make sure that for all preimages $g$ of $q$ under $\tau$ there are good pairs among the
+ resulting pairs $\left((g\at{2})^{\textup{Rep}(y)}\cdot g\at{1},\gamma'''\right)$.
+ 
+  Define for $h\in G$ maps $p_h\colon G\to G$ by $g\mapsto \left((g\at{2})^{h}\cdot g\at{1},\gamma'''\right)$ this maps are in general not homomorphisms but 
+  by Lemma \ref{lem:productOfStatesIsInDerived} we see that for $g\in G'$ that $p_h(g)\in G'$ for all $h\in G$ thus there is a chance that these elements form good pairs with
+ the correct choices of $\gamma$. 
+ 
+ We can show even better: For each fixed $q\in\RNK{G'}{K'}$ and fixed $\gamma\in\Red_{act}$ there is $(\gamma',x)\in\Gamma^q(\gamma)$ such that 
+ for all $g$ such that $g^\tau=q$ the element $\left(p_{\textup{rep}(x)}(g),\gamma'\right)$ is a good pair. 
+ 
+ For this purpose we need to reduce this to a finite number of checks. By Lemma \ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
+ and the natural homomorphism \[\varpi'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{K\times K} \]
+ and now only need to show that there is a $(\gamma',x)\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(x)}(q)$ under $\varpi'$ 
+ form good pairs with $\gamma'$. In formulas what needs to be checked is: 
+ \[\forall q\in\RNK{G'}{K'}\forall \gamma\in\Red_{act} \exists (\gamma',x)\in \Gamma^q(\gamma)\forall r\in \varpi'^{-1}(\bar p_{\textup{rep}(x)}): (r,\gamma')\textup{ is a good pair.}\]
+ This last formula quantifies only over finite sets and is implemented in GAP and can be verified there.
+\end{proof}
+\begin{lem} \label{lem:commonVar}
+ If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
+\end{lem}
+\begin{proof}
+ Let $x$ be generator of $F_X$ with non vanishing constraint activity. 
+ Then $R_n$ contains either a factor $[x,y]$ or $[y,x]$ for another generator $y$. Assume without loss of generality the first case.
+ Let further be $\Phi_\gamma(x)=\pair{x_1,x_2}(1,2)$ and $\Phi_\gamma(y)=\pair{y_1,y_2}\sigma$. 
+ Then $\Phi_\gamma(R_n g)$ contains a factor 
+ \[ [\pair{x_1,x_2}(1,2),\pair{y_1,y_2}\sigma] = \begin{cases}
+                                                   \pair{x_2^{-1}y_2^{-1}x_2y_1,x_1^{-1}y_1^{-1}x_1y_2} & \textup{ if } \sigma=\id \\
+                                                   \pair{x_2^{-1}y_1^{-1}x_1y_2,x_1^{-1}y_2^{-1}x_2y_1} & \textup{ if } \sigma=(1,2) . \\
+                                                 \end{cases}
+\] So in both cases $y_1,y_2\in \Var(w_1)\cap \Var(w_2)$. 
+\end{proof}
+\begin{lem} \label{lem:productOfStatesIsInDerived} 
+ Let $h\in G$ and $p_h\colon G\to G$ be the map $g\mapsto \left((g\at{2})^{h}\cdot g\at{1},\gamma'''\right)$.
+ 
+ It holds that $p_h(G')\subset G'$ for all $h\in G$ and $p_1(K)\subset K$. 
+\end{lem}
+\begin{proof}
+ Denote first by $p:=p_1$ then
+ each element $g\in G'$ is a word in generators $w((ab)^2,(abad)^2,(bada)^2,(ad)^2)$. 
+ The generators have the following form:
+ \[(ab)^2=\pair{ca,ac}, (abad)^2 = \pair{1,(ab)^2}, (bada)^2=\pair{(ab)^2,1}, (ad)^2=\pair{b,b}.\]
+ Therefore it is
+ \begin{align*}
+  p(g) &= w(ac,(ab)^2,1,b) \cdot w(ca,1,(ab)^2,b)\\ &\equiv w(ac,1,1,1) \cdot w(ca,1,1,1) \cdot w(1,1,1,b)^2 \equiv 1 \mod G'.
+ \end{align*}
+ For $h\in G$ it is $p_h(g)=[h,(g\at{2})^{-1}]p(g)$ and therefore $p_h(g)\in G'$ for all $g\in G'$.
+ An element $g\in K$ is a word $w((ab)^2,(abad)^2,(bada)^2,)$ and therefore
+ \begin{align*}
+  p(g) &= w(ac,(ab)^2,1) \cdot w(ca,1,(ab)^2)\\ &\equiv w(ac,1,1) \cdot w(ca,1,1) \equiv 1 \mod K.
+ \end{align*}
+\end{proof}
+\begin{lem} \label{lem:pIsDefinedModK'}
+ The map 
+ \begin{align*} 
+  \bar p_h\colon \RNK{G'}{K'} &\to \RNK{G'}{K\times K}\\
+  gK'&\mapsto \left(g\at{2})^h\cdot g\at{1}\right){K\times K}
+ \end{align*}
+is well defined.
+\end{lem}
+\begin{proof}
+ It's easy to verify by GAP that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$ using Lemma \ref{lem:subgroupsOfG}.
+ Then for $k\in K'$ it is 
+ \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in (g\at{2})^h\cdot g\at{1}K\times K.\]
+\end{proof}
+\begin{lem} \label{lem:atIsWellDefinedModK'}
+ The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps $\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}$
+\end{lem}
+\begin{proof}
+ Either by same brute-force argument as before that $k'\at{i} \in K\times K < K$ or:
+ 
+ Note that $\at{i}|_{G'}$ is a group homomorphism then consider the following diagram:
+ 
+ \hfill
+ \begin{xy}
+  \xymatrix{
+      1 \ar[r]& \RNK{K}{K'} \ar[r] \ar[d]_\varphi   & \RNK{G'}{K'}   \ar[r] & \RNK{G'}{K} \ar[r]\ar[d]_=& 1  \\
+      1 \ar[r]& \RNK{K}{K\times K} \ar[r]   & \RNK{G'}{K\times K}   \ar[r] & \RNK{G'}{K} \ar[r] &1  
+  }
+\end{xy}\hfill\ 
+
+Where the map $\varphi$ exists because the group $\RNK{K}{K\times K}$ has order $4$ and hence is abelian. So there need to be a homomorphism 
+$\RNK{G'}{K'}\to \RNK{G'}{K\times K}$ which makes all cells commute.
+\end{proof}
+\subsubsection{Product of 3 commutators}
+We will prove that every element $g\in G'$ is a product of three commutators by proving that the 
+assumptions of Corollary \ref{cor:finiteCyclesimpliesCommutatorWidth3} are always satisfied. For this
+purpose remember the map $p_x\colon g \mapsto (g\at{2})^x g\at{1}$ from the proof of Proposition \ref{pro:existsNextPair}.
+We will show that for each $g\in G'$ the sequence of sets 
+\[\textup{Suc}_1^g=\{g\},\ \textup{Suc}_n^g = \{p_x(h) \mid h\in \textup{Suc}_{n-1}^g, x\in S\} \]
+stagnates in a finite set. 
+
+In \cite{Bartholdi:Growth} there is a choice of weights on generators which result in a length on $G$ with good properties.
+\begin{lem}[\cite{Bartholdi:Growth}] \label{lem:laurentsweights}
+ Let $\eta\approx 0.811$ be the real root of $x^3+x^2+x-2$ and set the weights 
+ \begin{align*}
+  \omega(a) &= 1-\eta^3 & \omega(c)&=1-\eta^2 \\ \omega(b)&= \eta^3 & \omega(d)&=1-\eta
+ \end{align*}
+ then 
+ \begin{align*}
+  \eta(\omega(b)+\omega(a)) &= \omega(c)+\omega(a) \\
+  \eta(\omega(c)+\omega(a)) &= \omega(d)+\omega(a) \\
+  \eta(\omega(d)+\omega(a)) &= \omega(b).
+ \end{align*}
+\end{lem}
+The next lemma is a small variation of a lemma in \cite{Bartholdi:Growth}.
+\begin{lem}
+ Denote by $\partial_\omega$ the length on $G$ induced by the weight $\omega$. Then
+ $\partial_\omega(p_x(g)) \leq \delta \partial_\omega(g)$ for all $x\in S, g\in G$ with $\partial_\omega(g)>C$ some constant $C\in\NN,\delta<1$.
+\end{lem}
+\begin{cor}
+The sequences of sets
+ \[\textup{Suc}_1^g=\{g\},\ \textup{Suc}_n^g = \{p_x(h) \mid h\in \textup{Suc}_{n-1}^g, x\in S\} \]
+ stagnates at a finite step for all $g\in G$.
+\end{cor}
+\begin{proof}[Proof of Lemma.(\cite{Bartholdi:Growth})] 
+ Each element $g\in G$ can be written in a word of minimal length of the form $g=a^\varepsilon x_1 a x_2 a\ldots x_n a^\delta$ where
+ $x_i\in \{b,c,d\}$ and $\varepsilon,\delta\in \{0,1\}$. Denote by $n_b,n_c,n_d$ the number of occurrences of $b,c,d$ accordingly. 
+ Then
+ \begin{align*}
+  \partial_\omega(g) &= (n-1+\varepsilon+\delta)\omega(a)+n_b\omega(b)+n_c\omega(c)+n_d\omega(d)\\
+  \partial_\omega(p_x(g)) &\leq (n_b+n_c)\omega(a)+n_b\omega(c)+n_c\omega(d)+n_d\omega(b) + 2\partial_\omega(x)\\
+  &= \eta\left( (n_b+n_c+n_d)\omega(a)+n_b\omega(b)+n_c\omega(c)+n_d\omega(d) \right) + 2\partial_\omega(x)\\
+  &= \eta(\partial_\omega(g) +(1-\varepsilon-\delta)\omega(a)) + 2\partial_\omega(x) \\
+  &\leq \eta(\partial_\omega(g)+\omega(a)) + 2(\omega(a)+\omega(b))\\
+  &= \eta(\partial_\omega(g)+\omega(a)) + 2.
+ \end{align*}
+ Thus the length of $p_x(g)$ growths with a linear factor smaller $1$ in terms of the length of $g$. Therefore the claim holds.
+ For instance one could take $\delta =0.86$ and $C=50$ or $\delta=0.96$ and $C=16$.
+\end{proof}
+\begin{cor}
+ $K$ has commutator width $3$. 
+\end{cor}
+\begin{proof}
+ To show that $K$ has commutator width $3$ it is sufficient, to show that the constrainted equations $(R_3g,\id)$ have solutions for all $g\in K'$. 
+ Since $\id$ has trivial activity one cannot simply apply Proposition \ref{pro:existsNextPair}.
+ But one can check that all pairs $(h,\gamma_1),(f,\gamma_2)$ such that $g=\pair{h,f}$ and $\gamma_1,\gamma_2=(1,1,1,1,(bad)^\pi,1)$, $\gamma_2=(1,1,1,1,1,(ca)^\pi)$
+ are good pairs with active constraints and hence the equations $(R_3g,\id)$ have solutions for all $g\in K'$. 
+\end{proof}
+
+
+\subsection{Product of 2 commutators}
+If it were true that for each $q\in\RNK{G'}{K'}$ there is a $\gamma\in\Red_{act}$ with $(q,\gamma)$ a good pair and $\gamma(x_i)=1$ for $i\geq 4$
+then it would follow immediately that under the assumptions of either Corollary \ref{cor:finiteCommutatorWidthKimpliesCommutatorWidth3}
+or Corollary \ref{cor:finiteCyclesimpliesCommutatorWidth3} that each $g\in G'$ is a product of two commutators. But unfortunately 
+this isn't the case.
+
+In fact there are $8$ elements of $\RNK{G'}{K'}$ which are no good pairs for active $\gamma$'s with trivial activity in the $5^\textup{th}$ component.
+$\RNK{G'}{K'}$ is generated by the following elements $q_1 = ((ab)^2)^\tau,q_2 = ((bada)^2)^\tau,q_3 = ((abad)^2)^\tau,q_4 = ((ad)^2)^\tau$. 
+
+Fortunately there are inactive $\gamma$'s with support inside the first 4 coordinates such that 
+all descendant problems are in none of these problematic cases. 
+
+For instance the table below shows 
+all problematic $q\in \RNK{G'}{K'}$ and a choice of $\gamma$ such that $(q,\gamma)$ is a good pair
+and $(g\at{i})^\tau,\gamma_i$) are good pairs with active constraints for $i=1,2$ and all $g$ such that $g^\tau = q$. 
+Furthermore the solvability of $(R_2g\at{i},\gamma_i)$ implies the solvability of $(R_2g,\gamma)$ and the latter is solvable by 
+the previous section.
+
+\begin{tabular}{cccc}
+$q$ & $\gamma$ & $\gamma_1$ & $\gamma_2$\\ \hline
+$q_2q_1^2 $& $ ( 1, 1, b^\pi, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
+$q_2^{-1}q_4q_1^{-2}q_4$& $ ( 1, 1, b^\pi, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
+$q_3q_1^2 $			& $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a,^\pi bada^\pi, 1, 1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$\\
+$q_2^{-1}(q_1^{-1}q_4)^2$ 	 & $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a^\pi, bada^\pi, 1,   1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$\\
+$q_1^{-2}q_2$		 & $ ( 1, 1, b, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
+$q_1^{-2}q_2^{-1}$		 & $ ( 1, 1, b^\pi, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
+$q_1^{-2}q_3$		 & $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a^\pi, bada^\pi, 1,  1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$\\
+$q_1^{-2}q_3^{-1}$		 & $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a^\pi, bada^\pi, 1,  1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$
+\end{tabular}
+\begin{cor}
+ All elements $g\in G'$ are products of two commutators.
+\end{cor}
+
+
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\bibliography{../bio}
+\appendix
+% \include{Abschnitte/Anhang}
+%\include{Abschnitte/Erklaerung}
+
+
+\end{document}
