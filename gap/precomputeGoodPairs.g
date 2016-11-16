@@ -1,195 +1,8 @@
-#Precompute the 90 orbits of Q⁶/Stab(R₆)
-#
 # Directory for Saved results. Needs a trailing /
 #
 dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
 #
 dir := Concatenation(dirRep,"gap/90orbs/");
-
-################################################################
-# action on images of automorphism.
-# typical usage: action on tuples of images of generators.
-OnImages := function(list,aut)
-    local gens;
-    gens := GeneratorsOfGroup(Source(aut));
-    return List(gens,g->MappedWord(g^aut,gens,list));
-end;
-
-################################################################
-# surface relator of a free group F.
-surface_relator := function(F)
-    local gens;
-    gens := GeneratorsOfGroup(F);
-    return Product([2,4..Length(gens)],i->Comm(gens[i-1],gens[i]),One(F));
-end;
-
-################################################################
-# the pure mapping class group of a surface group F / surface_relator,
-# written in terms of automorphisms of F.
-pure_mcg := function(F)
-    local gens, d, L, i, imgs, x;
-    gens := GeneratorsOfGroup(F);
-    d := Length(gens);
-    L := [];
-
-    for i in [2,4..d] do
-        imgs := ShallowCopy(gens);
-        imgs[i] := gens[i-1]*gens[i];
-        Add(L,GroupHomomorphismByImages(F,F,imgs));
-    od;
-    for i in [1,3..d-1] do
-        imgs := ShallowCopy(gens);
-        imgs[i] := gens[i+1]*gens[i];
-        Add(L,GroupHomomorphismByImages(F,F,imgs));
-    od;
-    for i in [1,3..d-3] do
-        imgs := ShallowCopy(gens);
-        x := gens[i+1]/gens[i+2];
-        imgs[i] := x*gens[i];
-        imgs[i+1] := x*gens[i+1]/x;
-        imgs[i+2] := x*gens[i+2]/x;
-        imgs[i+3] := x*gens[i+3];
-        Add(L,GroupHomomorphismByImages(F,F,imgs));
-    od;
-
-    #Switch two neighbours 
-    #added by Thorsten prob. already contained in mcg
-    for i in [1,3..d-3] do
-        imgs := ShallowCopy(gens);
-        imgs[i+2] := gens[i]^Comm(gens[i+2],gens[i+3]);
-        imgs[i+3] := gens[i+1]^Comm(gens[i+2],gens[i+3]);
-        imgs[i] := gens[i+2];
-        imgs[i+1] := gens[i+3];
-        Add(L,GroupHomomorphismByImages(F,F,imgs));
-    od;
-
-    # check that indeed the surface relator is preserved
-    x := surface_relator(F);
-    Assert(0,ForAll(L,g->x^g=x));
-    
-    return Group(L);
-end;
-
-
-# a larger group, containing the "flip" (x_i -> y_{g+1-i}, y_i -> x_{g+1-i})
-extended_mcg := function(F)
-    local gens;
-    gens := GeneratorsOfGroup(F);
-    
-    return ClosureGroup(pure_mcg(F),GroupHomomorphismByImages(F,F,Reversed(gens)));
-end;
-
-################################################################
-# construct orbits on Q^{2n}
-BS := BranchStructure(GrigorchukGroup);
-F6 := FreeGroup(6);
-#
-#orbits of pure mcg
-#
-#The following lines take about 12h
-orbits := OrbitsDomain(DirectProduct(pure_mcg(F6),BS.group),
-                  Cartesian(ListWithIdenticalEntries(6,BS.group)),
-                  function(list,elm)
-    return OnTuples(OnImages(list,elm![1]),elm![2]);
-end);;
-Print("Orbits computed; there are ",Size(orbits)," orbits\n");
-orbits := List(orbits,ShallowCopy);;
-#The following lines take about 5min
-for i in orbits do Sort(i); MakeImmutable(i); od; # for fast lookup
-MakeImmutable(orbits);;
-
-##################################################################
-# Find Representatives with maximal number of ones and one in last coord.
-MinimalReprOrbit := function(O)
-    local cone,o,L,R,max,elm;
-    cone := function(L)
-        return Size(Filtered(L,IsOne));
-    end;
-    R := [];
-    for o in O do
-        max := 0;
-        elm := 0;
-        for L in o do
-            if IsOne(L[6]) and cone(L) > max then
-                max:=cone(L);
-                elm := L;
-            fi;
-        od;
-        if elm = 0 then
-            Error("No fitting element found in orbit\n");
-        fi;
-        Add(R,elm);
-    od;
-    return R;
-end;
-orbitReps := MinimalReprOrbit(orbits);
-
-#
-# Save the orbit Representations to a file.
-# Needs the following lines to be read again properly
-#
-orbitRepsFile := Concatenation(dir,"orbitReps.go");
-PrintTo(orbitRepsFile,orbitReps);
-#Replace <identy>.... by One(Q)
-Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",orbitRepsFile);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",orbitRepsFile);
-Exec("sed","-i","\"\\$a ;\"",orbitRepsFile);
-Q:= BS.group;
-f4:= Q.1; # = a^π
-f2 := Q.2; # = b^π
-f1 := Q.3; # = c^π
-f3 := f1*f2*f4*f1*f2; # = (dad)^π
-Assert(0,ReadAsFunction(orbitRepsFile)()=orbitReps);
-
-
-#
-# Save a map which assigns to each element of Q⁵ the corresponding orbit.
-#
-hash := function(q)
-	if q in Q then
-		return Position(List(Q),q);
-	else 
-		Error("Can't compute hash ",q," is not in Q.");
-	fi;
-end;
-ComputeTable := function(O)
-	local Values,i,q1,q2,q3,q4,q5,o;
-	i := 0;
-	Values := ListWithIdenticalEntries(16,0);
-	for q1 in Q do 
-		Values[hash(q1)]:=ListWithIdenticalEntries(16,0);
-		for q2 in Q do
-			Values[hash(q1)][hash(q2)]:=ListWithIdenticalEntries(16,0);
-			for q3 in Q do
-				Values[hash(q1)][hash(q2)][hash(q3)]:=ListWithIdenticalEntries(16,0);
-				for q4 in Q do
-					Values[hash(q1)][hash(q2)][hash(q3)][hash(q4)]:=ListWithIdenticalEntries(16,0);
-					for q5 in Q do
-						Values[hash(q1)][hash(q2)][hash(q3)][hash(q4)][hash(q5)] := PositionProperty(O,o->[q1,q2,q3,q4,q5,One(Q)] in o);
-						if i mod 1000 =0 then
-							Print(i," Done ", Int(i*100/16^5),"%.\r");
-						fi;
-						i := i+1;
-	od;od;od;od;od;
-	Print("Done\n");
-	return Values;
-end;
-#Takes ~10 Minutes 
-orbitTable := ComputeTable(orbits);;
-
-orbitTableFile := Concatenation(dir,"orbitTable.go");
-PrintTo(orbitTableFile,orbitTable);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",orbitTableFile);
-Exec("sed","-i","\"\\$a ;\"",orbitTableFile);
-#######################################################################################
-#######################################################################################
-#######################################################################################
-#					Computation of the orbits now done
-#######################################################################################
-#######################################################################################
-#######################################################################################
 
 
 Read(Concatenation(dirRep,"gap/grpwords/grpwords.gd"));
@@ -370,7 +183,7 @@ Exec("sed","-i","\"\\$a ;\"",AllGoodPairsFile);
 
 #Read the file again and check its correct
 AGP := List(ReadAsFunction(AllGoodPairsFile)(),L->List(L,i->List(GPmodKP)[i]));;
-Assert(0,ForAll(ReducedConstraints,E->E.goodPairs = AGPt[E.index]));
+Assert(0,ForAll(ReducedConstraints,E->E.goodPairs = AGP[E.index]));
 #Usage of the file:
 #Perform(ReducedConstraints,function(E) E.goodPairs:=AGP[E.index]; end);
 
@@ -383,7 +196,11 @@ Assert(0,ForAll(ReducedConstraints,E->E.goodPairs = AGPt[E.index]));
 # γ: Fₙ→Q is mapped to Act(γ): Fₙ→ {(),(1,2)}
 #
 ActivityConstraint := function(gamma)
-	return List(gamma,x->Activity(PreImagesRepresentative(pi,x)));
+    if IsList(gamma) then
+	    return List(gamma,x->Activity(PreImagesRepresentative(pi,x)));
+    elif IsRecord(gamma) then
+        return List(gamma.constraint,x->Activity(PreImagesRepresentative(pi,x)));
+    fi;
 end;
 HasNontrivialActivity := function(gamma)
 	return not ForAll(ActivityConstraint(gamma),IsOne);
@@ -428,12 +245,6 @@ end;
 # ReducedConstraintReturnHom(γ)=ReducedConstraint(γ,2)
 # 
 #
-ReducedConstraintnoLookup := function(gamma)
-    return ReduceConstraint(gamma,1);
-end;
-ReducedConstraintReturnHom := function(gamma)
-    return ReducedConstraint(gamma,2);
-end;
 ReducedConstraint := function(gamma,arg...)
     local mode, TempOrbitTable, F, gens, d, L, i, phi,psi,swi,id,imgs,Phi,ph,ActionOnList,x,
     KillBlock,KillAllBlocks,NormalizeBlock,NormalizeAllBlocks,step,
@@ -708,6 +519,12 @@ ReducedConstraint := function(gamma,arg...)
        return ReducedConstraints[RepresentativeInOrbitReps(gamma{[1..5]})];
     fi;
 end;
+ReducedConstraintnoLookup := function(gamma)
+    return ReducedConstraint(gamma,1);
+end;
+ReducedConstraintReturnHom := function(gamma)
+    return ReducedConstraint(gamma,2);
+end;
 
 
 # IsGoodPair(g,γ)
@@ -720,6 +537,7 @@ end;
 # Output:
 #    true or false depending if (g,γ) is a good pair or not.
 IsGoodPair := function(q,gamma)
+    local gammaRec;
 	if not q in GPmodKP then
 		Info(InfoFRGW,2,"work mod KP\n");
 		if not q in GLP then
@@ -728,7 +546,7 @@ IsGoodPair := function(q,gamma)
 		q := q^tauLP;
 	fi;
     if IsRecord(gamma) then
-        return q in gamma.constraint;
+        return q in gamma.goodPairs;
     fi;
     if IsGroupHomomorphism then
         gamma := List(GeneratorsOfGroup(Source(gamma)),gen->gen^gamma);
@@ -761,9 +579,9 @@ end;
 # 
 #
 GetSuccessor  := function(q,gamma)
-	local Gamma1,g1,g2,F2,F,GammAPrime,count,acts,frvars, frinvvars,
-		t,I,x,v,w,indx,v1,v2,w1,w2,newEq,NoFI,NoFIhom,z,GHOnList,gam,
-		Dep,i,g,first,gp,gpp,trans,H,normalforms,nf,gaP,q1,q2;
+	local q1,q2,F,acts,F2,frvars,frinvvars,t,I,normalforms,x,v,w,indx,v1,
+          v2,w1,w2,newEq,NoFI,NoFIhom,z,GHOnList,Gamma1,Dep,i,ga,first,gp,
+          trans,H,gpp,nf,gaP,Suc,r;
 
 	if Size(gamma)>6 then
 		Error("gamma is too large!\n It need to be a reduced constraint");
@@ -892,7 +710,7 @@ GetSuccessor  := function(q,gamma)
     				#Compute the image of γ' under the normalization hommorphism and simplify it to the F₅ case
     				gaP := [MakeImmutable(ReducedConstraint(GHOnList(NoFIhom,gpp){[1..4*3-2]})),z];
     				Suc := List(PreImages(varpiPrimeLP,p_h(q,PreImagesRepresentative(pi,z))));
-                    #Add(gaP,Suc); #Adding all possible succeccors mod K' to the returned list
+                    Add(gaP,Suc); #Adding all possible succeccors mod K' to the returned list
     				#Added check for nontrivial activity.
     				if HasNontrivialActivity(gaP[1]) and ForAll(Suc, r->IsGoodPair(r,gaP[1])) then
     					return gaP; #[γ',z,{q₁,…,q₁₆}]
@@ -904,7 +722,6 @@ GetSuccessor  := function(q,gamma)
 	return fail;
 end;
 
-
 # The following takes about 30 min.
 # and computes for each active good pair (q,γ) the succesing (γ',x) as in Prop. 2.16
 #
@@ -914,32 +731,36 @@ end;
 #   ∙(γ',qᵢ) are good pairs ∀i=1,…,16 and γ' has activity in some component
 #   ∙if g ∈ τ⁻¹(q) then (g@2)^Rep(x) ⋅ (g@1) ∈ τ⁻¹(qᵢ) for some i ∈ {1,…,16}
 #   ∙if (R₂ₙ-₁ (g@2)^Rep(x) ⋅ g@1 ,γ') is sattisfiable then so is (Rₙ g,γ)
-countGoodOnes := 0;
-countBadOnes := 0;
-size := Sum(List(AGP,Size));
-count := 0;
-RealGoodPairs := [];
-BadPairs := [];
-for E in ReducedConstraintsActive do
-    gamma := E.constraint;
-    for q in E.goodPairs do
-        gammap := GetSuccessor(q,gamma);
-        if not gammap = fail then
-            countGoodOnes := countGoodOnes+1;
-            Add(RealGoodPairs,[q,gamma,gammap]);
-        else
-            countBadOnes := countBadOnes+1;
-            Add(BadPairs,[q,gamma]);
-        fi;
-        Print(Int(count*100/size),"% done. ",countGoodOnes," good ones so far and ",countBadOnes," bad ones.\r");
-        count := count+1;
+ComputeAllSuccessors := function()
+    local size,count,RealGoodPairs,BadPairs,E,gamma,q,gammap;
+    size := Sum(List(AGP,Size));
+    count := 0;
+    RealGoodPairs := [];
+    BadPairs := [];
+    for E in ReducedConstraintsActive do
+        gamma := E.constraint;
+        for q in E.goodPairs do
+            gammap := GetSuccessor(q,gamma);
+            if not gammap = fail then
+                Add(RealGoodPairs,[q,E,gammap]);
+            else
+                Add(BadPairs,[q,gamma]);
+            fi;
+            Print(Int(count*100/size),"% done. ",Size(RealGoodPairs)," good ones so far and ",Size(BadPairs)," bad ones.\r");
+            count := count+1;
+        od;
     od;
-od;
+    return [RealGoodPairs,BadPairs];
+end;
+T := ComputeAllSuccessors();;
+RealGoodPairs := T[1];;
+BadPairs := T[2];
 Assert(0,Size(BadPairs)=0);
 
 #Save RealGoodPairs to a file
+#Just store the index of the constraint and forget the successing qᵢs
 RealGoodPairsFile := Concatenation(dir,"RealGoodPairs.go");
-PrintTo(RealGoodPairsFile,List(RealGoodPairs,L->[Position(List(GPmodKP),L[1]),L[2],L[3]]));
+PrintTo(RealGoodPairsFile,List(RealGoodPairs,L->[Position(List(GPmodKP),L[1]),L[2].index,[L[3][1].index,L[3][2]]]));
 #Replace <identy>.... by One(Q)
 Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",RealGoodPairsFile);
 #Add a return and a semicolon
@@ -947,38 +768,8 @@ Exec("sed","-i","\"1i return \"",RealGoodPairsFile);
 Exec("sed","-i","\"\\$a ;\"",RealGoodPairsFile);
 
 #Read the file again:
-RGP := List(ReadAsFunction(RealGoodPairsFile)(),L->[List(GPmodKP)[L[1]],L[2],L[3]]);;
-Assert(0,RGP=RealGoodPairs);
+RGP := List(ReadAsFunction(RealGoodPairsFile)(),
+    L->[List(GPmodKP)[L[1]],ReducedConstraints[L[2]],[ReducedConstraints[L[3][1]],L[3][2]]]);;
+#Check only the succesing qᵢs are forgotten.
+Assert(0,List(RGP,P->[P[1],P[2],[P[3][1],P[3][2]]] )=RealGoodPairs);
 
-#statistics:
-#Get the number of occurences of each element x in RGP
-List(List(Q){[1,2,5,9,13,6,15,10]},q->Size(Filtered(List(RGP,P->P[3][2]),z->z=q)));
-
-
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-#
-#						Computation of all real good pairs is done
-#
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
-####################################################################################################################
