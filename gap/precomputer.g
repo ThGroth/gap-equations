@@ -7,9 +7,7 @@
 #
 # Directory for Saved results. Needs a trailing /
 #
-dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
-#
-dir := Concatenation(dirRep,"gap/90orbs/");
+dir := "~/test/";
 
 ################################################################
 # action on images of automorphism.
@@ -104,7 +102,7 @@ for i in orbits do Sort(i); MakeImmutable(i); od; # for fast lookup
 MakeImmutable(orbits);;
 
 ##################################################################
-# Find Representatives with maximal number of ones and one in last coord.
+#Thorsten: Find Representatives with maximal number of ones and one in last coord.
 MinimalReprOrbit := function(O)
     local cone,o,L,R,max,elm;
     cone := function(L)
@@ -141,10 +139,10 @@ Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",orbitRepsFile);
 Exec("sed","-i","\"1i return \"",orbitRepsFile);
 Exec("sed","-i","\"\\$a ;\"",orbitRepsFile);
 Q:= BS.group;
-f4:= Q.1; # = a^π
-f2 := Q.2; # = b^π
-f1 := Q.3; # = c^π
-f3 := f1*f2*f4*f1*f2; # = (dad)^π
+f4:= Q.1; # = ā 
+f2 := Q.2; # = b
+f1 := Q.3; # = c̄
+f3 := f1*f2*f4*f1*f2; # = dād
 Assert(0,ReadAsFunction(orbitRepsFile)()=orbitReps);
 
 
@@ -188,6 +186,13 @@ PrintTo(orbitTableFile,orbitTable);
 #Add a return and a semicolon
 Exec("sed","-i","\"1i return \"",orbitTableFile);
 Exec("sed","-i","\"\\$a ;\"",orbitTableFile);
+
+
+######################################################################################
+######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
 #######################################################################################
 #######################################################################################
 #######################################################################################
@@ -195,10 +200,18 @@ Exec("sed","-i","\"\\$a ;\"",orbitTableFile);
 #######################################################################################
 #######################################################################################
 #######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#
+#
 
-
-Read(Concatenation(dirRep,"gap/grpwords/grpwords.gd"));
-Read(Concatenation(dirRep,"gap/grpwords/grpwords.gi"));
+Read(Concatenation(dir,"grpwords/grpwords.gd"));
+Read(Concatenation(dir,"grpwords/grpwords.gi"));
 #Set up all Branchstructure, quotients etc.
 #Working with L presentation
 #All groups with LP in the name means that they are subgroups of the 
@@ -296,16 +309,23 @@ BS := BranchStructure(G);
 Q := BS.group; #G/K
 w := BS.epi;
 pi := BS.quo;
+F := BS.wreath;
 
-f4:= Q.1; # = a^π
-f2 := Q.2; # = b^π
-f1 := Q.3; # = c^π
-f3 := f1*f2*f4*f1*f2; # = (dad)^π
+f4:= Q.1; # = ā 
+f2 := Q.2; # = b
+f1 := Q.3; # = c̄
+f3 := f1*f2*f4*f1*f2; # = dād
 A := Filtered(List(Q),x->Activity(PreImagesRepresentative(pi,x))=(1,2));
 AC := Filtered(List(Q),x->Activity(PreImagesRepresentative(pi,x))=());
 
-#Needed for the ReduceConstraint function. 
-#This is the polycylcic decomposition of G
+ab := f4;
+bb := f2;
+cb := f1;
+db := f1*f2;
+
+
+ad := ab*db;
+
 C1 := Group(a^pi,d^pi);
 C2 := Group((a*d)^pi);
 
@@ -316,7 +336,7 @@ C2 := Group((a*d)^pi);
 isoQtoGmodK :=GroupHomomorphismByImages(Q,GmodK,[f1,f2,f4],List([c,b,a],x->(x^isoGtoGLP)^piLP));
 isoGmodKtoQ :=GroupHomomorphismByImages(GmodK,Q,List([c,b,a],x->(x^isoGtoGLP)^piLP),[f1,f2,f4]);
 
-# The below function returns for a given γ∈Q⁶ 
+# The below function returns to a given γ∈Q⁶ 
 # the list of all q∈G'/K' such that (q,γ) is a good pair
 goodPairs := function(gamma)
 	local S1,S2,S3,F,P,P2,p,q,r;
@@ -354,52 +374,70 @@ goodPairs := function(gamma)
 	return F;
 end;
 
+GetAllGoodPairs := function(AllGammas)
+	local AGP, gamma;
+	AGP := [];
+	for gamma in AllGammas do
+		Add(AGP,goodPairs(gamma));
+	od;
+	return AGP;
+end;
+
 #Load orbits here:
-orbitReps:=ReadAsFunction(Concatenation(dir,"orbitReps.go"))();;
-ReducedConstraints := List([1..Size(orbitReps)],
-    i->rec(index:= i, constraint:=orbitReps[i]));;
+orbitReps := ReadAsFunction(Concatenation(dir,"orbitReps.go"))();;
 orbitTable := ReadAsFunction(Concatenation(dir,"orbitTable.go"))();;
 
-#Takes about 1 min
-# Compute the full list of good pairs
-# Such that for each entry e in ReducedConstraints the list e.goodPairs contains
-# all q∈Q such that (q,e.constraint) is a good pair.
-Perform(ReducedConstraints,function(entry) entry.goodPairs:=goodPairs(entry.constraint); end);
+#Takes 1 min
+#Compute the full list of good pairs in the form 
+# 	AGP[i] = List of all q∈G'/K' such that (q,γ) is a good pair 
+# 	where γ is the iᵗʰ representative in orbitReps
+AGP := GetAllGoodPairs(orbitReps);;
 
 #Write AllGoodPairs to a file
+
 AllGoodPairsFile := Concatenation(dir,"AllGoodPairs.go");
-PrintTo(AllGoodPairsFile,List(ReducedConstraints,E->List(E.goodPairs,q->Position(List(GPmodKP),q))));
+PrintTo(AllGoodPairsFile,List(AGP,L->List(L,q->Position(List(GPmodKP),q))));
 #Replace <identy>.... by One(Q)
 Exec("sed","-i","\"1i return \"",AllGoodPairsFile);
 Exec("sed","-i","\"\\$a ;\"",AllGoodPairsFile);
-
 #Read the file again and check its correct
-AGP := List(ReadAsFunction(AllGoodPairsFile)(),L->List(L,i->List(GPmodKP)[i]));;
-Assert(0,ForAll(ReducedConstraints,E->E.goodPairs = AGPt[E.index]));
-#Usage of the file:
-#Perform(ReducedConstraints,function(E) E.goodPairs:=AGP[E.index]; end);
-
+AGPt := List(ReadAsFunction(AllGoodPairsFile)(),L->List(L,i->List(GPmodKP)[i]));;
+Assert(0,AGP=AGPt);
+######################################################################################
+######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
 #######################################################################################
 #######################################################################################
 #					Computation of the good pairs is done
 #######################################################################################
 #######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#######################################################################################
+#
 
 # γ: Fₙ→Q is mapped to Act(γ): Fₙ→ {(),(1,2)}
 #
-ActivityConstraint := function(gamma)
+ActivityGamma := function(gamma)
 	return List(gamma,x->Activity(PreImagesRepresentative(pi,x)));
 end;
 HasNontrivialActivity := function(gamma)
-	return not ForAll(ActivityConstraint(gamma),IsOne);
+	return not ForAll(ActivityGamma(gamma),IsOne);
 end;
 # Rₐₜ active representatives
-ReducedConstraintsActive := Filtered(ReducedConstraints,E->HasNontrivialActivity(E.constraint));;
-
+nontrivialGammas := Filtered(orbitReps,HasNontrivialActivity);
+AGPnontrivial := AGP{Filtered([1..Size(AGP)],i->HasNontrivialActivity(orbitReps[i]))};
 #Make sure that forach q in G'/K' there is a good active pair involving q.
-Assert(0,ForAll(GPmodKP,q->ForAny(ReducedConstraintsActive,E->q in E.goodPairs)));
+Assert(0,ForAll(GPmodKP,q->ForAny(AGPnontrivial,L->q in L)));
 
-#The surface relator Rₙ=[x₁,x₂]…[x₂ₙ-₁,x₂ₙ] where the free group F is generated by x₁,x₂,…,x₂ₙ
 surface_relator := function(F)
     local gens;
     gens := GeneratorsOfGroup(F);
@@ -407,64 +445,20 @@ surface_relator := function(F)
 end;
 
 #
-# Function to compute an element φ fixing Rₙ which transorms a given
-# constraint γ:F₂ₙ → Q to γ': F₅→Q 
-# 
-# The input can be either a group homomorphism from a free group to Q 
-# or a list with entries in Q
-# 
-# By default ReducedConstraint returns an element of ReducedConstraints 
-# but there are two different modes specified by a second argument mode:
-# ∙ if mode = 0: 
-#       This is the default mode. The returned value is a record from 
-#       the list ReducedConstraints.
-# ∙ if mode = 1:
-#       No lookup is done in the orbit table. This is usefull if the
-#       orbit table is not computed. The output is then not a record
-#       but a List with 6 element in Q.
-# ∙ if mode = 2:
-#       No lookup is done either and the return value is a list [γ,φ]
-#       where γ is the reducedConstraint as in mode 1 and 
-#       φ is a an automorphism of F₂ₙ which performs the reduction
-#   
-# There are aliases available:
-# ReducedConstraint(γ)=ReducedConstraint(γ,0)
-# ReducedConstraintnoLookup(γ)=ReducedConstraint(γ,1)
-# ReducedConstraintReturnHom(γ)=ReducedConstraint(γ,2)
-# 
 #
-ReducedConstraintnoLookup := function(gamma)
-    return ReduceConstraint(gamma,1);
-end;
-ReducedConstraintReturnHom := function(gamma)
-    return ReducedConstraint(gamma,2);
-end;
-ReducedConstraint := function(gamma,arg...)
-    local mode, TempOrbitTable, F, gens, d, L, i, phi,psi,swi,id,imgs,Phi,ph,ActionOnList,x,
+# Function to compute an element φ in the mcg wich transorm a given γ:F₂ₙ → Q to γ': F₅→Q
+# and reduces this further to an element in orbitReps
+#
+# Implementation takes γ as homomorphism and converts it to a list.
+#
+GammaSimplify := function(gamma,F)
+    local gens, d, L, i, phi,psi,swi,id,imgs,Phi,ph,ActionOnList,x,
     KillBlock,KillAllBlocks,NormalizeBlock,NormalizeAllBlocks,step,
     RepresentativeInOrbitReps;
-
-    if Size(arg)=0 then
-        mode := 0;
-    else 
-        mode := arg[1];
-    fi;
     if IsGroupHomomorphism(gamma) then
     	F := Source(gamma);
     	gamma := List(GeneratorsOfGroup(F),x->x^gamma);
-    elif IsList(gamma)  then
-        F := FreeGroup(2*Int(Ceil(Float(Size(gamma)/2))));
-    else
-        Error("Wrong input: gamma must be either a homorphism from a free group or a list");
     fi;
-
-    if mode = 0 then
-        if not IsBound(orbitTable) then
-            Error("To use lookup mode the orbitTable must be present. Try using mode 1");
-        fi;
-        TempOrbitTable := orbitTable;
-    fi;
-
     step := 0; #Variable just for debugging. Remove it!
 
     #Setup the mcg generators 
@@ -497,7 +491,7 @@ ReducedConstraint := function(gamma,arg...)
         psi[i] := GroupHomomorphismByImages(F,F,imgs);
     od;
 
-    #already contained in mcg
+    #added by Thorsten probehably already contained in mcg
     #Switch two neighbouring pairs
     #swi[i]: (q₁,q₂,…,qᵢ,qᵢ₊₁,qᵢ₊₂,qᵢ₊₃,…,qₙ) ↦ (q₁,q₂,…,qᵢ₊₂,qᵢ₊₃,qᵢ,qᵢ₊₁,…,qₙ)
     for i in [1,3..d-3] do
@@ -509,12 +503,6 @@ ReducedConstraint := function(gamma,arg...)
         swi[i]:=GroupHomomorphismByImages(F,F,imgs);
     od;
 
-    #TODO: Adapt On images so that this can be used instead
-    ##  OnImages := function(list,aut)
-  #      local gens;
-  #      gens := GeneratorsOfGroup(Source(aut));
-  #      return List(gens,g->MappedWord(g^aut,gens,list));
-  #  end;
     ActionOnList := function(L,m)
 		local Gen, i,j,w,newL ,letter;
 		newL := ListWithIdenticalEntries(Length(L),One(L[1]));
@@ -635,7 +623,7 @@ ReducedConstraint := function(gamma,arg...)
     	return Phi;
     end;
     # given γ:F₅→Q
-	# Returns the index of the element γᵣ in ReducedConstraints such that 
+	# Returns the element γᵣ in orbitReps such that 
 	# γ and γᵣ are in the same orbit under the mcg
 	# 
 	#
@@ -648,73 +636,59 @@ ReducedConstraint := function(gamma,arg...)
 				Error("Can't compute hash ",q," is not in Q.");
 			fi;
 		end;
-		return TempOrbitTable[hash(gamma[1])][hash(gamma[2])][hash(gamma[3])][hash(gamma[4])][hash(gamma[5])];
+		return orbitTable[hash(gamma[1])][hash(gamma[2])][hash(gamma[3])][hash(gamma[4])][hash(gamma[5])];
 	end;
 
     #Now do the real work...
+    Phi := id;
     ph := NormalizeAllBlocks(1,gamma,C1);
-    if mode = 2 then
-   	    Phi := ph;
-    fi;
+   	Phi := ph;
 
     gamma := ActionOnList(gamma,ph); # (Q,C1,Q,C1,Q,C1,Q,C1…)
     Assert(2,ForAll(gamma{[2,4..Size(gamma)]},x->x in C1));
     step := 1;
 
     ph := KillAllBlocks(1,gamma,C1);
-    if mode = 2 then
-        Phi := ph*Phi;
-    fi;
+	#	Phi := ph*Phi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C1,C1,C1,C1,C1…)
     Assert(2,ForAll(gamma{[2..Size(gamma)]},x->x in C1));
     step := 2;
 
 	ph := NormalizeAllBlocks(3,gamma,C2);
-	if mode = 2 then
-        Phi := ph*Phi;
-    fi;
+	#	Phi := ph*Phi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C1,C2,C1,C2,C1,C2…)
     Assert(2,ForAll(gamma{[4,6..Size(gamma)]},x->x in C2));
     step := 3;
 
     ph := KillAllBlocks(3,gamma,C2);
-	if mode = 2 then
-        Phi := ph*Phi;
-    fi;
+	#	Phi := ph*Phi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C2,C2,C2,C2,C2,C2…)
     Assert(2,ForAll(gamma{[4..Size(gamma)]},x->x in C2));
     step := 4;
 
     ph := NormalizeAllBlocks(5,gamma,Group(One(C1))); #Trivial Mod
-	if mode = 2 then
-        Phi := ph*Phi;
-    fi;
+	#	Phi := ph*Phi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C2,1,C2,1,C2,1…)
     Assert(2,ForAll(gamma{[6,8..Size(gamma)]},IsOne));
     step := 5;
 
 	ph := KillAllBlocks(5,gamma,Group(One(C1))); #Trivial Mod
-	if mode = 2 then
-        Phi := ph*Phi;
-    fi;
+	#	Phi := ph*Phi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C2,1,1,1,1,1…)
     Assert(2,ForAll(gamma{[6..Size(gamma)]},IsOne));
     step := 6;
 
-	if mode = 2 then
-        Phi := ph*Phi;
-        Assert(2,surface_relator(F)^Phi=surface_relator(F));
-    fi;
-	if mode = 2 then
-	   return [gamma{[1..6]},Phi];
-    elif mode = 1 then
-	   return gamma{[1..6]};
-	else
-       return ReducedConstraints[RepresentativeInOrbitReps(gamma{[1..5]})];
-    fi;
+	#   Assert(2,surface_relator(F)^Phi=surface_relator(F));
+	#Return the mpc element
+	#return [gamma{[1..6]},Phi];
+	#
+	#no Lookup:
+	#return gamma{[1..6]};
+	#
+    return orbitReps[RepresentativeInOrbitReps(gamma{[1..5]})];
 end;
 
-
+F6 := FreeGroup(6);
 #Test whether (g,γ) is a good pair.
 IsGoodPair := function(q,gamma)
 	if not q in GPmodKP then
@@ -724,16 +698,22 @@ IsGoodPair := function(q,gamma)
 		fi;
 		q := q^tauLP;
 	fi;
-    gammaRec := First(ReducedConstraints,E->E.constraint=gamma);
-    if gammaRec = fail then
-		gammaRec := ReducedConstraint(gamma);
+	if not gamma in orbitReps then
+		gamma := GammaSimplify(gamma,F6);
 	fi;
-	return q in gammaRec.goodPairs;
+	return q in AGP[Position(orbitReps,gamma)];
 end;
 #For q in G'/K'
-#Get List of all reduced constraints γ such that (q,γ) is a good pair.
+#Get List of all γ∈OrbitReps such that (q,γ) is a good pair.
 GetAllGoodGammas := function(q)
-    return Filtered(ReducedConstraints,E->q in E.goodPairs);
+	local i,GoodGammas;
+	GoodGammas := [];
+	for i in [1..Size(AGP)] do
+		if q in AGP[i] then
+			Add(GoodGammas,orbitReps[i]);
+		fi;
+	od;
+	return GoodGammas;
 end;
 
 #
@@ -742,7 +722,7 @@ end;
 # This method tries to compute a pair (γ',x) with the following property:
 # ̇ γ' has nontrivial activity
 # ̇ x ∈ {1,a,b,c,d,ab,ad,ba}
-# ̇ for all g with g^τ=q 
+# ̇ forall g with g^τ=q 
 # 	the sattisfiabillity of (R₂ₙ-₁ (g@2)^x ⋅ g@1 ,γ') implies the 
 # 	sattisfiabillity of Rₙg,γ
 # ̇ (γ',(g@2)^x ⋅ g@1) is a good pair 
@@ -771,7 +751,7 @@ CompGammaCheckInkl := function(q,gamma)
 	q1:= StateLP(q,1)^isoGmodKtoQ;
 	q2:= StateLP(q,2)^isoGmodKtoQ;
 	F := FreeGroup(4*3-2);
-	acts := ActivityConstraint(gamma);
+	acts := ActivityGamma(gamma);
 
 	if ForAll(acts,IsOne) then
 		#act(γ) = (1,1,1…1) doesn't help
@@ -809,7 +789,6 @@ CompGammaCheckInkl := function(q,gamma)
 		
 	#Compute the image of a G-Homomorphism with values in F₄ₙ ∗ {g₁,g₂} 
 	#of a γ ∈ Γ' mod K 
-    #TODO should be part of the grpword package
 	GHOnList := function(hom,gam)
 		#hom should be a grpWordHom Fₓ → Fₓ ∗ {g₁,g₂}
 		local newgam,i,r;
@@ -900,7 +879,7 @@ end;
 # and computes for each active good pair (q,γ) the succesing (γ',x) as in Prop. 2.16
 #
 # The resulting list RealGoodPairs contains tuples (q,γ,[γ',x,[q₁,…,q₁₆]]) foreach
-# q ∈ G'/K', γ∈Red such that γ has nontrivial activity and (q,γ) is a good pair.
+# q ∈ G'/K', γ∈orbitReps such that γ has nontrivial activity and (q,γ) is a good pair.
 # The element [γ',x,[q₁,…,q₁₆]] has the property that 
 #   ∙(γ',qᵢ) are good pairs ∀i=1,…,16 and γ' has activity in some component
 #   ∙if g ∈ τ⁻¹(q) then (g@2)^Rep(x) ⋅ (g@1) ∈ τ⁻¹(qᵢ) for some i ∈ {1,…,16}
@@ -911,20 +890,20 @@ size := Sum(List(AGP,Size));
 count := 0;
 RealGoodPairs := [];
 BadPairs := [];
-for E in ReducedConstraints do
-    gamma := E.constraint;
-    for q in E.goodPairs do
-        gammap := CompGammaCheckInkl(q,gamma);
-        if not gammap = fail then
-            countGoodOnes := countGoodOnes+1;
-            Add(RealGoodPairs,[q,gamma,gammap]);
-        else
-            countBadOnes := countBadOnes+1;
-            Add(BadPairs,[q,gamma]);
-        fi;
-        Print(Int(count*100/size),"% done. ",countGoodOnes," good ones so far and ",countBadOnes," bad ones.\r");
-        count := count+1;
-    od;
+for gamma in nontrivialGammas do
+	k := Position(orbitReps,gamma);
+	for q in AGP[k] do
+		gammap := CompGammaCheckInkl(q,gamma);
+		if not gammap = fail then
+			countGoodOnes := countGoodOnes+1;
+			Add(RealGoodPairs,[q,gamma,gammap]);
+		else
+			countBadOnes := countBadOnes+1;
+			Add(BadPairs,[q,gamma]);
+		fi;
+		Print(Int(count*100/size),"% done. ",countGoodOnes," good ones so far and ",countBadOnes," bad ones.\r");
+		count := count+1;
+	od;
 od;
 Assert(0,Size(BadPairs)=0);
 
