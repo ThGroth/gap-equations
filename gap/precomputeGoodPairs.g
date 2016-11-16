@@ -771,5 +771,5 @@ Exec("sed","-i","\"\\$a ;\"",RealGoodPairsFile);
 RGP := List(ReadAsFunction(RealGoodPairsFile)(),
     L->[List(GPmodKP)[L[1]],ReducedConstraints[L[2]],[ReducedConstraints[L[3][1]],L[3][2]]]);;
 #Check only the succesing qᵢs are forgotten.
-Assert(0,List(RGP,P->[P[1],P[2],[P[3][1],P[3][2]]] )=RealGoodPairs);
+Assert(0,List(RealGoodPairs,P->[P[1],P[2],[P[3][1],P[3][2]]] )=RGP);
 
