@@ -45,7 +45,7 @@ GammaSimplify := function(gamma,F)
         psi[i] := GroupHomomorphismByImages(F,F,imgs);
     od;
 
-    #added by Thorsten probehably already contained in mcg
+    #already contained in mcg
     #Switch two neighbouring pairs
     #swi[i]: (q₁,q₂,…,qᵢ,qᵢ₊₁,qᵢ₊₂,qᵢ₊₃,…,qₙ) ↦ (q₁,q₂,…,qᵢ₊₂,qᵢ₊₃,qᵢ,qᵢ₊₁,…,qₙ)
     for i in [1,3..d-3] do

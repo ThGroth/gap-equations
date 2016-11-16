@@ -1,9 +1,4 @@
-#Precompute everything..
-
-# compute the commutator width of the Grigorchuk group.
-# started by Thorsten Groth, 20160620.
-# last revision by Laurent Bartholdi, 20160706.
-
+#Precompute the 90 orbits of Q⁶/Stab(R₆)
 #
 # Directory for Saved results. Needs a trailing /
 #
@@ -715,7 +710,15 @@ ReducedConstraint := function(gamma,arg...)
 end;
 
 
-#Test whether (g,γ) is a good pair.
+# IsGoodPair(g,γ)
+# Test whether a given pair is a good pair.
+# Input:
+#    g ∈ G, GLP, or G/K'
+#    γ  ∈ Q^n for some n≥5  or
+#       group homomorphism from a free group to Q
+#       ∈ ReducedConstraints
+# Output:
+#    true or false depending if (g,γ) is a good pair or not.
 IsGoodPair := function(q,gamma)
 	if not q in GPmodKP then
 		Info(InfoFRGW,2,"work mod KP\n");
@@ -724,6 +727,12 @@ IsGoodPair := function(q,gamma)
 		fi;
 		q := q^tauLP;
 	fi;
+    if IsRecord(gamma) then
+        return q in gamma.constraint;
+    fi;
+    if IsGroupHomomorphism then
+        gamma := List(GeneratorsOfGroup(Source(gamma)),gen->gen^gamma);
+    fi;
     gammaRec := First(ReducedConstraints,E->E.constraint=gamma);
     if gammaRec = fail then
 		gammaRec := ReducedConstraint(gamma);
@@ -748,17 +757,16 @@ end;
 # ̇ (γ',(g@2)^x ⋅ g@1) is a good pair 
 # 
 # If the search for such a pair fails, the method returns fail, this doesn't 
-# mean that such a pair does not exists.
+# guarantee that such a pair does not exists.
 # 
 #
-CompGammaCheckInkl := function(q,gamma)
+GetSuccessor  := function(q,gamma)
 	local Gamma1,g1,g2,F2,F,GammAPrime,count,acts,frvars, frinvvars,
 		t,I,x,v,w,indx,v1,v2,w1,w2,newEq,NoFI,NoFIhom,z,GHOnList,gam,
 		Dep,i,g,first,gp,gpp,trans,H,normalforms,nf,gaP,q1,q2;
 
 	if Size(gamma)>6 then
-		#gamma := GammaSimplify(gamma,F6);
-		Error("gamma is too large!\n");
+		Error("gamma is too large!\n It need to be a reduced constraint");
 	elif Size(gamma)=5  then
 		Append(gamma,One(gamma[1]));
 	elif Size(gamma)<4  then
@@ -860,6 +868,7 @@ CompGammaCheckInkl := function(q,gamma)
 		od;
 	od;
 	Gamma1 := DEP_CARTESIAN@fr(Gamma1,Dep);;#Size of Gamma1 about 4096
+    #Gamma1 contains all possible γ' such that <<γ'₂ₖ-₁,γ'₂ₖ>> = γₖ for k=1…6
 	trans := function(n)
 		return 3+n+Int((n-1)/2);
 	end;
@@ -881,9 +890,9 @@ CompGammaCheckInkl := function(q,gamma)
                 if z in List(Q){[1,2,5,9,13,6,15,10]} then # = [1,a,b,c,d,ab,ad,ba]^π
     				NoFIhom := nf[2];
     				#Compute the image of γ' under the normalization hommorphism and simplify it to the F₅ case
-    				gaP := [MakeImmutable(GammaSimplify(GHOnList(NoFIhom,gpp){[1..4*3-2]},F)),z];
+    				gaP := [MakeImmutable(ReducedConstraint(GHOnList(NoFIhom,gpp){[1..4*3-2]})),z];
     				Suc := List(PreImages(varpiPrimeLP,p_h(q,PreImagesRepresentative(pi,z))));
-                    Add(gaP,Suc);
+                    #Add(gaP,Suc); #Adding all possible succeccors mod K' to the returned list
     				#Added check for nontrivial activity.
     				if HasNontrivialActivity(gaP[1]) and ForAll(Suc, r->IsGoodPair(r,gaP[1])) then
     					return gaP; #[γ',z,{q₁,…,q₁₆}]
@@ -911,10 +920,10 @@ size := Sum(List(AGP,Size));
 count := 0;
 RealGoodPairs := [];
 BadPairs := [];
-for E in ReducedConstraints do
+for E in ReducedConstraintsActive do
     gamma := E.constraint;
     for q in E.goodPairs do
-        gammap := CompGammaCheckInkl(q,gamma);
+        gammap := GetSuccessor(q,gamma);
         if not gammap = fail then
             countGoodOnes := countGoodOnes+1;
             Add(RealGoodPairs,[q,gamma,gammap]);
