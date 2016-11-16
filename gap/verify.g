@@ -21,7 +21,7 @@ end;
 
 verifyLemmaExistGoodGammas := function(usePrecomputed)
 	if  usePrecomputed  then
-		return ForAll(GPmodKP,q->ForAny(AGPnontrivial,L->q in L));
+		return ForAll(GPmodKP,q->ForAny(ReducedConstraintsActive,E->q in E.goodPairs));
 	else
 		#TODO
 	fi;
@@ -34,8 +34,6 @@ verifyPropExistsSuccessor := function(usePrecomputed)
 	#   ∙(γ',qᵢ) are good pairs ∀i=1,…,16 and γ' has activity in some component
 	#   ∙if g ∈ τ⁻¹(q) then (g@2)^Rep(x) ⋅ (g@1) ∈ τ⁻¹(qᵢ) for some i ∈ {1,…,16}
 	#   ∙if (R₂ₙ-₁ (g@2)^Rep(x) ⋅ g@1 ,γ') is sattisfiable then so is (Rₙ g,γ)
-	countGoodOnes := 0;
-	countBadOnes := 0;
 	size := Sum(List(AGP,Size));
 	count := 0;
 	RealGoodPairs := [];
@@ -51,11 +49,15 @@ verifyPropExistsSuccessor := function(usePrecomputed)
 				countBadOnes := countBadOnes+1;
 				Add(BadPairs,[q,gamma]);
 			fi;
-			Print(Int(count*100/size),"% done. ",countGoodOnes," good ones so far and ",countBadOnes," bad ones.\r");
+			Print(Int(count*100/size),"% done. ",Size(RealGoodPairs)," good ones so far.\r");
 			count := count+1;
 		od;
 	od;
-	return(Size(BadPairs))
+	return(Size(BadPairs)=0)
+end;
+
+verifyLemmaStatesOfKPinKxK := function()
+	return ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGPLtoG,i)^isoGtoGLP in KxKLP));
 end;
 
 verifyCorollaryFiniteCWK := function(#param)
