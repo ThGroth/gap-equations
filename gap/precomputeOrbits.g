@@ -2,27 +2,18 @@
 #
 # Directory for Saved results. Needs a trailing /
 #
-dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
-#
-dir := Concatenation(dirRep,"gap/90orbs/");
+if not IsBound(dirRep) then
+    dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
+    #
+    dir := Concatenation(dirRep,"gap/90orbs/");
+fi;
 ################################################################
-# action on images of automorphism.
-# typical usage: action on tuples of images of generators.
-OnImages := function(list,aut)
-    local gens;
-    gens := GeneratorsOfGroup(Source(aut));
-    return List(gens,g->MappedWord(g^aut,gens,list));
-end;
 
-################################################################
-# surface relator of a free group F.
-surface_relator := function(F)
-    local gens;
-    gens := GeneratorsOfGroup(F);
-    return Product([2,4..Length(gens)],i->Comm(gens[i-1],gens[i]),One(F));
-end;
+if not IsBound(DeclarationsLoaded)  then
+    Read(Concatenation(dirRep,"gap/declarations.g"));
+    Read(Concatenation(dirRep,"gap/functions.g"));
+fi;
 
-################################################################
 # the pure mapping class group of a surface group F / surface_relator,
 # written in terms of automorphisms of F.
 pure_mcg := function(F)
@@ -80,13 +71,10 @@ end;
 
 ################################################################
 # construct orbits on Q^{2n}
-BS := BranchStructure(GrigorchukGroup);
-F6 := FreeGroup(6);
-#
 #orbits of pure mcg
 #
 #The following lines take about 12h
-orbits := OrbitsDomain(DirectProduct(pure_mcg(F6),BS.group),
+orbits := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(6)),BS.group),
                   Cartesian(ListWithIdenticalEntries(6,BS.group)),
                   function(list,elm)
     return OnTuples(OnImages(list,elm![1]),elm![2]);
@@ -142,30 +130,21 @@ f3 := f1*f2*f4*f1*f2; # = (dad)^π
 Assert(0,ReadAsFunction(orbitRepsFile)()=orbitReps);
 
 
-#
-# Save a map which assigns to each element of Q⁵ the corresponding orbit.
-#
-hash := function(q)
-	if q in Q then
-		return Position(List(Q),q);
-	else 
-		Error("Can't compute hash ",q," is not in Q.");
-	fi;
-end;
+
 ComputeTable := function(O)
 	local Values,i,q1,q2,q3,q4,q5,o;
 	i := 0;
 	Values := ListWithIdenticalEntries(16,0);
 	for q1 in Q do 
-		Values[hash(q1)]:=ListWithIdenticalEntries(16,0);
+		Values[hashInQ(q1)]:=ListWithIdenticalEntries(16,0);
 		for q2 in Q do
-			Values[hash(q1)][hash(q2)]:=ListWithIdenticalEntries(16,0);
+			Values[hashInQ(q1)][hashInQ(q2)]:=ListWithIdenticalEntries(16,0);
 			for q3 in Q do
-				Values[hash(q1)][hash(q2)][hash(q3)]:=ListWithIdenticalEntries(16,0);
+				Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)]:=ListWithIdenticalEntries(16,0);
 				for q4 in Q do
-					Values[hash(q1)][hash(q2)][hash(q3)][hash(q4)]:=ListWithIdenticalEntries(16,0);
+					Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)]:=ListWithIdenticalEntries(16,0);
 					for q5 in Q do
-						Values[hash(q1)][hash(q2)][hash(q3)][hash(q4)][hash(q5)] := PositionProperty(O,o->[q1,q2,q3,q4,q5,One(Q)] in o);
+						Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)][hashInQ(q5)] := PositionProperty(O,o->[q1,q2,q3,q4,q5,One(Q)] in o);
 						if i mod 1000 =0 then
 							Print(i," Done ", Int(i*100/16^5),"%.\r");
 						fi;
