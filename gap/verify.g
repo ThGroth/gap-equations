@@ -63,7 +63,7 @@ end;
 # ReducedConstraintnoLookup(γ)=ReducedConstraintAllModes(γ,1)
 # ReducedConstraintReturnHom(γ)=ReducedConstraintAllModes(γ,2)
 ReducedConstraint := function(gamma)
-	return ReducedConstraintAllModes(gamma,0,PCD.orbitTable);
+	return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable);
 end;
 	
 # IsGoodPair(g,γ)

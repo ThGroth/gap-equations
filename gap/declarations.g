@@ -1,6 +1,10 @@
 Read(Concatenation(dirRep,"gap/grpwords/grpwords.gd"));
 Read(Concatenation(dirRep,"gap/grpwords/grpwords.gi"));
 
+#Set up all Branchstructure, quotients etc.
+#Working with L presentation
+#All groups with LP in the name means that they are subgroups of the 
+#L-Presented Grigorchuk group.
 
 G := GrigorchukGroup;
 a := G.1; b := G.2; c := G.3; d:=G.4;
