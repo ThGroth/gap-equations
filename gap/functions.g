@@ -118,8 +118,8 @@ LoadPrecomputedData := function()
             );
     PCD.ReducedConstraints := List([1..Size(PCD.orbitReps)],
                                 i->rec(index:= i, constraint:=PCD.orbitReps[i]));
-    Append(PCD.ReducedConstraints,List([1..Size(orbitReps2)],
-    i->rec(index:= i+Size(orbitReps), length := 4, constraint:=orbitReps2[i])));;
+    Append(PCD.ReducedConstraints,List([1..Size(PCD.orbitReps2)],
+    i->rec(index:= i+Size(PCD.orbitReps), length := 4, constraint:=PCD.orbitReps2[i])));;
     PCD.ReducedConstraintsActive := Filtered(PCD.ReducedConstraints,E->HasNontrivialActivity(E.constraint));
     AGP := List(ReadAsFunction(Concatenation(dir,"AllGoodPairs.go"))(),
                 L->List(L,i->List(GPmodKP)[i]));

@@ -86,7 +86,7 @@ end;
 # Output:
 #    true or false depending if (g,γ) is a good pair or not.
 IsGoodPair := function(q,gamma)
-    local gammaRec;
+    local gammaRec,E;
     if not q in GPmodKP then
         if not q in GLP then
             q := q^isoGtoGLP;
@@ -99,9 +99,9 @@ IsGoodPair := function(q,gamma)
     if IsGroupHomomorphism then
         gamma := List(GeneratorsOfGroup(Source(gamma)),gen->gen^gamma);
     fi;
-    gammaRec := First(ReducedConstraints,E->E.constraint=gamma);
+    gammaRec := First(PCD.ReducedConstraints,E->E.constraint=gamma);
     if gammaRec = fail then
-        gammaRec := ReducedConstraint(gamma);
+        gammaRec := PCD.ReducedConstraint(gamma);
     fi;
     return q in gammaRec.goodPairs;
 end;
@@ -197,4 +197,3 @@ verifyAll := function()
 		Print(NameFunction(func),": ",func(),"\n");
 	od;
 end;
-
