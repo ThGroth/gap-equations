@@ -18,7 +18,7 @@ Read(Concatenation(dirRep,"gap/functions.g"));
 # ∙ ReducedConstraintsActive : The list of active reduced constraints as records with additional information
 # ∙ RealGoodPairs : The list of all good pairs where a successor exists.
 # ∙ specialSuccessor : The successor of (1,[1,1,1,1]) 
-PCD := LoadPrecomputedData();
+PCD := LoadPrecomputedData();;
 
 #
 # Allow recomputation of the precomputed data. 
@@ -71,9 +71,9 @@ end;
 # ReducedConstraintReturnHom(γ)=ReducedConstraintAllModes(γ,2)
 ReducedConstraint := function(gamma)
     if IsList(gamma) and Size(gamma) = 4 then
-        return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2);
+        return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
     fi;
-    return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable);
+    return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable,0);
 end;
 	
 # IsGoodPair(g,γ)
@@ -131,15 +131,16 @@ GetSuccessor := function(g,gamma)
         Error("(q,gamma) needs to be a good pair.\n");
     fi;
     if HasNontrivialActivity(gamma) then
-        gaP := First(PCD.RealGoodPairs,L->L[1]=q and L[2].constraint=gamma)[3];
+        gaP := First(PCD.RealGoodPairs,L->L[1]=q and L[2]=gamma);
         if gaP = fail then
         	return fail;
         fi;
+        gaP := gaP[3];
         next := [State(g,2)^PreImagesRepresentative(pi,gaP[2])*State(g,1),gaP[1]];
         if inLP then
             next[1] := next[1]^isoGtoGLP;
         fi;
-        Assert(IsGoodPair(next[1],next[2]));
+        Assert(0,IsGoodPair(next[1],next[2]));
         return next;
     else
         Error("gamma has no activity\n");
@@ -159,11 +160,11 @@ end;
 #Well this is kind of strange.. now there are only 66 orbits. But
 #even if this wouldn't be all they are sufficient to do the job.
 verifyLemma90orbits := function()
-	return Size(PCD.ReducedConstraints)=90;
+	return Size(PCD.orbitReps)=90;
 end;
 
 verifyLemma66orbits := function()
-	return Size(PCD.ReducedConstraints)=66;
+	return Size(PCD.orbitReps)=66;
 end;
 
 verifyLemmaExistGoodGammas := function()
@@ -172,7 +173,7 @@ end;
 
 verifyPropExistsSuccessor := function()
 	return ForAll(PCD.ReducedConstraintsActive,
-		gamma->ForAll(gamma.GoodPairs,
+		gamma->ForAll(gamma.goodPairs,
 			q->not PositionProperty(PCD.RealGoodPairs,
 				L->L[1]=q and L[2]=gamma) = fail));
 end;
@@ -186,11 +187,12 @@ verifyCorollaryFiniteCWK := function()
 end;
 
 verifyAll := function()
+	local func;
 	for func in [	verifyLemma66orbits,
-					verifyLemmaExistGoodGammas
+					verifyLemmaExistGoodGammas,
 					verifyPropExistsSuccessor,
 					verifyLemmaStatesOfKPinKxK,
-					verifyCorollaryFiniteCWK,
+					verifyCorollaryFiniteCWK
 				] do
 		Print(NameFunction(func),": ",func(),"\n");
 	od;

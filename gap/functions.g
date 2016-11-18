@@ -118,6 +118,8 @@ LoadPrecomputedData := function()
             );
     PCD.ReducedConstraints := List([1..Size(PCD.orbitReps)],
                                 i->rec(index:= i, constraint:=PCD.orbitReps[i]));
+    Append(PCD.ReducedConstraints,List([1..Size(orbitReps2)],
+    i->rec(index:= i+Size(orbitReps), length := 4, constraint:=orbitReps2[i])));;
     PCD.ReducedConstraintsActive := Filtered(PCD.ReducedConstraints,E->HasNontrivialActivity(E.constraint));
     AGP := List(ReadAsFunction(Concatenation(dir,"AllGoodPairs.go"))(),
                 L->List(L,i->List(GPmodKP)[i]));
@@ -161,19 +163,20 @@ end;
 #
 ReducedConstraintAllModes := function(gamma,mode,arg...)
     local TempOrbitTable, F, gens, d, L, i, phi,psi,swi,id,imgs,Phi,ph,ActionOnList,x,
-    KillBlock,KillAllBlocks,NormalizeBlock,NormalizeAllBlocks,
+    KillBlock,KillAllBlocks,NormalizeBlock,NormalizeAllBlocks,offset,
     RepresentativeInOrbitReps,ReducedConstraints,gammasize;
 
     
     if mode = 0 then
-        if Size(arg)<2 then
-            Error("To use lookup mode the orbitTable and the ReducedConstraints must be present. Try using mode 1");
+        if Size(arg)<3 then
+            Error("To use lookup mode the orbitTable, the ReducedConstraints and the offset must be present. Try using mode 1");
         fi;
         TempOrbitTable := arg[2];
         ReducedConstraints := arg[1];
+        offset := arg[3];
     fi;
     if IsGroupHomomorphism(gamma) then
-        gamma := List(GeneratorsOfGroup(F),x->x^gamma);
+        gamma := List(GeneratorsOfGroup(Source(gamma)),x->x^gamma);
     fi;
     if IsList(gamma)  then
         if IsOddInt(Size(gamma)) then
@@ -357,15 +360,7 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     # γ and γᵣ are in the same orbit under the mcg
     # 
     #
-    RepresentativeInOrbitReps := function(gamma)
-        local hashInQ;
-        hashInQ := function(q)
-            if q in Q then
-                return Position(List(Q),q);
-            else 
-                Error("Can't compute hashInQ ",q," is not in Q.");
-            fi;
-        end;
+    RepresentativeInOrbitReps := function(gamma) 
         return NestedListElm(TempOrbitTable,List(gamma,hashInQ));
     end;
 
@@ -422,7 +417,7 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     elif mode = 1 then
        return gamma{[1..Minimum(6,Size(gamma))]};
     else
-       return ReducedConstraints[RepresentativeInOrbitReps(gamma{[1..Minimum(6,Size(gamma))]})];
+       return ReducedConstraints[offset+RepresentativeInOrbitReps(gamma{[1..Minimum(6,Size(gamma))]})];
     fi;
 end;
 ReducedConstraintnoLookup := function(gamma)
