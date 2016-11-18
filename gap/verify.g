@@ -6,12 +6,17 @@ Read(Concatenation(dirRep,"gap/functions.g"));
 
 #PCD.
 # ∙ orbitReps : A list of representatives for the orbits of Aut(F₆)/Stab(R₃)
-# ∙ orbitTable : A nested list where the entry orbitTable[i₁][i₂][i₃][i₄][i₅] is 
+# ∙ orbitReps2 : A list of representatives for the orbits of Aut(F₄)/Stab(R₂)
+# ∙ orbitTable : A nested list where the entry orbitTable[i₁][i₂][i₃][i₄][i₅][1] is 
+#                the index of the element γ:xₖ↦List(Q)[iₖ] in the list of orbits #                
+#                especially orbitReps[orbitTable[i₁][i₂][i₃][i₄][i₅][1]] is a representative.
+# ∙ orbitTable2 : A nested list where the entry orbitTable[i₁][i₂][i₃][i₄] is 
 #                the index of the element γ:xₖ↦List(Q)[iₖ] in the list of orbits 
-#                especially orbitReps[orbitTable[i₁][i₂][i₃][i₄][i₅]] is a representative.
+#                especially orbitReps2[orbitTable2[i₁][i₂][i₃][i₄]] is a representative.#                
 # ∙ ReducedConstraints : The list of all reduced constraints as records with additional information
 # ∙ ReducedConstraintsActive : The list of active reduced constraints as records with additional information
 # ∙ RealGoodPairs : The list of all good pairs where a successor exists.
+# ∙ specialSuccessor : The successor of (1,[1,1,1,1]) 
 PCD := LoadPrecomputedData();
 
 #
@@ -24,6 +29,7 @@ PCD := LoadPrecomputedData();
 #
 #
 RedoPrecomputation := function(mode)
+	#TODO remove the existsing precomputed files first?
 	if LowercaseString(mode) = "orbits" then
 		Read(Concatenation(dirRep,"gap/precomputeOrbits.g"));
 	elif  LowercaseString(mode) = "goodpairs"  then
@@ -63,7 +69,10 @@ end;
 # ReducedConstraintnoLookup(γ)=ReducedConstraintAllModes(γ,1)
 # ReducedConstraintReturnHom(γ)=ReducedConstraintAllModes(γ,2)
 ReducedConstraint := function(gamma)
-	return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable);
+    if IsList(gamma) and Size(gamma) = 4 then
+        return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2);
+    fi;
+    return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable);
 end;
 	
 # IsGoodPair(g,γ)
@@ -97,10 +106,10 @@ IsGoodPair := function(q,gamma)
 end;
 
 # Returns the next good pair (g',γ') such that (Rₙg,γ) is solvable if 
-# (R₂ₙ-₁ g' ,γ') is solvable.
+# (R₂ₙ-₁ g' ,γ') is solvable for n≥2.
 # Input: 
 #    g ∈ G,GLP 
-#    γ ∈ Q^n for some n≥5 with activity in some component
+#    γ ∈ Q^n for some n≥4 with activity in some component
 # Output:
 # 	 [g',γ'] ∈ G,GLP × orbitReps  accordingly to the input
 GetSuccessor := function(g,gamma) 
@@ -136,23 +145,31 @@ GetSuccessor := function(g,gamma)
     fi;
 end;
 
+##################################################################################
+##################################################################################
+##################################################################################
+#####################     verify functions        ################################
+##################################################################################
+##################################################################################
+##################################################################################
+
+
+#TODO doublecheck this
+#Well this is kind of strange.. now there are only 66 orbits. But
+#even if this wouldn't be all they are sufficient to do the job.
 verifyLemma90orbits := function()
 	return Size(PCD.ReducedConstraints)=90;
+end;
+
+verifyLemma66orbits := function()
+	return Size(PCD.ReducedConstraints)=66;
 end;
 
 verifyLemmaExistGoodGammas := function()
 	return ForAll(GPmodKP,q->ForAny(PCD.ReducedConstraintsActive,E->q in E.goodPairs));
 end;
 
-#TODO double check this. This means B8 is gone....
-verifyLemmaExistVeryGoodGammas := function()
-	local RCA4;
-	RCA4 := Filtered(PCD.ReducedConstraintsActive,E->ForAll(E.constraint{[5,6]},IsOne));
-	return ForAll(GPmodKP,q->ForAny(RCA4,E->q in E.goodPairs));
-end;
-
 verifyPropExistsSuccessor := function()
-	local
 	return ForAll(PCD.ReducedConstraintsActive,
 		gamma->ForAll(gamma.GoodPairs,
 			q->not PositionProperty(PCD.RealGoodPairs,
@@ -163,7 +180,18 @@ verifyLemmaStatesOfKPinKxK := function()
 	return ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGPLtoG,i)^isoGtoGLP in KxKLP));
 end;
 
-verifyCorollaryFiniteCWK := function(#param)
+verifyCorollaryFiniteCWK := function()
 	return not  PCD.specialSuccessor = fail;
+end;
+
+verifyAll := function()
+	for func in [	verifyLemma66orbits,
+					verifyLemmaExistGoodGammas
+					verifyPropExistsSuccessor,
+					verifyLemmaStatesOfKPinKxK,
+					verifyCorollaryFiniteCWK,
+				] do
+		Print(NameFunction(func),": ",func(),"\n");
+	od;
 end;
 
