@@ -1,30 +1,3 @@
-#returns a record of all precomputed data
-# ∙ orbitReps : A list of representatives for the orbits of Aut(F₆)/Stab(R₃)
-# ∙ orbitTable : A nested list where the entry orbitTable[i₁][i₂][i₃][i₄][i₅] is 
-#                the index of the element γ:xₖ↦List(Q)[iₖ] in the list of orbits 
-#                especially orbitReps[orbitTable[i₁][i₂][i₃][i₄][i₅]] is a representative.
-# ∙ ReducedConstraints : The list of all reduced constraints as records with additional information
-# ∙ ReducedConstraints : The list of active reduced constraints as records with additional information
-# ∙ RealGoodPairs : The list of all good pairs where a successor exists.
-LoadPrecomputedData := function()
-    local PCD,AGO,RGP;
-    PCD := rec( orbitReps :=ReadAsFunction(Concatenation(dir,"orbitReps.go"))(),
-                orbitTable := ReadAsFunction(Concatenation(dir,"orbitTable.go"))()        
-            );
-    PCD.ReducedConstraints := List([1..Size(PCD.orbitReps)],
-                                i->rec(index:= i, constraint:=PCD.orbitReps[i]));
-    PCD.ReducedConstraintsActive := Filtered(PCD.ReducedConstraints,E->HasNontrivialActivity(E.constraint));
-    AGP := List(ReadAsFunction(Concatenation(dir,"AllGoodPairs.go"))(),
-                L->List(L,i->List(GPmodKP)[i]));
-    Perform(PCD.ReducedConstraints,function(E) E.goodPairs:=AGP[E.index]; end);
-    RGP := List(ReadAsFunction(Concatenation(dir,"RealGoodPairs.go"))(),
-                L->[List(GPmodKP)[L[1]],
-                    PCD.ReducedConstraints[L[2]],
-                    [PCD.ReducedConstraints[L[3][1]],L[3][2]]]);;
-    PCD.RealGoodPairs := RGP;
-    return PCD;
-end;
-
 # action on images of automorphism.
 # typical usage: action on tuples of images of generators.
 OnImages := function(list,aut)
@@ -112,6 +85,33 @@ HasNontrivialActivity := function(gamma)
     return not ForAll(ActivityConstraint(gamma),IsOne);
 end;
 
+#returns a record of all precomputed data
+# ∙ orbitReps : A list of representatives for the orbits of Aut(F₆)/Stab(R₃)
+# ∙ orbitTable : A nested list where the entry orbitTable[i₁][i₂][i₃][i₄][i₅] is 
+#                the index of the element γ:xₖ↦List(Q)[iₖ] in the list of orbits 
+#                especially orbitReps[orbitTable[i₁][i₂][i₃][i₄][i₅]] is a representative.
+# ∙ ReducedConstraints : The list of all reduced constraints as records with additional information
+# ∙ ReducedConstraintsActive : The list of active reduced constraints as records with additional information
+# ∙ RealGoodPairs : The list of all good pairs where a successor exists.
+LoadPrecomputedData := function()
+    local PCD,AGP,RGP;
+    PCD := rec( orbitReps :=ReadAsFunction(Concatenation(dir,"orbitReps.go"))(),
+                orbitTable := ReadAsFunction(Concatenation(dir,"orbitTable.go"))()        
+            );
+    PCD.ReducedConstraints := List([1..Size(PCD.orbitReps)],
+                                i->rec(index:= i, constraint:=PCD.orbitReps[i]));
+    PCD.ReducedConstraintsActive := Filtered(PCD.ReducedConstraints,E->HasNontrivialActivity(E.constraint));
+    AGP := List(ReadAsFunction(Concatenation(dir,"AllGoodPairs.go"))(),
+                L->List(L,i->List(GPmodKP)[i]));
+    Perform(PCD.ReducedConstraints,function(E) E.goodPairs:=AGP[E.index]; end);
+    RGP := List(ReadAsFunction(Concatenation(dir,"RealGoodPairs.go"))(),
+                L->[List(GPmodKP)[L[1]],
+                    PCD.ReducedConstraints[L[2]],
+                    [PCD.ReducedConstraints[L[3][1]],L[3][2]]]);;
+    PCD.RealGoodPairs := RGP;
+    PCD.specialSuccessor := ReadAsFunction(Concatenation(dir,"specSuc.go"))();
+    return PCD;
+end;
 #
 # Function to compute an element φ fixing Rₙ which transorms a given
 # constraint γ:F₂ₙ → Q to γ': F₅→Q 
@@ -123,8 +123,9 @@ end;
 # but there are two different modes specified by a second argument mode:
 # ∙ if mode = 0: 
 #       This is the default mode. The returned value is a record from 
-#       the list ReducedConstraints. To use this mode give the orbit table
-#       as a third argument. 
+#       the list ReducedConstraints. To use this mode give the List 
+#       of reduced constraints as a third and the orbit table as 
+#       a fourth argument. 
 # ∙ if mode = 1:
 #       No lookup is done in the orbit table. This is usefull if the
 #       orbit table is not computed. The output is then not a record
@@ -142,16 +143,16 @@ end;
 #
 ReducedConstraintAllModes := function(gamma,mode,arg...)
     local TempOrbitTable, F, gens, d, L, i, phi,psi,swi,id,imgs,Phi,ph,ActionOnList,x,
-    KillBlock,KillAllBlocks,NormalizeBlock,NormalizeAllBlocks,step,
-    RepresentativeInOrbitReps;
+    KillBlock,KillAllBlocks,NormalizeBlock,NormalizeAllBlocks,
+    RepresentativeInOrbitReps,ReducedConstraints;
 
-    if Size(arg)=0 then
-        mode := 0;
-    else 
-        mode := arg[1];
-    fi;
-    if Size(arg)=2 then
+    
+    if mode = 0 then
+        if Size(arg)<2 then
+            Error("To use lookup mode the orbitTable and the ReducedConstraints must be present. Try using mode 1");
+        fi;
         TempOrbitTable := arg[2];
+        ReducedConstraints := arg[1];
     fi;
     if IsGroupHomomorphism(gamma) then
         F := Source(gamma);
@@ -161,14 +162,6 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     else
         Error("Wrong input: gamma must be either a homorphism from a free group or a list");
     fi;
-
-    if mode = 0 then
-        if not IsBound(TempOrbitTable) then
-            Error("To use lookup mode the orbitTable must be present. Try using mode 1");
-        fi;
-    fi;
-
-    step := 0; #Variable just for debugging. Remove it!
 
     #Setup the mcg generators 
     #φᵢ acts on pairs [xᵢ,xᵢ₊₁] (for i odd) 
@@ -362,7 +355,6 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
 
     gamma := ActionOnList(gamma,ph); # (Q,C1,Q,C1,Q,C1,Q,C1…)
     Assert(2,ForAll(gamma{[2,4..Size(gamma)]},x->x in C1));
-    step := 1;
 
     ph := KillAllBlocks(1,gamma,C1);
     if mode = 2 then
@@ -370,7 +362,6 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     fi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C1,C1,C1,C1,C1…)
     Assert(2,ForAll(gamma{[2..Size(gamma)]},x->x in C1));
-    step := 2;
 
     ph := NormalizeAllBlocks(3,gamma,C2);
     if mode = 2 then
@@ -378,7 +369,6 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     fi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C1,C2,C1,C2,C1,C2…)
     Assert(2,ForAll(gamma{[4,6..Size(gamma)]},x->x in C2));
-    step := 3;
 
     ph := KillAllBlocks(3,gamma,C2);
     if mode = 2 then
@@ -386,7 +376,6 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     fi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C2,C2,C2,C2,C2,C2…)
     Assert(2,ForAll(gamma{[4..Size(gamma)]},x->x in C2));
-    step := 4;
 
     ph := NormalizeAllBlocks(5,gamma,Group(One(C1))); #Trivial Mod
     if mode = 2 then
@@ -394,7 +383,6 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     fi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C2,1,C2,1,C2,1…)
     Assert(2,ForAll(gamma{[6,8..Size(gamma)]},IsOne));
-    step := 5;
 
     ph := KillAllBlocks(5,gamma,Group(One(C1))); #Trivial Mod
     if mode = 2 then
@@ -402,7 +390,6 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
     fi;
     gamma := ActionOnList(gamma,ph); # (Q,C1,C1,C2,C2,1,1,1,1,1…)
     Assert(2,ForAll(gamma{[6..Size(gamma)]},IsOne));
-    step := 6;
 
     if mode = 2 then
         Phi := ph*Phi;
@@ -423,33 +410,3 @@ ReducedConstraintReturnHom := function(gamma)
     return ReducedConstraintAllModes(gamma,2);
 end;
 
-# IsGoodPair(g,γ)
-# Test whether a given pair is a good pair.
-# Input:
-#    g ∈ G, GLP, or G/K'
-#    γ  ∈ Q^n for some n≥5  or
-#       group homomorphism from a free group to Q
-#       ∈ ReducedConstraints
-# Output:
-#    true or false depending if (g,γ) is a good pair or not.
-IsGoodPair := function(q,gamma)
-    local gammaRec;
-    if not q in GPmodKP then
-        Info(InfoFRGW,2,"work mod KP\n");
-        if not q in GLP then
-            q := q^isoGtoGLP;
-        fi;
-        q := q^tauLP;
-    fi;
-    if IsRecord(gamma) then
-        return q in gamma.goodPairs;
-    fi;
-    if IsGroupHomomorphism then
-        gamma := List(GeneratorsOfGroup(Source(gamma)),gen->gen^gamma);
-    fi;
-    gammaRec := First(ReducedConstraints,E->E.constraint=gamma);
-    if gammaRec = fail then
-        gammaRec := ReducedConstraint(gamma);
-    fi;
-    return q in gammaRec.goodPairs;
-end;

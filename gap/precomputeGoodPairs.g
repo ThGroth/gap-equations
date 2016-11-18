@@ -1,5 +1,6 @@
 # Directory for Saved results. Needs a trailing /
 #
+LoadPackage("fr");
 if not IsBound(dirRep) then
     dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
     #
@@ -10,11 +11,6 @@ if not IsBound(DeclarationsLoaded)  then
     Read(Concatenation(dirRep,"gap/declarations.g"));
     Read(Concatenation(dirRep,"gap/functions.g"));
 fi;
-
-#Set up all Branchstructure, quotients etc.
-#Working with L presentation
-#All groups with LP in the name means that they are subgroups of the 
-#L-Presented Grigorchuk group.
 
 #Assert(0,ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGPLtoG,i)^isoGtoGLP in KxKLP)));
 #See verifyLemmaStatesOfKPinKxK instead
@@ -94,7 +90,7 @@ ReducedConstraintsActive := Filtered(ReducedConstraints,E->HasNontrivialActivity
 
 
 ReducedConstraint := function(gamma)
-    return ReducedConstraintAllModes(gamma,0,orbitTable);
+    return ReducedConstraintAllModes(gamma,0,ReducedConstraints,orbitTable);
 end;
 
 #For q in G'/K'
@@ -123,7 +119,7 @@ IsGoodPair := function(q,gamma)
     if IsRecord(gamma) then
         return q in gamma.goodPairs;
     fi;
-    if IsGroupHomomorphism then
+    if IsGroupHomomorphism(gamma) then
         gamma := List(GeneratorsOfGroup(Source(gamma)),gen->gen^gamma);
     fi;
     gammaRec := First(ReducedConstraints,E->E.constraint=gamma);
@@ -162,11 +158,11 @@ end;
 GetSuccessor  := function(q,gamma)
 	local q1,q2,F,acts,F2,frvars,frinvvars,t,I,normalforms,x,v,w,indx,v1,
           v2,w1,w2,newEq,NoFI,NoFIhom,z,GHOnList,Gamma1,Dep,i,ga,first,gp,
-          trans,H,gpp,nf,gaP,Suc,r,ShortConstraintCase,qs;
+          trans,H,gpp,nf,gaP,Suc,r,ShortConstraintCase,qs,g1,g2;
 
     ShortConstraintCase := false;
     if IsGroupHomomorphism(gamma) then
-        gamma = List(GeneratorsOfGroup(Source(gamma)),x->x^gamma);
+        gamma := List(GeneratorsOfGroup(Source(gamma)),x->x^gamma);
     fi;
 	if Size(gamma)>6 then
 		Error("gamma is too large!\n It need to be a reduced constraint");
@@ -208,7 +204,7 @@ GetSuccessor  := function(q,gamma)
     
     #Needed for the product of two commutator case. Make sure the last constraints are trivial.
     if ShortConstraintCase then
-        Perform(Gamma1,ga->Append(ga,[One(Q),One(Q)]));
+        Perform(Gamma1,function(ga) Append(ga,[One(Q),One(Q),One(Q),One(Q)]); end);
     fi;
     
     acts := ActivityConstraint(gamma);
@@ -218,8 +214,8 @@ GetSuccessor  := function(q,gamma)
             qs := [q1,q2];
             if ForAll(gp,gpi->HasNontrivialActivity(gpi)) then #No need for those with trivial activity
                 if ForAll([1,2],i->IsOne(Comm(gp[i][1],gp[i][2])*Comm(gp[i][3],gp[i][4])*Comm(gp[i][5],gp[i][6])*qs[i])) then
-                    Sucs := Cartesian(List([1,2],i->PreImages(varpiPrimeLP,StateModKxK(q,i))));
-                    if ForAll(Sucs, r->ForAll([1,2],i->IsGoodPair(r[i],gp[i]))) then
+                    Suc := Cartesian(List([1,2],i->PreImages(varpiPrimeLP,StateModKxK(q,i))));
+                    if ForAll(Suc, r->ForAll([1,2],i->IsGoodPair(r[i],gp[i]))) then
                         if ShortConstraintCase then
                             Apply(gp,gpp->gpp{[1..4]});
                         fi;
@@ -332,8 +328,9 @@ GetSuccessor  := function(q,gamma)
 	return fail;
 end;
 
-# The following takes about 30 min.
-# and computes for each active good pair (q,γ) the succesing (γ',x) as in Prop. 2.16
+
+# The following function computes for each active good pair (q,γ) 
+# the succesing (γ',x) as in Prop. 2.16
 #
 # The resulting list RealGoodPairs contains tuples (q,γ,[γ',x,[q₁,…,q₁₆]]) foreach
 # q ∈ G'/K', γ∈Red such that γ has nontrivial activity and (q,γ) is a good pair.
@@ -362,6 +359,7 @@ ComputeAllSuccessors := function()
     od;
     return [RealGoodPairs,BadPairs];
 end;
+# The following takes about 30 min.
 T := ComputeAllSuccessors();;
 RealGoodPairs := T[1];;
 BadPairs := T[2];
@@ -383,3 +381,18 @@ RGP := List(ReadAsFunction(RealGoodPairsFile)(),
 #Check only the succesing qᵢs are forgotten.
 Assert(0,List(RealGoodPairs,P->[P[1],P[2],[P[3][1],P[3][2]]] )=RGP);
 
+#For the product of two commutator case get the bad pairs:
+ReducedConstraintsActive4 := Filtered(ReducedConstraints,E->IsOne(E.constraint[5]));;
+ProblematicCases := Filtered(GPmodKP,q->not ForAny(ReducedConstraintsActive4,gamma->IsGoodPair(q,gamma)));;
+ProblematicCases := Filtered(GPmodKP,q->ForAny(ReducedConstraintsActive4,E->q in E.goodPairs));;
+
+#Special Successor for (g,1) for g in K'
+specSuc := GetSuccessor(One(GPmodKP),[One(Q),One(Q),One(Q),One(Q)]);
+specSucFile := Concatenation(dir,"specSuc.go");
+PrintTo(specSucFile,specSuc);
+#Replace <identy>.... by One(Q)
+Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",specSucFile);
+#Add a return and a semicolon
+Exec("sed","-i","\"1i return \"",specSucFile);
+Exec("sed","-i","\"\\$a ;\"",specSucFile);
+Assert(0,specSuc=ReadAsFunction(specSucFile)());
