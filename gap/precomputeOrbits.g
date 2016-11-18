@@ -79,11 +79,21 @@ orbits := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(6)),BS.group),
                   function(list,elm)
     return OnTuples(OnImages(list,elm![1]),elm![2]);
 end);;
-Print("Orbits computed; there are ",Size(orbits)," orbits\n");
+
+orbits2 := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(4)),BS.group),
+                  Cartesian(ListWithIdenticalEntries(4,BS.group)),
+                  function(list,elm)
+    return OnTuples(OnImages(list,elm![1]),elm![2]);
+end);;
+Print("Orbits computed; there are ",Size(orbits)," orbits for Aut(F₆)/Stab(R₃)\n");
+Print("and there are ",Size(orbits2)," orbits for Aut(F₄)/Stab(R₂)\n");
 orbits := List(orbits,ShallowCopy);;
+orbits2 := List(orbits2,ShallowCopy);;
 #The following lines take about 5min
 for i in orbits do Sort(i); MakeImmutable(i); od; # for fast lookup
+for i in orbits2 do Sort(i); MakeImmutable(i); od; # for fast lookup
 MakeImmutable(orbits);;
+MakeImmutable(orbits2);;
 
 ##################################################################
 # Find Representatives with maximal number of ones and one in last coord.
@@ -94,10 +104,10 @@ MinimalReprOrbit := function(O)
     end;
     R := [];
     for o in O do
-        max := 0;
+        max := -1;
         elm := 0;
         for L in o do
-            if IsOne(L[6]) and cone(L) > max then
+            if (Size(L)<6 or IsOne(L[6])) and cone(L) > max then
                 max:=cone(L);
                 elm := L;
             fi;
@@ -110,25 +120,32 @@ MinimalReprOrbit := function(O)
     return R;
 end;
 orbitReps := MinimalReprOrbit(orbits);
+orbitReps2 := MinimalReprOrbit(orbits2);
 
 #
 # Save the orbit Representations to a file.
 # Needs the following lines to be read again properly
 #
 orbitRepsFile := Concatenation(dir,"orbitReps.go");
+orbitRepsFile2 := Concatenation(dir,"orbitReps2.go");
 PrintTo(orbitRepsFile,orbitReps);
+PrintTo(orbitRepsFile2,orbitReps2);
 #Replace <identy>.... by One(Q)
 Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",orbitRepsFile);
 #Add a return and a semicolon
 Exec("sed","-i","\"1i return \"",orbitRepsFile);
 Exec("sed","-i","\"\\$a ;\"",orbitRepsFile);
+Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",orbitRepsFile2);
+#Add a return and a semicolon
+Exec("sed","-i","\"1i return \"",orbitRepsFile2);
+Exec("sed","-i","\"\\$a ;\"",orbitRepsFile2);
 Q:= BS.group;
 f4:= Q.1; # = a^π
 f2 := Q.2; # = b^π
 f1 := Q.3; # = c^π
 f3 := f1*f2*f4*f1*f2; # = (dad)^π
 Assert(0,ReadAsFunction(orbitRepsFile)()=orbitReps);
-
+Assert(0,ReadAsFunction(orbitRepsFile2)()=orbitReps2);
 
 
 ComputeTable := function(O)
@@ -144,7 +161,7 @@ ComputeTable := function(O)
 				for q4 in Q do
 					Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)]:=ListWithIdenticalEntries(16,0);
 					for q5 in Q do
-						Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)][hashInQ(q5)] := PositionProperty(O,o->[q1,q2,q3,q4,q5,One(Q)] in o);
+						Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)][hashInQ(q5)] := [PositionProperty(O,o->[q1,q2,q3,q4,q5,One(Q)] in o)];
 						if i mod 1000 =0 then
 							Print(i," Done ", Int(i*100/16^5),"%.\r");
 						fi;
@@ -153,8 +170,30 @@ ComputeTable := function(O)
 	Print("Done\n");
 	return Values;
 end;
-#Takes ~10 Minutes 
+ComputeTable2 := function(O)
+    local Values,i,q1,q2,q3,q4,o;
+    i := 0;
+    Values := ListWithIdenticalEntries(16,0);
+    for q1 in Q do 
+        Values[hashInQ(q1)]:=ListWithIdenticalEntries(16,0);
+        for q2 in Q do
+            Values[hashInQ(q1)][hashInQ(q2)]:=ListWithIdenticalEntries(16,0);
+            for q3 in Q do
+                Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)]:=ListWithIdenticalEntries(16,0);
+                for q4 in Q do
+                    Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)] := PositionProperty(O,o->[q1,q2,q3,q4] in o);
+                    if i mod 1000 =0 then
+                        Print(i," Done ", Int(i*100/16^4),"%.\r");
+                    fi;
+                    i := i+1;
+    od;od;od;od;
+    Print("Done\n");
+    return Values;
+end;
+
+#Takes ~20 Minutes 
 orbitTable := ComputeTable(orbits);;
+orbitTable2 := ComputeTable2(orbits2);;
 
 orbitTableFile := Concatenation(dir,"orbitTable.go");
 PrintTo(orbitTableFile,orbitTable);
@@ -162,8 +201,15 @@ PrintTo(orbitTableFile,orbitTable);
 Exec("sed","-i","\"1i return \"",orbitTableFile);
 Exec("sed","-i","\"\\$a ;\"",orbitTableFile);
 
+orbitTableFile2 := Concatenation(dir,"orbitTable2.go");
+PrintTo(orbitTableFile2,orbitTable2);
+#Add a return and a semicolon
+Exec("sed","-i","\"1i return \"",orbitTableFile2);
+Exec("sed","-i","\"\\$a ;\"",orbitTableFile2);
+
 #Check that everything worked as expected
 Assert(0,orbitTable=ReadAsFunction(Concatenation(dir,"orbitTable.go"))());
+Assert(0,orbitTable2=ReadAsFunction(Concatenation(dir,"orbitTable2.go"))());
 #######################################################################################
 #######################################################################################
 #######################################################################################

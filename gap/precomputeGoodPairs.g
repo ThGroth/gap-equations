@@ -1,6 +1,5 @@
 # Directory for Saved results. Needs a trailing /
 #
-LoadPackage("fr");
 if not IsBound(dirRep) then
     dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
     #
@@ -53,14 +52,19 @@ end;
 #Load orbits here:
 orbitReps:=ReadAsFunction(Concatenation(dir,"orbitReps.go"))();;
 ReducedConstraints := List([1..Size(orbitReps)],
-    i->rec(index:= i, constraint:=orbitReps[i]));;
+    i->rec(index:= i, length := 6, constraint:=orbitReps[i]));;
 orbitTable := ReadAsFunction(Concatenation(dir,"orbitTable.go"))();;
+orbitReps2:=ReadAsFunction(Concatenation(dir,"orbitReps2.go"))();;
+Append(ReducedConstraints,List([1..Size(orbitReps2)],
+    i->rec(index:= i+Size(orbitReps), length := 4, constraint:=orbitReps2[i])));;
+orbitTable2 := ReadAsFunction(Concatenation(dir,"orbitTable2.go"))();;
 
 #Takes about 1 min
 # Compute the full list of good pairs
 # Such that for each entry e in ReducedConstraints the list e.goodPairs contains
 # all q∈Q such that (q,e.constraint) is a good pair.
 Perform(ReducedConstraints,function(entry) entry.goodPairs:=goodPairs(entry.constraint); end);
+
 
 #Write AllGoodPairs to a file
 AllGoodPairsFile := Concatenation(dir,"AllGoodPairs.go");
@@ -72,6 +76,7 @@ Exec("sed","-i","\"\\$a ;\"",AllGoodPairsFile);
 #Read the file again and check its correct
 AGP := List(ReadAsFunction(AllGoodPairsFile)(),L->List(L,i->List(GPmodKP)[i]));;
 Assert(0,ForAll(ReducedConstraints,E->E.goodPairs = AGP[E.index]));
+
 #Usage of the file:
 #Perform(ReducedConstraints,function(E) E.goodPairs:=AGP[E.index]; end);
 
@@ -83,13 +88,15 @@ Assert(0,ForAll(ReducedConstraints,E->E.goodPairs = AGP[E.index]));
 
 # Rₐₜ active representatives
 ReducedConstraintsActive := Filtered(ReducedConstraints,E->HasNontrivialActivity(E.constraint));;
-
 #Make sure that forach q in G'/K' there is a good active pair involving q.
 #See verifyLemmaExistGoodGammas instead
 #Assert(0,ForAll(GPmodKP,q->ForAny(ReducedConstraintsActive,E->q in E.goodPairs)));
 
 
 ReducedConstraint := function(gamma)
+    if IsList(gamma) and Size(gamma) = 4 then
+        return ReducedConstraintAllModes(gamma,0,ReducedConstraints,orbitTable2);
+    fi;
     return ReducedConstraintAllModes(gamma,0,ReducedConstraints,orbitTable);
 end;
 
@@ -178,9 +185,7 @@ GetSuccessor  := function(q,gamma)
 	fi;
 		
 	q1:= StateLP(q,1)^isoGmodKtoQ;
-	q2:= StateLP(q,2)^isoGmodKtoQ;
-	F := FreeGroup(4*3-2);
-	
+	q2:= StateLP(q,2)^isoGmodKtoQ;	
 
     Gamma1 := []; 
     Dep := [];
@@ -202,23 +207,16 @@ GetSuccessor  := function(q,gamma)
     #Gamma1 contains all possible γ' such that <<γ'₂ₖ-₁,γ'₂ₖ>> = γₖ for k=1…6
     Gamma1 := DEP_CARTESIAN@fr(Gamma1,Dep);;#Size of Gamma1 about 4096
     
-    #Needed for the product of two commutator case. Make sure the last constraints are trivial.
-    if ShortConstraintCase then
-        Perform(Gamma1,function(ga) Append(ga,[One(Q),One(Q),One(Q),One(Q)]); end);
-    fi;
-    
+    F := FreeGroup(2*Size(gamma)-2);
     acts := ActivityConstraint(gamma);
 	if ForAll(acts,IsOne) then #this is needed for the product of two commutators and the f.c.w. of K' corrolary
         for gp in Gamma1 do
-            gp := [gp{[1,3,5,7,9,11]},gp{[2,4,6,8,10,12]}]; #split gamma in two parts
+            gp := [gp{[1,3..2*Size(gamma)-1]},gp{[2,4..2*Size(gamma)]}]; #split gamma in two parts
             qs := [q1,q2];
             if ForAll(gp,gpi->HasNontrivialActivity(gpi)) then #No need for those with trivial activity
-                if ForAll([1,2],i->IsOne(Comm(gp[i][1],gp[i][2])*Comm(gp[i][3],gp[i][4])*Comm(gp[i][5],gp[i][6])*qs[i])) then
+                if ForAll([1,2],i->IsOne(Product(List([2,4..2*Size(gamma)],k->Comm(gp[i][2*k-1],gp[i][2*k-1])))*qs[i])) then
                     Suc := Cartesian(List([1,2],i->PreImages(varpiPrimeLP,StateModKxK(q,i))));
                     if ForAll(Suc, r->ForAll([1,2],i->IsGoodPair(r[i],gp[i]))) then
-                        if ShortConstraintCase then
-                            Apply(gp,gpp->gpp{[1..4]});
-                        fi;
                         return gp;
                     fi;
                 fi;
@@ -230,8 +228,8 @@ GetSuccessor  := function(q,gamma)
     #Now the "regular" case. gamma has activity in some component.
 	
 	F2 := FreeGroup(2); g1:=F2.1;g2:=F2.2;
-	frvars := List([1..6],x->FRGrpWordUnknown(3*x,acts[x],GrigorchukGroup));
-	frinvvars := List([1..6],x->FRGrpWordUnknown(-3*x,acts[x],GrigorchukGroup));
+	frvars := List([1..Size(gamma)],x->FRGrpWordUnknown(3*x,acts[x],GrigorchukGroup));
+	frinvvars := List([1..Size(gamma)],x->FRGrpWordUnknown(-3*x,acts[x],GrigorchukGroup));
 	t := Product(List(Filtered([1..Size(gamma)],IsOddInt),y->frinvvars[y]*frinvvars[y+1]*frvars[y]*frvars[y+1]));
 	I := Intersection(List(t!.states[1]!.word,AbsInt),List(t!.states[2]!.word,AbsInt));
 	#I is nonempty as #act(γ) ≠ (1,1,1…1)
@@ -249,9 +247,9 @@ GetSuccessor  := function(q,gamma)
 		w2 := w{[indx+1..Size(w)]};
 		newEq := GrpWord(Concatenation(v1,w2,[g2],w1,v2,[g1]),F2);
 		NoFI := GrpWordNormalFormInverseHom(newEq);
-		NoFIhom := GrpWordHom(NoFI[2]!.rules{[1..4*3-1]});
+		NoFIhom := GrpWordHom(NoFI[2]!.rules{[1..2*Size(gamma)-1]});
 		#z consist only of one element
-		z := NoFIhom!.rules[4*3-1]!.word; #z=x₁₁
+		z := NoFIhom!.rules[2*Size(gamma)-1]!.word; #z=x₁₁ or z=x₇ d
 		Assert(0,Size(z)=1);
 		z := z[1];
 		Add(normalforms,[z,NoFIhom]);
@@ -314,7 +312,7 @@ GetSuccessor  := function(q,gamma)
                 if z in List(Q){[1,2,5,9,13,6,15,10]} then # = [1,a,b,c,d,ab,ad,ba]^π
     				NoFIhom := nf[2];
     				#Compute the image of γ' under the normalization hommorphism and simplify it to the F₅ case
-    				gaP := [MakeImmutable(ReducedConstraint(GHOnList(NoFIhom,gpp){[1..4*3-2]})),z];
+    				gaP := [MakeImmutable(ReducedConstraint(GHOnList(NoFIhom,gpp){[1..2*Size(gamma)-2]})),z];
     				Suc := List(PreImages(varpiPrimeLP,p_h(q,PreImagesRepresentative(pi,z))));
                     Add(gaP,Suc); #Adding all possible succeccors mod K' to the returned list
     				#Added check for nontrivial activity.
@@ -338,13 +336,13 @@ end;
 #   ∙(γ',qᵢ) are good pairs ∀i=1,…,16 and γ' has activity in some component
 #   ∙if g ∈ τ⁻¹(q) then (g@2)^Rep(x) ⋅ (g@1) ∈ τ⁻¹(qᵢ) for some i ∈ {1,…,16}
 #   ∙if (R₂ₙ-₁ (g@2)^Rep(x) ⋅ g@1 ,γ') is sattisfiable then so is (Rₙ g,γ)
-ComputeAllSuccessors := function()
+ComputeAllSuccessors := function(Constraints)
     local size,count,RealGoodPairs,BadPairs,E,gamma,q,gammap;
-    size := Sum(List(AGP,Size));
+    size := Sum(List(Constraints,C->Size(C.goodPairs)));
     count := 0;
     RealGoodPairs := [];
     BadPairs := [];
-    for E in ReducedConstraintsActive do
+    for E in Constraints do
         gamma := E.constraint;
         for q in E.goodPairs do
             gammap := GetSuccessor(q,gamma);
@@ -360,7 +358,7 @@ ComputeAllSuccessors := function()
     return [RealGoodPairs,BadPairs];
 end;
 # The following takes about 30 min.
-T := ComputeAllSuccessors();;
+T := ComputeAllSuccessors(ReducedConstraintsActive);;
 RealGoodPairs := T[1];;
 BadPairs := T[2];
 Assert(0,Size(BadPairs)=0);
@@ -380,11 +378,6 @@ RGP := List(ReadAsFunction(RealGoodPairsFile)(),
     L->[List(GPmodKP)[L[1]],ReducedConstraints[L[2]],[ReducedConstraints[L[3][1]],L[3][2]]]);;
 #Check only the succesing qᵢs are forgotten.
 Assert(0,List(RealGoodPairs,P->[P[1],P[2],[P[3][1],P[3][2]]] )=RGP);
-
-#For the product of two commutator case get the bad pairs:
-ReducedConstraintsActive4 := Filtered(ReducedConstraints,E->IsOne(E.constraint[5]));;
-ProblematicCases := Filtered(GPmodKP,q->not ForAny(ReducedConstraintsActive4,gamma->IsGoodPair(q,gamma)));;
-ProblematicCases := Filtered(GPmodKP,q->ForAny(ReducedConstraintsActive4,E->q in E.goodPairs));;
 
 #Special Successor for (g,1) for g in K'
 specSuc := GetSuccessor(One(GPmodKP),[One(Q),One(Q),One(Q),One(Q)]);
