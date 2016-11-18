@@ -93,12 +93,11 @@ ReducedConstraintsActive := Filtered(ReducedConstraints,E->HasNontrivialActivity
 #See verifyLemmaExistGoodGammas instead
 #Assert(0,ForAll(GPmodKP,q->ForAny(ReducedConstraintsActive,E->q in E.goodPairs)));
 
-
 ReducedConstraint := function(gamma)
     if IsList(gamma) and Size(gamma) = 4 then
-        return ReducedConstraintAllModes(gamma,0,ReducedConstraints,orbitTable2);
+        return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
     fi;
-    return ReducedConstraintAllModes(gamma,0,ReducedConstraints,orbitTable);
+    return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable,0);
 end;
 
 #For q in G'/K'
@@ -215,7 +214,7 @@ GetSuccessor  := function(q,gamma)
             gp := [gp{[1,3..2*Size(gamma)-1]},gp{[2,4..2*Size(gamma)]}]; #split gamma in two parts
             qs := [q1,q2];
             if ForAll(gp,gpi->HasNontrivialActivity(gpi)) then #No need for those with trivial activity
-                if ForAll([1,2],i->IsOne(Product(List([2,4..2*Size(gamma)],k->Comm(gp[i][2*k-1],gp[i][2*k-1])))*qs[i])) then
+                if ForAll([1,2],i->IsOne(Product(List([1..Size(gamma)/2],k->Comm(gp[i][2*k-1],gp[i][2*k])))*qs[i])) then
                     Suc := Cartesian(List([1,2],i->PreImages(varpiPrimeLP,StateModKxK(q,i))));
                     if ForAll(Suc, r->ForAll([1,2],i->IsGoodPair(r[i],gp[i]))) then
                         return gp;
