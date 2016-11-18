@@ -2,7 +2,7 @@
 # Directory for Saved results. Needs a trailing /
 #
 #Change dirRep acordingly
-dirRep := "~/Repositories/GrigorchukCommutatorWidth/"
+dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
 #
 dir := Concatenation(dirRep,"gap/90orbs/");
 
