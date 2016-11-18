@@ -74,12 +74,12 @@ end;
 #orbits of pure mcg
 #
 #The following lines take about 12h
+Print("Start computing the orbits. This will take about 12 hours.\n");
 orbits := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(6)),BS.group),
                   Cartesian(ListWithIdenticalEntries(6,BS.group)),
                   function(list,elm)
     return OnTuples(OnImages(list,elm![1]),elm![2]);
 end);;
-
 orbits2 := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(4)),BS.group),
                   Cartesian(ListWithIdenticalEntries(4,BS.group)),
                   function(list,elm)
@@ -90,6 +90,7 @@ Print("and there are ",Size(orbits2)," orbits for Aut(F₄)/Stab(R₂)\n");
 orbits := List(orbits,ShallowCopy);;
 orbits2 := List(orbits2,ShallowCopy);;
 #The following lines take about 5min
+Print("Start sorting and saving the orbits. This will take about 30 Minutes\n");
 for i in orbits do Sort(i); MakeImmutable(i); od; # for fast lookup
 for i in orbits2 do Sort(i); MakeImmutable(i); od; # for fast lookup
 MakeImmutable(orbits);;

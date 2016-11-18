@@ -63,6 +63,7 @@ orbitTable2 := ReadAsFunction(Concatenation(dir,"orbitTable2.go"))();;
 # Compute the full list of good pairs
 # Such that for each entry e in ReducedConstraints the list e.goodPairs contains
 # all q∈Q such that (q,e.constraint) is a good pair.
+Print("Compute the good pairs for each ReducedConstraint. Takes a Minute.\n");
 Perform(ReducedConstraints,function(entry) entry.goodPairs:=goodPairs(entry.constraint); end);
 
 
@@ -358,10 +359,11 @@ ComputeAllSuccessors := function(Constraints)
     return [RealGoodPairs,BadPairs];
 end;
 # The following takes about 30 min.
+Print("Compute the successor of each good pair with activity Constraint\nWill take about 2hours.\n");
 T := ComputeAllSuccessors(ReducedConstraintsActive);;
 RealGoodPairs := T[1];;
 BadPairs := T[2];
-Assert(0,Size(BadPairs)=0);
+Print("Done. There should be no bad pairs. ",Size(BadPairs),"bad one found.\n");
 
 #Save RealGoodPairs to a file
 #Just store the index of the constraint and forget the successing qᵢs

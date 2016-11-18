@@ -1,6 +1,7 @@
 dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
 dir := Concatenation(dirRep,"gap/90orbs/");
 
+LoadPackage("fr");
 Read(Concatenation(dirRep,"gap/declarations.g"));
 Read(Concatenation(dirRep,"gap/functions.g"));
 
