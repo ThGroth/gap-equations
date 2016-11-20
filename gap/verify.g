@@ -41,6 +41,7 @@ RedoPrecomputation := function(mode)
 	else
 		Error("Input must be \"orbits\", \"goodPairs\" or \"all\"");
 	fi;
+	PCD := LoadPrecomputedData();;
 end;
 
 #
