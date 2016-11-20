@@ -378,8 +378,10 @@ Exec("sed","-i","\"\\$a ;\"",RealGoodPairsFile);
 RGP := List(ReadAsFunction(RealGoodPairsFile)(),
     L->[List(GPmodKP)[L[1]],ReducedConstraints[L[2]],[ReducedConstraints[L[3][1]],L[3][2]]]);;
 #Check only the succesing qᵢs are forgotten.
-Assert(0,List(RealGoodPairs,P->[P[1],P[2],[P[3][1],P[3][2]]] )=RGP);
-
+Assert(0,ForAll([1..Size(RealGoodPairs)],
+    i->(ForAll([1,2],k->RGP[i][k]=RealGoodPairs[i][k])
+    and RGP[i][3][2] = RealGoodPairs[i][3][2]
+    and RGP[i][3][1].constraint = RealGoodPairs[i][3][1].constraint)));
 #Special Successor for (g,1) for g in K'
 specSuc := GetSuccessor(One(GPmodKP),[One(Q),One(Q),One(Q),One(Q)]);
 specSucFile := Concatenation(dir,"specSuc.go");
