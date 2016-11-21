@@ -168,8 +168,12 @@ verifyLemma66orbits := function()
 	return Size(PCD.orbitReps)=66;
 end;
 
-verifyLemmaExistGoodGammas := function()
-	return ForAll(GPmodKP,q->ForAny(PCD.ReducedConstraintsActive,E->q in E.goodPairs));
+verifyLemmaExistGoodConstraints := function()
+	return ForAll(GPmodKP,q->ForAny(Filtered(PCD.ReducedConstraintsActive,E->E.length=6),E->q in E.goodPairs));
+end;
+
+verifyLemmaExistGoodConstraints4 := function()
+	return ForAll(GPmodKP,q->ForAny(Filtered(PCD.ReducedConstraintsActive,E->E.length=4),E->q in E.goodPairs));
 end;
 
 verifyPropExistsSuccessor := function()
@@ -190,7 +194,8 @@ end;
 verifyAll := function()
 	local func;
 	for func in [	verifyLemma66orbits,
-					verifyLemmaExistGoodGammas,
+					verifyLemmaExistGoodConstraints4,
+					verifyLemmaExistGoodConstraints,
 					verifyPropExistsSuccessor,
 					verifyLemmaStatesOfKPinKxK,
 					verifyCorollaryFiniteCWK
