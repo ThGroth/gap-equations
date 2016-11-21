@@ -235,7 +235,7 @@ The Grigorchuk group is regular branched with branching subgroup
 \end{proof}
 
 
-\begin{defi}[\cite{Bartholdi:BranchGroups}] %TODO Wer ist der Urheber? Laurent in FR, Igor in QE in Grigorchuks Groups?
+\begin{defi}[\cite{Bartholdi:RepresentationZetaFunctions}] %TODO Wer ist der Urheber? Laurent in FR, Igor in QE in Grigorchuks Groups?
 A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of  
 \begin{itemize}
  \item a branching subgroup $K\normal G$ of finite index. 
@@ -249,7 +249,7 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of
  The Grigorchuk group has a branch structure.
 \end{lem}
 \begin{proof}
- This can be seen in \cite{Bartholdi:BranchGroups}. In GAP the branch structure can be computed
+ This can be seen in \cite{Bartholdi:RepresentationZetaFunctions}. In GAP the branch structure can be computed
  by the method \lstinline{BranchStructure(GrigorchukGroup)} which is included in the FR package. 
 \end{proof}
 
@@ -325,7 +325,7 @@ Furthermore we have this chain of indices:
  \lstinline{NormalClosure} and \lstinline{Index}. 
 \end{proof}
 
-\subsection{Main proposition}
+\subsection{Succesing pairs}
 \begin{defi}
  We define the activity of an element $q\in Q$ as the activity of an arbitrary element of $\pi^{-1}(q)$. 
  This is well defined as $K<\Stab(1)$. 
@@ -347,25 +347,121 @@ Furthermore we have this chain of indices:
 %  of good pairs. Otherwise it computes the list of good pairs first, which will take about $\SI{1}{\min} $.
 \end{proof}
 
-
-\begin{pro}\label{pro:existsNextPair}
- For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{act}$ there
- is a pair $(\gamma',x)$, with $\gamma'\in\Red_{act}$ and 
- %\[x\in \{1,a,ad,ada,adad,d,da,dad,b,ba,bad,bada,badad,c,ca,cad\}\]
- \[x\in \{1,a,b,c,d,ab,ad,ba\}\] 
- such that for all $g$ with $g^\tau =q$ the following holds
- \begin{itemize}
-  \item $((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
+Denote by $S$ the set $\{1,a,b,c,d,ab,ad,ba\}\subset G$.
+We will define a map $\Gamma^q$ which maps a constraint $\gamma\colon F_{2n} \to Q$ with nontrivial activity to a a set of constraints $\gamma'\colon F_{4n-1}\to Q$ 
+with the following properties:
+\begin{itemize}
+  \item There is a generator $y_{\gamma'}$ in $F_{4n-1}$ and $x\in S$ such that $\gamma'(y_{\gamma'})=x^\pi$.
+  %y was once x_{4n-1}
   \item The solvability of $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma')$ implies
   the solvability of $(R_ng,\gamma)$.
  \end{itemize}
- This pair $(\gamma',x)$ can be effectively computed. 
+
+ We will define this map in several steps and afterwards show that for all good pairs $(q,\gamma)$ and all $g$ such that $g^\tau=q$ 
+ there is some constraint $\gamma' \in \Gamma^q(\gamma)$ such that $((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
+ 
+ For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the Grigorchuk group as before and 
+ complement the set $S$ to a transversal $S'$ of $\RNK{G}{K}$ and denote by $\textup{rep}\colon Q\to S'$ 
+ the map such that $\textup{rep}(q)^\pi = q$.
+ 
+ Denote $x_i\in X$ such that $\supp(\gamma) \subset \left<x_1,\ldots,x_{2n}\right>$ and choose some 
+ other $y_1,\ldots,y_{4n} \in X \setminus \{x_1,\ldots,x_{2n}\}$. 
+ Now define
+ \[\Gamma_1(\gamma) = \{\gamma' \colon \left< y_1,\ldots ,y_{4n}\right> \to Q \mid \pair{\gamma'(y_{2i-1}),\gamma'(y_{2i})}\in w^{-1}(\gamma(x_i)),i=1\ldots2n\}.\] 
+ Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
+ Now define a homomorphism  
+ \begin{align*}
+  \Phi_{\gamma}\colon F_X*F_1 &\to (F_X*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ x_i\qquad &\mapsto \pair{x_i^{(1)},x_i^{(2)}}\act(\gamma(x_i)).
+ \end{align*}
+Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
+ \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
+										g_1\mapsto q_1 \\
+										g_2\mapsto q_2 }, (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{1,1}\right\}.\] 
+ Denote by $v,w=v_n,w_n$ the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$. By the following Lemma \ref{lem:commonVar} there is 
+ $x_0 \in X\cup X^{-1}$ such that $v=v_1x_0v_2$ and $w=w_1x_0^{-1}w_2$. Then the homomorphism
+ \[l_{x_0}\colon F_X*F_2\to F_X*F_2, x_i \mapsto \begin{cases}
+						x_i &\text{ if } x_i\neq {x_0} \\
+						w_2g_2w_1 &\text{ if }x_i= {x_0} 
+                                             \end{cases}\]
+ maps $vg_1 \mapsto v_1w_2g_2w_1v_1g_1$ and $wg_2\mapsto 1$. 
+ For $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ it is $(\gamma'*\pi)(x_0)=({\gamma'*\pi})(w_2g_2w_1)$ so with $X'=X\setminus x_0$ there is no loss of information if 
+ we consider $\gamma'|_{F_{X'}}$ instead of $\gamma'$.
+ From section \ref{sec:normal_form} remember the normalization 
+ automorphism $\Normal_{\gamma,n,x_0}:=\Normal_{v_1w_2g_2w_1v_1g_1}\colon F_{X'}*F_2 \to F_{X'}*F_2$
+  and note that
+ $\Normal_{\gamma,n,x_0}(l_{x_0}(v))=R_{2n-1}g_2^{{y_{\gamma'}}}g_1$ for some generator ${y_{\gamma'}}\in X$.
+ This leads to the following definition.
+ \[\Gamma_3^{q_1,q_2,n,x_0}(\gamma) = \left\{\gamma'|_{X'} \circ \Normal_{\gamma,n,x_0} \bigmid \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
+ A solution for the the constrainted equation
+ \[(R_{2n-1}(g\at2)^{\textup{rep}(\gamma''({y_{\gamma''}}))}(g\at1),\gamma'')\textup{ for }\gamma'' \in \Gamma_3^{(g\at{1})^\pi,(g\at{2})^\pi,n,x_0}\]
+ can be 
+ extended by the map ${y_{\gamma''}}\mapsto \textup{rep}(\gamma''({y_{\gamma''}}))$ to a solution $s'$ 
+ of the equation $(R_{2n-1} (g\at{2})^{{y_{\gamma'}}} g\at{1},\gamma'')$. The map $s'\circ \Normal_{\gamma,n,x_0}^{-1}$ 
+ is a solution for the constrainted equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'}:=\gamma'' \circ \Normal_{\gamma,n,x_0}^{-1})$.
+ Which can be extended by the mapping $x_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of $(\Phi_\gamma(R_n g),\gamma')$.
+ By definition of $\omega$ it is $t_i:=\pair{s(y_{2i-1}),s(y_{2i})}\act(\gamma(x_i)) \in G$ for all $i$. So the mapping $x_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
+ 
+ The map $\Gamma_3^{q_1,q_2,n,x_0}$ does not depend on the value of $n$: Assume $m<n$ then choose  
+ fitting $v,w$ such that $\Phi_\gamma(R_mg)=\pair{v,w}\pair{g_1,g_2}$ then $\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-m}g_1,R_{n-m}'g_2}$ 
+ then after applying the homomorphism $l_{x_0}$ 
+ the word which needs to be normalized is $v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1$. The automorphisms
+ \begin{align*}
+ \psi_1 \colon F_X*F_2 &\to F_X*F_2, & \psi_2 \colon F_X*F_2 &\to F_X*F_2\\
+ y &\mapsto y^{g_1^{-1}}, & y &\mapsto y^{g_2^{x_{11}}g_1}, & &\text{ for }y\in \Var(R_{n-m}')\\
+ z &\mapsto z^{(g_2w_1v_1g_1)^{-1}}& z &\mapsto z^{g_2^{x_{11}}g_1}  & &\text{ for }z\in \Var(R_{n-m})\\
+ x &\mapsto x & & & &\text{ for all other generators}
+ \end{align*}
+ have the property that $\Normal_{v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1} = \psi_2\circ\Normal_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and 
+ $\gamma' \circ \psi_i = \gamma'$. Hence $\Gamma_3^{q_1,q_2,n,x_0}$ is independent of $n$.
+ 
+ The map $\Gamma_3^{q_1,q_2,n,x_0}$ does depend on $x_0$, therefore we take the union of all of them and define
+  \[\Gamma_4^{q_1,q_2}(\gamma)\in \bigcup_{x_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,x_0}(\gamma).\]
+ Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
+ then $q_i = q\att{i}$ (Lemma \ref{lem:atIsWellDefinedModK'}). So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and filter those 
+ constraints out which doesn't fulfill the requested properties and therefore finally define
+ \[\Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
+  \act(\gamma')\neq 1, \gamma'({y_{\gamma'}}) \in S^\pi \right\}.\]
+ \begin{pro}\label{pro:existsNextPair}
+ For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{act}$ the set $\Gamma^q(\gamma)$ 
+ contains some $\gamma'$ with special generator $y_{\gamma'}$ such that for all $g$ with $g^\tau=q$ the
+ pair $\left((g\at{2})^{\textup{rep}(\gamma'(y_{\gamma'})}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
- For fixed $g\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(g,\gamma)$ is a good pair
- denote by $(g_k,\gamma_k)_{k\in\NN}$ the following sequence of pairs:
- First set $(g_1,\gamma_1)=(g,\gamma)$ then define $(g_k,\gamma_k)$ recursively by applying Proposition \ref{pro:existsNextPair}
- to the pair $(g_{k-1},\gamma_{k-1})$ and fix a pair $(\gamma',x)$ with the described properties.
- Then set $\gamma_k := \gamma'$ and $g_k:=(g_{k-1}\at{2})^{x} \cdot g_{k-1}\at{1}$.
+\begin{proof}
+ In the construction before it is clear that the sets $\Gamma_3^{q,x_0}$ are nonempty and for the finitely many $\gamma\in \Red_{act}$ it is
+ easy to check whether some of the finitely many $\gamma'\in\bigcup_{x_0}\Gamma_3^{q,x_0}(\gamma)$ fulfill $\gamma'(y_\gamma) \in S^\pi$ and $\act(\gamma')\neq 1$.
+ 
+ %As a next step we want to make sure that for all preimages $g$ of $q$ under $\tau$ there are good pairs among the
+ %resulting pairs $\left((g\at{2})^{\textup{rep}(y)}\cdot g\at{1},\gamma'''\right)$.
+ 
+  Define for $h\in G$ maps $p_h\colon G\to G$ by $g\mapsto (g\at{2})^{h}\cdot g\at{1}$ this maps are in general not homomorphisms but 
+  by Lemma \ref{lem:productOfStatesIsInDerived} we see that for $g\in G'$ that $p_h(g)\in G'$ for all $h\in G$ thus there is a chance that these elements form good pairs with
+  the correct choices of $\gamma' \in \Gamma^q(\gamma)$. 
+ 
+  By Lemma \ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
+ and the natural homomorphism \[\varpi'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{K\times K} \]
+ and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(y_{\gamma'})}(q)$ under $\varpi'$ 
+ form good pairs with $\gamma'$. In formulas what needs to be checked is: Let $\mathcal{G}$ be the predicate of being a good pair. %TODO Find better name than \mathcal{G}
+ \[\forall q\in\RNK{G'}{K'}
+      \forall \gamma\in\Red_{act} 
+	 \exists \gamma'\in \Gamma^q(\gamma)
+	    \forall r\in \varpi'^{-1}(\bar p_{\textup{rep}(\gamma'(y_{\gamma'}))}):
+	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
+ 
+ This last formula quantifies only over finite sets and is implemented in GAP and can be verified there by calling \lstinline{verifyPropExistsSuccessor}. 
+ \end{proof}
+
+
+ 
+ 
+ 
+ 
+ \begin{defi}
+ For fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(q,\gamma)$ is a good pair
+ fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}\gamma'(y_{\gamma'})\in S$ which exist by the previous proposition.
+ 
+ For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{succesing pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'\right)$.
+ Moreover by applying this iteratively we get the \emph{succesing sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$.
+ \end{defi}
  
  %TODO Is there any value in these corolaries left?
  % Keep it here for the case that an easy method to show that K' has finite c.w. comes up
@@ -391,93 +487,7 @@ Furthermore we have this chain of indices:
 %  of solvable equations $(R_{2^k+1}g_k,\gamma_k)$.
 % \end{proof}
 %TODO replace y_i^\gamma_j by \gamma_j(y_i) otherwise it gets unreadable // hopefully Done everywhere. Check if its consistent!
-\begin{proof}%[Proof of Proposition \ref{pro:existsNextPair}]
- We will define for each good pair $(q,\gamma)$ a set $\Gamma^q(\gamma)\subset \Red_{act}\times Q$ where the elements 
- fulfill the asked properties by replacing $Q$ by a fixed transversal in $G$ containing the set $S=\{1,a,b,c,d,ab,ad,ba\}$ .
- Then GAP is used to show that for all choices $q\in\RNK{G'}{K'}$,$\gamma\in\Red_{act}$ the constructed sets are never empty.
- \smallskip
- 
- Take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the Grigorchuk group as before and 
- denote by $\textup{rep}\colon Q\to S$ 
- the map such that $\textup{rep}(q)^\pi = q$.
- 
- Denote $x_i\in X$ such that $\supp(\gamma) \subset \left<x_1,\ldots,x_6\right>$ and choose $y_1,\ldots,y_{12} \in X \setminus \{x_1,\ldots,x_6\}$.  
- \[\Gamma_1(\gamma) = \{\gamma' \colon \left< y_1,\ldots ,y_{12}\right> \to Q \mid \pair{\gamma'(y_{2i-1}),\gamma'(y_{2i})}\in w^{-1}(\gamma(x_i)\}\] 
- Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
- Now define a homomorphism 
- \begin{align*}
-  \Phi_{\gamma}\colon F_X*F_1 &\to (F_X*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ x_i\qquad &\mapsto \pair{x_i^{(1)},x_i^{(2)}}\act(\gamma(x_i)).
- \end{align*}
-Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
- \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
-										g_1\mapsto q_1 \\
-										g_2\mapsto q_2 }, (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{1,1}\right\}.\] 
- Denote by $v,w=v_n,w_n$ the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$. By the following Lemma \ref{lem:commonVar} there is 
- $x_0 \in X\cup X^{-1}$ such that $v=v_1x_0v_2$ and $w=w_1x_0^{-1}w_2$. Then the homomorphism
- \[l_{x_0}\colon F_X*F_2\to F_X*F_2, x_i \mapsto \begin{cases}
-						x_i &\text{ if } x_i\neq {x_0} \\
-						w_2g_2w_1 &\text{ if }x_i= {x_0} 
-                                             \end{cases}\]
- maps $vg_1 \mapsto v_1w_2g_2w_1v_1g_1$ and $wg_2\mapsto 1$. 
- For $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ it is $(\gamma'*\pi)(x_0)=({\gamma'*\pi})(w_2g_2w_1)$ so with $X'=X\setminus x_0$ there is no loss of information if 
- we consider $\gamma'|_{F_{X'}}$ instead of $\gamma'$.
- From section \ref{sec:normal_form} remember the normalization 
- automorphism $\Normal_{\gamma,n,x_0}:=\Normal_{v_1w_2g_2w_1v_1g_1}\colon F_{X'}*F_2 \to F_{X'}*F_2$
-  and note that
- $\Normal_{\gamma,n,x_0}(l_x(v))=R_{2n-1}g_2^{x_{4n-1}}g_1$ .
- This leads to the following definition.
- \[\Gamma_3^{q_1,q_2,n,x_0}(\gamma) = \left\{(\gamma''|_{X\setminus\{x_{4n-1}\}},\gamma''(x_{4n-1})) \bigmid
- \gamma''= \gamma'|_{X'} \circ \Normal_{\gamma,n,x_0},\gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
- A solution for the the constrainted equation
- \[(R_{2n-1}(g\at2)^{\textup{rep}(y)}(g\at1),\gamma''')\textup{ for }(\gamma''',y) \in \Gamma_3^{(g\at{1})^\pi,(g\at{2})^\pi,n,x_0}\]
- can be 
- extended by sending $x_{4n-1}\mapsto \textup{rep}(y)$ to a solution $s'$ 
- of the equation $(R_{2n-1} g\at{2}^{x_{4n-1}} g\at{1},\gamma'')$. The map $s'\circ \Normal_{\gamma,n,x_0}^{-1}$ 
- is a solution for the constrainted equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'})$. Which can be extended by the mapping $x_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of $(\Phi_\gamma(R_n g),\gamma')$.
- By definition of $\omega$ it is $t_i:=\pair{s(y_{2i-1}),s(y_{2i})}\act(\gamma(x_i)) \in G$ for all $i$. So the mapping $x_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
- 
- The map $\Gamma_3^{q_1,q_2,n,x_0}$ does not depend on the value of $n$: 
- Choose fitting $v,w$ such that $\Phi_\gamma(R_3g)=\pair{v,w}\pair{g_1,g_2}$ then $\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-3}g_1,R_{n-3}'g_2}$ 
- then after applying the homomorphism $l_{x_0}$ 
- the word which needs to be normalized is $v_1w_2R_{n-3}g_2w_1v_1R_{n-3}'g_1$. The automorphisms
- \begin{align*}
- \psi_1 \colon F_X*F_2 &\to F_X*F_2, & \psi_2 \colon F_X*F_2 &\to F_X*F_2\\
- y &\mapsto y^{g_1^{-1}}, & y &\mapsto y^{g_2^{x_{11}}g_1}, & &\text{ for }y\in \Var(R_{n-3}')\\
- z &\mapsto z^{(g_2w_1v_1g_1)^{-1}}& z &\mapsto z^{g_2^{x_{11}}g_1}  & &\text{ for }z\in \Var(R_{n-3})\\
- x &\mapsto x & & & &\text{ for all other generators}
- \end{align*}
- have the property that $\Normal_{v_1w_2R_{n-3}g_2w_1v_1R_{n-3}'g_1} = \psi_2\circ\Normal_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and 
- $\gamma' \circ \psi_i = \gamma'$.
- The map $\Gamma_3^{q_1,q_2,n,x_0}$ does depend on $x_0$, therefore we take the union of all of them and define
-  \[\Gamma_4^{q_1,q_2}(\gamma) := 
-  \left\{(\gamma''' = \gamma''\circ \varphi_{\gamma''},y) \bigmid 
-  (\gamma'',y) \in \bigcup_{x_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,x_0}(\gamma)\right\}.\]
- Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
- then $q_i = q\att{i}$ (Lemma \ref{lem:atIsWellDefinedModK'}). So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and finally define
- \[\Gamma^q(\gamma) := \{\gamma' \in \Gamma_4^q(\gamma) \mid \act(\gamma')\neq 1 \}.\]
- 
- As a next step we want to make sure that for all preimages $g$ of $q$ under $\tau$ there are good pairs among the
- resulting pairs $\left((g\at{2})^{\textup{Rep}(y)}\cdot g\at{1},\gamma'''\right)$.
- 
-  Define for $h\in G$ maps $p_h\colon G\to G$ by $g\mapsto \left((g\at{2})^{h}\cdot g\at{1},\gamma'''\right)$ this maps are in general not homomorphisms but 
-  by Lemma \ref{lem:productOfStatesIsInDerived} we see that for $g\in G'$ that $p_h(g)\in G'$ for all $h\in G$ thus there is a chance that these elements form good pairs with
- the correct choices of $\gamma$. 
- 
- We can show even better: For each fixed $q\in\RNK{G'}{K'}$ and fixed $\gamma\in\Red_{act}$ there is $(\gamma',x)\in\Gamma^q(\gamma)$ such that 
- for all $g$ such that $g^\tau=q$ the element $\left(p_{\textup{rep}(x)}(g),\gamma'\right)$ is a good pair. 
- 
- For this purpose we need to reduce this to a finite number of checks. By Lemma \ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
- and the natural homomorphism \[\varpi'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{K\times K} \]
- and now only need to show that there is a $(\gamma',x)\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(x)}(q)$ under $\varpi'$ 
- form good pairs with $\gamma'$. In formulas what needs to be checked is: 
- \[\forall q\in\RNK{G'}{K'}
-      \forall \gamma\in\Red_{act} 
-	 \exists (\gamma',x)\in \Gamma^q(\gamma)
-	    \forall r\in \varpi'^{-1}(\bar p_{\textup{rep}(x)}):
-	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
- Here $\mathcal{G}$ is the predicate of being a good pair. %TODO Find better name than \mathcal{G}
- This last formula quantifies only over finite sets and is implemented in GAP and can be verified there by calling \lstinline{verifyPropExistsSuccessor}.
-\end{proof}
+
 \begin{lem} \label{lem:commonVar}
  If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
 \end{lem}
@@ -593,7 +603,7 @@ The sequences of sets
 \end{proof}
 This completes the proof of the following proposition
 \begin{pro}\label{pro:solvableConstraintedEquations}
- If $(g,\gamma)$ is a good pair with active constraint $\gamma$ and with $\supp(\gamma)\subset\{x_1,\ldots,x_{2n}\}$
+ If $n\geq3$ and $(g,\gamma)$ is a good pair with active constraint $\gamma$ with $\supp(\gamma)\subset\{x_1,\ldots,x_{2n}\}$
  then the equation $R_n(x_1,\ldots,x_{2n})g,\gamma$ is solvable. 
 \end{pro}
 \begin{cor}
@@ -618,7 +628,14 @@ This completes the proof of the following proposition
 
 %TODO work through this subsection.... This needs to be completly rewritten, since it can be solved the same way as the 3 commutator case.
 \subsection{Product of 2 commutators}
-Denote by $\Red_{act}^4$ those active constraints $\gamma\in\Red_{act}$ with $\gamma(x_i)=1$ for $i\geq 4$.
+The case of products of two commutators can be reduced to the case of three commutators by using the same method as before.
+
+We can compute the orbits of $\RNK{\Aut(F\_4)}{\Stab(R_2)}$ and take a representative system denoted by $\Red^4_{act}$.
+It turns out that there are $62$ orbits. 
+
+Denote by 
+
+ those active constraints $\gamma\in\Red_{act}$ with $\gamma(x_i)=1$ for $i\geq 4$.
 If it were true that for each $q\in\RNK{G'}{K'}$ there is a $\gamma\in\Red_{act}^4$ with $(q,\gamma)$ 
 then it would follow immediately that each $g\in G'$ is a product of two commutators. But unfortunately 
 this isn't the case.
@@ -662,10 +679,10 @@ After reading this file the following functions can be used:
  \begin{lstlisting}
     f1 := Q.1; f2 := Q.2;
     gamma:= [f1,f1,f1,f1,f1,f1];
-    constr := ReducedConstraint(gamma);
+    constr := ReducedConstraint(gamma);;
     Print(constr.constraint);
     gamma := GroupHomomorphismByImages(FreeGroup(6),Q,[f2,f2,f2,f2,f2,f2]);
-    constr := ReducedConstraint(gamma);
+    constr := ReducedConstraint(gamma);;
     Print(constr.constraint);
 \end{lstlisting} 
 \end{itemize}
