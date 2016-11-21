@@ -117,7 +117,7 @@ LoadPrecomputedData := function()
                 orbitTable2 := ReadAsFunction(Concatenation(dir,"orbitTable2.go"))()
             );
     PCD.ReducedConstraints := List([1..Size(PCD.orbitReps)],
-                                i->rec(index:= i, constraint:=PCD.orbitReps[i]));
+                                i->rec(index:= i, length := 6, constraint:=PCD.orbitReps[i]));
     Append(PCD.ReducedConstraints,List([1..Size(PCD.orbitReps2)],
     i->rec(index:= i+Size(PCD.orbitReps), length := 4, constraint:=PCD.orbitReps2[i])));;
     PCD.ReducedConstraintsActive := Filtered(PCD.ReducedConstraints,E->HasNontrivialActivity(E.constraint));
