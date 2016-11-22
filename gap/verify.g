@@ -1,6 +1,8 @@
 dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
 dir := Concatenation(dirRep,"gap/90orbs/");
 
+#TODO
+#Remove fr loading and all coresponing declarations
 LoadPackage("fr");
 Read(Concatenation(dirRep,"gap/declarations.g"));
 Read(Concatenation(dirRep,"gap/functions.g"));
