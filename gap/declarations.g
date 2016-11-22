@@ -43,7 +43,7 @@ SetInfoHandler(InfoCW,function( infoclass, level, list )
     od;
     #AppendTo(out, "\n");
   fi;
-end);)
+end);
 G := GrigorchukGroup;
 a := G.1; b := G.2; c := G.3; d:=G.4;
 isoGtoGLP := IsomorphismLpGroup(G);
