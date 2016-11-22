@@ -305,7 +305,7 @@ The Grigorchuk group is regular branched with branching subgroup
 \end{defi}
 
 \begin{lem} \label{lem:solvabilityWithReducedConstraint}
- The solvability of a constrainted equation $(R_n g,\gamma)$ is equivalent to the solvability of $(R_n g,\gamma\circ \varphi_\gamma)$.
+ The solvability of a constrained equation $(R_n g,\gamma)$ is equivalent to the solvability of $(R_n g,\gamma\circ \varphi_\gamma)$.
 \end{lem}
  \begin{proof}
  If $s$ is a solution for $(R_n g,\gamma)$ then $s\circ \varphi_\gamma$ is
@@ -337,7 +337,7 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of
  there exists an $N\in\NN$ such that for all $g\in G'$ the equation $R_Ng$ is solvable.
 \end{thm}
 \begin{re}
- This is not true for all constrainted equations: For example
+ This is not true for all constrained equations: For example
  \[\left(R_n(ab)^2,(\gamma\colon x_i\mapsto 1\ \forall i)\right)\] 
  is not solvable for any $n$ because otherwise it would be $ac,ca\in G'$ 
  which is impossible since $ac$ has activity.
@@ -470,12 +470,12 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  $\Normal_{\gamma,n,x_0}(l_{x_0}(v))=R_{2n-1}g_2^{{y_{\gamma'}}}g_1$ for some generator ${y_{\gamma'}}\in X$.
  This leads to the following definition.
  \[\Gamma_3^{q_1,q_2,n,x_0}(\gamma) = \left\{\gamma'|_{X'} \circ \Normal_{\gamma,n,x_0} \bigmid \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
- A solution for the the constrainted equation
+ A solution for the the constrained equation
  \[(R_{2n-1}(g\at2)^{\textup{rep}(\gamma''({y_{\gamma''}}))}(g\at1),\gamma'')\textup{ for }\gamma'' \in \Gamma_3^{(g\at{1})^\pi,(g\at{2})^\pi,n,x_0}\]
  can be 
  extended by the map ${y_{\gamma''}}\mapsto \textup{rep}(\gamma''({y_{\gamma''}}))$ to a solution $s'$ 
  of the equation $(R_{2n-1} (g\at{2})^{{y_{\gamma'}}} g\at{1},\gamma'')$. The map $s'\circ \Normal_{\gamma,n,x_0}^{-1}$ 
- is a solution for the constrainted equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'}:=\gamma'' \circ \Normal_{\gamma,n,x_0}^{-1})$.
+ is a solution for the constrained equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'}:=\gamma'' \circ \Normal_{\gamma,n,x_0}^{-1})$.
  Which can be extended by the mapping $x_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of $(\Phi_\gamma(R_n g),\gamma')$.
  By definition of $\omega$ it is $t_i:=\pair{s(y_{2i-1}),s(y_{2i})}\act(\gamma(x_i)) \in G$ for all $i$. So the mapping $x_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
  
@@ -550,13 +550,13 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 %  $(g,\gamma)$ is a good pair. (Lemma \ref{lem:existsGoodGamma}).
 %  
 %  By Proposition \ref{pro:existsNextPair} there exist good pairs $(g_k,\gamma_k)_{k\in\NN}$ such 
-%  that $(R_3g,\gamma)$ is solvable if one (and hence all) of the constrainted
+%  that $(R_3g,\gamma)$ is solvable if one (and hence all) of the constrained
 %  equations $(R_{2^k+1}g_k,\gamma_k)$ is solvable.
 %  
 %  If $K$ is of finite commutator width then by
 %  Corollary \ref{cor:finiteCommutatorWidthKimpliesBoundedConstraintedCommutators} 
 %  there is an $N\in\NN$ such that all for all good pairs $(h,\gamma)$ and
-%  $n\geq N$ the constrainted equations $(R_ng,\gamma)$ are solvable.
+%  $n\geq N$ the constrained equations $(R_ng,\gamma)$ are solvable.
 %  Therefore the sequence of good pairs $(g_k,\gamma_k)$ is a sequence 
 %  of solvable equations $(R_{2^k+1}g_k,\gamma_k)$.
 % \end{proof}
@@ -678,7 +678,7 @@ The sequences of sets
 This completes the proof of the following proposition
 \begin{pro}\label{pro:solvableConstraintedEquations}
  If $n\geq3$ and $(g,\gamma)$ is a good pair with active constraint $\gamma$ with $\supp(\gamma)\subset\{x_1,\ldots,x_{2n}\}$
- then the constrainted equation $(R_n(x_1,\ldots,x_{2n})g,\gamma)$ is solvable. 
+ then the constrained equation $(R_n(x_1,\ldots,x_{2n})g,\gamma)$ is solvable. 
 \end{pro}
 \begin{cor}
  The Grigorchuk group $G$ has commutator width at most $3$.
@@ -692,7 +692,7 @@ This completes the proof of the following proposition
  $K$ has commutator width $3$. 
 \end{cor}
 \begin{proof}
- To show that $K$ has commutator width $3$ it is sufficient, to show that the constrainted equations $(R_3g,\id)$ have solutions for all $g\in K'$. 
+ To show that $K$ has commutator width $3$ it is sufficient, to show that the constrained equations $(R_3g,\id)$ have solutions for all $g\in K'$. 
  Since $\id$ has trivial activity one cannot directly apply Proposition \ref{pro:solvableConstraintedEquations}.
  But one can check that all pairs $(h,\gamma_1),(f,\gamma_2)$
  such that $g=\pair{h,f}$ and $\gamma_1,\gamma_2=(1,1,1,1,(bad)^\pi,1)$, $\gamma_2=(1,1,1,1,1,(ca)^\pi)$
@@ -747,7 +747,11 @@ genus does not increase by passing to a succesing pair.
 
 In fact not every element $g\in G'$ is a commutator. This can be seen by passing to finite quotients. If every element would be a commutator then
 it would be a commutator in the quotient group. 
-For example the element $d(ac)^2ada$ is not a commutator in the third level.
+%For example the element $d(ac)^2ada$ is not a commutator. TODO this is not an example. Find one
+This element acts on the %nth
+level on the tree like the permutation %()
+But is not a commutator in $\RNK{G}{\Stab(n)}$.
+
 %TODO find out the permutations.
 
 
