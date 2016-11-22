@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{article}
+\documentclass[a4paper,11pt]{amsart}
 \usepackage{geometry}
 \geometry{a4paper,left=35mm,right=35mm, top = 35mm, bottom=35mm}
 
@@ -9,153 +9,227 @@
 %\bibliographystyle{TH}
 \bibliographystyle{../hamsalpha}
 
-\hyphenation{Al-go-rith-mus}
-
-
-%opening
-\title{Commutator width of the Grigorchul group}
-\author{Thorsten Groth}
-
 \begin{document}
-\maketitle
-%\include{Abschnitte/Titelseite}
-%\pagestyle{empty}
-%\newpage
-
+\title{Commutator width in the first Grigorchuk group}
+\author{Laurent Bartholdi}
+\author{Thorsten Groth}
+\author{Igor Lysionok}
 \begin{abstract}
 Let $G$ be the Grigorchuk group. In \cite{Lysenok:QudraticEquationsInGrig} it was shown that the commutator width of $G$ is finite but not explicit bound was given.
 In the present paper we show that in fact each element of the derived subgroup $g\in G'$ is a product of two commutators. This means that all equations
 of the form $[x_1,x_2][x_3,x_4]g=1$ are solvable for $g\in G'$. The computer algebra system \cite{GAP4} is used to derive a series of equations with increasing 
 genus. 
 \end{abstract}
-%\setcounter{page}{1}
+\maketitle
 \tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-%TODO
+INTRO: groups acting on trees. Decision problems. Importance of
+quadratic equations. Commutator width, simplest example of $2$-group
+with width $\ge2$, show that it appears in Grig. gp.
+
 \begin{thm}
  The Grigorchuk group $G$ has commutator width 2.
 \end{thm}
+ALSO: all finite index subgroups have c.w. finite; maybe even all 2?
 
+ALSO: say this is a new proof, that does not require LMU
+
+ALSO: say that the proof is GAP-assisted; verification of the arguments is done by running GAP code, and checking the proof === checking the GAP code.
+
+ALSO: quote Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth} in how this gives bounds on the conjugacy width of $G$: every element is a product of at most $4$ conjugates of $a$, e.g.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Equations}
-In this section some standard notations similar to the ones introduced in\cite{ComerfordEquationsFreeGroups} are established.
-$X$ is a set of \emph{variables}. As it should always be infinite countable it can be assumed to be equal to $\NN$. $G$ is some
-arbitrary group and $F_X$ denotes the free group on the generating set $X$.
+In this section some standard notations similar to the ones introduced
+in~\cite{ComerfordEquationsFreeGroups} are established. We fix a set
+$X$ of \emph{variables}. As it should always be infinite countable it
+can be assumed to be in bijection with $\NN$. Implicitly, it is well
+ordered, and its family of finite subsets is also well ordered, by
+size and then lexicographic order. We denote by $F_X$ the free group
+on the generating set $X$.
 
-A $G$\emph{-equation} $E$ is an element of the group $F_X * G$ regarded as reduced word.
-A $G$-\emph{homomorphism} from $F_X * G$ to $H*G$ is a homomorphism which is the identity on $G$.
-Define:
-\[\Var \colon F_X * G \to \PP(X), E \mapsto \Var(E), \quad x\in \Var(E) \textup{ iff the symbol $x$ occurs in $w$}\]
-
-An \emph{evaluation} is a $G$-endomorphism $e\colon F_X * G \to G$.
-A \emph{solution} of an equation $E$ is an evaluation $s$ with $s(E)=1$. If a solution exists the equation is called \emph{solvable}.
-
-The set of elements $x\in X$ such that $s(x)\neq 1$ is called the \emph{support} of the solution.
-Often the support of a solution for an equation $E$ is assumed to be minimal and thus a subset of $F_{\Var(E)}$. 
-As the solution is uniquely described by the image of $X$ the data of a minimal solution is equivalent to a map $\Var(E) \to G$.
-The question of whether an equation $E$ is solvable will be referred to as the \emph{diophantine} problem of $E$.
-Any homomorphism $\varphi \colon G \to H$ extends to a homomorphism $\varphi^* \colon F_X*G \to F_X*H$ by extending it as the identity on $F_X$. 
 \begin{defi}
- Two equations $E,F\in F_X* G$ are equivalent if there is a $G$-automorphism $\varphi$ which maps $E$ to $F$.
+  Let $G$ be a group. A \emph{$G$-group} is a group with a
+  distinguished copy of $G$ inside it; e.g.\ $G*H$ for some group
+  $H$. A \emph{$G$-homomorphism} between $G$-groups is a homomorphism
+  that is the identity between the marked copies of $G$.
+
+  A \emph{$G$-equation} is an element $E$ of the group $F_X * G$,
+  regarded as reduced word. For $E$ a $G$-equation, define its set of
+  \emph{variables} $\Var(E)\subset X$ as the set of symbols in $X$
+  that occur in it; namely, $\Var(E)$ is the minimal subset of $X$
+  such that $E$ belongs to $F_{\Var(E)}$.
+
+  An \emph{evaluation} is a $G$-endomorphism $e\colon F_X * G \to G$.
+  A \emph{solution} of an equation $E$ is an evaluation $s$ with
+  $s(E)=1$. If a solution exists for $E$ then the equation $E$ is
+  called \emph{solvable}, and one writes $\models E$.  The set of
+  elements $x\in X$ with $s(x)\neq 1$ is called the \emph{support} of
+  the solution.
+\end{defi}
+
+Often the support of a solution for an equation $E$ is assumed to be
+minimal and thus a subset of $F_{\Var(E)}$.  As the solution is
+uniquely described by the image of $X$ the data of a minimal solution
+is equivalent to a map $\Var(E) \to G$.  The question of whether an
+equation $E$ is solvable will be referred to as the \emph{diophantine}
+problem of $E$.
+
+Every homomorphism $\varphi \colon G \to H$ extends uniquely to an
+$F_X$-homomorphism $\varphi_* \colon F_X*G \to F_X*H$. In this manner,
+every $G$-equation $E$ gives rise to an $H$-equation $\varphi_*(E)$,
+which is solvable whenever $E$ is solvable.
+
+\begin{defi}
+  Let $E,F\in F_X* G$ be two equations. We say $E$ and $F$ are
+  \emph{equivalent} if there is a $G$-automorphism $\varphi$ of
+  $F_X*G$ which maps $E$ to $F$.
 \end{defi}
 \begin{lem}
- Let $\varphi$ be a $G$-homomorphism and $E$ an equation. If $\varphi(E)$ is solvable, then so is $E$.
+  Let $E$ be an equation and let $\varphi$ be a $G$-endomorphism of
+  $F_X*G$. If $\varphi(E)$ is solvable then so is $E$. In particular,
+  the diophantine problem is the same for equivalent equations.
 \end{lem}
 \begin{proof}
- Let $s$ be the solution of $\varphi(w)$. Write $E$ as $E=\prod_{i=1}^m g_i x_i$ where $g_i\in G$ and $x_i \in X$. Define the evaluation $s'$ by $x\mapsto s(\varphi(x))$. Then
- \[s'(E) = \prod_{i=1}^m g_i s'(x_i)=\prod_{i=1}^m g_i s(\varphi(x_i)) = s\left(\prod_{i=1}^m g_i \varphi(x_i)\right)=s(\varphi(E))=1.\] 
- So $s'$ is a solution for $E$.
+  If $s$ is a solution for $\varphi(E)$, then $s\circ\varphi$ is a
+  solution for $E$.
 \end{proof}
-\begin{cor}
- The diophantine problem is the same for equivalent equations.
-\end{cor}
-
-
 
 \subsection{Quadratic equations}
-A $G$-equation $E$ is called \emph{quadratic} if each $x\in \Var(E)$ occurs exactly twice in $E$ regarded as reduced word. 
+A $G$-equation $E$ is called \emph{quadratic} if for each variable
+$x\in \Var(E)$ exactly two letters of $E$ are $x$ or $x^{-1}$, when
+$E$ is regarded as a reduced word.
 
-It is called \emph{oriented} if for each variable $x\in \Var(E)$ the number of occurrences with positive and with negative sign coincide.
-Otherwise the word is called \emph{unoriented}. 
+A $G$-equation $E$ is is called \emph{oriented} if for each variable
+$x\in \Var(E)$ the number of occurrences with positive and with
+negative sign coincide, namely if $E$ maps to the identity under the
+natural map $F_X*G\to F_X/[F_X,F_X]*1$.  Otherwise $E$ is called
+\emph{unoriented}.
 \begin{lem}
- Being oriented or not is invariant under $G$-automorphisms.
+ Being oriented or not is the same for equivalent equations.
 \end{lem}
-\begin{proof} 
-Let $\varphi$ be some $G$-homomorphism.
- Fix some $x \in X$. Let $n_{+,y}$ be the number of positive occurrences of $x$ in $\varphi(y)$ and $n_{-,y}$ accordingly. If $E$ is an oriented word then 
- \[\sum_{y\in \Var(E)} n_{+,y} = \sum_{y\in \Var(E)} n_{-,y^{-1}} = \sum_{y\in \Var(E)} n_{-,y}\ .\] So $\varphi(E)$ is oriented too. 
+\begin{proof}
+  $E$ is oriented if and only if it belongs to the normal closure of
+  $[F_X,F_X]*G$; this subgroup is preserved by all $G$-endomorphisms
+  of $F_X*G$.
 \end{proof}
+
 \subsection{Normal form of quadratic equations} \label{sec:normal_form}
 \begin{defi}
- For $x_i,y_i,z_i \in F$ and $c_i \in G$ the following two kind of equations are called in \emph{normal form}:
+  For $x_i,y_i,z_i \in X$ and $c_i \in G$ the following two kinds of
+  equations are called in \emph{normal form}:
  \begin{align}
   O_{n,m}:\qquad & [x_1,y_1][x_2,y_2]\cdots[x_n,y_n]c_1^{z_1}\cdots c_{m-1}^{z_{m-1}}c_m  \\
    U_{n,m}:\qquad & x_1^2x_2^2\cdots x_n^2 c_1^{z_1}\cdots c_{m-1}^{z_{m-1}}c_m\ .
  \end{align} 
- The form $O_{n,m}$ is called the oriented case and $U_{n,m}$ for $n>0$ the unoriented.
-  The parameter $n$ is referred to as \emph{genus} of the normal form of an equation. 
+ The form $O_{n,m}$ is called the oriented case and $U_{n,m}$ for
+ $n>0$ the unoriented.  The parameter $n$ is referred to as
+ \emph{genus} of the normal form of an equation.
 \end{defi}
-We are going to prove the following theorem:
+
+We shall prove the following theorem:
 \begin{thm}[\cite{ComerfordEquationsFreeGroups}] \label{Thm:equationNormalForm}
- Each quadratic equation $E \in F_X*G$ is equivalent to an equation in normal form and the 
- isomorphism can be effectively computed.
+  Every quadratic equation $E \in F_X*G$ is equivalent to an equation
+  in normal form, and the isomorphism can be effectively computed.
 \end{thm}
 
 \begin{proof}
-The proof goes through an induction on the number of variables. 
- Starting with the oriented case: 
- If the reduced equation $E$ has no variables then it is already in normal form $O_{0,1}$. If there is a variable $x\in X$ occurring in $E$ then it does also appear with opposite sign.
- So the equation has the form $E = ux^{-1}vxw$ or can be brought to this form by applying the automorphism $x \mapsto x^{-1}$. Choose $x\in X$ in a way such that $\Var(v)$ is minimal. 
+  The proof goes through an induction on the number of variables.
+  Starting with the oriented case: If the reduced equation $E$ has no
+  variables then it is already in normal form $O_{0,1}$. If there is a
+  variable $x\in X$ occurring in $E$ then it also appears with
+  opposite sign.  Therefore, the equation has the form
+  $E = ux^{-1}vxw$ or can be brought to this form by applying the
+  automorphism $x \mapsto x^{-1}$. Choose $x\in X$ in such a way that
+  $\Var(v)$ is minimal.
  
- We're distinguish between multiple cases: 
- \begin{itemize}
-  \item[Case $1.0$] $v\in G$. The word $uw$ has less variables then $E$ and can thus be brought into normal form $N\in O_{r,s}$ by 
-  $G$-isomorphism $\varphi$. If $N$ ends with a variable we can use the $G$-isomorphism $\varphi \circ (x\mapsto xw^{-1}) $ to map $E$ to the equation $Nv^x \in O_{r,s+1}$.
+  We distinguish between multiple cases:
+  \begin{itemize}
+  \item[Case $1.0$] $v\in G$. The word $uw$ has fewer variables than
+    $E$ and can thus be brought into normal form $N\in O_{r,s}$ by
+    $G$-isomorphism $\varphi$. If $N$ ends with a variable we can use
+    the $G$-isomorphism $\varphi \circ (x\mapsto xw^{-1}) $ to map $E$
+    to the equation $Nv^x \in O_{r,s+1}$.
     
-    If $N$ ends with a group constant $b$, $N=Mb$ we can use the isomorphism $\varphi \circ(x \mapsto xbw^{-1}) $ to map $E$ to the equation $Mv^xb\in O_{r,s+1}$.
-   \item[Case $1.1$] $v\in X\cup X^{-1}$. For simplicity let us assume that $v\in X$. In the other case we can apply $v \mapsto v^{-1}$.
-    Now there are two possibilities: Either $v^{-1} \in u$ or  $v^{-1} \in w$. In the first case $E= u_1v^{-1}u_2x^{-1}vxw$ then the isomorphism $x \mapsto x^{u_1}u_2$, 
-    $v \mapsto v^{u_1}$ results in the equation $[v,x]u_1u_2w$. In the second case $E= ux^{-1}vxw_1v^{-1}w_2$ is transformed to $[x,v]uw_1w_2$ by the isomorphism 
-    $x \mapsto x^{uw_1}w_1^{-1}$, $v\mapsto v^{-uw_1}$. In both cases $u_1u_2w$, resp. $uw_1w_2$ are of less variable and so composition with the corresponding isomorphism 
-    results the normal form.
-   \item[Case $2$] Length$(v)>1$. Then $v$ is a word consisting of elements $X\cup X^{-1}$ with each symbol occurring at most once as $v$ was chosen with minimal variable set, and some elements of $G$. 
-   If $v$ starts with a constant $b\in G$ we can use the homomorphism $x\mapsto bx$ to achieve that $v$ starts with a variable $y\in X$ by eventually using $y \mapsto y^{-1}$. Like in case $1.1$ there
-   are two possibilities either $y^{-1}$ is part of $u$ or part of $w$. In the first place $E= u_1 y^{-1} u_2 x^{-1}yv_1xw$ we can use the isomorphism $x\mapsto x^{u_1v_1}u_2$, $y\mapsto y^{u_1v_1}v_1^{-1}$
-   to obtain $[y,x]u_1v_1u_2w$. In the second take the isomorphism
-   \begin{align*}
-    x&\mapsto x^{uw_1v_1}v_1^{-1}w_1^{-1}, & y&\mapsto y^{-uw_1v_1}v_1^{-1}
-   \end{align*}
-   to get $[x,y]uw_1v_1w_2$. In both cases the second subword has again less variable and can be brought into normal form by induction.
-    \end{itemize}
+    If $N$ ends with a group constant $b$, $N=Mb$ we can use the
+    isomorphism $\varphi \circ(x \mapsto xbw^{-1}) $ to map $E$ to the
+    equation $Mv^xb\in O_{r,s+1}$.
+
+  \item[Case $1.1$] $v\in X\cup X^{-1}$. For simplicity let us assume
+    that $v\in X$. In the other case we can apply $v \mapsto v^{-1}$.
+    Now there are two possibilities: either $v^{-1} \in u$ or
+    $v^{-1} \in w$. In the first case $E= u_1v^{-1}u_2x^{-1}vxw$, and
+    then the isomorphism $x \mapsto x^{u_1}u_2$, $v \mapsto v^{u_1}$
+    results in the equation $[v,x]u_1u_2w$. In the second case
+    $E= ux^{-1}vxw_1v^{-1}w_2$ is transformed to $[x,v]uw_1w_2$ by the
+    isomorphism $x \mapsto x^{uw_1}w_1^{-1}$, $v\mapsto v^{-uw_1}$. In
+    both cases $u_1u_2w$, respectively $uw_1w_2$ have fewer variables
+    and so composition with the corresponding isomorphism results in a
+    normal form.
+  \item[Case $2$] Length$(v)>1$. Then $v$ is a word consisting of
+    elements $X\cup X^{-1}$ with each symbol occurring at most once as
+    $v$ was chosen with minimal variable set, and some elements of
+    $G$.  If $v$ starts with a constant $b\in G$ we can use the
+    homomorphism $x\mapsto bx$ to achieve that $v$ starts with a
+    variable $y\in X$, possibly using $y \mapsto y^{-1}$. As in Case
+    $1.1$ there are two possibilities: $y^{-1}$ is either part of $u$
+    or part of $w$. In the first case $E= u_1 y^{-1} u_2 x^{-1}yv_1xw$
+    we can use the isomorphism $x\mapsto x^{u_1v_1}u_2$,
+    $y\mapsto y^{u_1v_1}v_1^{-1}$ to obtain $[y,x]u_1v_1u_2w$. In the
+    second we use the isomorphism
+    $x\mapsto x^{uw_1v_1}v_1^{-1}w_1^{-1}$,
+    $y\mapsto y^{-uw_1v_1}v_1^{-1}$ to obtain $[x,y]uw_1v_1w_2$. In
+    both cases the second subword has again less variable and can be
+    brought into normal form by induction.
+  \end{itemize}
+  Therefore each oriented equation can be brought to normal form by a
+  $G$-isomorphisms.
+
+  In the unoriented case decompose the equation into $E = uxvxw$ with
+  again $v$ having a minimal number of variables.  The shorter word
+  $uv^{-1}w$ is equivalent by $\varphi$ to a normal form $N$ by
+  induction.
  
- Therefore each oriented equation can be brought to normal form by $G$-iso\-morphisms. 
- For the unoriented case decompose the equation into $E = uxvxw$ with again $v$ with a minimal number of variables. 
- The shorter word $uv^{-1}w$ is equivalent by $\varphi$ to a normal form $N$ by induction.
- 
- The $G$-isomorphism $\varphi \circ (x\mapsto x^uv^{-1})$ maps $E$ to $x^2N$. If $N\in U_{r,s}\cup\thinspace O_{0,t}$ for some $r,s,t$, nothing else is to do.
- Otherwise $N=[y,z]M$. Then the homomorphism
- \begin{align*}
-  x&\mapsto xyz, & y&\mapsto z^{-1}y^{-1}x^{-1}yzxyz, & z&\mapsto z^{-1}y^{-1}x^{-1}z
- \end{align*}
-maps $x^2N$ to $x^2y^2z^2M$. This homomorphism is indeed an isomorphism as 
-\begin{align*}
-  x&\mapsto x^2y^{-1}x^{-1}, & y&\mapsto xyx^{-1}z^{-1}x^{-1}, & z&\mapsto xz
- \end{align*}
- is an inverse homomorphism. If $M$ is still not in $O_{0,s}$ this procedure can be repeated with $z$ instead of $x$. 
+  The $G$-isomorphism $\varphi \circ (x\mapsto x^uv^{-1})$ maps $E$ to
+  $x^2N$. If $N\in U_{r,s}\cup\thinspace O_{0,t}$ for some $r,s,t$,
+  there remains nothing to do.  Otherwise $N=[y,z]M$, and then the
+  homomorphism
+  \begin{align*}
+    x&\mapsto xyz, & y&\mapsto z^{-1}y^{-1}x^{-1}yzxyz, & z&\mapsto z^{-1}y^{-1}x^{-1}z
+  \end{align*}
+  maps $x^2N$ to $x^2y^2z^2M$. This homomorphism is indeed an
+  isomorphism, with inverse
+  \begin{align*}
+    x&\mapsto x^2y^{-1}x^{-1}, & y&\mapsto xyx^{-1}z^{-1}x^{-1}, & z&\mapsto xz.
+  \end{align*}
+  If $M$ is still not in $O_{0,s}$ this procedure can be repeated with
+  $z$ instead of $x$.
 \end{proof}
-For an quadratic equation $E$ we denote by $\Normal(E) := \Normal_E(E)$ the image of the such constructed isomorphism $\Normal_E$ of $E$. 
+For a quadratic equation $E$ we denote by $\Normal(E) := \Normal_E(E)$
+the image of $E$ under the $G$-isomorphism $\Normal_E$ constructed in
+the proof.
 
-From now on we will consider oriented equations $O_{(n,1)}$. For this we will use the abbreviation 
-\[R_n(x_1,\ldots,x_{2n})=\prod_{i=1}^n [x_{2i-1},x_{2i}]\] and often write $R_n=R_n(x_1,\ldots,x_{2n})$ if the $x_i$ are the first generators of $F_X$. 
+From now on we will consider oriented equations $O_{(n,1)}$. For this
+we will use the abbreviation
+\[R_n(x_1,\ldots,x_{2n})=\prod_{i=1}^n [x_{2i-1},x_{2i}]\]
+and often write $R_n=R_n(x_1,\ldots,x_{2n})$ if the $x_i$ are the
+first generators of $F_X$.
 
-\subsection{Constrainted equations}
+\subsection{Constrained equations}
 \begin{defi}[\cite{Lysenok:QudraticEquationsInGrig}]
- Given an equation $E \in F_X*G$, a group $H$, a homomorphism $\pi\colon G \to H$ and a homomorphism $\gamma\colon F_X \to H$ then the pair $(E,\gamma)$ is called a \emph{constrainted} equation and $\gamma$ a constraint for the equation
- $E$ on $H$.
+  Given an equation $E \in F_X*G$, a group $H$, a homomorphism
+  $\pi\colon G \to H$ and a homomorphism $\gamma\colon F_X \to H$, the
+  pair $(E,\gamma)$ is called a \emph{constrained} equation and
+  $\gamma$ is called a \emph{constraint} for the equation $E$ on $H$.
  
- A solution for $(E,\gamma)$ is a solution $s$ for $E$ with the additional property, that $s(x)^\pi = \gamma(x)$ for all $x\in F_X$.
+  A solution for $(E,\gamma)$ is a solution $s$ for $E$ with the
+  additional property that $s\circ\pi=\gamma$.
 \end{defi}
 
-\section{Grigorchuks Group}
+\section{The first Grigorchuk Group}
+!!!LB: Stopped checking the grammar!!!
 Let $T_n$ be an infinite regular rooted $n$-ary tree. The group $\Aut(T_n)$ consists of all root preserving graph automorphisms of the tree $T_n$. 
 Note that $T_n$ is isomorphic to any $n$-ary subtree and therefore $\Aut(T_n)\simeq \Aut(T)\wr S_n$ where $S_n$ is the symmetric group of $n$ symbols. 
 
