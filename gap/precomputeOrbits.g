@@ -43,7 +43,7 @@ pure_mcg := function(F)
     od;
 
     #Switch two neighbours 
-    #added by Thorsten prob. already contained in mcg
+    #already contained in mcg !
     for i in [1,3..d-3] do
         imgs := ShallowCopy(gens);
         imgs[i+2] := gens[i]^Comm(gens[i+2],gens[i+3]);
@@ -60,31 +60,30 @@ pure_mcg := function(F)
     return Group(L);
 end;
 
-
-# a larger group, containing the "flip" (x_i -> y_{g+1-i}, y_i -> x_{g+1-i})
-extended_mcg := function(F)
-    local gens;
-    gens := GeneratorsOfGroup(F);
-    
-    return ClosureGroup(pure_mcg(F),GroupHomomorphismByImages(F,F,Reversed(gens)));
-end;
-
 ################################################################
 # construct orbits on Q^{2n}
 #orbits of pure mcg
 #
 #The following lines take about 12h
 Print("Start computing the orbits. This will take about 12 hours.\n");
-orbits := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(6)),BS.group),
+orbits := OrbitsDomain(pure_mcg(FreeGroup(6)),
                   Cartesian(ListWithIdenticalEntries(6,BS.group)),
-                  function(list,elm)
-    return OnTuples(OnImages(list,elm![1]),elm![2]);
-end);;
-orbits2 := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(4)),BS.group),
+                  OnImages);;
+
+orbits2 := OrbitsDomain(pure_mcg(FreeGroup(4)),
                   Cartesian(ListWithIdenticalEntries(4,BS.group)),
-                  function(list,elm)
-    return OnTuples(OnImages(list,elm![1]),elm![2]);
-end);;
+                  OnImages);;
+
+#orbits := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(6)),BS.group),
+#                  Cartesian(ListWithIdenticalEntries(6,BS.group)),
+#                  function(list,elm)
+#    return OnTuples(OnImages(list,elm![1]),elm![2]);
+#end);;
+#orbits2 := OrbitsDomain(DirectProduct(pure_mcg(FreeGroup(4)),BS.group),
+#                  Cartesian(ListWithIdenticalEntries(4,BS.group)),
+#                  function(list,elm)
+#    return OnTuples(OnImages(list,elm![1]),elm![2]);
+#end);;
 Print("Orbits computed; there are ",Size(orbits)," orbits for Aut(F₆)/Stab(R₃)\n");
 Print("and there are ",Size(orbits2)," orbits for Aut(F₄)/Stab(R₂)\n");
 orbits := List(orbits,ShallowCopy);;
