@@ -23,6 +23,7 @@ findNonCommutator:= function()
 	SEARCH@fr.INIT(Gp);
 	Gp!.FRData.pifunc := EpimorphismPermGroup;
 	while true do
+		Info(InfoCW,"Now searching in level ",Gp!.FRData.level,"\r");
 		for g in List(ConjugacyClasses(Range(Gp!.FRData.pi)),Representative) do
 			if not IsCommutatorInFiniteGroup(Range(EpimorphismPermGroup(G,Gp!.FRData.level)),g) then 
 				return [Gp!.FRData.level,Gp!.FRData.pi,g];
