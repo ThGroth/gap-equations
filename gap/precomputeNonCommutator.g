@@ -19,18 +19,21 @@ end;
 findNonCommutator:= function()
 	local i,g,rad,sphere;
 	i := 0;
+	Unbind(Gp!.FRData);
 	SEARCH@fr.INIT(Gp);
+	Gp!.FRData.pifunc := EpimorphismPermGroup;
 	while true do
 		for g in List(ConjugacyClasses(Range(Gp!.FRData.pi)),Representative) do
-			if not IsCommutatorInFiniteGroup(Range(Gp!.FRData.pi),g) then 
+			if not IsCommutatorInFiniteGroup(Range(EpimorphismPermGroup(G,Gp!.FRData.level)),g) then 
 				return [Gp!.FRData.level,Gp!.FRData.pi,g];
 			fi;
 		od;
         if SEARCH@fr.EXTEND(Gp,SEARCH@fr.QUOTIENT)=fail then
-			Error("blub");
+			Error("Preset limits reached.");
         fi;
 	od;
 end;
 nonCom := findNonCommutator();
+nonComG := PreImagesRepresentative(nonCom[2],nonCom[3]);
 hom := EpimorphismFromFreeGroup(G);
-gelm := PreImagesRepresentative(hom,PreImagesRepresentative(nonCom[2],nonCom[3]));
+elmInGGen := PreImagesRepresentative(hom,nonComG);
