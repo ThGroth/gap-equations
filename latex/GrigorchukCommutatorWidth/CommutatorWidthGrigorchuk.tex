@@ -228,7 +228,7 @@ The Grigorchuk group is regular branched with branching subgroup
  The element $\gamma \circ \varphi_\gamma$ will be called reduced constraint.
 \end{defi}
 
-\begin{lem}
+\begin{lem} \label{lem:solvabilityWithReducedConstraint}
  The solvability of a constrainted equation $(R_n g,\gamma)$ is equivalent to the solvability of $(R_n g,\gamma\circ \varphi_\gamma)$.
 \end{lem}
  \begin{proof}
@@ -353,9 +353,9 @@ Denote by $S$ the set $\{1,a,b,c,d,ab,ad,ba\}\subset G$.
 We will define a map $\Gamma^q$ which maps a constraint $\gamma\colon F_{2n} \to Q$ with nontrivial activity to a a set of constraints $\gamma'\colon F_{4n-1}\to Q$ 
 with the following properties:
 \begin{itemize}
-  \item There is a generator $y_{\gamma'}$ in $F_{4n-1}$ and $x\in S$ such that $\gamma'(y_{\gamma'})=x^\pi$.
+  \item There is a generator $y_{\gamma'}$ in $F_{4n-1}$ and $x\in S$ such that $\gamma'(y_{\gamma'})=x^\pi$. Denote by $F_{4n-2}$ the subgroup of $F_{4n-1}$ without the generator $y_{\gamma'}$.
   %y was once x_{4n-1}
-  \item The solvability of $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma')$ implies
+  \item The solvability of $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma'|_{F_{4n-2}})$ implies
   the solvability of $(R_ng,\gamma)$.
  \end{itemize}
 
@@ -453,10 +453,11 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  \end{proof}
 
  \begin{defi}
- For fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(q,\gamma)$ is a good pair
+ For each fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(q,\gamma)$ is a good pair
  fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}\gamma'(y_{\gamma'})\in S$ which exist by the previous proposition.
  
- For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{succesing pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'\right)$.
+ With Lemma \ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
+ For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{succesing pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
  Moreover by applying this iteratively we get the \emph{succesing sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$.
  \end{defi}
  
@@ -601,7 +602,7 @@ The sequences of sets
 This completes the proof of the following proposition
 \begin{pro}\label{pro:solvableConstraintedEquations}
  If $n\geq3$ and $(g,\gamma)$ is a good pair with active constraint $\gamma$ with $\supp(\gamma)\subset\{x_1,\ldots,x_{2n}\}$
- then the equation $R_n(x_1,\ldots,x_{2n})g,\gamma$ is solvable. 
+ then the constrainted equation $(R_n(x_1,\ldots,x_{2n})g,\gamma)$ is solvable. 
 \end{pro}
 \begin{cor}
  The Grigorchuk group $G$ has commutator width at most $3$.
@@ -627,40 +628,51 @@ This completes the proof of the following proposition
 \subsection{Product of 2 commutators}
 The case of products of two commutators can be reduced to the case of three commutators by using the same method as before.
 
-We can compute the orbits of $\RNK{\Aut(F\_4)}{\Stab(R_2)}$ and take a representative system denoted by $\Red^4_{act}$.
-It turns out that there are $62$ orbits. 
+We can compute the orbits of $\RNK{\Aut(F\_4)}{\Stab(R_2)}$ and take a representative system denoted by $\Red^4$.
+It turns out that there are $86$ orbits and we can check that there are again enough active constraints:
+\begin{lem} \label{lem:existsGoodGammaForRed4}
+ For each $q\in\RNK{G'}{K'}$ there is $\gamma\in \Red^4_{act}$ such that $(q,\gamma)$ is a 
+ good pair.
+\end{lem}
+\begin{proof}
+ This can be checked in GAP with the function \lstinline{verifyLemmaExistGoodGammasForRed4}.
+\end{proof}
 
-Denote by 
+Analog to Proposition \ref{pro:existsNextPair} we can formulate the following proposition.
+\begin{pro}\label{pro:existsNextPair}
+ For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red^4_{act}$ the set $\Gamma^q(\gamma)$ 
+ contains some $\gamma'$ with special generator $y_{\gamma'}$ such that for all $g$ with $g^\tau=q$ the
+ pair $\left((g\at{2})^{\textup{rep}(\gamma'(y_{\gamma'})}\cdot g\at{1},\gamma'\right)$ is a good pair.
+\end{pro}
+\begin{proof}
+ %TODO wait until the new computation with 86 orbits complets. The earlier with 62 orbits brought the expected result.
+ %But maybe now again bad pairs apear. 
+\end{proof}
+The resulting succesing pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
+by \ref{pro:solvableConstraintedEquations}. So together with \ref{lem:existsGoodGammaForRed4} this proves the following corollary.
+\begin{cor}
+ The Grigorchuk group $G$ has commutator width at most $2$.
+\end{cor}
+\subsection{Not every element is a commutator}
+The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
+genus does not increase by passing to a succesing pair. 
 
- those active constraints $\gamma\in\Red_{act}$ with $\gamma(x_i)=1$ for $i\geq 4$.
-If it were true that for each $q\in\RNK{G'}{K'}$ there is a $\gamma\in\Red_{act}^4$ with $(q,\gamma)$ 
-then it would follow immediately that each $g\in G'$ is a product of two commutators. But unfortunately 
-this isn't the case.
+In fact not every element $g\in G'$ is a commutator. This can be seen by passing to finite quotients. If every element would be a commutator then
+it would be a commutator in the quotient group. 
+% In fact there are $8$ elements of $\RNK{G'}{K'}$ which are no good pairs for active $\gamma\in\Red_{act}^4$.
+% In the GAP file the can be accessed by  
+% $\RNK{G'}{K'}$ is generated by the following elements $q_1 = ((ab)^2)^\tau,q_2 = ((bada)^2)^\tau,q_3 = ((abad)^2)^\tau,q_4 = ((ad)^2)^\tau$. 
+% 
+% Fortunately there are inactive $\gamma$'s with support inside the first 4 coordinates such that 
+% all descendant problems are in none of these problematic cases. 
+% 
+% For instance the table below shows 
+% all problematic $q\in \RNK{G'}{K'}$ and a choice of $\gamma$ such that $(q,\gamma)$ is a good pair
+% and $(g\at{i})^\tau,\gamma_i$) are good pairs with active constraints for $i=1,2$ and all $g$ such that $g^\tau = q$. 
+% Furthermore the solvability of $(R_2g\at{i},\gamma_i)$ implies the solvability of $(R_2g,\gamma)$ and the latter is solvable by 
+% the previous section.
 
-In fact there are $8$ elements of $\RNK{G'}{K'}$ which are no good pairs for active $\gamma\in\Red_{act}^4$.
-In the GAP file the can be accessed by  
-$\RNK{G'}{K'}$ is generated by the following elements $q_1 = ((ab)^2)^\tau,q_2 = ((bada)^2)^\tau,q_3 = ((abad)^2)^\tau,q_4 = ((ad)^2)^\tau$. 
 
-Fortunately there are inactive $\gamma$'s with support inside the first 4 coordinates such that 
-all descendant problems are in none of these problematic cases. 
-
-For instance the table below shows 
-all problematic $q\in \RNK{G'}{K'}$ and a choice of $\gamma$ such that $(q,\gamma)$ is a good pair
-and $(g\at{i})^\tau,\gamma_i$) are good pairs with active constraints for $i=1,2$ and all $g$ such that $g^\tau = q$. 
-Furthermore the solvability of $(R_2g\at{i},\gamma_i)$ implies the solvability of $(R_2g,\gamma)$ and the latter is solvable by 
-the previous section.
-
-\begin{tabular}{cccc}
-$q$ & $\gamma$ & $\gamma_1$ & $\gamma_2$\\ \hline
-$q_2q_1^2 $& $ ( 1, 1, b^\pi, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
-$q_2^{-1}q_4q_1^{-2}q_4$& $ ( 1, 1, b^\pi, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
-$q_3q_1^2 $			& $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a,^\pi bada^\pi, 1, 1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$\\
-$q_2^{-1}(q_1^{-1}q_4)^2$ 	 & $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a^\pi, bada^\pi, 1,   1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$\\
-$q_1^{-2}q_2$		 & $ ( 1, 1, b, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
-$q_1^{-2}q_2^{-1}$		 & $ ( 1, 1, b^\pi, dada^\pi, 1, 1 ) $ & $ ( 1, bad^\pi, a^\pi, ad^\pi, 1,  1 ) $ & $ ( 1, ca^\pi, c^\pi, da^\pi, 1, 1 )$\\
-$q_1^{-2}q_3$		 & $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a^\pi, bada^\pi, 1,  1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$\\
-$q_1^{-2}q_3^{-1}$		 & $ ( 1, 1, c^\pi, b^\pi, 1, 1 ) $ & $ ( 1, 1, a^\pi, bada^\pi, 1,  1 ) $ & $ ( 1, 1, d^\pi, dad^\pi, 1, 1 )$
-\end{tabular}
 \begin{cor}
  All elements $g\in G'$ are products of two commutators.
 \end{cor}
