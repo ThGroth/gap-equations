@@ -1,17 +1,16 @@
 #Precompute the 90 orbits of Q⁶/Stab(R₆)
 #
-# Directory for Saved results. Needs a trailing /
+# Directory for Saved results. 
 #
-if not IsBound(dirRep) then
-    dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
-    #
-    dir := Concatenation(dirRep,"gap/90orbs/");
+if not IsBound(dir) then
+    dir := Directory("gap");
 fi;
 ################################################################
 
-if not IsBound(DeclarationsLoaded)  then
-    Read(Concatenation(dirRep,"gap/declarations.g"));
-    Read(Concatenation(dirRep,"gap/functions.g"));
+if not IsBound(DeclarationsLoadedFR)  then
+    LoadPackage("fr");
+    Read(Filename(dir,"declarationsFR.g"));
+    Read(Filename(dir,"functionsFR.g"));
 fi;
 
 # the pure mapping class group of a surface group F / surface_relator,
@@ -65,7 +64,7 @@ end;
 #orbits of pure mcg
 #
 #The following lines take about 12h
-Print("Start computing the orbits. This will take about 12 hours.\n");
+Info(InfoCW,1,"Start computing the orbits. This will take about 12 hours.\n");
 orbits := OrbitsDomain(pure_mcg(FreeGroup(6)),
                   Cartesian(ListWithIdenticalEntries(6,BS.group)),
                   OnImages);;
@@ -84,12 +83,12 @@ orbits2 := OrbitsDomain(pure_mcg(FreeGroup(4)),
 #                  function(list,elm)
 #    return OnTuples(OnImages(list,elm![1]),elm![2]);
 #end);;
-Print("Orbits computed; there are ",Size(orbits)," orbits for Aut(F₆)/Stab(R₃)\n");
-Print("and there are ",Size(orbits2)," orbits for Aut(F₄)/Stab(R₂)\n");
+Info(InfoCW,1,"Orbits computed; there are ",Size(orbits)," orbits for Aut(F₆)/Stab(R₃)\n");
+Info(InfoCW,1,"and there are ",Size(orbits2)," orbits for Aut(F₄)/Stab(R₂)\n");
 orbits := List(orbits,ShallowCopy);;
 orbits2 := List(orbits2,ShallowCopy);;
 #The following lines take about 5min
-Print("Start sorting and saving the orbits. This will take about 30 Minutes\n");
+Info(InfoCW,1,"Start sorting and saving the orbits. This will take about 30 Minutes\n");
 for i in orbits do Sort(i); MakeImmutable(i); od; # for fast lookup
 for i in orbits2 do Sort(i); MakeImmutable(i); od; # for fast lookup
 MakeImmutable(orbits);;
@@ -126,8 +125,8 @@ orbitReps2 := MinimalReprOrbit(orbits2);
 # Save the orbit Representations to a file.
 # Needs the following lines to be read again properly
 #
-orbitRepsFile := Concatenation(dir,"orbitReps.go");
-orbitRepsFile2 := Concatenation(dir,"orbitReps2.go");
+orbitRepsFile := Filename(dir,"PCD/orbitReps.go");
+orbitRepsFile2 := Filename(dir,"PCD/orbitReps2.go");
 PrintTo(orbitRepsFile,orbitReps);
 PrintTo(orbitRepsFile2,orbitReps2);
 #Replace <identy>.... by One(Q)
@@ -163,11 +162,11 @@ ComputeTable := function(O)
 					for q5 in Q do
 						Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)][hashInQ(q5)] := [PositionProperty(O,o->[q1,q2,q3,q4,q5,One(Q)] in o)];
 						if i mod 1000 =0 then
-							Print(i," Done ", Int(i*100/16^5),"%.\r");
+							Info(InfoCW,1,i," Done ", Int(i*100/16^5),"%.\r");
 						fi;
 						i := i+1;
 	od;od;od;od;od;
-	Print("Done\n");
+	Info(InfoCW,1,"Done\n");
 	return Values;
 end;
 ComputeTable2 := function(O)
@@ -183,11 +182,11 @@ ComputeTable2 := function(O)
                 for q4 in Q do
                     Values[hashInQ(q1)][hashInQ(q2)][hashInQ(q3)][hashInQ(q4)] := PositionProperty(O,o->[q1,q2,q3,q4] in o);
                     if i mod 1000 =0 then
-                        Print(i," Done ", Int(i*100/16^4),"%.\r");
+                        Info(InfoCW,1,i," Done ", Int(i*100/16^4),"%.\r");
                     fi;
                     i := i+1;
     od;od;od;od;
-    Print("Done\n");
+    Info(InfoCW,1,"Done\n");
     return Values;
 end;
 
@@ -195,21 +194,21 @@ end;
 orbitTable := ComputeTable(orbits);;
 orbitTable2 := ComputeTable2(orbits2);;
 
-orbitTableFile := Concatenation(dir,"orbitTable.go");
+orbitTableFile := Filename(dir,"PCD/orbitTable.go");
 PrintTo(orbitTableFile,orbitTable);
 #Add a return and a semicolon
 Exec("sed","-i","\"1i return \"",orbitTableFile);
 Exec("sed","-i","\"\\$a ;\"",orbitTableFile);
 
-orbitTableFile2 := Concatenation(dir,"orbitTable2.go");
+orbitTableFile2 := Filename(dir,"PCD/orbitTable2.go");
 PrintTo(orbitTableFile2,orbitTable2);
 #Add a return and a semicolon
 Exec("sed","-i","\"1i return \"",orbitTableFile2);
 Exec("sed","-i","\"\\$a ;\"",orbitTableFile2);
 
 #Check that everything worked as expected
-Assert(0,orbitTable=ReadAsFunction(Concatenation(dir,"orbitTable.go"))());
-Assert(0,orbitTable2=ReadAsFunction(Concatenation(dir,"orbitTable2.go"))());
+Assert(0,orbitTable=ReadAsFunction(orbitTableFile)());
+Assert(0,orbitTable2=ReadAsFunction(orbitTableFile)());
 #######################################################################################
 #######################################################################################
 #######################################################################################

@@ -50,14 +50,14 @@ StateModKxK := function(q,i)
     return (State(g,i)^isoGtoGLP)^homGtoGmodKxK;
 end;
 #Load orbits here:
-orbitReps:=ReadAsFunction(Concatenation(dir,"orbitReps.go"))();;
+orbitReps:=ReadAsFunction(Filename(dir,"PCD/orbitReps.go"))();;
 ReducedConstraints := List([1..Size(orbitReps)],
     i->rec(index:= i, length := 6, constraint:=orbitReps[i]));;
-orbitTable := ReadAsFunction(Concatenation(dir,"orbitTable.go"))();;
-orbitReps2:=ReadAsFunction(Concatenation(dir,"orbitReps2.go"))();;
+orbitTable := ReadAsFunction(Filename(dir,"PCD/orbitTable.go"))();;
+orbitReps2:=ReadAsFunction(Filename(dir,"PCD/orbitReps2.go"))();;
 Append(ReducedConstraints,List([1..Size(orbitReps2)],
     i->rec(index:= i+Size(orbitReps), length := 4, constraint:=orbitReps2[i])));;
-orbitTable2 := ReadAsFunction(Concatenation(dir,"orbitTable2.go"))();;
+orbitTable2 := ReadAsFunction(Filename(dir,"PCD/orbitTable2.go"))();;
 
 #Takes about 1 min
 # Compute the full list of good pairs
@@ -68,7 +68,7 @@ Perform(ReducedConstraints,function(entry) entry.goodPairs:=goodPairs(entry.cons
 
 
 #Write AllGoodPairs to a file
-AllGoodPairsFile := Concatenation(dir,"AllGoodPairs.go");
+AllGoodPairsFile := Filename(dir,"PCD/AllGoodPairs.go");
 PrintTo(AllGoodPairsFile,List(ReducedConstraints,E->List(E.goodPairs,q->Position(List(GPmodKP),q))));
 #Replace <identy>.... by One(Q)
 Exec("sed","-i","\"1i return \"",AllGoodPairsFile);
@@ -366,7 +366,7 @@ Info(InfoCW,1,"Done. There should be no bad pairs. ",Size(BadPairs),"bad one fou
 
 #Save RealGoodPairs to a file
 #Just store the index of the constraint and forget the successing qᵢs
-RealGoodPairsFile := Concatenation(dir,"RealGoodPairs.go");
+RealGoodPairsFile := Filename(dir,"PCD/RealGoodPairs.go");
 PrintTo(RealGoodPairsFile,List(RealGoodPairs,L->[Position(List(GPmodKP),L[1]),L[2].index,[L[3][1].index,L[3][2]]]));
 #Replace <identy>.... by One(Q)
 Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",RealGoodPairsFile);
@@ -384,7 +384,7 @@ Assert(0,ForAll([1..Size(RealGoodPairs)],
     and RGP[i][3][1].constraint = RealGoodPairs[i][3][1].constraint)));
 #Special Successor for (g,1) for g in K'
 specSuc := GetSuccessor(One(GPmodKP),[One(Q),One(Q),One(Q),One(Q)]);
-specSucFile := Concatenation(dir,"specSuc.go");
+specSucFile := Filename(dir,"PCD/specSuc.go");
 PrintTo(specSucFile,specSuc);
 #Replace <identy>.... by One(Q)
 Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",specSucFile);

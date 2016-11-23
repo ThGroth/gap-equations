@@ -1,3 +1,6 @@
+if not IsBound(dir) then
+    dir := Directory("gap");
+fi;
 # action on images of automorphism.
 # typical usage: action on tuples of images of generators.
 OnImages := function(list,aut)
