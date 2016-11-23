@@ -127,17 +127,9 @@ orbitReps2 := MinimalReprOrbit(orbits2);
 #
 orbitRepsFile := Filename(dir,"PCD/orbitReps.go");
 orbitRepsFile2 := Filename(dir,"PCD/orbitReps2.go");
-PrintTo(orbitRepsFile,orbitReps);
-PrintTo(orbitRepsFile2,orbitReps2);
-#Replace <identy>.... by One(Q)
-Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",orbitRepsFile);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",orbitRepsFile);
-Exec("sed","-i","\"\\$a ;\"",orbitRepsFile);
-Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",orbitRepsFile2);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",orbitRepsFile2);
-Exec("sed","-i","\"\\$a ;\"",orbitRepsFile2);
+PrintTo(orbitRepsFile,Concatenation("return ",ReplacedString(String(orbitReps),"<identity> of ...","One(Q)"),";"));
+PrintTo(orbitRepsFile2,Concatenation("return ",ReplacedString(String(orbitReps2),"<identity> of ...","One(Q)"),";"));
+
 Q:= BS.group;
 f4:= Q.1; # = a^π
 f2 := Q.2; # = b^π
@@ -195,16 +187,8 @@ orbitTable := ComputeTable(orbits);;
 orbitTable2 := ComputeTable2(orbits2);;
 
 orbitTableFile := Filename(dir,"PCD/orbitTable.go");
-PrintTo(orbitTableFile,orbitTable);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",orbitTableFile);
-Exec("sed","-i","\"\\$a ;\"",orbitTableFile);
-
-orbitTableFile2 := Filename(dir,"PCD/orbitTable2.go");
-PrintTo(orbitTableFile2,orbitTable2);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",orbitTableFile2);
-Exec("sed","-i","\"\\$a ;\"",orbitTableFile2);
+PrintTo(orbitRepsFile,Concatenation("return ",String(orbitTable),";"));
+PrintTo(orbitRepsFile2,Concatenation("return ",String(orbitTable2),";"));
 
 #Check that everything worked as expected
 Assert(0,orbitTable=ReadAsFunction(orbitTableFile)());
