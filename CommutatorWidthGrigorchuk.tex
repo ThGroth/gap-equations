@@ -716,10 +716,10 @@ The proof is the same as for Proposition \ref{pro:existsNextPair}. The correspon
 \end{proof}
 The resulting succesing pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
 by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \ref{lem:existsGoodGammaForRed4} this proves the following corollary.
-\begin{cor}
+\begin{cor}\label{cor:GhasCW2}
  The Grigorchuk group $G$ has commutator width at most $2$.
 \end{cor}
-\begin{cor}
+\begin{cor}\label{cor:KhasCW2}
  $K$ has commutator width at most $2$. 
 \end{cor}
 \begin{proof}
@@ -734,6 +734,18 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  
  The previous check is implemented in the GAP function \lstinline{verifyCorollaryFiniteCWK}. 
 \end{proof}
+\begin{cor}
+ All normal subgroups $H\normal G$ are of finite commutator width.
+\end{cor}
+\begin{proof}
+ Note that from corollary \ref{cor:KhasCW2} follows that $K\times K$ and furthermore $K^n$ have commutator width $2$. 
+ In %\cite TODO
+ is shown that for $H\normal G$ there is $n$ such that $K^{2^n}\leq H$. As $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
+ So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ and $N\in \NN$ such that every element in $T$ is a product of at most $N$ commutators
+ in $H$ then $H$ has commutator width at most $N+2$.
+\end{proof}
+
+
 \subsection{Not every element is a commutator}
 The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
 genus does not increase by passing to a succesing pair. 
