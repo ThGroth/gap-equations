@@ -4,7 +4,7 @@ fi;
 
 dir := Directory("gap");
 Read(Filename(dir,"init.g"));
-if not TestPackageAvailability( "fr","3.3") = fail then
+if not TestPackageAvailability( "fr","2.3") = fail then
 	LoadPackage("fr");
 	Read(Filename(dir,"declarationsFR.g"));
 	Read(Filename(dir,"functionsFR.g"));
