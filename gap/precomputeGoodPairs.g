@@ -1,14 +1,14 @@
-# Directory for Saved results. Needs a trailing /
+# Directory for Saved results. 
 #
-if not IsBound(dirRep) then
-    dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
-    #
-    dir := Concatenation(dirRep,"gap/90orbs/");
+if not IsBound(dir) then
+    dir := Directory("gap");
 fi;
+################################################################
 
-if not IsBound(DeclarationsLoaded)  then
-    Read(Concatenation(dirRep,"gap/declarations.g"));
-    Read(Concatenation(dirRep,"gap/functions.g"));
+if not IsBound(DeclarationsLoadedFR)  then
+    LoadPackage("fr");
+    Read(Filename(dir,"declarationsFR.g"));
+    Read(Filename(dir,"functionsFR.g"));
 fi;
 
 #Assert(0,ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGPLtoG,i)^isoGtoGLP in KxKLP)));
@@ -69,10 +69,7 @@ Perform(ReducedConstraints,function(entry) entry.goodPairs:=goodPairs(entry.cons
 
 #Write AllGoodPairs to a file
 AllGoodPairsFile := Filename(dir,"PCD/AllGoodPairs.go");
-PrintTo(AllGoodPairsFile,List(ReducedConstraints,E->List(E.goodPairs,q->Position(List(GPmodKP),q))));
-#Replace <identy>.... by One(Q)
-Exec("sed","-i","\"1i return \"",AllGoodPairsFile);
-Exec("sed","-i","\"\\$a ;\"",AllGoodPairsFile);
+PrintTo(AllGoodPairsFile,Concatenation("return ",String(List(ReducedConstraints,E->List(E.goodPairs,q->Position(List(GPmodKP),q)))),";"));
 
 #Read the file again and check its correct
 AGP := List(ReadAsFunction(AllGoodPairsFile)(),L->List(L,i->List(GPmodKP)[i]));;
@@ -367,12 +364,9 @@ Info(InfoCW,1,"Done. There should be no bad pairs. ",Size(BadPairs),"bad one fou
 #Save RealGoodPairs to a file
 #Just store the index of the constraint and forget the successing qᵢs
 RealGoodPairsFile := Filename(dir,"PCD/RealGoodPairs.go");
-PrintTo(RealGoodPairsFile,List(RealGoodPairs,L->[Position(List(GPmodKP),L[1]),L[2].index,[L[3][1].index,L[3][2]]]));
-#Replace <identy>.... by One(Q)
-Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",RealGoodPairsFile);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",RealGoodPairsFile);
-Exec("sed","-i","\"\\$a ;\"",RealGoodPairsFile);
+PrintTo(RealGoodPairsFile,);
+RGPstring := String(List(RealGoodPairs,L->[Position(List(GPmodKP),L[1]),L[2].index,[L[3][1].index,L[3][2]]]));
+PrintTo(Concatenation("return ",ReplacedString(RGPstring,"<identity> of ...","One(Q)"),";"));
 
 #Read the file again:
 RGP := List(ReadAsFunction(RealGoodPairsFile)(),
@@ -385,10 +379,6 @@ Assert(0,ForAll([1..Size(RealGoodPairs)],
 #Special Successor for (g,1) for g in K'
 specSuc := GetSuccessor(One(GPmodKP),[One(Q),One(Q),One(Q),One(Q)]);
 specSucFile := Filename(dir,"PCD/specSuc.go");
-PrintTo(specSucFile,specSuc);
-#Replace <identy>.... by One(Q)
-Exec("sed","-i","\"s/<identity> of .../One(Q)/g\"",specSucFile);
-#Add a return and a semicolon
-Exec("sed","-i","\"1i return \"",specSucFile);
-Exec("sed","-i","\"\\$a ;\"",specSucFile);
+PrintTo(Concatenation("return ",ReplacedString(String(specSuc),"<identity> of ...","One(Q)"),";"));
+
 Assert(0,specSuc=ReadAsFunction(specSucFile)());
