@@ -364,9 +364,8 @@ Info(InfoCW,1,"Done. There should be no bad pairs. ",Size(BadPairs),"bad one fou
 #Save RealGoodPairs to a file
 #Just store the index of the constraint and forget the successing qᵢs
 RealGoodPairsFile := Filename(dir,"PCD/RealGoodPairs.go");
-PrintTo(RealGoodPairsFile,);
 RGPstring := String(List(RealGoodPairs,L->[Position(List(GPmodKP),L[1]),L[2].index,[L[3][1].index,L[3][2]]]));
-PrintTo(Concatenation("return ",ReplacedString(RGPstring,"<identity> of ...","One(Q)"),";"));
+PrintTo(RealGoodPairsFile,Concatenation("return ",ReplacedString(RGPstring,"<identity> of ...","One(Q)"),";"));
 
 #Read the file again:
 RGP := List(ReadAsFunction(RealGoodPairsFile)(),
