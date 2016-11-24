@@ -187,12 +187,13 @@ orbitTable := ComputeTable(orbits);;
 orbitTable2 := ComputeTable2(orbits2);;
 
 orbitTableFile := Filename(dir,"PCD/orbitTable.go");
-PrintTo(orbitRepsFile,Concatenation("return ",String(orbitTable),";"));
-PrintTo(orbitRepsFile2,Concatenation("return ",String(orbitTable2),";"));
+orbitTableFile2 := Filename(dir,"PCD/orbitTable2.go");
+PrintTo(orbitTableFile,Concatenation("return ",String(orbitTable),";"));
+PrintTo(orbitTableFile2,Concatenation("return ",String(orbitTable2),";"));
 
 #Check that everything worked as expected
 Assert(0,orbitTable=ReadAsFunction(orbitTableFile)());
-Assert(0,orbitTable2=ReadAsFunction(orbitTableFile)());
+Assert(0,orbitTable2=ReadAsFunction(orbitTableFile2)());
 #######################################################################################
 #######################################################################################
 #######################################################################################
