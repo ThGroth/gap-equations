@@ -26,21 +26,59 @@ genus.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %TODO
-INTRO: groups acting on trees. Decision problems. Importance of
-quadratic equations. Commutator width, simplest example of $2$-group
-with width $\ge2$, show that it appears in Grig. gp.
+% INTRO: groups acting on trees. Decision problems. Importance of
+% quadratic equations. Commutator width, simplest example of $2$-group
+% with width $\ge2$, show that it appears in Grig. gp.
+An interesting type of groups acting on rooted trees are self similar
+groups. We won't give a detailed introduction into this field but
+refer the reader to the book by Nekrashevych \cite{Nekrashevych:SelfSimilarGroups}. 
+One famous finitely generated such group was defined by 
+Grigorchuk and was the first known group of intermediate growth. We will
+refer to this group as the Grigorchuk $2$-group $G$.
 
-\begin{thm}
+Many decision problems which are solvable in large subclasses of 
+self similar groups where first studied in this group. The group
+has known to have solvable word problem and solvable conjugacy problem
+\cite{Leonov:Conjugacy-alg.-Grig-group,Rozhkov:Conjugacy-alg.-Grig-group}.
+Furthermore it has been shown that $G$ has solvable diophantine problem of
+quadratic words and that the commutator width of $G$ is finite
+\cite{Lysenok:QudraticEquationsInGrig} that is there is a bound $N$ such
+that every element of the derived group $G'$ can be written as product
+of $N$ commutators.
+
+The methods used to solve the problems in $G$ can often be generalized 
+to a wider class of branch groups. In
+\cite{GrigorchukWilson:CP_for_certain_branch_groups} it is shown that
+branch groups with a well behaving length function have solvable 
+conjugacy problem.
+
+In this paper we show by a direct proof that $G$ has finite commutator width 
+furthermore we prove that the commutator width is in fact $2$.
+\begin{thm}\label{thm:CWGrigorchukGroup}
  The Grigorchuk group $G$ has commutator width 2.
 \end{thm}
-ALSO: all finite index subgroups have c.w. finite; maybe even all 2?
+% ALSO: say this is a new proof, that does not require LMU
+We don't need the previous result from \cite{Lysenok:QudraticEquationsInGrig}
+but use a similar method.
 
-ALSO: say this is a new proof, that does not require LMU
+This is then used to show that every normal subgroup of $G$ has
+finite commutator width.
+% ALSO: all finite index subgroups have c.w. finite; maybe even all 2?
+%TODO: every subgroup of finite index?
 
-ALSO: say that the proof is GAP-assisted; verification of the arguments is done by running GAP code, and checking the proof === checking the GAP code.
+The main ingredient of our proof requires many computations which are 
+done by the computer algebra system GAP \cite{GAP4}. The source code
+for this computations will be distributed with this document. It can
+be validated using precomputed data on a GAP standard installation
+by running the command \lstinline{gap verfify.g} in the main directory.
 
-ALSO: quote Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth} in how this gives bounds on the conjugacy width of $G$: every element is a product of at most $4$ conjugates of $a$, e.g.
+%ALSO: say that the proof is GAP-assisted; verification of the arguments is done by running GAP code, and checking the proof === checking the GAP code.
+For a more advanced experimentation with the code and redoing all 
+the precomputations GAP needs to be at least of version $4.7.6$ 
+with installed packages FR\cite{FR2.3.6} and 
+LPRES. %TODO reference for this packages?
 
+% ALSO: quote Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth} in how this gives bounds on the conjugacy width of $G$: every element is a product of at most $4$ conjugates of $a$, e.g.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Equations}
 In this section some standard notations similar to the ones introduced
@@ -229,7 +267,7 @@ first generators of $F_X$.
   additional property that $s\circ\pi=\gamma$.
 \end{defi}
 
-\section{The first Grigorchuk Group}
+\section{The first Grigorchuk Group}\label{sec:GrigorchukGroup}
 Let $T_n$ be an infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
 The group $\Aut(T_n)$ consists of all root preserving graph automorphisms of the tree $T_n$. 
 Note that $T_n$ is isomorphic to any $n$-ary subtree and therefore there is an isomorphism
