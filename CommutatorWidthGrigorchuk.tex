@@ -791,16 +791,32 @@ In \cite{Fink:Conjugacy_growth} it is proven that $G$ has finite bounded conjuga
 \begin{pro}
  Let $g\in G'$. Then the equation 
  \begin{align*}
-  a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}a^{x_6}g=1
+  a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag=1
  \end{align*}
 is solvable. 
 \end{pro}
 \begin{proof}
- Depending if $g^\pi=1$ or $g^\pi=((ad)^2)^\pi$ we consider the constrained equation
- $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}a^{x_6}g,\id)$ or
- $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}a^{x_6}g,(x_2\mapsto d^\pi,x_i\mapsto 1 \forall i\neq2))$.
+%  Depending if $g^\pi=1$ or $g^\pi=((ad)^2)^\pi$ we consider the constrained equation
+%  $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}a^{x_6}g,\id)$ or
+%  $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}a^{x_6}g,(x_2\mapsto d^\pi,x_i\mapsto 1 \forall i\neq2))$.
  %TODO Continue
+ We distinguish between to cases either $g\in K$ or $g\in (ad)^2K$. In the first case
+ we know from Lemma \ref{lem:productOfStatesIsInDerived} that $g\at{2}\cdot g\at{1}$ is 
+ also in $K$. 
+ 
+ The constrained equation $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag,\id)$ is solvable if
+ the constrained equation $(R_2(g\at{2})(g\at{1}),\id)$ is solvable since if we replace $x_i$
+ by $\pair{y_i,z_i}$ we get the equivalent equation
+ \[\pair{y_1^{-1}z_1z_2^{-1}y_2y_3^{-1}z_3z_4^{-1}y_4y_5^{-1}z_5(g\at{1}),z_1^{-1}y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})} = \pair{1,1}.\]
+ The $G-$homomorphism $z_1\mapsto y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})$ doesn't affect 
+ a solution of this problem and the normalization of the corresponding first
+ state is $R_2(g\at{2})(g\at{1})$. The latter is solvable as shown in the proof of Corollary \ref{cor:KhasCW2}.
+ %
 \end{proof}
+\begin{lem}
+ If $g\in K$ then 
+ \[(g\at{1},g\at{2})^{\pi\times\pi} \in \left\{\left(\left((ca)^n\right)^\pi,\left((ac)^n\right)^\pi\right) \mid n=1,\ldots,4\right\}\]
+\end{lem}
 
 
 
