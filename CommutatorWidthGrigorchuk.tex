@@ -789,34 +789,61 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
 \subsection{Bounded conjugacy width}
 In \cite{Fink:Conjugacy_growth} it is proven that $G$ has finite bounded conjugacy width. 
 \begin{pro}
- Let $g\in G'$. Then the equation 
+ Let $g$ be in $G'$. Then the equation 
  \begin{align*}
   a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag=1
  \end{align*}
-is solvable. 
+is solvable in $G$. 
 \end{pro}
 \begin{proof}
-%  Depending if $g^\pi=1$ or $g^\pi=((ad)^2)^\pi$ we consider the constrained equation
-%  $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}a^{x_6}g,\id)$ or
-%  $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}a^{x_6}g,(x_2\mapsto d^\pi,x_i\mapsto 1 \forall i\neq2))$.
- %TODO Continue
- We distinguish between to cases either $g\in K$ or $g\in (ad)^2K$. In the first case
- we know from Lemma \ref{lem:productOfStatesIsInDerived} that $g\at{2}\cdot g\at{1}$ is 
- also in $K$. 
+We need to solve the equation $(E=a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag,\gamma)$ for
+some constraint $\gamma$. Independent of the chosen constraint the replacement of
+$x_i$ by $\pair{y_i,z_i}\act(\gamma(x_i)$ leads to an equivalent equation 
+$R_2(g\at{2})(g\at{1})$. Similar to the construction of $\Gamma^q$ in the section
+before one can find for each $q\in\RNK{G'}{K'}$ a constraint $\gamma$ such that
+$\gamma(E^{\id*\pi})=1$ and $\gamma'\in\Gamma_1(\gamma)$ such that all for all 
+$g\in\pi^{-1}(q)$ holds that $(g\at{2}g\at{1},\gamma')$ are good pairs.
+
+Therefore the constrained equation $(R_2(g\at{2})(g\at{1}),\gamma')$ is solvable
+for each $g\in G'$ and hence the equation $a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag$.
+%  We distinguish between to cases either $g\in K$ or $g\in (ad)^2K$. In the first case
+%  we know from Lemma \ref{lem:productOfStatesIsInDerived} that $g\at{2}\cdot g\at{1}$ is 
+%  also in $K$. 
  
- The constrained equation $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag,\id)$ is solvable if
- the constrained equation $(R_2(g\at{2})(g\at{1}),\id)$ is solvable since if we replace $x_i$
- by $\pair{y_i,z_i}$ we get the equivalent equation
- \[\pair{y_1^{-1}z_1z_2^{-1}y_2y_3^{-1}z_3z_4^{-1}y_4y_5^{-1}z_5(g\at{1}),z_1^{-1}y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})} = \pair{1,1}.\]
- The $G-$homomorphism $z_1\mapsto y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})$ doesn't affect 
- a solution of this problem and the normalization of the corresponding first
- state is $R_2(g\at{2})(g\at{1})$. The latter is solvable as shown in the proof of Corollary \ref{cor:KhasCW2}.
+%  The constrained equation $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag,\id)$ is solvable if
+%  the constrained equation $(R_2(g\at{2})(g\at{1}),\id)$ is solvable since if we replace $x_i$
+%  by $\pair{y_i,z_i}$ we get the equivalent equation
+%  \[\pair{y_1^{-1}z_1z_2^{-1}y_2y_3^{-1}z_3z_4^{-1}y_4y_5^{-1}z_5(g\at{1}),z_1^{-1}y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})} = \pair{1,1}.\]
+%  The $G-$homomorphism $z_1\mapsto y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})$ doesn't affect 
+%  a solution of this problem and the normalization of the corresponding first
+%  state is $R_2(g\at{2})(g\at{1})$. The latter is solvable as shown in the proof of Corollary \ref{cor:KhasCW2}.
+%  %TODO no its not!. (g\at{2})(g\at{1}) not nec. in K' !
  %
 \end{proof}
-\begin{lem}
- If $g\in K$ then 
- \[(g\at{1},g\at{2})^{\pi\times\pi} \in \left\{\left(\left((ca)^n\right)^\pi,\left((ac)^n\right)^\pi\right) \mid n=1,\ldots,4\right\}\]
-\end{lem}
+\begin{defi}[\cite{Fink:Conjugacy_growth}]
+ The \emph{conjugacy width} of a group $G$ with generating set $S$ 
+ is the least number $N\in\NN$ such that every element $g\in G$ is a product of
+ at most $N$ conjugates of generators $s\in S$.
+\end{defi}
+\begin{cor}
+ The Grigorchuk group $G$ with generating set $\{a,b,c,d\}$ has conjugacy width at most $8$.
+\end{cor}
+\begin{proof}
+ The following set $T$ is a transversal of $\RNK{G}{G'}$. So every element $g\in G$ can be written as $g=th$ with $t\in T$ and $h\in G'$.
+ \[T=\{1,a,d^aa,d^a,b,ab^a,ca^d,bd^a\}.\]
+ As every element of $G'$ is a product of at most $6$ conjugates of $a$ this proofs the claim.
+%  \begin{align}
+%   T &=\{&1&,&a&,&ad=d^aa&,&ada=d^a,\\
+%     & &b&,&ba=ab^a&,&bad=ca^d&,&bada=bd^a
+%  \end{align}
+
+\end{proof}
+
+%TODO no need for this a.t.m.
+% \begin{lem}
+%  If $g\in K$ then 
+%  \[(g\at{1},g\at{2})^{\pi\times\pi} \in \left\{\left(\left((ca)^n\right)^\pi,\left((ac)^n\right)^\pi\right) \mid n=1,\ldots,4\right\}\]
+% \end{lem}
 
 
 
