@@ -34,7 +34,7 @@ groups. We won't give a detailed introduction into this field but
 refer the reader to the book by Nekrashevych \cite{Nekrashevych:SelfSimilarGroups}. 
 One famous finitely generated such group was defined by 
 Grigorchuk and was the first known group of intermediate growth. We will
-refer to this group as the Grigorchuk $2$-group $G$.
+refer to this group as the first Grigorchuk group $G$.
 
 Many decision problems which are solvable in large subclasses of 
 self similar groups where first studied in this group. The group
@@ -620,22 +620,18 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 \begin{lem} \label{lem:productOfStatesIsInDerived} 
  Let $h\in G$ and $p_h\colon G\to G$ be the map $g\mapsto \left((g\at{2})^{h}\cdot g\at{1},\gamma'''\right)$.
  
- It holds that $p_h(G')\subset G'$ for all $h\in G$ and $p_1(K)\subset K$. 
+ It holds that $p_h(G')\subset G'$ for all $h\in G$ and $p_1(G')\subset K$. 
 \end{lem}
 \begin{proof}
  Denote first by $p:=p_1$ then
  each element $g\in G'$ is a word in generators $w((ab)^2,(abad)^2,(bada)^2,(ad)^2)$. 
  The generators have the following form:
  \[(ab)^2=\pair{ca,ac}, (abad)^2 = \pair{1,(ab)^2}, (bada)^2=\pair{(ab)^2,1}, (ad)^2=\pair{b,b}.\]
- Therefore it is
+ Therefore Since $b$ commutes with all generators of $G$ modulo $K$ it is
  \begin{align*}
-  p(g) &= w(ac,(ab)^2,1,b) \cdot w(ca,1,(ab)^2,b)\\ &\equiv w(ac,1,1,1) \cdot w(ca,1,1,1) \cdot w(1,1,1,b)^2 \equiv 1 \mod G'.
+  p(g) &= w(ac,(ab)^2,1,b) \cdot w(ca,1,(ab)^2,b)\\ &\equiv w(ac,1,1,1) \cdot w(ca,1,1,1) \cdot w(1,1,1,b)^2 \equiv 1 \mod K.
  \end{align*}
  For $h\in G$ it is $p_h(g)=[h,(g\at{2})^{-1}]p(g)$ and therefore $p_h(g)\in G'$ for all $g\in G'$.
- An element $g\in K$ is a word $w((ab)^2,(abad)^2,(bada)^2,)$ and therefore
- \begin{align*}
-  p(g) &= w(ac,(ab)^2,1) \cdot w(ca,1,(ab)^2)\\ &\equiv w(ac,1,1) \cdot w(ca,1,1) \equiv 1 \mod K.
- \end{align*}
 \end{proof}
 \begin{lem} \label{lem:pIsDefinedModK'}
  The map 
