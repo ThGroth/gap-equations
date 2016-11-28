@@ -475,7 +475,7 @@ IsGoodPair := function(q,gamma)
     if IsRecord(gamma) then
         return q in gamma.goodPairs;
     fi;
-    if IsGroupHomomorphism then
+    if IsGroupHomomorphism(gamma) then
         gamma := List(GeneratorsOfGroup(Source(gamma)),gen->gen^gamma);
     fi;
     gammaRec := First(PCD.ReducedConstraints,E->E.constraint=gamma);
