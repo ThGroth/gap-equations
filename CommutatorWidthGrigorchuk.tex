@@ -3,6 +3,7 @@
 \geometry{a4paper,left=35mm,right=35mm, top = 35mm, bottom=35mm}
 
 \input{latex/header.tex}
+
 %\bibliographystyle{THdeutsch}
 %\bibliographystyle{alphaTH}
 %\bibliographystyle{dinat}
@@ -75,7 +76,7 @@ The main ingredient of our proof requires many computations which are
 done by the computer algebra system GAP \cite{GAP4}. The source code
 for this computations will be distributed with this document. It can
 be validated using precomputed data on a GAP standard installation
-by running the command \lstinline{gap verfify.g} in the main directory.
+by running the command \gapinline{gap verfify.g} in the main directory.
 
 %ALSO: say that the proof is GAP-assisted; verification of the arguments is done by running GAP code, and checking the proof === checking the GAP code.
 For a more advanced experimentation with the code and redoing all 
@@ -300,19 +301,11 @@ The Grigorchuk group is regular branched with branching subgroup
  The Quotient $Q := \RNK{G}{K}$ is of order $16$.
 \end{lem}
 
-\begin{lem}[\cite{Lysenok:QudraticEquationsInGrig}]
+\begin{lem}[\cite{Lysenok:QudraticEquationsInGrig}]\label{lem:finitelyManyConstraints}
  Given $n\in \NN$ and any homomorphism $\gamma\colon F_X \to Q$ with $\supp(\gamma) \subset \left<x_1,\ldots x_{2n}\right>$
  there is an element $\varphi \in \Stab(R_n)<\Aut(F_X)$ such that $\supp(\gamma\circ\varphi) \in \left<x_1,\ldots,x_5\right>$.
 \end{lem}
-\begin{re}
- This is now implemented in GAP: For this see the 
- attached gap file and the function \emph{ReduceConstraint} which can be called 
- with one argument being either a group homomorphism from a free group to $Q$ or 
- a list of elements of $Q$. The group $Q$ can be accessed by
- \lstinline{BranchStructure(GrigorchukGroup).group} which comes with the GAP package FR \cite{FR2.3.6}.
-\end{re}
-
-\begin{lem}
+\begin{lem}\label{lem:90Constraints}
  Identify the group of homomorphisms $\{\gamma \colon F_X \to Q \mid \supp(\gamma) \subset \left<x_1,\ldots x_6\right>\}$ with $Q^6$. 
  Then \[\left|\RNK{Q^6}{\Stab(R_3)}\right|=90.\]
 \end{lem}
@@ -329,10 +322,10 @@ The Grigorchuk group is regular branched with branching subgroup
   &&x_{i+2}&\mapsto x_{i+1}x_{i+2}^{-1}x_{i+2}x_{i+2}x_{i+1}^{-1}, && \\  
   &&x_{i+3}&\mapsto x_{i+1}x_{i+2}^{-1}x_{i+3}& \textup{for }&i=1,3,\ldots,2n-3   
  \end{align*}
- Now the GAP included standard orbit enumeration algorithm \lstinline{OrbitsDomain} can be used to 
+ Now the GAP included standard orbit enumeration algorithm \gapinline{OrbitsDomain} can be used to 
  to compute the orbit and verify its size. 
  
- To check this the function \lstinline{verifyLemma90orbits}
+ To check this the function \gapinline{verifyLemma90orbits}
  can be used. For more details see Section \ref{sec:gap_details}
 \end{proof}
 \begin{defi}
@@ -366,7 +359,7 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of
 \end{lem}
 \begin{proof}
  This can be seen in \cite{Bartholdi:RepresentationZetaFunctions}. In GAP the branch structure can be computed
- by the method \lstinline{BranchStructure(GrigorchukGroup)} which is included in the FR package. 
+ by the method \gapinline{BranchStructure(GrigorchukGroup)} which is included in the FR package. 
 \end{proof}
 
 
@@ -438,7 +431,7 @@ Furthermore we have this chain of indices:
 \end{lem}
 \begin{proof}
  This is shown in \cite{Bartholdi:BranchGroups} and can be verified using the GAP standard methods
- \lstinline{NormalClosure} and \lstinline{Index}. 
+ \gapinline{NormalClosure} and \gapinline{Index}. 
 \end{proof}
 
 \subsection{Succesing pairs}
@@ -458,7 +451,7 @@ Furthermore we have this chain of indices:
  good pair.
 \end{lem}
 \begin{proof}
- This is a finite problem which can be checked in GAP with the function \lstinline{verifyLemmaExistGoodConstraints}.
+ This is a finite problem which can be checked in GAP with the function \gapinline{verifyLemmaExistGoodConstraints}.
  For more details see Section \ref{sec:gap_details}.
 \end{proof}
 
@@ -564,7 +557,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 	    \forall r\in \varpi'^{-1}(\bar p_{\textup{rep}(\gamma'(y_{\gamma'}))}):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  
- This last formula quantifies only over finite sets and is implemented in GAP and can be verified there by calling \lstinline{verifyPropExistsSuccessor}. 
+ This last formula quantifies only over finite sets and is implemented in GAP and can be verified there by calling \gapinline{verifyPropExistsSuccessor}. 
  \end{proof}
 
  \begin{defi}
@@ -640,7 +633,7 @@ is well defined.
 \end{lem}
 \begin{proof}
  It's easy to verify by GAP that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$ using Lemma \ref{lem:subgroupsOfG}.
- For check this call the function \lstinline{verifyLemmaStatesOfKPinKxK} of the attached GAP file.
+ For check this call the function \gapinline{verifyLemmaStatesOfKPinKxK} of the attached GAP file.
  Then for $k\in K'$ it is 
  \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in (g\at{2})^h\cdot g\at{1}K\times K.\]
 \end{proof}
@@ -731,7 +724,7 @@ It turns out that there are $86$ orbits and we can check that there are again en
  good pair.
 \end{lem}
 \begin{proof}
- This can be checked in GAP with the function \lstinline{verifyLemmaExistGoodGammasForRed4}.
+ This can be checked in GAP with the function \gapinline{verifyLemmaExistGoodGammasForRed4}.
 \end{proof}
 
 Analog to Proposition \ref{pro:existsNextPair} we can formulate the following proposition.
@@ -747,7 +740,7 @@ The proof is the same as for Proposition \ref{pro:existsNextPair}. The correspon
 	 \exists \gamma'\in \Gamma^q(\gamma)
 	    \forall r\in \varpi'^{-1}(\bar p_{\textup{rep}(\gamma'(y_{\gamma'}))}):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
- With GAP and the function \lstinline{verifyPropExistsSuccessor} this can be verified. 
+ With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
 The resulting succesing pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
 by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \ref{lem:existsGoodGammaForRed4} this proves the following corollary.
@@ -767,7 +760,7 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  Then we can define the map $s\colon F_4\to G, x_i\mapsto \pair{s_1(x_i),s_2(x_i)}$ this is a solution
  for $R_2g$ and $s(x_i)\in K$ for all $i=1,\ldots,4$. Therefore the commutator width of $K$ is at most $2$.
  
- The previous check is implemented in the GAP function \lstinline{verifyCorollaryFiniteCWK}. 
+ The previous check is implemented in the GAP function \gapinline{verifyCorollaryFiniteCWK}. 
 \end{proof}
 \begin{cor}
  All normal subgroups $H\normal G$ are of finite commutator width.
@@ -858,15 +851,15 @@ There is an element in the 4th level Germgroup.
 
 \section{Implementation in GAP}
 \subsection{Usage of the attached files}
-In the main directory of the archive you can type the command \lstinline{gap verify.g} and 
+In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
 you will get as output a list of lemmata which are then proven to be true. 
-The file calls all the previously mentioned methods \lstinline{verifi...}.
+The file calls all the previously mentioned methods \gapinline{verifi...}.
 This approach uses
 precomputed data which is also in the archive. This saves you a lot of computation time.
 
 However you can recompute this data yourself if a sufficiently new version of GAP and
-some packages are present. Inside the interactive gap shell after calling \lstinline{gap verify.g}
-you can use the function \lstinline{RedoPrecomputation} with one argument. In each case
+some packages are present. Inside the interactive gap shell after calling \gapinline{gap verify.g}
+you can use the function \gapinline{RedoPrecomputation} with one argument. In each case
 the result is written to a file and will override the original precomputed data. The 
 argument can be one of the following:
 \begin{itemize}
@@ -899,15 +892,41 @@ argument can be one of the following:
 %     constr := ReducedConstraint(gamma);;
 %     Print(constr.constraint);
 % \end{lstlisting} 
-
-
 \subsection{Implementation details}
 \label{sec:gap_details}
-\paragraph{Lemma \ref{lem:atIsWellDefinedModK'}}
-\paragraph{Lemma \ref{lem:existsGoodGamma}}
+\paragraph{Reduced Constraints}
+The proof of Lemma \ref{lem:finitelyManyConstraints} in \cite{Lysenok:QudraticEquationsInGrig} 
+provides a constructive method to reduce any constraint to one with support
+only in the first five variables. 
+We have implemented this in the function \gapinline{ReducedConstraintAllModes} in the file
+\filename{gap/functions.g}.
 
-\phantomsection
-\addcontentsline{toc}{section}{References}
+It uses that the quotient $Q=\RNK{G}{K}$ is a polycyclic group with 
+\begin{align*}
+ C_0 &= Q = \left<a^\pi,b^\pi,d^\pi\right>, &
+ C_1 &= \left<a^pi,d^\pi\right>, &
+ C_2 &= \left<(ad)^\pi\right>
+\end{align*}
+We take the generators of $\Stab(R_n)$ as given in the proof of Lemma \ref{lem:90Constraints}
+plus additional ones which can switch two neighboring pairs:
+\begin{align*}
+ s_i &\colon &x_i&\mapsto x_{i+2}&\\
+	    &&x_i+1&\mapsto x_{i+3}&\\
+	    &&x_i+2&\mapsto x_{i}^{[x_{i+2},x_{i+3}]}&\\
+	    &&x_i+3&\mapsto x_{i+1}^{[x_{i+2},x_{i+3}]} & \textup{ for }i = 1,3,\ldots,2n-3.
+\end{align*}
+It can easily be checked, that these are also contained in $\Stab(R_n)$. These elements
+are used to reduce a given constraint in a form of a list with entries in $Q$ to a
+list where all entries with index larger then $5$ are one. 
+This constraint can then be further reduced by a lookup table for the orbits
+of $\RNK{\Aut(F_6)}{\Stab(R_3)}$. 
+
+
+
+
+%\paragraph{Lemma \ref{lem:atIsWellDefinedModK'}}
+%\paragraph{Lemma \ref{lem:existsGoodGamma}}
+
 \bibliography{latex/bio}
 \appendix
 % \include{Abschnitte/Anhang}
