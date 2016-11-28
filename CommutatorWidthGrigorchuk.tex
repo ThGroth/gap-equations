@@ -122,7 +122,7 @@ equation $E$ is solvable will be referred to as the \emph{diophantine}
 problem of $E$.
 
 Every homomorphism $\varphi \colon G \to H$ extends uniquely to an
-$F_X$-homomorphism $\varphi_* \colon F_X*G \to F_X*H$. In this manner,
+$F_X$-ho\-mo\-morphism $\varphi_* \colon F_X*G \to F_X*H$. In this manner,
 every $G$-equation $E$ gives rise to an $H$-equation $\varphi_*(E)$,
 which is solvable whenever $E$ is solvable.
 
@@ -229,7 +229,7 @@ We shall prove the following theorem:
     brought into normal form by induction.
   \end{itemize}
   Therefore each oriented equation can be brought to normal form by a
-  $G$-isomorphisms.
+  $G$-iso\-mor\-phisms.
 
   In the unoriented case decompose the equation into $E = uxvxw$ with
   again $v$ having a minimal number of variables.  The shorter word
@@ -276,7 +276,7 @@ first generators of $F_X$.
 Let $T_n$ be an infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
 The group $\Aut(T_n)$ consists of all root preserving graph automorphisms of the tree $T_n$. 
 Note that $T_n$ is isomorphic to any $n$-ary subtree and therefore there is an isomorphism
-$\psi\colon \Aut(T_n)\stackrel{\simeq}{\to} \Aut(T)\wr S_n$. 
+$\psi\colon \Aut(T_n)\xrightarrow{\sim} \Aut(T)\wr S_n$. 
 %TODO!!!LB: Stopped checking the grammar!!!
 
 
@@ -472,7 +472,7 @@ with the following properties:
  complement the set $S$ to a transversal $S'$ of $\RNK{G}{K}$ and denote by $\textup{rep}\colon Q\to S'$ 
  the map such that $\textup{rep}(q)^\pi = q$.
  
- Denote $x_i\in X$ such that $\supp(\gamma) \subset \left<x_1,\ldots,x_{2n}\right>$ and choose some 
+ Denote generators $x_i\in X$ such that $\supp(\gamma) \subset \left<x_1,\ldots,x_{2n}\right>$ and choose some 
  other $y_1,\ldots,y_{4n} \in X \setminus \{x_1,\ldots,x_{2n}\}$. 
  Now define
  \[\Gamma_1(\gamma) = \{\gamma' \colon \left< y_1,\ldots ,y_{4n}\right> \to Q \mid \pair{\gamma'(y_{2i-1}),\gamma'(y_{2i})}\in w^{-1}(\gamma(x_i)),i=1\ldots2n\}.\] 
@@ -509,7 +509,8 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  Which can be extended by the mapping $x_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of $(\Phi_\gamma(R_n g),\gamma')$.
  By definition of $\omega$ it is $t_i:=\pair{s(y_{2i-1}),s(y_{2i})}\act(\gamma(x_i)) \in G$ for all $i$. So the mapping $x_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
  
- The map $\Gamma_3^{q_1,q_2,n,x_0}$ does not depend on the value of $n$: Assume $m<n$ then choose  
+ The map $\Gamma_3^{q_1,q_2,n,x_0}$ doesn't depend on %the value of 
+ $n$: Assume $m<n$ then choose  
  fitting $v,w$ such that $\Phi_\gamma(R_mg)=\pair{v,w}\pair{g_1,g_2}$ then $\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-m}g_1,R_{n-m}'g_2}$ 
  then after applying the homomorphism $l_{x_0}$ 
  the word which needs to be normalized is $v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1$. The automorphisms
@@ -562,7 +563,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 
  \begin{defi}
  For each fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(q,\gamma)$ is a good pair
- fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}\gamma'(y_{\gamma'})\in S$ which exist by the previous proposition.
+ fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}(\gamma'(y_{\gamma'}))\in S$ which exist by the previous proposition.
  
  With Lemma \ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
  For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{successing pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
@@ -638,7 +639,7 @@ is well defined.
  \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in (g\at{2})^h\cdot g\at{1}K\times K.\]
 \end{proof}
 \begin{lem} \label{lem:atIsWellDefinedModK'}
- The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps $\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}$
+ The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps \[\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}.\]
 \end{lem}
 \begin{proof}
  As before it is $k'\at{i} \in K\times K < K$.
@@ -724,7 +725,7 @@ It turns out that there are $86$ orbits and we can check that there are again en
  good pair.
 \end{lem}
 \begin{proof}
- This can be checked in GAP with the function \gapinline{verifyLemmaExistGoodGammasForRed4}.
+ This can be checked in GAP with the function\newline \gapinline{verifyLemmaExistGoodGammasForRed4}.
 \end{proof}
 
 Analog to Proposition \ref{pro:existsNextPair} we can formulate the following proposition.
@@ -912,7 +913,7 @@ list where all entries with index larger then $5$ are one.
 This constraint can then be further reduced by a lookup table for the orbits
 of $\RNK{\Aut(F_6)}{\Stab(R_3)}$. 
 
-If the file \filename{verify.g} is loaded with the package FR in presence
+If the file \filename{verify.g} is loaded in a GAP environment with the FR package available 
 the function \gapinline{ReducedConstraint} can be used as an alias to get 
 reduced constraints. For Example:
  \begin{lstlisting}
@@ -954,7 +955,7 @@ $\gamma_1,\gamma_2$ such that both have nontrivial activity and with
 $\omega$ the map from the branch structure it hold:
 $\omega(\pair{\gamma_1(x_i),\gamma_2(x_i)})=\gamma(x_i)$. 
 
-If the file \filename{verify.g} is loaded with the package FR in presence
+If the FR package is available
 the function \gapinline{GetSuccessorLookup} can be used to explore the
 successors of elements. It returns the successing pair. For example
  \begin{lstlisting}
