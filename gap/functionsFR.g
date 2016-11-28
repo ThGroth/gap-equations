@@ -123,10 +123,6 @@ end;
 #       where γ is the reducedConstraint as in mode 1 and 
 #       φ is a an automorphism of F₂ₙ which performs the reduction
 #   
-# There are aliases available:
-# ReducedConstraint(γ)=ReducedConstraint(γ,0)
-# ReducedConstraintnoLookup(γ)=ReducedConstraint(γ,1)
-# ReducedConstraintReturnHom(γ)=ReducedConstraint(γ,2)
 # 
 #
 ReducedConstraintAllModes := function(gamma,mode,arg...)
@@ -272,7 +268,7 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
         return Phi;
     end;
     #
-    # NormalizeBlock sends block of the form [G,G] to [G,Mod]
+    # NormalizeBlock sends block of the form (G,G) to (G,Mod)
     # 
     NormalizeBlock := function(i,gamma,Mod)
         local Phi;

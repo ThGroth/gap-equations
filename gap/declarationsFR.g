@@ -68,7 +68,7 @@ A := Filtered(List(Q),x->Activity(PreImagesRepresentative(pi,x))=(1,2));
 AC := Filtered(List(Q),x->Activity(PreImagesRepresentative(pi,x))=());
 
 #Needed for the ReduceConstraint function. 
-#This is the polycylcic decomposition of G
+#This is the polycylcic decomposition of Q
 C1 := Group(a^pi,d^pi);
 C2 := Group((a*d)^pi);
 
