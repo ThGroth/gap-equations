@@ -309,7 +309,7 @@ The Grigorchuk group is regular branched with branching subgroup
  attached gap file and the function \emph{ReduceConstraint} which can be called 
  with one argument being either a group homomorphism from a free group to $Q$ or 
  a list of elements of $Q$. The group $Q$ can be accessed by
- \lstinline{BranchStructure(GrigorchukGroup).group} which comes with the GAP package FR \cite{FR2.1.1}.
+ \lstinline{BranchStructure(GrigorchukGroup).group} which comes with the GAP package FR \cite{FR2.3.6}.
 \end{re}
 
 \begin{lem}
@@ -332,12 +332,8 @@ The Grigorchuk group is regular branched with branching subgroup
  Now the GAP included standard orbit enumeration algorithm \lstinline{OrbitsDomain} can be used to 
  to compute the orbit and verify its size. 
  
- To check this the function \lstinline{verifyLemma66orbits} from the file \emph{verify.g} 
- can be used. 
-%  With argument \lstinline{true} it uses the precomputed orbits and just checks
-%  their length. Otherwise it recomputes the orbits which can take up to $\SI{24}{\hour}$ 
-%  and about $\SI{7.5}{\giga\byte}$.
-%  of ram. 
+ To check this the function \lstinline{verifyLemma90orbits}
+ can be used. For more details see Section \ref{sec:gap_details}
 \end{proof}
 \begin{defi}
  Fix some representative system $\Red$ of the above $90$ orbits and for 
@@ -462,9 +458,8 @@ Furthermore we have this chain of indices:
  good pair.
 \end{lem}
 \begin{proof}
- This is a finite problem which can be checked in GAP with the function \lstinline{verifyLemmaExistGoodGammas}.
-%  If this function is called with the argument \lstinline{true} then it uses the pre-computed list
-%  of good pairs. Otherwise it computes the list of good pairs first, which will take about $\SI{1}{\min} $.
+ This is a finite problem which can be checked in GAP with the function \lstinline{verifyLemmaExistGoodConstraints}.
+ For more details see Section \ref{sec:gap_details}.
 \end{proof}
 
 Denote by $S$ the set $\{1,a,b,c,d,ab,ad,ba\}\subset G$.
@@ -778,7 +773,7 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  All normal subgroups $H\normal G$ are of finite commutator width.
 \end{cor}
 \begin{proof}
- Note that from corollary \ref{cor:KhasCW2} follows that $K\times K$ and furthermore $K^n$ have commutator width $2$. 
+ Note that from corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore $K^n$ have commutator width $2$. 
  In %\cite TODO
  is shown that for $H\normal G$ there is $n$ such that $K^{2^n}\leq H$. As $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
  So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ and $N\in \NN$ such that every element in $T$ is a product of at most $N$ commutators
@@ -864,7 +859,9 @@ There is an element in the 4th level Germgroup.
 \section{Implementation in GAP}
 \subsection{Usage of the attached files}
 In the main directory of the archive you can type the command \lstinline{gap verify.g} and 
-you will get as output a list of lemmata which are then proven to be true. This approach uses
+you will get as output a list of lemmata which are then proven to be true. 
+The file calls all the previously mentioned methods \lstinline{verifi...}.
+This approach uses
 precomputed data which is also in the archive. This saves you a lot of computation time.
 
 However you can recompute this data yourself if a sufficiently new version of GAP and
@@ -890,24 +887,24 @@ argument can be one of the following:
 		      Corollary \ref{cor:KhasCW2}. 
   \item [``all''] This will do both of the above.		      
    \end{itemize}
+  
 
-\begin{itemize}
- \item \lstinline{ReducedConstraint}: Given a group homomorphism $\varphi\colon F_{2n} \to Q$ this function returns a reduced constraint.
- Example: 
- \begin{lstlisting}
-    f1 := Q.1; f2 := Q.2;
-    gamma:= [f1,f1,f1,f1,f1,f1];
-    constr := ReducedConstraint(gamma);;
-    Print(constr.constraint);
-    gamma := GroupHomomorphismByImages(FreeGroup(6),Q,[f2,f2,f2,f2,f2,f2]);
-    constr := ReducedConstraint(gamma);;
-    Print(constr.constraint);
-\end{lstlisting} 
-\end{itemize}
+%  Example: 
+%  \begin{lstlisting}
+%     f1 := Q.1; f2 := Q.2;
+%     gamma:= [f1,f1,f1,f1,f1,f1];
+%     constr := ReducedConstraint(gamma);;
+%     Print(constr.constraint);
+%     gamma := GroupHomomorphismByImages(FreeGroup(6),Q,[f2,f2,f2,f2,f2,f2]);
+%     constr := ReducedConstraint(gamma);;
+%     Print(constr.constraint);
+% \end{lstlisting} 
+
 
 \subsection{Implementation details}
+\label{sec:gap_details}
 \paragraph{Lemma \ref{lem:atIsWellDefinedModK'}}
-\paragraph{Lemma \ref{lem:existsGoodGamma'}}
+\paragraph{Lemma \ref{lem:existsGoodGamma}}
 
 \phantomsection
 \addcontentsline{toc}{section}{References}
