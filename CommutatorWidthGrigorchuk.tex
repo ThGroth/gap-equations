@@ -539,8 +539,10 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
  then $q_i = q\att{i}$ (Lemma \ref{lem:atIsWellDefinedModK'}). So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and filter those 
  constraints out which doesn't fulfill the requested properties and therefore finally define
+ \begin{defi}\label{def:Gammaq}
  \[\Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
   \act(\gamma')\neq 1, \gamma'({y_{\gamma'}}) \in S^\pi \right\}.\]
+ \end{defi}
  \begin{pro}\label{pro:existsNextPair}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{act}$ the set $\Gamma^q(\gamma)$ 
  contains some $\gamma'$ with special generator $y_{\gamma'}$ such that for all $g$ with $g^\tau=q$ the
@@ -860,11 +862,35 @@ There is an element in the 4th level Germgroup.
 
 
 \section{Implementation in GAP}
-%TODO Do this section
 \subsection{Usage of the attached files}
-Together with this document there come some files which contain the algorithms used for some proofs.
-The file \emph{verify.g} is meant to be the starting point. The file contains the main methods to explore the results.
-After reading this file the following functions can be used:
+In the main directory of the archive you can type the command \lstinline{gap verify.g} and 
+you will get as output a list of lemmata which are then proven to be true. This approach uses
+precomputed data which is also in the archive. This saves you a lot of computation time.
+
+However you can recompute this data yourself if a sufficiently new version of GAP and
+some packages are present. Inside the interactive gap shell after calling \lstinline{gap verify.g}
+you can use the function \lstinline{RedoPrecomputation} with one argument. In each case
+the result is written to a file and will override the original precomputed data. The 
+argument can be one of the following:
+\begin{itemize}
+    \item [``orbits''] This will compute the $90$ orbits of $\RNK{\Aut(F_6)}{\Stab(R_3)}$ and the
+		       $86$ orbits of $\RNK{\Aut(F_4)}{\Stab(R_2)}$. This computation will take
+		       about $12$ hours of ordinary machine and has no progress bar.
+   \item [``goodpairs''] First this will compute for each constraint $\gamma\in\Red\cup\Red^4$ 
+		      the set of all $q\in\RNK{G'}{K'}$ such that $(q,\gamma)$ is a good pair.
+		      
+		      Then it computes for each good pair $(q,\gamma)$ one $\gamma'\in\Gamma_q(\gamma)$
+		      with decorated $x=y_{\gamma'}\in S$ as defined in \ref{def:Gammaq} which 
+		      fulfills depending whether $\gamma\in\Red^4_{act}$ or $\gamma\in\Red_{act}$ 
+		      either Proposition \ref{pro:existsNextPair} or Proposition \ref{pro:existsNextPair4}.
+		      This computation will take about $2$ hours on ordinary machines and is equipped 
+		      with a progress bar. 
+		      
+		      Afterwards the successor of $(q,\id)$ is computed which is needed for 
+		      Corollary \ref{cor:KhasCW2}. 
+  \item [``all''] This will do both of the above.		      
+   \end{itemize}
+
 \begin{itemize}
  \item \lstinline{ReducedConstraint}: Given a group homomorphism $\varphi\colon F_{2n} \to Q$ this function returns a reduced constraint.
  Example: 
