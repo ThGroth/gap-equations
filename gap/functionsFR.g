@@ -480,7 +480,7 @@ IsGoodPair := function(q,gamma)
     fi;
     gammaRec := First(PCD.ReducedConstraints,E->E.constraint=gamma);
     if gammaRec = fail then
-        gammaRec := PCD.ReducedConstraint(gamma);
+        gammaRec := ReducedConstraint(gamma);
     fi;
     return q in gammaRec.goodPairs;
 end;
