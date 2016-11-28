@@ -94,27 +94,22 @@ tabsize=2
   \ensuremath{\mkern-3mu} \bigg/  \ensuremath{\mkern-3mu}
   \raisebox{-1ex}{\ensuremath{#2}}
 }
-\newcommand{\RNK}[2]{
-  \mathchoice{ \raisebox{1ex}{\ensuremath{#1}}%
-	       \ensuremath{\mkern-4mu} \big/  \ensuremath{\mkern-4mu}%
-	       \raisebox{-1ex}{\ensuremath{#2}}}%
-	     { \raisebox{0.2ex}{\ensuremath{#1}}%
-	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
-	       \raisebox{-0.2ex}{\ensuremath{#2}}}%
-	     { \raisebox{0.1ex}{\ensuremath{\scriptstyle#1}}%
-	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
-	       \raisebox{-0.1ex}{\ensuremath{\scriptstyle#2}}}%
-	     { {\ensuremath{#1}}%
-	        /%
-	       {\ensuremath{#2}}}%
-  \ 
-}
-\newcommand{\LNK}[2]{
-  \raisebox{-1ex}{\ensuremath{#1}}
-  \ensuremath{\mkern-3mu} \backslash  \ensuremath{\mkern-3mu}
-  \raisebox{1ex}{\ensuremath{#2}}
-  \ 
-}
+\newcommand{\RNK}[2]{{#1/#2}}
+% \newcommand{\RNK}[2]{
+%   \mathchoice{ \raisebox{1ex}{\ensuremath{#1}}%
+% 	       \ensuremath{\mkern-4mu} \big/  \ensuremath{\mkern-4mu}%
+% 	       \raisebox{-1ex}{\ensuremath{#2}}}%
+% 	     { \raisebox{0.2ex}{\ensuremath{#1}}%
+% 	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
+% 	       \raisebox{-0.2ex}{\ensuremath{#2}}}%
+% 	     { \raisebox{0.1ex}{\ensuremath{\scriptstyle#1}}%
+% 	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
+% 	       \raisebox{-0.1ex}{\ensuremath{\scriptstyle#2}}}%
+% 	     { {\ensuremath{#1}}%
+% 	        /%
+% 	       {\ensuremath{#2}}}%
+%   \ 
+% }
 
 %uppergausian bracket
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
