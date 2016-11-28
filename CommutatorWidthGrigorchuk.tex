@@ -374,7 +374,7 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of
  which is impossible since $ac$ has activity.
 \end{re}
 
-\subsection{Good Pairs}
+\subsection{Good Pairs}\label{sec:good_pairs}
 The previous remark motivates the following definition.
 \begin{defi}
 Given $g\in G'$ and $\gamma\in\Red$ . The tuple $(g,\gamma)$ is called a \emph{good pair} if there exists an $n$ such that
@@ -434,7 +434,7 @@ Furthermore we have this chain of indices:
  \gapinline{NormalClosure} and \gapinline{Index}. 
 \end{proof}
 
-\subsection{Succesing pairs}
+\subsection{Successing pairs}
 \begin{defi}
  We define the activity of an element $q\in Q$ as the activity of an arbitrary element of $\pi^{-1}(q)$. 
  This is well defined as $K<\Stab(1)$. 
@@ -565,8 +565,8 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}\gamma'(y_{\gamma'})\in S$ which exist by the previous proposition.
  
  With Lemma \ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
- For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{succesing pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
- Moreover by applying this iteratively we get the \emph{succesing sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$.
+ For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{successing pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
+ Moreover by applying this iteratively we get the \emph{successing sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$.
  \end{defi}
  
  % Keep it here for the case that an easy method to show that K' has finite c.w. comes up
@@ -742,7 +742,7 @@ The proof is the same as for Proposition \ref{pro:existsNextPair}. The correspon
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
-The resulting succesing pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
+The resulting successing pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
 by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \ref{lem:existsGoodGammaForRed4} this proves the following corollary.
 \begin{cor}\label{cor:GhasCW2}
  The Grigorchuk group $G$ has commutator width at most $2$.
@@ -835,7 +835,7 @@ for each $g\in G'$ and hence the equation $a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag
 
 \subsection{Not every element is a commutator}
 The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
-genus does not increase by passing to a succesing pair. 
+genus does not increase by passing to a successing pair. 
 
 In fact not every element $g\in G'$ is a commutator. This can be seen by passing to finite quotients. If every element would be a commutator then
 it would be a commutator in the quotient group. 
@@ -882,19 +882,10 @@ argument can be one of the following:
    \end{itemize}
   
 
-%  Example: 
-%  \begin{lstlisting}
-%     f1 := Q.1; f2 := Q.2;
-%     gamma:= [f1,f1,f1,f1,f1,f1];
-%     constr := ReducedConstraint(gamma);;
-%     Print(constr.constraint);
-%     gamma := GroupHomomorphismByImages(FreeGroup(6),Q,[f2,f2,f2,f2,f2,f2]);
-%     constr := ReducedConstraint(gamma);;
-%     Print(constr.constraint);
-% \end{lstlisting} 
+
 \subsection{Implementation details}
 \label{sec:gap_details}
-\paragraph{Reduced Constraints}
+\subsubsection{Reduced Constraints}
 The proof of Lemma \ref{lem:finitelyManyConstraints} in \cite{Lysenok:QudraticEquationsInGrig} 
 provides a constructive method to reduce any constraint to one with support
 only in the first five variables. 
@@ -904,8 +895,8 @@ We have implemented this in the function \gapinline{ReducedConstraintAllModes} i
 It uses that the quotient $Q=\RNK{G}{K}$ is a polycyclic group with 
 \begin{align*}
  C_0 &= Q = \left<a^\pi,b^\pi,d^\pi\right>, &
- C_1 &= \left<a^pi,d^\pi\right>, &
- C_2 &= \left<(ad)^\pi\right>
+ C_1 &= \left<a^\pi,d^\pi\right>, &
+ C_2 &= \left<(ad)^\pi\right>.
 \end{align*}
 We take the generators of $\Stab(R_n)$ as given in the proof of Lemma \ref{lem:90Constraints}
 plus additional ones which can switch two neighboring pairs:
@@ -921,6 +912,73 @@ list where all entries with index larger then $5$ are one.
 This constraint can then be further reduced by a lookup table for the orbits
 of $\RNK{\Aut(F_6)}{\Stab(R_3)}$. 
 
+If the file \filename{verify.g} is loaded with the package FR in presence
+the function \gapinline{ReducedConstraint} can be used as an alias to get 
+reduced constraints. For Example:
+ \begin{lstlisting}
+    f4 := Q.1; f2 := Q.2;
+    gamma:= [f1,f1,f1,f1,f1,f1];
+    constr := ReducedConstraint(gamma);;
+    Print(constr.constraint);
+\end{lstlisting} 
+\begin{verbatim}
+>>>      [ <id>, <id>, <id>, <id> , f4, <id>]
+\end{verbatim} 
+
+\subsubsection{Good pairs}
+For $g\in G$ and a constraint $\gamma$ the question if $(g,\gamma)$ is a good
+pair depends only on the image $g^\tau\in\RNK{G}{K'}$ and the representative
+of $\gamma\in\Red$. (See Section \ref{sec:good_pairs}.) So this is already a
+finite problem. 
+
+For a given constraint $\gamma$ to get all $q$ which form a good pair we can
+enumerate all possible commutators for $r_i\in\varpi^{-1}(\gamma(x_i)$.
+$[r_1,r_2][r_3,r_4][r_5,r_6]$. Since $\lvert\RNK{K}{K'}\rvert=64$ considering all 
+combinations at once is far from beeing efficient thus the possible values for
+$[r_1,r_2]$ are computed and in a second step products of those elements.
+This is implemented in the function \gapinline{goodPairs} in the file
+\filename{gap/functions.g}.
+\subsubsection{Successors}
+The key ingredient for the proof of Theorem \ref{thm:CWGrigorchukGroup} is
+Proposition \ref{pro:existsNextPair}. The computational effort there is
+to compute the sets $\Gamma_q(\gamma)$ and find good pairs inside of them.
+
+This is implemented exactly as explained in the construction of the map
+$\Gamma_q$ in the function \gapinline{GetSuccessor} in the file 
+\filename{gap/precomputeGoodPairs.g}. Given an element $q\in\RNK{G'}{K'}$ 
+and an active constraint $\gamma$ this function returns a tuple $(\gamma',x)$ 
+with $\gamma\in\Red$ and $x$ the decorated element $y_\gamma'$.
+
+Given an inactive constraint $\gamma$ it returns a pair of constraints
+$\gamma_1,\gamma_2$ such that both have nontrivial activity and with
+$\omega$ the map from the branch structure it hold:
+$\omega(\pair{\gamma_1(x_i),\gamma_2(x_i)})=\gamma(x_i)$. 
+
+If the file \filename{verify.g} is loaded with the package FR in presence
+the function \gapinline{GetSuccessorLookup} can be used to explore the
+successors of elements. It returns the successing pair. For example
+ \begin{lstlisting}
+    f1 := Q.1; f2 := Q.2;
+    gamma:= [f1,f1,f1,f1,f1,f1];;
+    g := (a*b)^8;;
+    IsGoodPair(g,gamma);
+\end{lstlisting}
+\begin{verbatim}
+>>>      true
+\end{verbatim} 
+\begin{lstlisting}
+    suc := GetSuccessorLookup(g,gamma);;    
+    suc[1];
+\end{lstlisting}
+\begin{verbatim}
+>>>      <Trivial Mealy element on alphabet [ 1 .. 2 ]>
+\end{verbatim} 
+\begin{lstlisting}
+    suc[2].constraint;
+\end{lstlisting}
+\begin{verbatim}
+>>>       [ <id>, <id>, <id>, <id>, f1*f2, <id> ]
+\end{verbatim} 
 
 
 

@@ -67,11 +67,14 @@
 
 %Quellcode Aussehen:
 \lstset {
-basicstyle=\footnotesize,
+basicstyle=\normalsize,
+language=GAP,
 breaklines=true,
 showstringspaces=false,
 tabsize=2
 }
+%Monospace in inline code
+%\lstMakeShortInline[columns=fixed]|
 
 \newtheorem{pro}{Proposition}[section]
 \newtheorem{con}[pro]{Conjecture}
@@ -231,3 +234,8 @@ tabsize=2
 {\raise-0.35em\hbox{\huge $\boxplus$}}%
 {\raise-0.15em\hbox{\Large $\boxplus$}}{\hbox{\large $\boxplus$}}{\boxplus}}}
 \parindent=0em
+
+% For filenames
+\newcommand{\filename}[1]{{\texttt{#1}}}
+%TODO replace this by a nicer one
+\newcommand{\gapinline}[1]{{\lstinline{#1}}}
