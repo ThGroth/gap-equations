@@ -11,7 +11,7 @@ if not IsBound(DeclarationsLoadedFR)  then
     Read(Filename(dir,"functionsFR.g"));
 fi;
 
-#Assert(0,ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGPLtoG,i)^isoGtoGLP in KxKLP)));
+#Assert(0,ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGLPtoG,i)^isoGtoGLP in KxKLP)));
 #See verifyLemmaStatesOfKPinKxK instead
 #the map pₕ: G'/K' → G'/K×K, gK' ↦ ((g@2)ʰ⋅g@1)K×K is well defined
 p_h := function(q,h)
@@ -22,7 +22,7 @@ p_h := function(q,h)
 	if not h in G then
 		Error("h needs to be in G");
 	fi;
-	g := PreImagesRepresentative(tauLP,q)^isoGPLtoG;
+	g := PreImagesRepresentative(tauLP,q)^isoGLPtoG;
 	return ((State(g,2)^h*State(g,1))^isoGtoGLP)^homGtoGmodKxK;
 end;
 # p = p₁
@@ -31,7 +31,7 @@ p := function(q)
 	if not q in GmodKP then
 		Error("q needs to be in G/K'");
 	fi;
-	g := PreImagesRepresentative(tauLP,q)^isoGPLtoG;
+	g := PreImagesRepresentative(tauLP,q)^isoGLPtoG;
 	return ((State(g,2)*State(g,1))^isoGtoGLP)^homGtoGmodKxK;
 end;
 #the maps @i: G'/K' → G'/K, gK' ↦ g@i K are well defined
@@ -39,14 +39,14 @@ StateLP := function(q,i)
 	if not q in GmodKP then
 		Error("State: q needs to be in G/K'");
 	fi;
-	return (State(PreImagesRepresentative(tauLP,q)^isoGPLtoG,i)^isoGtoGLP)^piLP;
+	return (State(PreImagesRepresentative(tauLP,q)^isoGLPtoG,i)^isoGtoGLP)^piLP;
 end;
 StateModKxK := function(q,i)
     local g;
     if not q in GmodKP then
         Error("q needs to be in G/K'");
     fi;
-    g := PreImagesRepresentative(tauLP,q)^isoGPLtoG;
+    g := PreImagesRepresentative(tauLP,q)^isoGLPtoG;
     return (State(g,i)^isoGtoGLP)^homGtoGmodKxK;
 end;
 #Load orbits here:

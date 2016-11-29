@@ -9,7 +9,7 @@ Read(Filename(dir,"grpwords/grpwords.gi"));
 G := GrigorchukGroup;
 a := G.1; b := G.2; c := G.3; d:=G.4;
 isoGtoGLP := IsomorphismLpGroup(G);
-isoGPLtoG := InverseGeneralMapping(isoGtoGLP);
+isoGLPtoG := InverseGeneralMapping(isoGtoGLP);
 GLP := Image(isoGtoGLP);
 # G'
 aL := GLP.1; bL := GLP.2; cL := GLP.3; dL:=GLP.4;
