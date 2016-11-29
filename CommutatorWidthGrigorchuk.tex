@@ -633,8 +633,18 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 is well defined.
 \end{lem}
 \begin{proof}
- It's easy to verify by GAP that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$ using Lemma \ref{lem:subgroupsOfG}.
- For check this call the function \gapinline{verifyLemmaStatesOfKPinKxK} of the attached GAP file.
+%  It's easy to verify by GAP that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$ using Lemma \ref{lem:subgroupsOfG}.
+%  For check this call the function \gapinline{verifyLemmaStatesOfKPinKxK} of the attached GAP file.
+We need to show that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$. 
+\begin{align*}
+ [k_1,k_2]=bb^a(db^a)^2b^ab(b^ad)^2 = \pair{1,cabab}=\pair{1,\pair{1,dabac}}=\pair{1,\pair{1,k_2^{-1}k_1}}.
+\end{align*}
+So both states of $[k_1,k_2]$ are in $K\times K$. Now take an arbitrary element $k\in K'$.
+There is $n\in\NN$, $\varepsilon \in \{1,-1\}$ and $g_i\in G$ such that 
+$k=\prod_{j=1}^n [k_1,k_2]^{\varepsilon g_j}$
+and therefore 
+\[k\at{i}=\prod_{j=1}^n\left( \left([k_1,k_2]^{\varepsilon g_j}\right)\at{i}\right)
+	 = \prod_{j=1}^n \left(([k_1,k_2])\at{i^{g_j^{-1}}}\right)^{\varepsilon g_j\at{i^{g_j^{-1}}}}\in K\times K\]
  Then for $k\in K'$ it is 
  \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in (g\at{2})^h\cdot g\at{1}K\times K.\]
 \end{proof}
