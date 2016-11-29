@@ -500,7 +500,7 @@ GetSuccessorLookup := function(g,gamma)
         inLP := false;
     elif g in GLP then
         q:= g^tauLP;
-        g:= g^isoGPLtoG;
+        g:= g^isoGLPtoG;
         inLP := true;
     else 
         Error("g has to be in G or GLP\n");

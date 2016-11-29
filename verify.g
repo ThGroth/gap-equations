@@ -68,7 +68,9 @@ end;
 verifyLemma90orbits := function()
 	return Size(PCD.orbitReps)=90;
 end;
-
+verifyLemma86orbits := function()
+	return Size(PCD.orbitReps2)=86;
+end;
 verifyLemmaExistGoodConstraints := function()
 	return ForAll(GPmodKP,q->ForAny(Filtered(PCD.ReducedConstraintsActive,E->E.length=6),E->q in E.goodPairs));
 end;
@@ -85,7 +87,7 @@ verifyPropExistsSuccessor := function()
 end;
 
 #verifyLemmaStatesOfKPinKxK := function()
-#	return ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGPLtoG,i)^isoGtoGLP in KxKLP));
+#	return ForAll(GenKPLP,x->ForAll([1,2],i->State(x^isoGLPtoG,i)^isoGtoGLP in KxKLP));
 #end;
 
 verifyCorollaryFiniteCWK := function()
@@ -95,8 +97,9 @@ end;
 verifyAll := function()
 	local func;
 	for func in [	verifyLemma90orbits,
-					verifyLemmaExistGoodConstraints4,
+					verifyLemma86orbits,
 					verifyLemmaExistGoodConstraints,
+					verifyLemmaExistGoodConstraints4,
 					verifyPropExistsSuccessor,
 					verifyCorollaryFiniteCWK,
 #					verifyLemmaStatesOfKPinKxK
