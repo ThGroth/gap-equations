@@ -398,6 +398,9 @@ end;
 # ∙ ReducedConstraintsActive : The list of active reduced constraints as records with additional information
 # ∙ RealGoodPairs : The list of all good pairs where a successor exists.
 # ∙ specialSuccessor : The successor of (1,[1,1,1,1]) 
+# ∙ ConjugacyConstraints : For each q∈G'/K' a constraint γ and γ' such that 
+#   forall g ∈ τ⁻¹(q) the successor of 
+#   (a^x₁a^x₂a^x₃a^x₄a^x₅ag,γ) is (R₂(g@2)(g@1),γ') and ((g@2)(g@1),γ') is a good pair. 
 LoadPrecomputedData := function()
     local PCD,AGP,RGP;
     PCD := rec( orbitReps :=ReadAsFunction(Filename(dir,"PCD/orbitReps.go"))(),
@@ -419,6 +422,7 @@ LoadPrecomputedData := function()
                     [PCD.ReducedConstraints[L[3][1]],L[3][2]]]);;
     PCD.RealGoodPairs := RGP;
     PCD.specialSuccessor := ReadAsFunction(Filename(dir,"PCD/specSuc.go"))();
+    PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacyConstraints.go"))();
     return PCD;
 end;
 

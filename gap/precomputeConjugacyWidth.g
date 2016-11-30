@@ -148,24 +148,11 @@ for q in GPmodKP do
 	fi;
 	i:=i+1;
 od;
+#All chosen gammas have a chance to be solvable
+Assert(0,ForAll(GoodOnes,dup->IsOne(f4^dup[2][1]*f4^dup[2][2]*f4^dup[2][3]*f4^dup[2][4]*f4^dup[2][5]*f4*(dup[1]^varpiLP)^isoGmodKtoQ)));
+#Write result to a file.
+ConjugacyWidthFile := Filename(dir,"PCD/conjugacyConstraints.go");
+PrintTo(ConjugacyWidthFile,Concatenation("return ",ReplacedString(String(GoodOnes),"<identity> of ...","One(Q)"),";"));
+Assert(0,ReadAsFunction(ConjugacyWidthFile)()=GoodOnes);
 
 
-#Show how succeccing pairs look like
-
-
-num := 4;
-F2 := FreeGroup(2); g1:=F2.1;g2:=F2.2;
-Acts := Cartesian(ListWithIdenticalEntries(num,[(),(1,2)]));
-for acts in Acts do
-	frvars := List([1..num],x->FRGrpWordUnknown(3*x,acts[x],GrigorchukGroup));
-	frinvvars := List([1..num],x->FRGrpWordUnknown(-3*x,acts[x],GrigorchukGroup));
-	t := Product(List([1..num],y->frinvvars[y]*a*frvars[y]));
-	#I := Intersection(List(Filtered(t!.states[1]!.word,IsInt),AbsInt),List(Filtered(t!.states[2]!.word,IsInt),AbsInt));
-	newwords := t!.states;
-	newwords[1] := newwords[1]*GrpWord([g1],F2);
-	newwords[2] := newwords[2]*GrpWord([g2],F2);
-	U := Uniquify(newwords)[1];
-	Assert(0,IsOne(U[2]));
-	NoFI := GrpWordNormalFormInverseHom(U[1]);
-	Print(acts,": ",NoFI[1]!.word,"\n");
-od;
