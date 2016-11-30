@@ -118,7 +118,7 @@ L := Cartesian(ListWithIdenticalEntries(5,Q));;
 i:=1;
 GoodOnes := [];
 for q in GPmodKP do
-	Print("Doing ",i," from 128\n");
+	Info(InfoCW,1,"Doing ",i," from 128\n");
 	j := 1;
 	found := false;
 	for gamma in PCD.orbitReps do
@@ -130,13 +130,13 @@ for q in GPmodKP do
 			found := true;
 			break;
 		fi;
-		Print("Try ",j,"\r");
+		Info(InfoCW,1,"Try ",j,"\r");
 		j:=j+1;
 	od;
 	if not found then
 		while true do
 			gamma := Random(L);
-			Print("Not found looking further ",j,"\r");
+			Info(InfoCW,1,"Not found looking further ",j,"\r");
 			next := nextGammas(gamma,q);
 			if not next = fail then
 				Add(GoodOnes,[q,gamma,next!.constraint]);
