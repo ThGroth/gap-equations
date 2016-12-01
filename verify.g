@@ -82,6 +82,10 @@ verifyLemmaExistGoodConstraints4 := function()
 	return ForAll(GPmodKP,q->ForAny(Filtered(PCD.ReducedConstraintsActive,E->E.length=4),E->q in E.goodPairs));
 end;
 
+verifyExistGoodConjugacyConstraints := function()
+	return ForAll(GPmodKP,q->ForAny(PCD.ConjugacyConstraints,cc->cc[1]=q));
+end;
+
 verifyPropExistsSuccessor := function()
 	return ForAll(PCD.ReducedConstraintsActive,
 		gamma->ForAll(gamma.goodPairs,
@@ -105,6 +109,7 @@ verifyAll := function()
 					verifyLemmaExistGoodConstraints4,
 					verifyPropExistsSuccessor,
 					verifyCorollaryFiniteCWK,
+					verifyExistGoodConjugacyConstraints
 #					verifyLemmaStatesOfKPinKxK
 				] do
 		Info(InfoCW,1,NameFunction(func),": ",func(),"\n");
