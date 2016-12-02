@@ -1,12 +1,4 @@
-##### Temporary Things #############################################
-G := GrigorchukGroup;
-AssignGeneratorVariables(G);
-#x := Equation([1,-5,a,5,b,-1,-2,3,a,4,-3,b,-4,c,2],G);
-########################################################################################
-####                                                                                ####
-####                              Constructors	                                    ####
-####                                                                                ####
-########################################################################################
+######################################################################
 
 
 ##################################################################
@@ -46,46 +38,69 @@ BindGlobal("MEALY_FROM_STATES@", function(L,act)
 		return MealyElement(tran,out,1);
 	end);
 #Example
+G := GrigorchukGroup;
+AssignGeneratorVariables(G);
 F := FreeGroup(infinity,"x");
-Eq := Equation([F.1^-1,F.2^1,F.1,F.2,(a*b)^2],G,F);
-#####################Equations #############################
+EqG := EquationGroup(G,F);
+Eq := Equation([Comm(F.1,F.2),(a*b)^2],G,F);
+h := GroupHomomorphismByImages(Group(EquationVariables(Eq)),G,[a,a*b]);
+#################################################################################
+####                                                                         ####
+####	                          Equations                                  ####
+####                                                                         ####
+#################################################################################
+InstallMethod(EquationGroup, "for two groups",
+	[IsGroup,IsFreeGroup],
+	function(G,Free)
+		return Objectify(NewType(
+				NewFamily("Equation Group(..)"), IsEquationGroup),
+    			rec(group := G,
+       				free := Free));
+	end);
+
 InstallMethod(Equation, "(Equation) for a list of group elements and unknowns",
-	[IsList,IsGroup,IsGroup],
-	function(elms,G,Free)
-		local M,i;
-		if not ForAll(elms,e->e in Free or e in G) then
+	[IsList,IsEquationGroup],
+	function(elms,eqG)
+		if not ForAll(elms,e->e in eqG!.free or e in eqG!.group) then
 			Error("All group elements must be either a variable or a group constant.");
 		fi;
-		M := Objectify(NewType(FamilyObj(G), IsEquation and IsEquationRep),
-    	rec(word := elms,
-       		group := G,
-       		free := Free));
-		
-    	return M;
+		return Objectify(NewType(FamilyObj(eqG), IsEquation and IsEquationRep),
+    		rec(word := elms,
+       			group := eqG!.group,
+       			free := eqG!.free,
+       			eqG := eqG));;
+	end);
+
+InstallOtherMethod(Equation, "(Equation) for a list of group elements and unknowns",
+	[IsList,IsGroup,IsFreeGroup],
+	function(elms,G,Free)
+		return Equation(elms,EquationGroup(G,F));
+	end);
+
+InstallMethod(EquationVariables, "for a Equation",
+	[IsEquation and IsEquationRep],
+	function(x)
+		return List(Set(List(Concatenation(
+			List(Filtered(x!.word,e->e in x!.free),	fw -> LetterRepAssocWord(fw))
+			),i->AbsInt(i))),
+			v->AssocWordByLetterRep(FamilyObj(One(x!.free)),[v]));
 	end
 );
-######################################################################################
-####                                                                              ####
-####                               Standard Methods                               ####
-####                                                                              ####
-######################################################################################
 
 InstallMethod( PrintObj,   "for Equations)",
    [ IsEquation and IsEquationRep ],
     function( x )
 		local s;
-		s := Size(Filtered(x!.word,e -> e in x!.free));	
-    	Print("Equation in ",s," variables ");
+		Print("Equation in ",EquationVariables(x));
 	   end 
 );
 
 InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
 	[IsEquation and IsEquationRep],
 	function(x)
-		local i,lastType,lastUnknown,change,w,L;
-		w := x!.word;
-		change := true;
+		local last,lastfree,newword,e;
 		last := One(x!.group);
+		lastfree := One(x!.free);
 		newword := [];
 		for e in x!.word do
 			if e in x!.free then
@@ -94,14 +109,19 @@ InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
 					last := One(x!.group);
 				fi;
 				# Add all letters of e in case e is not only a generator
-				for i in [1..Length(e)] do
-					Add(newword,Subword(e,i,i));
-				od;
+				lastfree := lastfree * e;
 			else # e ∈ G
+				if not IsOne(lastfree) then
+					Add(newword,lastfree);
+					lastfree := One(x!.free);
+				fi;
 				last := last*e;
 			fi;
 		od;
-		#Cyclic reduction: No group constant in the first place
+		if not IsOne(lastfree) then
+			Add(newword,lastfree);
+		fi;
+		#Cyclic reduction: No group constant in the first position
 		if newword[1] in x!.group then
 			last := last*newword[1];
 			newword := newword{[2..Size(newword)]};
@@ -109,11 +129,6 @@ InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
 		if not IsOne(last) then
 			Add(newword,last);
 		fi;
-		#->
-		if IsSquareEquation(w) then
-			IsOrientedEquation(w);
-		fi;
-		#<-
 		return Equation(newword,x!.group,x!.free);	
 	end
 );
@@ -121,8 +136,8 @@ InstallMethod( \=,  "for two Equations",
 		IsIdenticalObj,
     [ IsEquation and IsEquationRep, IsEquation and IsEquationRep ],
     function( x, y )
-			x := EquationCyclReducedForm(x);
-			y := EquationCyclReducedForm(y);
+			x := EquationReducedForm(x);
+			y := EquationReducedForm(y);
 			return x!.word = y!.word; 
 		end 
 );
@@ -141,7 +156,7 @@ InstallOtherMethod(\[\], "for an Equation",
 InstallOtherMethod(\[\], "for a Equation",
 	[IsEquation and IsEquationRep,IsList],
 	function(w,i) 
-		return Equation(w!.word{i},w!.group,,w!.free);
+		return Equation(w!.word{i},w!.group,w!.free);
 	end);
 
 InstallMethod( \*,   "for two Equations",
@@ -161,7 +176,76 @@ InstallMethod(InverseOp, "for a Equation",
 	end
 );
 
+InstallMethod(IsQuadraticEquation, "for a Equation",
+		[IsEquation],
+		function(x)
+			local i,Val;
+			Val := rec();
+			for i in Concatenation(List(
+					Filtered(x!.word,e->e in x!.free),
+					fw -> LetterRepAssocWord(fw)
+					)) do
+				i := AbsInt(i);
+				if IsBound(Val.(i)) then
+					if Val.(i) > 1 then
+						return false;
+					fi;
+					Val.(i) := 2;	
+				else
+					Val.(i) := 1;
+				fi;
+			od;
+			return true;
+		end
+);
 
+InstallMethod(IsOrientedEquation, "for a square Equation",
+		[IsQuadraticEquation],
+		function(x)
+			local LetterRep;
+			LetterRep := Concatenation(List(
+						Filtered(x!.word,e->e in x!.free),
+						fw -> LetterRepAssocWord(fw)
+						));
+			return ForAll(LetterRep,i->-i in LetterRep);
+		end
+);
+#################################################################################
+####                                                                         ####
+####	                     EquationsHomomorphism                           ####
+####                                                                         ####
+#################################################################################
+
+InstallMethod( GroupHomomorphismByImagesNC, "For an Equation, a target group, generators of a subgroup of the free group, and the images of the generators ",
+	[IsEquation,IsGroup,IsList,IsList],
+	function(h,x)
+		local 
+		return Product(List(x!.word,function(e)	
+										if e in x!.group then
+											return e;
+										fi;
+										return e^h!.hom; end) );
+	end);
+);
+
+InstallMethod( PrintObj,   "for an EquationHomomorphism)",
+   [ IsEquationHomomorphism and IsEquationHomomorphismRep ],
+    function( x )
+		local s;
+		s := Size(GeneratorsOfGroup(Source(x!.hom)));
+		Print("EquationHomomorphism in ",s, " Variables ");
+	   end 
+);
+
+InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
+	[IsEquationHomomorphism,IsEquation],
+	function(h,x)
+		return Product(List(x!.word,function(e)	
+										if e in x!.group then
+											return e;
+										fi;
+										return e^h!.hom; end) );
+	end);
 
 
 InstallMethod(EquationDecomposable, "for a groupWord",
@@ -374,6 +458,22 @@ InstallMethod( \*,   "for an FREquation and an FRElement",
     end 
 );
 
+InstallMethod(IsOrientedEquation, "for a square Equation",
+	[IsSquareEquation],
+	function(w)
+		local i,Val;
+		w := UnknownsOfEquation(w);
+		if Length(w) = 0 then
+			return true;
+		fi;
+		Val := ListWithIdenticalEntries( Maximum(-1*Minimum(w),Maximum(w)), 0 );
+		for i in w do
+			Val[AbsInt(i)] := Val[AbsInt(i)] + i;
+		od;
+		return ForAll(Val,x->x=0);
+	end
+);
+
 
 InstallMethod(EquationAsElement, "for a Equation",
 	[IsEquation and IsEquationRep],
@@ -445,21 +545,6 @@ InstallMethod(IsSquareEquation, "for a Equation",
 		end
 );
 
-InstallMethod(IsOrientedEquation, "for a square Equation",
-	[IsSquareEquation],
-	function(w)
-		local i,Val;
-		w := UnknownsOfEquation(w);
-		if Length(w) = 0 then
-			return true;
-		fi;
-		Val := ListWithIdenticalEntries( Maximum(-1*Minimum(w),Maximum(w)), 0 );
-		for i in w do
-			Val[AbsInt(i)] := Val[AbsInt(i)] + i;
-		od;
-		return ForAll(Val,x->x=0);
-	end
-);
 
 
 InstallMethod(EquationReducedForm, "for a Grpword in FREquation representation",

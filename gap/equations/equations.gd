@@ -3,10 +3,15 @@
 ####                    Categories and Representations                 ####
 ####                                                                   ####
 ###########################################################################
-EquationsFamily := NewFamily( "Equation family(...)");
+
+
+DeclareCategory("IsEquationGroup", IsGroup);
+
 
 DeclareCategory("IsEquation", IsMultiplicativeElementWithInverse);
-DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
+DeclareCategoryCollections("IsEquation");
+
+#DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
 #DeclareCategory("IsFREquation",IsMultiplicativeElementWithInverse);
 #InstallTrueMethod(IsEquation,IsFREquation);
 
@@ -14,10 +19,7 @@ DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
 
 DeclareRepresentation("IsEquationRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
- ["word","group","free"]
-);
-DeclareRepresentation("IsEquationHomomorphismRep",
-	IsComponentObjectRep  and IsAttributeStoringRep,["hom"]
+ ["word","group","free","eqG"]
 );
 #DeclareRepresentation("IsEquationDecomposableRep",
 #	IsEquationRep,["word","group","hom"]
@@ -52,8 +54,8 @@ DeclareRepresentation("IsEquationHomomorphismRep",
 #						The resultin object is an implementation of an element of (F_NN * G)^n \wr S_n
 #FREquationUnknown: Defines a FRGroupWord object wich represents the unknowns of the corresponding group.
 #									 TODO 
-DeclareOperation("Equation", [IsList, IsGroup,IsGroup]);
-DeclareAttribute("EquationHomomorphism",IsGroupHomomorphism);
+DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
+DeclareOperation("Equation", [IsList, IsEquationGroup]);
 #DeclareOperation("FREquation",[IsList,IsPerm,IsGroup]);
 #DeclareOperation("FREquationUnknown",[IsInt,IsPerm,IsFRGroup]);
 
