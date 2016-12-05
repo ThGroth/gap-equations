@@ -43,15 +43,23 @@ BindGlobal("MEALY_FROM_STATES@", function(L,act)
 ####	                          EquationGroup                              ####
 ####                                                                         ####
 #################################################################################
+EQUATION_GROUP_FAMILIES := [];
 InstallMethod(EquationGroup, "for two groups",
 	[IsGroup,IsFreeGroup],
 	function(G,Free)
 		local Ob;
-		Ob := Objectify(NewType(
-				CollectionsFamily(NewFamily("Equation Group(..)")), IsEquationGroup),
-    			rec(group := G,
-       				free := Free));
-		SetIsWholeFamily(Ob,true);
+		Ob := First(EQUATION_GROUP_FAMILIES,f->f[1]=G and f[2]=Free);
+		if Ob = fail then
+			Ob := Objectify(NewType(
+					CollectionsFamily(NewFamily("Equation Group(..)")), IsEquationGroup),
+    				rec(group := G,
+       					free := Free));
+			Add(EQUATION_GROUP_FAMILIES,[G,Free,Ob]);
+			SetIsWholeFamily(Ob,true);
+		else
+			Ob := Ob[3];
+		fi;
+		SetKnowsHowToDecompose(Ob,false);
 		return Ob;
 	end);
 
@@ -80,6 +88,12 @@ InstallMethod( \in,   "for Equation in EquationGroup)",
     	Print("blub");
 		return eq!.eqG = G;
 	   end 
+);
+InstallMethod( \=,  "for two EquationGroups",
+    [ IsEquationGroup, IsEquationGroup],
+    function( x, y )
+			return x!.free=y!.free and y!.group=x!.group; 
+		end 
 );
 #################################################################################
 ####                                                                         ####
@@ -254,16 +268,14 @@ InstallMethod(EquationHomomorphism ,"For an an EquationGroup and two group Homom
 		if not IsFreeGroup(Source(mapFree)) then
 			Error("1. Argument need to be a homomorphism from a free group");
 		fi;
-		fam := NewFamily("EquationHomomorphism");
+		
 		if IsFreeGroup(Range(mapFree)) then
 			RangeEqG := EquationGroup(Range(mapGroup),Range(mapFree));
-			SetFamilyRange(  fam, ElementsFamily(FamilyObj(RangeEqG) ));
 		else
 			RangeEqG := Range(mapGroup);
-			SetFamilyRange(  fam, ElementsFamily(FamilyObj(RangeEqG) ));
 		fi;
-		
-		SetFamilySource(  fam, ElementsFamily(FamilyObj(SourceEqG) ));
+		fam := GeneralMappingsFamily(ElementsFamily(FamilyObj(SourceEqG)),
+									 ElementsFamily(FamilyObj(RangeEqG)) );
 		return Objectify(NewType(fam,IsEquationHomomorphism),
 							rec(	mapFree := mapFree, 
 									mapGroup := mapGroup,
@@ -315,8 +327,13 @@ ev := GroupHomomorphismByImages(Group(EquationVariables(Eq)),G,[a,a*b]);
 id := IdentityMapping(G);
 eqhom := EquationHomomorphism(EqG,ev,id);
 
+h := GroupHomomorphismByImages(Group(EquationVariables(Eq)),F,[F.2,F.5]);
+eqhom2 := EquationHomomorphism(EqG,h,id);
+
 Image(eqhom,Eq);
-Eq^eqhom
+Eq^eqhom2;
+
+eqhom2*eqhom
 
 #
 #
