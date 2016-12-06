@@ -80,6 +80,7 @@ DeclareAttribute("EquationReducedForm",IsEquation);
 #DeclareProperty("IsPermEquation",IsEquation);
 DeclareProperty("IsQuadraticEquation", IsEquation);
 DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
+DeclareOperation("IsSolution", [IsEquationHomomorphism, IsEquation]);
 
 
 ###########################################################################
@@ -88,6 +89,7 @@ DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 ####                                                                   ####
 ###########################################################################
 
+DeclareOperation("EquationEvaluation", [IsEquation,IsList]);
 #DeclareOperation("EquationDecomposable", [IsEquation]);
 
 #DeclareOperation("EquationAsElement",[IsEquation]);
