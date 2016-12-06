@@ -50,7 +50,7 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
 		if not ForAll(L,IsFreeGroup) then 
 			TryNextMethod();
 		fi;
-		if not ForAll(L,H->IsFinite(GeneratorsOfGroup(H))) then 
+		if not ForAll(L,IsFinitelyGeneratedGroup) then 
 			TryNextMethod();
 		fi;
 		genInList  := List(L, H->Length(GeneratorsOfGroup(H)));
@@ -83,7 +83,7 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
 		if not ForAll(L,IsFreeGroup) then 
 			TryNextMethod();
 		fi;
-		if ForAny(L,H->IsFinite(GeneratorsOfGroup(H))) then 
+		if ForAny(L,IsFinitelyGeneratedGroup) then 
 			TryNextMethod();
 		fi;
 		embeddings :=[];
@@ -164,30 +164,65 @@ InstallMethod( \=,  "for two EquationGroups",
 			return x!.free=y!.free and y!.group=x!.group; 
 		end 
 );
+
+InstallMethod(DecompositionEquationGroup, "for an EquationGroup",
+	[IsEquationGroup],
+	function(eqG)
+		local DG,alph,DEqG;
+		if not IsFRGroup(eqG!.group) then
+			TryNextMethod();
+		fi; 
+		if not IsFinitelyGeneratedGroup(eqG!.group) then
+			TryNextMethod();
+		fi; 
+		alph := AlphabetOfFRSemigroup(eqG!.group);
+		if IsStateClosed(eqG!.group) then
+			DG := eqG!.group;
+		else
+			DG := Group(List(alph,a->Concatenation(
+					List(GeneratorsOfGroup(eqG!.group),gen->State(gen,a))) ));
+		fi;
+		DEqG := EquationGroup(DG,FreeProduct(ListWithIdenticalEntries(Size(alph),eqG!.free)));
+		SetIsDecompositionEquationGroup(DEqG,true);
+		return DEqG;
+	end);
+InstallMethod(IsDecompositionEquationGroup, "for an EquationGroup",
+	[IsEquationGroup],
+	EqG->HasFreeProductInfo(EqG!.free));
 #################################################################################
 ####                                                                         ####
 ####	                          Equations                                  ####
 ####                                                                         ####
 #################################################################################
-InstallMethod(Equation, "(Equation) for a list of group elements and unknowns",
-	[IsList,IsEquationGroup],
-	function(elms,eqG)
+InstallMethod(Equation, "(Equation) for a list of group elements and unknowns and boolean",
+	[IsList,IsEquationGroup,IsBool],
+	function(elms,eqG,reduced)
+		local Ob;
 		if not ForAll(elms,e->e in eqG!.free or e in eqG!.group) then
 			Error("All group elements must be either a variable or a group constant.");
 		fi;
-		return Objectify(NewType(ElementsFamily(FamilyObj(eqG)), IsEquation and IsEquationRep),
+		Ob := Objectify(NewType(ElementsFamily(FamilyObj(eqG)), IsEquation and IsEquationRep),
     		rec(word := elms,
        			group := eqG!.group,
        			free := eqG!.free,
-       			eqG := eqG));;
+       			eqG := eqG));
+		if reduced then
+			return EquationReducedForm(Ob);
+		fi;
+		return Ob;
 	end);
 
+InstallOtherMethod(Equation, "(Equation) for a list of group elements and unknowns",
+	[IsList,IsEquationGroup],
+	function(elms,eqG)
+		return Equation(elms,eqG,true);
+	end);
 
 
 InstallOtherMethod(Equation, "(Equation) for a list of group elements and unknowns",
 	[IsList,IsGroup,IsFreeGroup],
 	function(elms,G,Free)
-		return Equation(elms,EquationGroup(G,F));
+		return Equation(elms,EquationGroup(G,Free));
 	end);
 
 InstallMethod(EquationVariables, "for a Equation",
@@ -211,7 +246,7 @@ InstallMethod( PrintObj,   "for Equations)",
 InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
 	[IsEquation and IsEquationRep],
 	function(x)
-		local last,lastfree,newword,e;
+		local last,lastfree,newword,e,Eq;
 		last := One(x!.group);
 		lastfree := One(x!.free);
 		newword := [];
@@ -242,9 +277,10 @@ InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
 		if not IsOne(last) then
 			Add(newword,last);
 		fi;
-		return Equation(newword,x!.group,x!.free);	
-	end
-);
+		Eq :=Equation(newword,x!.eqG,false);
+		SetIsReducedEquation(Eq,true);
+		return 	Eq;
+	end);
 InstallMethod( \=,  "for two Equations",
 		IsIdenticalObj,
     [ IsEquation and IsEquationRep, IsEquation and IsEquationRep ],
@@ -259,14 +295,17 @@ InstallMethod(OneOp, "for an Equation",
 	[IsEquation and IsEquationRep],
 	x -> Equation([],x!.group,x!.free) 
 );
-
+InstallOtherMethod( One,"for an EquationGroup",
+    [ IsEquationGroup ],
+    eqG -> Equation([],eqG) 
+);
 InstallOtherMethod(\[\], "for an Equation",
 	[IsEquation and IsEquationRep,IsInt],
 	function(w,i) 
 		return Equation([w!.word[i]],w!.group,w!.free);
 	end);
 
-InstallOtherMethod(\[\], "for a Equation",
+InstallOtherMethod(\[\], "for an Equation",
 	[IsEquation and IsEquationRep,IsList],
 	function(w,i) 
 		return Equation(w!.word{i},w!.group,w!.free);
@@ -281,6 +320,25 @@ InstallMethod( \*,   "for two Equations",
     	Error("Groups must be compatible");
     end 
 );
+
+InstallMethod(EquationLetterRep, "for an Equation",
+	[IsEquation],
+	function(eq)
+		local nw,elm,i,Eq;
+		nw := [];
+		for elm in eq!.word do
+			if elm in eq!.group then
+				Add(nw,elm); 
+			else
+				for i in LetterRepAssocWord(elm) do
+					Add(nw,AssocWordByLetterRep(FamilyObj(elm),[i]));
+				od;
+			fi;
+		od;
+		Eq:= Equation(nw,eq!.eqG);
+		SetIsEquationLetterRep(Eq,true);
+		return Eq;
+	end);
 
 InstallMethod(InverseOp, "for a Equation",
 	[IsEquation and IsEquationRep],
@@ -324,6 +382,48 @@ InstallMethod(IsOrientedEquation, "for a square Equation",
 		end
 );
 
+InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
+		[IsEquation,IsGroupHomomorphism,IsDecompositionEquationGroup],
+		function(eq,acts,DEqG)
+			local alph,vars,DecompEq,lastperm,x,i;
+			if not IsFRGroup(eq!.group) then
+				TryNextMethod();
+			fi;
+			alph := AlphabetOfFRSemigroup(eq!.group);
+			if not ForAll([1..Size(alph)],i->Source(Embedding(DEqG!.free),i)=eq!.free) then
+				Error("DecompositionEquationGroup doesn't correspond to EquationGroup.");
+			fi;
+			vars := EquationVariables(eq);
+			if not Group(vars)=Source(acts) then
+				Error("acts needs to be defined on the variables.");
+			fi;
+			if not IsPermGroup(Range(acts)) then
+				TryNextMethod();
+			fi;
+			eq := EquationLetterRep(eq);
+			DecompEq := ListWithIdenticalEntries(Size(alph),[]);
+			lastperm := ();
+			for x in eq!.word do
+				if x in eq!.group then
+					for i in [1..Size(alph)] do
+						Add(DecompEq[i^lastperm],State(x,alph[i]));
+					od;
+					lastperm := lastperm*Activity(x);
+				else
+					if LetterRepAssocWord(x)[1]<0 then
+						#eq is in LetterRep so this is the inverse of a gen.
+						lastperm := lastperm*x^acts;
+						Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
+					else
+						Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
+						lastperm := lastperm*x^acts;
+					fi;
+				fi;
+			od;
+			return [List(DecompEq,L->Equation(L,DEqG)),lastperm];
+			#return List(DecompEq,L->Equation(L,DEqG))
+
+		end);
 #################################################################################
 ####                                                                         ####
 ####	                     EquationsHomomorphism                           ####
@@ -417,19 +517,23 @@ BS := BranchStructure(G);
 pi := BS.quo;
 AssignGeneratorVariables(G);
 F := FreeGroup(infinity,"x");
+SetName(F,"F_X");
 EqG := EquationGroup(G,F);
 Eq := Equation([Comm(F.1,F.2),(a*b)^2],EqG);
 id := IdentityMapping(G);
 
 h := GroupHomomorphismByImages(Group(EquationVariables(Eq)),F,[F.2,F.5]);
 eqhom2 := EquationHomomorphism(EqG,h,id);
-
-Image(eqhom,Eq);
-Eq^eqhom2;
-
-eqhom2*eqhom;
 ev := EquationEvaluation(Eq,[a,b*a]);
 
+Image(ev,Eq);
+Eq^eqhom2;
+
+eqhom2*ev;
+
+DEqG := DecompositionEquationGroup(EqG);
+constr := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),[(),()]);
+DEq:=DecompositionEquation(Eq,constr,DEqG);
 #
 #
 #
