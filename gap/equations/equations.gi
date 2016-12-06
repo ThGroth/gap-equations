@@ -37,12 +37,81 @@ BindGlobal("MEALY_FROM_STATES@", function(L,act)
 		od;
 		return MealyElement(tran,out,1);
 	end);
+#################################################################################
+####                                                                         ####
+####	                 Free Products of Free groups                        ####
+####                                                                         ####
+#################################################################################
+
+InstallMethod(FreeProductOp, "for f.g. free groups",
+	[IsList,IsFreeGroup],
+	function(L,G)
+		local embeddings,genInList,FP,last,i;
+		if not ForAll(L,IsFreeGroup) then 
+			TryNextMethod();
+		fi;
+		if not ForAll(L,H->IsFinite(GeneratorsOfGroup(H))) then 
+			TryNextMethod();
+		fi;
+		genInList  := List(L, H->Length(GeneratorsOfGroup(H)));
+		embeddings :=[];
+		FP := FreeGroup(Sum(genInList));
+		if ForAll(L,HasName) then
+			SetName(FP,Concatenation(Concatenation(
+				List(L{[1..Size(L)-1]},H->Concatenation(Name(H),"*")),
+				[Name(L[Size(L)])])));
+		fi;
+
+    	last := 0;
+    	for i in [1..Length(L)] do
+    		Add(embeddings,GroupHomomorphismByImages(
+    				L[i],
+    				FP,
+    				GeneratorsOfGroup(FP){[last+1..last+genInList[i]]}));
+    		last := last+genInList[i];
+    	od;
+        SetFreeProductInfo( FP, 
+        rec( groups := L,
+             embeddings := embeddings ) );
+    	return FP;   
+	end);
+
+InstallMethod(FreeProductOp, "for infinitely generated free groups",
+	[IsList,IsFreeGroup],
+	function(L,G)
+		local embeddings,FP,i;
+		if not ForAll(L,IsFreeGroup) then 
+			TryNextMethod();
+		fi;
+		if ForAny(L,H->IsFinite(GeneratorsOfGroup(H))) then 
+			TryNextMethod();
+		fi;
+		embeddings :=[];
+		FP := FreeGroup(infinity);
+		if ForAll(L,HasName) then
+			SetName(FP,Concatenation(Concatenation(
+				List(L{[1..Size(L)-1]},H->Concatenation(Name(H),"*")),
+				[Name(L[Size(L)])])));
+		fi;
+    	for i in [1..Length(L)] do
+    		Add(embeddings,GroupHomomorphismByFunction(
+    				L[i],
+    				FP,
+    				w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
+    					List(LetterRepAssocWord(w),k->(Length(L)-1)*k+i))));
+    	od;
+        SetFreeProductInfo( FP, 
+        rec( groups := L,
+             embeddings := embeddings ) );
+    	return FP;   
+	end);
 
 #################################################################################
 ####                                                                         ####
 ####	                          EquationGroup                              ####
 ####                                                                         ####
 #################################################################################
+
 EQUATION_GROUP_FAMILIES := [];
 InstallMethod(EquationGroup, "for two groups",
 	[IsGroup,IsFreeGroup],
@@ -312,8 +381,35 @@ InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
 		fi;
 	end);
 
+InstallMethod(ViewObj, "For an EquationsHomomorphism",
+	[IsEquationHomomorphism],
+	function(hom)
+		View(Source(hom),"->",Range(hom));
+	end);
 
+InstallMethod(IsSolution, "For an EquationsHomomorphism and an Equation",
+	[IsEquationHomomorphism, IsEquation],
+	function(hom,eq)
+		if IsOne(hom!.mapGroup) then
+			return IsOne(eq^hom); 
+		fi;
+	end);
 
+InstallMethod(EquationEvaluation, "For an Equation and a list of images",
+	[IsEquation, IsList],
+	function(eq,L)
+		local var;
+		if not ForAll(L,elm->elm in eq!.group) then
+			Error("All images need to be in the group of constants.");
+		fi;
+		var := EquationVariables(eq);
+		if not Length(var)=Length(L) then
+			Error("There must be as many images as variables.");
+		fi;
+		return EquationHomomorphism(eq!.eqG,
+					GroupHomomorphismByImages(Group(var),eq!.group,L),
+					IdentityMapping(eq!.group));
+	end);
 
 #Example
 G := GrigorchukGroup;
@@ -323,9 +419,7 @@ AssignGeneratorVariables(G);
 F := FreeGroup(infinity,"x");
 EqG := EquationGroup(G,F);
 Eq := Equation([Comm(F.1,F.2),(a*b)^2],EqG);
-ev := GroupHomomorphismByImages(Group(EquationVariables(Eq)),G,[a,a*b]);
 id := IdentityMapping(G);
-eqhom := EquationHomomorphism(EqG,ev,id);
 
 h := GroupHomomorphismByImages(Group(EquationVariables(Eq)),F,[F.2,F.5]);
 eqhom2 := EquationHomomorphism(EqG,h,id);
@@ -333,85 +427,14 @@ eqhom2 := EquationHomomorphism(EqG,h,id);
 Image(eqhom,Eq);
 Eq^eqhom2;
 
-eqhom2*eqhom
+eqhom2*eqhom;
+ev := EquationEvaluation(Eq,[a,b*a]);
 
 #
 #
 #
 #TODO Continue here.
 
-
-#Well this is an evaluation...
-InstallMethod(EquationEvaluation,"For a group homomorphism and an equation",
-	[IsGroupHomomorphism,IsEquation],
-	function(h,e)
-		if not IsFreeGroup(Source(h)) then
-			Error("Source of Homomorphism needs to be a free group.");
-		fi;
-		#All variables in the equation which are not covered are send to identity.
-#		AdditionalVariables := Filtered(EquationVariables(e),x->x not in Source(h));
-#		S := Group(Concatenation(GeneratorsOfGroup(Source(h)),AdditionalVariables));
-#		h := GroupHomomorphismByImages(S,Range(h),
-#			 Concatenation(List(GeneratorsOfGroup(Source(h)),x->x^h),
-#			 				List(AdditionalVariables,x->One(Range(h)))));
-		return Product(List(e!.word,function(elm)	
-										if elm in e!.group then
-											return elm;
-										fi;
-										return elm^h; end) );
-	end);
-
-InstallMethod(EquationPartialEvaluation,"For a group homomorphism and an equation",
-	[IsGroupHomomorphism,IsEquation],
-	function(h,e)
-		if not IsFreeGroup(Source(h)) then
-			Error("Source of Homomorphism needs to be a free group.");
-		fi;
-		return Equation(List(e!.word,function(elm)	
-										if elm in Source(h) then
-											return elm^h;
-										fi;
-										return elm; end),e!.eqG );
-	end);
-
-InstallOtherMethod( GroupHomomorphismByImages, "For an Equation, a target group, generators of a subgroup of the free group, and the images of the generators ",
-	[IsEquationGroup,IsList,IsList],
-	function(eqG,S,T)
-		local h;
-		if not ForAll(S,s->s in eqG!.free) then
-			Error("All generators need to be in free group");
-		fi;
-		if not ForAll(T,s->s in eqG!.group) then
-			Error("All generators need to be in free group");
-		fi;
-
-		h := GroupHomomorphismByImagesNC(Group(S),eqG!.group,T);
-		return Product(List(x!.word,function(e)	
-										if e in x!.group then
-											return e;
-										fi;
-										return e^h!.hom; end) );
-	end);
-);
-
-InstallMethod( PrintObj,   "for an EquationHomomorphism)",
-   [ IsEquationHomomorphism and IsEquationHomomorphismRep ],
-    function( x )
-		local s;
-		s := Size(GeneratorsOfGroup(Source(x!.hom)));
-		Print("EquationHomomorphism in ",s, " Variables ");
-	   end 
-);
-
-InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
-	[IsEquationHomomorphism,IsEquation],
-	function(h,x)
-		return Product(List(x!.word,function(e)	
-										if e in x!.group then
-											return e;
-										fi;
-										return e^h!.hom; end) );
-	end);
 
 
 InstallMethod(EquationDecomposable, "for a groupWord",
@@ -440,33 +463,6 @@ InstallMethod(EquationDecomposable, "for a groupWord",
 );
 
 #->
-InstallMethod( EquationHom, "For a list of lists consisting of images",
-	[IsList],
-	function(L)
-		if Length(L)=0 then
-			Error("The list must contain at least one relation or called with a group or family as second argument.");
-		fi;
-		return Objectify(NewType(FamilyObj(Representative(L)),IsEquationHom and IsEquationHomRep),
-		rec(rules := L));
-	end
-);
-
-InstallOtherMethod( EquationHom, "For a list of lists consisting of images and a Group",
-	[IsList,IsGroup],
-	function(L,G)
-		local fam;
-		fam := NewType(FamilyObj(G),IsEquationHom and IsEquationHomRep);
-		return Objectify(fam,rec(rules := L));
-	end
-);
-InstallOtherMethod( EquationHom, "For a list of lists consisting of images and a Family",
-	[IsList,IsFamily],
-	function(L,F)
-		local fam;
-		fam := NewType(F,IsEquationHom and IsEquationHomRep);
-		return Objectify(fam,rec(rules := L));
-	end
-);
 
 InstallMethod(FREquation, "For a list of grpwords, a permutation and an FRGroup",
 	[IsList,IsPerm,IsGroup],
