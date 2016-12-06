@@ -21,6 +21,7 @@ DeclareRepresentation("IsEquationRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
  ["word","group","free","eqG"]
 );
+
 #DeclareRepresentation("IsEquationDecomposableRep",
 #	IsEquationRep,["word","group","hom"]
 #);
@@ -55,7 +56,7 @@ DeclareRepresentation("IsEquationRep",
 #FREquationUnknown: Defines a FRGroupWord object wich represents the unknowns of the corresponding group.
 #									 TODO 
 DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
-DeclareOperation("Equation", [IsList, IsEquationGroup]);
+DeclareOperation("Equation", [IsList, IsEquationGroup, IsBool]);
 
 DeclareOperation("EquationEvaluation", [IsGroupHomomorphism, IsEquation]);
 DeclareOperation("EquationPartialEvaluation", [IsGroupHomomorphism, IsEquation]);
@@ -73,11 +74,14 @@ DeclareOperation("EquationHomomorphism", [IsEquationGroup, IsGroupHomomorphism, 
 DeclareAttribute("EquationVariables",IsEquation);
 
 DeclareAttribute("EquationReducedForm",IsEquation);
+DeclareAttribute("EquationLetterRep",IsEquation);
 #DeclareAttribute("EquationNormalFormInverseHom", IsEquation);
 #DeclareAttribute("EquationNormalForm", IsEquation);
 #DeclareAttribute("LengthOfEquation",IsEquation);
 
 #DeclareProperty("IsPermEquation",IsEquation);
+DeclareProperty("IsReducedEquation", IsEquation);
+DeclareProperty("IsEquationLetterRep", IsEquation);
 DeclareProperty("IsQuadraticEquation", IsEquation);
 DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 DeclareOperation("IsSolution", [IsEquationHomomorphism, IsEquation]);
@@ -90,8 +94,10 @@ DeclareOperation("IsSolution", [IsEquationHomomorphism, IsEquation]);
 ###########################################################################
 
 DeclareOperation("EquationEvaluation", [IsEquation,IsList]);
-#DeclareOperation("EquationDecomposable", [IsEquation]);
+DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
+DeclareOperation("DecompositionEquation", [IsEquation,IsGroupHomomorphism,IsDecompositionEquationGroup]);
 
+DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
 #DeclareOperation("EquationAsElement",[IsEquation]);
 #DeclareOperation("EquationHomCompose",[IsEquationHom,IsList,IsGroup]);
 #DeclareOperation("EquationDecomposed",[IsEquation]);
