@@ -356,6 +356,14 @@ InstallMethod( \*,   "for two Equations",
     end 
 );
 
+
+InstallMethod(InverseOp, "for a Equation",
+	[IsEquation and IsEquationRep],
+	function(x)
+		return Equation(Reversed(List(x!.word,InverseOp)),x!.group,x!.free);
+	end
+);
+
 InstallMethod(EquationLetterRep, "for an Equation",
 	[IsEquation],
 	function(eq)
@@ -375,12 +383,7 @@ InstallMethod(EquationLetterRep, "for an Equation",
 		return Eq;
 	end);
 
-InstallMethod(InverseOp, "for a Equation",
-	[IsEquation and IsEquationRep],
-	function(x)
-		return Equation(Reversed(List(x!.word,InverseOp)),x!.group,x!.free);
-	end
-);
+
 
 InstallMethod(IsQuadraticEquation, "for a Equation",
 		[IsEquation],
@@ -417,6 +420,25 @@ InstallMethod(IsOrientedEquation, "for a square Equation",
 		end
 );
 
+#################################################################################
+####                                                                         ####
+####	                     DecomposedEquations                             #### 
+####                                                                         ####
+#################################################################################
+InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
+	[IsList,IsEquationGroup,IsPerm],
+	function(words,DEqG,perm)
+		if not IsDecompositionEquationGroup(DEqG)then
+			TryNextMethod();
+		fi;
+		return Objectify(NewType(ElementsFamily(FamilyObj(DEqG)), IsEquation and IsDecomposedEquationRep),
+    				rec(words := words,
+       					group := DEqG!.group,
+       					free := DEqG!.free,
+       					eqG := DEqG,
+       					activity := perm));
+	end);
+
 InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
 		[IsEquation,IsGroupHomomorphism,IsEquationGroup],
 		function(eq,acts,DEqG)
@@ -432,6 +454,9 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 				Error("DecompositionEquationGroup doesn't correspond to EquationGroup.");
 			fi;
 			vars := EquationVariables(eq);
+			if Length(vars)=0 then
+				vars := One(eq!.free);
+			fi;
 			if not Group(vars)=Source(acts) then
 				Error("acts needs to be defined on the variables.");
 			fi;
@@ -460,10 +485,83 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 					fi;
 				fi;
 			od;
-			return [List(DecompEq,L->Equation(L,DEqG)),lastperm];
+			return Equation(DecompEq,DEqG,lastperm);
+				
 			#return List(DecompEq,L->Equation(L,DEqG))
-
 		end);
+
+
+
+InstallMethod(EquationVariables, "for an DecomposedEquation",
+	[IsEquation and IsDecomposedEquationRep],
+	function(x)
+		return List(Set(List(Concatenation(List(x!.words,word->Concatenation(
+			List(Filtered(word,e->e in x!.free),	fw -> LetterRepAssocWord(fw))
+			),i->AbsInt(i))),
+			v->AssocWordByLetterRep(FamilyObj(One(x!.free)),[v]))));
+	end
+);
+
+InstallMethod(EquationComponent, "for an DecomposedEquation and Integer",
+	[IsEquation and IsDecomposedEquationRep, IsInt],
+	function(eq,comp)
+		if Length(eq!.words)<comp then
+			Error("This component does not exist.");
+		fi;
+		return Equation(eq!.words[comp],eq!.eqG);
+	end
+);
+
+InstallMethod( PrintObj,   "for DecomposedEquations)",
+   [ IsEquation and IsDecomposedEquationRep ],
+    function( x )
+		local s;
+		Print("DecomposedEquation in ",EquationVariables(x));
+	   end 
+);
+
+InstallMethod( \=,  "for two DecomposedEquations",
+		IsIdenticalObj,
+    [ IsEquation and IsDecomposedEquationRep,
+      IsEquation and IsDecomposedEquationRep ],
+    function( x, y )
+			return Size(x!.words) = Size(y!.words) and
+					ForAll([1..Size(x!.words)],
+						i->EquationComponent(x,i)=EquationComponent(y,i)) and
+					x!.activity = y!.activity;
+		end);
+
+InstallMethod(OneOp, "for an DecomposedEquation",
+	[IsEquation and IsDecomposedEquationRep],
+		x->	Equation([],x!.group())
+);
+
+InstallMethod( \*,   "for two DecomposedEquations",
+    [ IsEquation and IsDecomposedEquationRep, IsEquation and IsDecomposedEquationRep ],
+    function( x, y )
+    	if not Length(x!.words) = Length(y!.words) then
+    		Error("Not compatible, differnt number of states");
+    	fi;
+    	if not x!.eqG = y!.eqG then
+    		Error("Not compatible, differnt number Groups");
+    	fi;
+    	return Equation(
+    			List([1..Length(x!.words)],
+    				i->Concatenation(x!.words[i],y!.words[i^x!.activity])),
+    			x!.eqG,
+    			x!.activity*y!.activity);
+    end 
+);
+
+InstallMethod(InverseOp, "for a DecomposedEquation",
+	[IsEquation and IsEquationRep],
+	function(x)
+		return Equation(Permuted(x!.words,x!.activity^-1),
+    			x!.eqG,
+    			x!.activity^-1);
+	end
+);
+
 #################################################################################
 ####                                                                         ####
 ####	                     EquationsHomomorphism                           ####
@@ -584,316 +682,6 @@ acts :=  GroupHomomorphismByImages(Group(EquationVariables(Eq2)),SymmetricGroup(
 #TODO Continue here.
 
 
-
-InstallMethod(EquationDecomposable, "for a groupWord",
-	[IsEquation],
-	function(w)
-	local M,i,d,G,Hom,Hom_inv;
-		G := w!.group;
-		if not IsFRGroup(G) then
-			TryNextMethod();
-		fi;
-		d := Length(AlphabetOfFRSemigroup(G));
-		Hom := [];
-		Hom_inv := [];
-		for i in UnknownsOfEquation(w) do
-			Hom_inv[(d+1)*AbsInt(i)] := Equation([AbsInt(i)],G);
-			Hom[AbsInt(i)] := Equation([(d+1)*AbsInt(i)],G);
-		od;
-		Hom := EquationHom(Hom,G);
-		Hom_inv := EquationHom(Hom_inv,G);
-		M := Objectify(NewType(FamilyObj(G), IsEquation and IsEquationDecomposableRep),
-					rec(word := ImageOfEquationHom(Hom,w)!.word,
-							group := w!.group,
-							hom := Hom));
-    return M;
-	end
-);
-
-#->
-
-InstallMethod(FREquation, "For a list of grpwords, a permutation and an FRGroup",
-	[IsList,IsPerm,IsGroup],
-	function(L,p,G)
-		local M;
-		M := Objectify(NewType(FamilyObj(G), IsFREquation and IsFREquationStateRep),
-					rec(states := L,
-							group := G,
-							activity := p));
-    return M;	
-	end
-);
-
-InstallMethod(FREquationUnknown, "For an integer, a permutation and an FRGroup",
-	[IsInt, IsPerm, IsFRGroup],
-	function(i,p,G)
-		local d,L,M;
-		d := Length(AlphabetOfFRSemigroup(G));
-		if i mod (d+1) <> 0 then
-			Error("The first Argument must be a valid decomposable variable");
-		fi;
-		if i>0 then
-			L :=List([i+1..i+d],x->Equation([x],G));
-			return FREquation(L,p,G);
-		else
-			L := List([-i+1..-i+d],x->Equation([-x],G)); 
-			return FREquation(Permuted(L,p^-1),p^-1,G);
-		fi;
-	end
-);
-
-
-
-
-
-
-Namecount := 0;
-ToString := function(L)
-	local S,l;
-	S:="[";
-	if Length(L)=0 then
-		return "[]";
-	fi;
-	for l in L do
-		if Length(String(l))<5 then
-			S:=Concatenation(S,String(l),",");
-		elif HasName(l) then
-			S:=Concatenation(S,Name(l),",");
-		else
-			SetName(l,Concatenation("c_",String(Namecount)));
-			Namecount := Namecount +1;
-			S:=Concatenation(S,Name(l),",");
-		fi;
-	od;
-	return Concatenation(S{[1..Length(S)-1]},"]");
-end;
-InstallMethod( \=,  "for two EquationHoms",
-		IsIdenticalObj,
-    [ IsEquationHom and IsEquationHomRep, IsEquationHom and IsEquationHomRep ],
-    function( x, y )
-			return x!.rules = y!.rules;
-		end 
-);
-	
-
-
-InstallMethod( PrintObj,   "for EquationHoms)",
-	[ IsEquationHom and IsEquationHomRep ],
-	function( x )
-		local w;
-		w := x!.rules;
-		if Number(w)=0 then			
-			Print("Trivial Group word Homomorphism");
-		else
-			Print("Group word Homomorphism on ",String(Number(w))," generators");
-		fi;
-  end 
-);
-InstallMethod( PrintObj,   "for FREquations)",
-	[ IsFREquation and IsFREquationStateRep ],
-	function( x )
-		local i,j, res,first;
-		first := true;
-		Print("<");
-		for i in x!.states do
-			if not first then
-				Print(",");
-			else
-				first := false;
-			fi;
-			for j in i!.word do
-				if IsInt(j) then
-					Print(j);
-				elif HasName(j) then
-					Print(Name(j));
-				else
-					Print("gc");
-				fi;
-			od;
-		od;
-		Print(">",x!.activity);
-  end 
-);
-
-
-
-InstallMethod( \*,   "for two EquationHoms",
-		IsIdenticalObj,
-    [ IsEquationHom and IsEquationHomRep, IsEquationHom and IsEquationHomRep ],
-    function( x, y )
-			local res,i;
-			res:= [];
-			for i in [1..Maximum(Length(x!.rules),Length(y!.rules))] do
-				if IsBound(y!.rules[i]) then
-					res[i] := ImageOfEquationHom(x,y!.rules[i]);
-				elif IsBound(x!.rules[i]) then
-					res[i] := x!.rules[i];
-				fi;
-			od;
-			return EquationHom(res,FamilyObj(x));
-    end 
-);
-InstallMethod( \*,   "for two FREquations",
-	 [ IsFREquation and IsFREquationStateRep, IsFREquation and IsFREquationStateRep ],
-    function( x, y )
-   		local L,i;
-			L := [];
-			for i in [1..Length(x!.states)] do
-				Add(L,x!.states[i]*y!.states[i^(x!.activity)]);
-			od;
-			return FREquation(L,x!.activity * y!.activity,y!.group);
-    end 
-);
-InstallMethod( \*,   "for an FRElement and a FREquation",
-	 [ IsFRElement, IsFREquation and IsFREquationStateRep ],
-    function( x, y )
-   		local L,i;
-			L := DecompositionOfFRElement(x);
-			for i in [1..Length(L[1])] do
-				L[1][i] := Equation([L[1][i]],y!.group)*y!.states[L[2][i]];
-			od;
-			return FREquation(L[1],Activity(x) * y!.activity,y!.group);
-    end 
-);
-InstallMethod( \*,   "for an FREquation and an FRElement",
-	 [IsFREquation and IsFREquationStateRep, IsFRElement ],
-    function( x, y )
-   		local L,S,i;
-			L := DecompositionOfFRElement(y);
-			S := [];
-			for i in [1..Length(x!.states)] do
-				Add(S, x!.states[i] * Equation([L[1][i^x!.activity]],x!.group));
-			od;
-			return FREquation(S,x!.activity*Activity(y),x!.group);
-    end 
-);
-
-InstallMethod(IsOrientedEquation, "for a square Equation",
-	[IsSquareEquation],
-	function(w)
-		local i,Val;
-		w := UnknownsOfEquation(w);
-		if Length(w) = 0 then
-			return true;
-		fi;
-		Val := ListWithIdenticalEntries( Maximum(-1*Minimum(w),Maximum(w)), 0 );
-		for i in w do
-			Val[AbsInt(i)] := Val[AbsInt(i)] + i;
-		od;
-		return ForAll(Val,x->x=0);
-	end
-);
-
-
-InstallMethod(EquationAsElement, "for a Equation",
-	[IsEquation and IsEquationRep],
-	function(w)
-		w := EquationReducedForm(w);
-		if Length(w!.word) = 0 then
-			return One(w!.group);
-		elif Length(w!.word) = 1 and not IsInt(w!.word[1]) then
-			return w!.word[1];
-		else
-			Error("This GroupWord still contains Unknowns");
-		fi;
-	end
-);
-
-
-InstallMethod(ImageOfEquationHom, "for a EquationHom and a Equation",
-	[IsEquationHom,IsEquation and IsEquationRep],
-	function(H,e)
-		local res,x,h;
-		res:=[];
-		H := H!.rules;
-		for x in e!.word do
-			if IsPosInt(x) and IsBound(H[x]) then
-				Append(res,H[x]!.word);
-			elif IsInt(x) and IsPosInt(-x) and IsBound(H[-x]) then
-				h := H[-x]^-1;
-				Append(res,h!.word);
-			else
-				Add(res,x);
-			fi;
-		od;
-		#return Equation(res,e!.group);
-		return EquationReducedForm(Equation(res,e!.group));
-	end
-);	
-InstallMethod(OneOp, "for a EquationHom",
-	[IsEquationHom],
-	x -> EquationHom([],x!.group) 
-);
-InstallMethod(UnknownsOfEquation, "for a Equation",
-	[IsEquation and IsEquationRep],
-	w -> Filtered(w!.word,IsInt)
-);
-InstallMethod(LengthOfEquation, "for a Equation",
-	[IsEquation and IsEquationRep],
-	w -> Length(w!.word)
-);
-InstallMethod(IsPermEquation,"for a Equation",
-	[IsEquation and IsEquationRep],
-	x->IsPermGroup(x!.group));
-InstallMethod(IsSquareEquation, "for a Equation",
-		[IsEquation],
-		function(w)
-			local i,Val;
-			Val := rec();
-			for i in UnknownsOfEquation(w) do
-				i := AbsInt(i);
-				if IsBound(Val.(i)) then
-					if Val.(i) > 1 then
-						return false;
-					fi;
-					Val.(i) := 2;	
-				else
-					Val.(i) := 1;
-				fi;
-			od;
-			return true;
-		end
-);
-
-
-
-InstallMethod(EquationReducedForm, "for a Grpword in FREquation representation",
-	[IsEquation and IsFREquationStateRep],
-	function(x)
-		local s,L;
-		L := [];
-		for s in x!.states do	
-			Add(L,EquationReducedForm(s));
-		od;
-		return FREquation(L,x!.activity,Representative(x!.states)!.group);		
-	end
-);
-InstallMethod(EquationCyclReducedForm, "for a Grpword",
-	[IsEquation],
-	function(x)
-		local L;
-		x := EquationReducedForm(x);
-		L := x!.word;
-		#Check if word begins with constant
-		if Length(L) > 1 and not IsInt(L[1]) then
-			if IsInt(L[Length(L)]) then
-				Add(L,L[0]);
-			else
-				L[Length(L)] := L[Length(L)]*L[1];
-				if IsOne(L[Length(L)]) then #kill last entry
-					L := L{[1..Length(L)-1]};
-				fi;
-			fi;#kill first entry
-			L:= L{[2..Length(L)]};
-		else
-			return x;
-		fi;
-		x := Equation(L,x!.group);
-		IsSquareEquation(x);
-		IsOrientedEquation(x);
-		return x;		
-	end
-);
 InstallMethod(EquationNormalForm, "for a Grpword",
 	[IsEquation],
 	function(x)
