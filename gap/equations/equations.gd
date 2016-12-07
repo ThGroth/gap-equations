@@ -95,9 +95,12 @@ DeclareOperation("IsSolution", [IsEquationHomomorphism, IsEquation]);
 
 DeclareOperation("EquationEvaluation", [IsEquation,IsList]);
 DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
+DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
+
+
 DeclareOperation("DecompositionEquation", [IsEquation,IsGroupHomomorphism,IsDecompositionEquationGroup]);
 
-DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
+
 #DeclareOperation("EquationAsElement",[IsEquation]);
 #DeclareOperation("EquationHomCompose",[IsEquationHom,IsList,IsGroup]);
 #DeclareOperation("EquationDecomposed",[IsEquation]);

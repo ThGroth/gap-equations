@@ -46,7 +46,7 @@ BindGlobal("MEALY_FROM_STATES@", function(L,act)
 InstallMethod(FreeProductOp, "for f.g. free groups",
 	[IsList,IsFreeGroup],
 	function(L,G)
-		local embeddings,genInList,FP,last,i;
+		local embeddings,names,genInList,FP,last,i;
 		if not ForAll(L,IsFreeGroup) then 
 			TryNextMethod();
 		fi;
@@ -55,7 +55,11 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
 		fi;
 		genInList  := List(L, H->Length(GeneratorsOfGroup(H)));
 		embeddings :=[];
-		FP := FreeGroup(Sum(genInList));
+		names := Concatenation(List([1..Length(L)],
+				i->List([1..genInList[i]],
+				j->Concatenation(String(L[i].(j)),String(i)) )));
+		#FP := FreeGroup(Sum(genInList));
+		FP:=FreeGroup(names);
 		if ForAll(L,HasName) then
 			SetName(FP,Concatenation(Concatenation(
 				List(L{[1..Size(L)-1]},H->Concatenation(Name(H),"*")),
@@ -79,7 +83,7 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
 InstallMethod(FreeProductOp, "for infinitely generated free groups",
 	[IsList,IsFreeGroup],
 	function(L,G)
-		local embeddings,FP,i;
+		local embeddings,FP,i,names;
 		if not ForAll(L,IsFreeGroup) then 
 			TryNextMethod();
 		fi;
@@ -87,7 +91,11 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
 			TryNextMethod();
 		fi;
 		embeddings :=[];
-		FP := FreeGroup(infinity);
+		#Take the init part of each list of names
+		names := Concatenation(List([1..Length(L)],
+				i->List(FamilyObj(Representative(L[i]))!.names![2],
+				j->Concatenation(j,String(i)) )));	
+		FP := FreeGroup(infinity,"yn",names);
 		if ForAll(L,HasName) then
 			SetName(FP,Concatenation(Concatenation(
 				List(L{[1..Size(L)-1]},H->Concatenation(Name(H),"*")),
@@ -335,7 +343,7 @@ InstallMethod(EquationLetterRep, "for an Equation",
 				od;
 			fi;
 		od;
-		Eq:= Equation(nw,eq!.eqG);
+		Eq:= Equation(nw,eq!.eqG,false);
 		SetIsEquationLetterRep(Eq,true);
 		return Eq;
 	end);
@@ -390,7 +398,7 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 				TryNextMethod();
 			fi;
 			alph := AlphabetOfFRSemigroup(eq!.group);
-			if not ForAll([1..Size(alph)],i->Source(Embedding(DEqG!.free),i)=eq!.free) then
+			if not ForAll([1..Size(alph)],i->Source(Embedding(DEqG!.free,i))=eq!.free) then
 				Error("DecompositionEquationGroup doesn't correspond to EquationGroup.");
 			fi;
 			vars := EquationVariables(eq);
@@ -410,14 +418,16 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 					od;
 					lastperm := lastperm*Activity(x);
 				else
-					if LetterRepAssocWord(x)[1]<0 then
-						#eq is in LetterRep so this is the inverse of a gen.
-						lastperm := lastperm*x^acts;
-						Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
-					else
-						Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
-						lastperm := lastperm*x^acts;
-					fi;
+					for i in [1..Size(alph)] do
+						if LetterRepAssocWord(x)[1]<0 then
+							#eq is in LetterRep so this is the inverse of a gen.
+							lastperm := lastperm*x^acts;
+							Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
+						else
+							Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
+							lastperm := lastperm*x^acts;
+						fi;
+					od;
 				fi;
 			od;
 			return [List(DecompEq,L->Equation(L,DEqG)),lastperm];
