@@ -80,10 +80,19 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
     	return FP;   
 	end);
 
+maps := [];
+for i in [1..3] do
+	Add(maps,k->k+i);
+od;
+maps2 := [];
+for i in [1..3] do
+	j:= MakeImmutable(i);
+	Add(maps2,function(k) return k+j; end);
+od;
 InstallMethod(FreeProductOp, "for infinitely generated free groups",
 	[IsList,IsFreeGroup],
 	function(L,G)
-		local embeddings,FP,i,names;
+		local embeddings,FP,i,names,nameLen;
 		if not ForAll(L,IsFreeGroup) then 
 			TryNextMethod();
 		fi;
@@ -91,10 +100,17 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
 			TryNextMethod();
 		fi;
 		embeddings :=[];
-		#Take the init part of each list of names
-		names := Concatenation(List([1..Length(L)],
-				i->List(FamilyObj(Representative(L[i]))!.names![2],
-				j->Concatenation(j,String(i)) )));	
+		#If all groups have the same length of init names
+		#give good new names
+		nameLen := Length(FamilyObj(Representative(G))!.names![2]);
+		if ForAll(L,H->Length(FamilyObj(Representative(H))!.names![2])=nameLen) then
+			names := Concatenation(List([1..nameLen],
+				i->List([1..Length(L)],
+				j->Concatenation(FamilyObj(Representative(L[j]))!.names![2][i],String(j)) )));	
+		else
+			names := [];
+		fi;
+				
 		FP := FreeGroup(infinity,"yn",names);
 		if ForAll(L,HasName) then
 			SetName(FP,Concatenation(Concatenation(
@@ -102,11 +118,21 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
 				[Name(L[Size(L)])])));
 		fi;
     	for i in [1..Length(L)] do
-    		Add(embeddings,GroupHomomorphismByFunction(
+    		if i = 1 then
+    			Add(embeddings,GroupHomomorphismByFunction(
     				L[i],
     				FP,
     				w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
-    					List(LetterRepAssocWord(w),k->(Length(L)-1)*k+i))));
+    					List(LetterRepAssocWord(w),k->Length(L)*(k-1)+1))));
+    		elif i = 2 then
+    			Add(embeddings,GroupHomomorphismByFunction(
+    				L[i],
+    				FP,
+    				w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
+    					List(LetterRepAssocWord(w),k->Length(L)*(k-1)+2))));
+    		else
+    			Error("Not implemented yet");
+    		fi;
     	od;
         SetFreeProductInfo( FP, 
         rec( groups := L,
@@ -391,9 +417,12 @@ InstallMethod(IsOrientedEquation, "for a square Equation",
 );
 
 InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
-		[IsEquation,IsGroupHomomorphism,IsDecompositionEquationGroup],
+		[IsEquation,IsGroupHomomorphism,IsEquationGroup],
 		function(eq,acts,DEqG)
 			local alph,vars,DecompEq,lastperm,x,i;
+			if not IsDecompositionEquationGroup(DEqG)then
+				TryNextMethod();
+			fi;
 			if not IsFRGroup(eq!.group) then
 				TryNextMethod();
 			fi;
@@ -526,7 +555,7 @@ G := GrigorchukGroup;
 BS := BranchStructure(G);
 pi := BS.quo;
 AssignGeneratorVariables(G);
-F := FreeGroup(infinity,"x");
+F := FreeGroup(infinity,"xn",["x1","x2","x3","x4","x5","x6"]);
 SetName(F,"F_X");
 EqG := EquationGroup(G,F);
 Eq := Equation([Comm(F.1,F.2),(a*b)^2],EqG);
