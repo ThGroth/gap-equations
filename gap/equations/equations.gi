@@ -82,7 +82,7 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
 
 maps := [];
 for i in [1..3] do
-	Add(maps,k->k+i);
+	Add(maps,k->k+Int(i));
 od;
 maps2 := [];
 for i in [1..3] do
@@ -123,13 +123,13 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
     				L[i],
     				FP,
     				w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
-    					List(LetterRepAssocWord(w),k->Length(L)*(k-1)+1))));
+    					List(LetterRepAssocWord(w),k->SignInt(k)*(Length(L)*(AbsInt(k)-1)+1)))));
     		elif i = 2 then
     			Add(embeddings,GroupHomomorphismByFunction(
     				L[i],
     				FP,
     				w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
-    					List(LetterRepAssocWord(w),k->Length(L)*(k-1)+2))));
+    					List(LetterRepAssocWord(w),k->SignInt(k)*(Length(L)*(AbsInt(k)-1)+2)))));
     		else
     			Error("Not implemented yet");
     		fi;
