@@ -304,7 +304,7 @@ InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
 			Add(newword,lastfree);
 		fi;
 		#Cyclic reduction: No group constant in the first position
-		if newword[1] in x!.group then
+		if Length(newword)>= 1 and newword[1] in x!.group then
 			last := last*newword[1];
 			newword := newword{[2..Size(newword)]};
 		fi;
@@ -315,6 +315,7 @@ InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
 		SetIsReducedEquation(Eq,true);
 		return 	Eq;
 	end);
+
 InstallMethod( \=,  "for two Equations",
 		IsIdenticalObj,
     [ IsEquation and IsEquationRep, IsEquation and IsEquationRep ],
@@ -438,7 +439,7 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 				TryNextMethod();
 			fi;
 			eq := EquationLetterRep(eq);
-			DecompEq := ListWithIdenticalEntries(Size(alph),[]);
+			DecompEq := List(alph,a->[]);
 			lastperm := ();
 			for x in eq!.word do
 				if x in eq!.group then
@@ -447,16 +448,16 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 					od;
 					lastperm := lastperm*Activity(x);
 				else
+					if LetterRepAssocWord(x)[1]<0 then
+						#eq is in LetterRep so this is the inverse of a gen.
+						lastperm := lastperm*x^acts;
+					fi;
 					for i in [1..Size(alph)] do
-						if LetterRepAssocWord(x)[1]<0 then
-							#eq is in LetterRep so this is the inverse of a gen.
-							lastperm := lastperm*x^acts;
-							Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
-						else
-							Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
-							lastperm := lastperm*x^acts;
-						fi;
+						Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
 					od;
+					if not LetterRepAssocWord(x)[1]<0 then
+						lastperm := lastperm*x^acts;
+					fi;
 				fi;
 			od;
 			return [List(DecompEq,L->Equation(L,DEqG)),lastperm];
@@ -573,6 +574,10 @@ eqhom2*ev;
 DEqG := DecompositionEquationGroup(EqG);
 constr := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),[(),()]);
 DEq:=DecompositionEquation(Eq,constr,DEqG);
+
+
+Eq2 := Equation([F.1],EqG);
+acts :=  GroupHomomorphismByImages(Group(EquationVariables(Eq2)),SymmetricGroup(2),[(1,2)]);
 #
 #
 #
