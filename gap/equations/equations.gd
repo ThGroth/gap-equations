@@ -7,11 +7,11 @@
 
 DeclareCategory("IsEquationGroup", IsGroup);
 
-
 DeclareCategory("IsEquation", IsMultiplicativeElementWithInverse);
 DeclareCategoryCollections("IsEquation");
 
 DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
+
 #DeclareCategory("IsFREquation",IsMultiplicativeElementWithInverse);
 #InstallTrueMethod(IsEquation,IsFREquation);
 
@@ -20,6 +20,10 @@ DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
 DeclareRepresentation("IsEquationRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
  ["word","group","free","eqG"]
+);
+DeclareRepresentation("IsDecomposedEquationRep",
+ IsComponentObjectRep  and IsAttributeStoringRep,
+ ["words","group","free","eqG","activity"]
 );
 
 #DeclareRepresentation("IsEquationDecomposableRep",
@@ -57,6 +61,9 @@ DeclareRepresentation("IsEquationRep",
 #									 TODO 
 DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
 DeclareOperation("Equation", [IsList, IsEquationGroup, IsBool]);
+
+DeclareOperation("EquationComponent", [IsEquation,IsInt]);
+DeclareOperation("EquationComponents", [IsEquation]);
 
 DeclareOperation("EquationEvaluation", [IsGroupHomomorphism, IsEquation]);
 DeclareOperation("EquationPartialEvaluation", [IsGroupHomomorphism, IsEquation]);
@@ -98,7 +105,7 @@ DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
 DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
 
 
-DeclareOperation("DecompositionEquation", [IsEquation,IsGroupHomomorphism,IsDecompositionEquationGroup]);
+DeclareOperation("DecompositionEquation", [IsEquation,IsGroupHomomorphism,IsEquationGroup]);
 
 
 #DeclareOperation("EquationAsElement",[IsEquation]);
