@@ -59,6 +59,8 @@ DeclareRepresentation("IsDecomposedEquationRep",
 #						The resultin object is an implementation of an element of (F_NN * G)^n \wr S_n
 #FREquationUnknown: Defines a FRGroupWord object wich represents the unknowns of the corresponding group.
 #									 TODO 
+DeclareOperation("Abs", [IsObject]);
+							
 DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
 DeclareOperation("Equation", [IsList, IsEquationGroup, IsBool]);
 
