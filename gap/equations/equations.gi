@@ -297,6 +297,15 @@ InstallOtherMethod(Length, "for a Equation",
 		return Length(x!.word);
 	end);
 
+InstallOtherMethod(Position, "for an Equation and an generator or constant and an offset",
+	[IsEquation and IsEquationRep,IsMultiplicativeElementWithInverse, IsInt],
+	function(eq,elm,from)
+		if not elm in eq!.free and not elm in eq!.group then
+			TryNextMethod();
+		fi;  
+		return Position(eq!.word,elm,from);
+	end);
+
 InstallMethod( PrintObj,   "for Equations)",
    [ IsEquation and IsEquationRep ],
     function( x )
@@ -365,6 +374,12 @@ InstallOtherMethod(\[\], "for an Equation",
 	[IsEquation and IsEquationRep,IsInt],
 	function(w,i) 
 		return Equation([w!.word[i]],w!.group,w!.free);
+	end);
+
+InstallOtherMethod(\{\}, "for an Equation",
+	[IsEquation and IsEquationRep,IsList],
+	function(w,i) 
+		return Equation(w!.word{i},w!.group,w!.free);
 	end);
 
 InstallOtherMethod(\[\], "for an Equation",
@@ -642,7 +657,7 @@ InstallOtherMethod(EquationHomomorphism, "For an EquationGroup, a list of variab
 		if not Length(gens) = Length(imgs) then
 			Error("There must be as many images as generators");
 		fi;
-		if Length(gen) = 0 then
+		if Length(gens) = 0 then
 			return EquationHomomorphism(eqG,IdentityMapping(eq!.free),IdentityMapping(eq!.group));
 		fi;
 		if not ForAll(gens,g->g in GeneratorsOfGroup(eqG!.free)) then
@@ -790,21 +805,22 @@ acts :=  GroupHomomorphismByImages(Group(EquationVariables(Eq2)),SymmetricGroup(
 InstallMethod(EquationNormalForm, "for an Equation",
 	[IsEquation and IsEquationRep],
 	function(x)
-		local G,F,EqG,,id,NormalUnknowns,NormalForm2,N2,N;
+		local G,F,EqG,NormalForm,N,H,NormalVars;
+		if not IsSquareEquation(x) then
+			TryNextMethod();
+		fi;
 		G := x!.group;
 		F := x!.free;
 		EqG := x!.eqG;
-		id := IdentityMapping(G);
-		
+		#Recursive worker function
 		NormalForm:= function(eq)
-			local case10,case11a,case11b,case3,toInvert,vfind,i,j,t,x,vlen,v,w,v1,v2,w1,w2,w11,w12,w21,w22,w3,first,Hom,Hom2,y,N;
-			Info(InfoFRGW,3,"Call of NormalForm2¸with",xx!.word);
+			local case10,case11a,case11b,case3,i,j,t,x,y,Hom,N,
+				  asInt,v,w,v1,v2,w1,w2,w11,w12,w21,w22,w3;
+			Info(InfoFRGW,3,"Call of NormalForm¸with",eq);
 			
-			vars := EquationVariables(eq);
-			eq := EquationLetterRep(eq);
-			# w = w1·x⁻·v·x·w2
-			# w1,w2 Equations v∈G,x∈F 
 			case10 := function(w1,v,w2,x)
+				# eq = w₁·x⁻·v·x·w₂
+				# w₁,w₂ Equations v∈G,x∈F 
 				local N,Hom,c;
 				N := NormalForm(w1*w2);
 				Hom := EquationHomomorphism(EqG,[x],[x*w2^-1]);
@@ -816,24 +832,23 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				if c in F then
 					return [N[1]*Equation([x^-1,v,x],EqG),N[2]*Hom];
 				else
-					Hom := EquationHomomorphism(EqG,[x],x*(c*w2^-1)]);
+					Hom := EquationHomomorphism(EqG,[x],[x*(c*w2^-1)]);
 					return [N[1]*c^-1*(x^-1*v*x)*c,N[2]*Hom];
 				fi;
 			end;
-			# w = w11·v⁻·w12·x⁻·v·x·w2
-			# # w11,w12,w2 Equations v,x∈F 
 			case11a := function(w11,w12,v,w2,x)
+				# w = w₁₁·v⁻·w₁₂·x⁻·v·x·w₂
+				# # w₁₁,w₁₂,w₂ Equations v,x∈F 
 				local N,Hom;
 				N := NormalForm(w11*w12*w2);
-				#h := Equation(w11,EqG);
 				Hom := EquationHomomorphism(EqG,[x,v],[
 						w11^-1*x*w11*w12,
 						w11^-1*v*w11]);
 				return [Comm(v,x)*N[1],N[2]*Hom];
 			end;
-			# w = w1·x⁻·v·x·w21·v⁻·w22
-			# # w1,w21,w22 Equations v,x∈F 
 			case11b := function(w1,v,w21,w22,x)
+				# w = w₁·x⁻·v·x·w₂₁·v⁻·w₂₂
+				# # w₁,w₂₁,w₂₂ Equations v,x∈F 
 				local N,Hom;
 				N := NormalForm(w1*w21*w22);
 				Hom := EquationHomomorphism(EqG,[x,v],[
@@ -841,9 +856,9 @@ InstallMethod(EquationNormalForm, "for an Equation",
 						w21^-1*w1^-1*v^-1*w1*w21]);
 				return [Comm(x,v)*N[1],N[2]*Hom];
 			end;
-			# w = x²·w2
-			# w2 Equation, x∈F
 			case3 := function(x,w2)
+				# w = x²·w2
+				# w₂ Equation, x∈F
 				local N,N2,Hom,y,z;
 				N := NormalForm(w2);
 				#Check if N start with [y,z]
@@ -862,192 +877,128 @@ InstallMethod(EquationNormalForm, "for an Equation",
 					return [x^2*y^2*N2[1],Hom*N2[2]*N[2]];
 				fi;
 			end;
-			#G := x!.group;
-			#F := x!.free;
-			#EqG := x!.eqG;
-			#id := IdentityMapping(G);
+			eq := EquationLetterRep(eq);
+			#Find x s.t. w=w₁ x^±1 v x w₂ with |v| minimal
+			t := [];
+			Perform(EquationVariables(eq),function(v) t[LetterRepAssocWord(v)[1]]:=0; end);
+			
+			for i in [1..Length(eq)] do
+				x := eq!.word[i];
+				if x in F then
+					asInt := LetterRepAssocWord(x)[1];
+					t[AbsInt(asInt)]:=i-t[AbsInt(asInt)]; 
+				fi;
+			od;
+			x := AssocWordByLetterRep(FamilyObj(Representative(F)),
+							[PositionProperty(t,i->i=Minimum(t))]);
+
 			if IsOrientedEquation(eq) then
 				if Length(eq!.word)<3 then
 					return [eq,EquationHomomorphism(EqG,[],[])];
 				fi;
-				#Find x s.t. w=w1 -x v x w2 with |v| minimal
-				t := List(vars,v->0);
-				for i in [1..Length(eq)] do
-					x := eq!.word[i];
-					if x in F then
-						asInt := LetterRepAssocWord(x)[1];
-						t[AbsInt(asInt)]:=t[AbsInt(asInt)]+SignInt(asInt)*i; 
-					fi;
-				od;
-				x := vars[PositionProperty(t,i->i=Maximum(List(t)))];
-			#Minimal found;
-				first := true;
-				toInvert := false;
-				for i in [1..Length(eq)] do
-					if eq!.word[i] = x or eq!.word = x^-1 then
-						if first then
-							img := eq!.word[i];
-							
-							w1 := eq[[1..i-1]];
-							first := false;
-							j:= i+1;
-						else 
-							v:= eq[[j..i-1]];
-							if i<Length(eq) then
-								w2 := eq[[i+1..Length(w)]];
-							else
-								w2 := One(eq);
+				#Find Decomposition w₁ x⁻¹ v x w₂ 
+				i := Position(eq,x^-1);
+				j := Position(eq,x);
+				if i>j then 
+					Hom := EquationHomomorphism(EqG,[x],[x^-1]);
+					j:=Position(eq,x^-1);
+					i := Position(eq,x);
+				else
+					Hom := EquationHomomorphism(EqG,[],[]);
+				fi;
+				w1 := EquationLetterRep(eq{[1..i-1]});
+				v := EquationLetterRep(eq{[i+1..j-1]});
+				w2 := EquationLetterRep(eq{[i+1..Length(eq)]});
+				
+				#Decomposition done
+				if Length(v)=1 then #Case 1
+					v := v!.word[1];
+					if v in F then #Case 1.1
+						#v->v⁻¹ if v is not a generator. 
+						Hom := EquationHomomorphism(EqG,[Abs(v)],[v])*Hom;
+						i := Position(w1,v^-1);
+						if not i = fail then #Case 1.1.a
+							w11 := w1{[1..i-1]};
+							w12 := w1{[i+1..Length(w1)]};
+							N := case11a(w11,w12,Abs(v),w2,x);
+							return [N[1],N[2]*Hom];
+						else #Case 1.1.b
+							i := Position(w2,v^-1);
+							if i = fail then 
+								Error("Strange Error. Is Equation quadratic?");
 							fi;
-							break;
+							w21 := w2{[1..i-1]};
+							w22 := w2{[i+1..Length(w2)]};
+							N:= case11b(w1,Abs(v),w21,w22,x);
+							return [N[1],N[2]*Hom];
 						fi;
+					else #Case 1.0
+						N := case10(w1,v,w2,x);
+						return [N[1],N[2]*Hom];
 					fi;
-				od;
-				Hom := EquationHomomorphism(EqG,[x],[img])
-			##
-			#
-			#
-			# Continue Here!
-			#
-			#
-			#Decomposition done
-			if Length(v)=1 then #Case 1
-				v := v[1];
-				if IsInt(v) then #Case 1.1
-					if v<0 then
-						Hom2 := [];
-						Hom2[-v] := Equation([v],xx!.group);
-						Hom := EquationHom(Hom2)*Hom;
-					fi;
-					i := Position(w1,-v);
-					if not i = fail then #Case 1.1.a
+				else #Case 2
+					y := First(v!.word,e->e in F);
+					Hom := EquationHomomorphism(EqG,[Abs(y)],[y^-1])*Hom;
+					#v = v1 y v
+					i := Position(v,y);
+					v1 := v{[1..i-1]};
+					v2 := v{[i+1..Length(v)]};
+
+					i := Position(w1,y^-1);
+					if not i = fail then #Case 2.a
 						w11 := w1{[1..i-1]};
 						w12 := w1{[i+1..Length(w1)]};
-						N := case11a(w11,w12,AbsInt(v),w2,x,xx!.group);
-						#Display(N[2]!.rules[1]!.word);
+						Hom := EquationHomomorphism(EqG,[x],[v2^-1*x*(Abs(y)*w12)])*Hom;
+						N := case11a(w11,v2*v1,x,w12*w2,Abs(y));
 						return [N[1],N[2]*Hom];
-					else #Case 1.1.b
-						i := Position(w2,-v);
+					else #Case 2.b
+						i := Position(w2,y^-1);
 						if i = fail then 
-							Error("Strange Error");
+							Error("Strange Error. Is Equation quadratic?");
 						fi;
 						w21 := w2{[1..i-1]};
 						w22 := w2{[i+1..Length(w2)]};
-						N:= case11b(w1,AbsInt(v),w21,w22,x,xx!.group);
+						N := case11a(w1*w21,v2*v1,x,w22,AbsInt(y));
+						Hom := EquationHomomorphism(EqG,[x],[v2^-1*x*w21^-1])*Hom;
 						return [N[1],N[2]*Hom];
 					fi;
-				else #Case 1.0
-					N := case10(w1,v,w2,x,xx!.group);
-					return [N[1],N[2]*Hom];
-				fi;
-			else #Case 2
-				#Print("Case2.");
-				y := 0;
-				for i in v do
-					if IsInt(i) then
-						y := i;
-						if i<0 then
-							break;
-						fi;
-					fi;
-				od;
-				i := Position(v,y);
-				if y>0 then
-					Hom2 := [];
-					Hom2[y] := Equation([-y],xx!.group);
-					Hom := EquationHom(Hom2)*Hom;
-					#y := -y;
-				fi;
-				y := -y;
-				v1 := v{[1..i-1]};
-				v2 := v{[i+1..Length(v)]};
-				i := Position(w1,y);
-				if not i = fail then #Case 2.a
-					#Print("a. ");
-					w11 := w1{[1..i-1]};
-					w12 := w1{[i+1..Length(w1)]};
-					N := case11a(w11,Concatenation(v2,v1),x,Concatenation(w12,w2),AbsInt(y),xx!.group);
-					Hom2 := [];
-					Hom2[x] :=Equation(v2,xx!.group)^-1*Equation(Concatenation([x,AbsInt(y)],w12),xx!.group);
-					return [N[1],N[2]*EquationHom(Hom2)*Hom];
-				else #Case 2.b
-					#Print("b. ");
-					i := Position(w2,y);
-					if i = fail then 
-						Error("Strange Error");
-					fi;
-					w21 := w2{[1..i-1]};
-					w22 := w2{[i+1..Length(w2)]};
-					N := case11a(Concatenation(w1,w21),Concatenation(v2,v1),x,w22,AbsInt(y),xx!.group);
-					Hom2 := [];
-					Hom2[x] := Equation(v2,xx!.group)^-1*Equation([x],xx!.group)*Equation(w21,xx!.group)^-1;
-					return [N[1],N[2]*EquationHom(Hom2)*Hom];
-				fi;
-			fi; #End Case 2
+				fi; 
 			else #so not oriented
-				#Print("Nonoriented Case:\n");
-				#find x s.t. w = w1·x·w2·x·w3
-				t:= rec();
-				for i in [1..Length(w)] do
-					if IsInt(w[i]) then
-						if IsBound(t.(w[i])) then
-							x:= w[i];
-							w1:= w{[1..t.(w[i])-1]};
-							w2:= w{[t.(w[i])+1..i-1]};
-							w3:= w{[i+1..Length(w)]};
-							break;
-						else        
-							t.(w[i]) := i;
-						fi;
-					fi;
-				od;
-				Hom := [];
-				if x<0 then
-					Hom[-x] := Equation([x],xx!.group);
-					x := -x;
+				i := Position(eq,x);
+				if i=fail then
+					Hom := EquationHomomorphism(EqG,[x],[x^-1]);
+					i := Position(eq,x^-1);
+					j := Position(eq,x^-1,i+1);
+				else	
+					Hom := EquationHomomorphism(EqG,[],[]);
+					j := Position(eq{[i+1..Length(eq)]},x)+i;
 				fi;
-				Hom := EquationHom(Hom,xx!.group);
-				Hom2 := [];
-				v := Equation(w2,xx!.group)^-1;
-				Hom2[x] := Equation(w1,xx!.group)^-1 * Equation(Concatenation([x],w1),G) *v;
-				Hom := EquationHom(Hom2)*Hom;
-				w2 := v!.word;
-				N := case3(x,Concatenation(w1,w2,w3),xx!.group);
+				w1:= eq{[1..i-1]};
+				w2:= eq{[i+1..j-1]};
+				w3:= eq{[j+1..Length(eq)]};
+				Hom := EquationHomomorphism(EqG,[x],[w1^-1*x*w1*w2^-1])*Hom;
+				N := case3(x,w1*w2^-1*w3);
 				return [N[1],N[2]*Hom];
 			fi; #End Nonoriented Case	
-			Print("Not implemented yet\n");
-			return [];
 		end;
-		NormalUnknowns := function(N)
-			local w,i,L,Hom,cur;
-			Hom := [];
-			cur := 0;
-			L := [];
-			w := [];
-			for i in N!.word do
-				if IsInt(i) then
-					if IsBound(L[AbsInt(i)]) then
-						Add(w,SignInt(i)*L[AbsInt(i)]);
-					else
-						cur := cur +1;
-						L[AbsInt(i)] := cur;
-						Hom[AbsInt(i)] := Equation([cur],N!.group);
-						Add(w,SignInt(i)*cur);
-					fi;
-				else
-					Add(w,i);
+		NormalVars := function(eq)
+			local gens,imgs,count,x;
+			eq := EquationLetterRep(eq);
+			gens := [];
+			imgs := [];
+			count := 1;
+			for x in N!.word do
+				if x in F and not Abs(x) in gens then
+					Add(gens,Abs(x));
+					Add(imgs,F.(count));
 				fi;
 			od;
-			return [Equation(w,N!.group),EquationHom(Hom,N!.group)];
+			return EquationHomomorphism(EqG,gens,imgs);
 		end;
-		if IsSquareEquation(x) then
-			N := NormalForm2(x);
-			N2 :=NormalUnknowns(N[1]);
-			return [N2[1],N2[2]*N[2]];
-		else
-			TryNextMethod();
-		fi;
-	end
-);
+		N := NormalForm(x);
+		H :=NormalVars(N[1]);
+		return [N1^H,H*N[2]];
+	end);
 
 
 
@@ -1340,7 +1291,7 @@ InstallMethod(EquationNormalFormInverseHom, "for a Grpword",
 	function(x)
 		local NormalUnknowns,NormalForm2,N2,N;
 		NormalForm2:= function(xx)
-			local case10,case11a,case11b,case3,toInvert,vfind,i,j,t,x,vlen,v,w,v1,v2,w1,w2,w11,w12,w21,w22,w3,first,Hom,Hom2,y,N;
+			local case10,case11a,case11b,case3,toInvert,vfind,i,j,t,x,v,w,v1,v2,w1,w2,w11,w12,w21,w22,w3,first,Hom,Hom2,y,N;
 			Info(InfoFRGW,3,"Call of NormalForm2¸with",xx!.word);
 			xx:= EquationReducedForm(xx);
 			w:= xx!.word;
