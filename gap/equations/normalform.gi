@@ -1,3 +1,12 @@
+#
+#
+# Actual problem: it is not good to cyclical reduce equation in between.
+# Furthermore is the terminology "equation" missleading in this case of
+# subwords.
+#
+#
+
+
 InstallMethod(EquationNormalForm, "for an Equation",
 	[IsEquation and IsEquationRep],
 	function(x)
