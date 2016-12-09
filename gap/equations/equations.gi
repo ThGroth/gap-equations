@@ -702,9 +702,17 @@ InstallMethod( CompositionMapping2, "For two EquationHomomorphisms",
 	FamSource1EqFamRange2,
 	[IsEquationHomomorphism,IsEquationHomomorphism],0,
 	function(hom2,hom1)
-		return EquationHomomorphism(Source(hom2),
-				CompositionMapping2(hom2!.mapFree,hom1!.mapFree),
+		return EquationHomomorphism(Source(hom1),Range(hom2),
+				CompositionMapping2(hom2,hom1!.mapFree),
 				CompositionMapping2(hom2!.mapGroup,hom1!.mapGroup));
+	end	);
+
+InstallMethod( CompositionMapping2, "For an EquationHomomorphism and a group Homomorphisms",
+	FamSource1EqFamRange2,
+	[IsEquationHomomorphism,IsGroupHomomorphism],0,
+	function(hom2,hom1)
+		return GroupHomomorphismByFunction(Source(hom1),Range(hom2),
+					w->(hom1!.fun(w))^hom2);
 	end	);
 
 InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
