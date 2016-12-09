@@ -702,6 +702,16 @@ InstallMethod(Range ,"For an EquationHomomorphism",
 		return hom!.Range;
 	end);
 
+#Composition Mapping acts from the left.
+# h1*h2 = Composition(h2,h1)
+InstallMethod( CompositionMapping2, "For two EquationHomomorphisms",
+	FamSource1EqFamRange2,
+	[IsEquationHomomorphism,IsEquationHomomorphism],0,
+	function(hom2,hom1)
+		return EquationHomomorphism(Source(hom2),
+				CompositionMapping2(hom2!.mapFree,hom1!.mapFree),
+				CompositionMapping2(hom2!.mapGroup,hom1!.mapGroup));
+	end	);
 
 InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
 	[IsEquationHomomorphism,IsEquation and IsEquationRep],
@@ -796,6 +806,10 @@ DEqG := DecompositionEquationGroup(EqG);
 constr := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),[(),()]);
 DEq:=DecompositionEquation(Eq,constr,DEqG);
 
+
+h1 := EquationHomomorphism(EqG,[F.1,F.3],[F.2,F.5]);
+h2 := EquationHomomorphism(EqG,[F.3],[F.7]);
+h := h2*h1;
 
 Eq2 := Equation([F.1],EqG);
 acts :=  GroupHomomorphismByImages(Group(EquationVariables(Eq2)),SymmetricGroup(2),[(1,2)]);
