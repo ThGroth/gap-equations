@@ -621,67 +621,61 @@ InstallMethod(InverseOp, "for a DecomposedEquation",
 #################################################################################
 
 InstallMethod(EquationHomomorphism ,"For an an EquationGroup and two group Homomorphisms",
-	[IsEquationGroup, IsGroupHomomorphism, IsGroupHomomorphism],
-	function(SourceEqG,mapFree,mapGroup)
+	[IsEquationGroup, IsGroup, IsGroupHomomorphism, IsGroupHomomorphism],
+	function(SourceEqG,Target,mapFree,mapGroup)
 		local fam,RangeEqG;
 		if not IsFreeGroup(Source(mapFree)) then
 			Error("1. Argument need to be a homomorphism from a free group");
 		fi;
 		
-		if Range(mapFree)=Range(mapGroup) then
-			RangeEqG := Range(mapGroup);
-		elif IsEquationGroup(Range(mapFree)) then
-			RangeEqG := Range(mapFree);
-		else
-			RangeEqG := EquationGroup(Range(mapGroup),Range(mapFree));
-		fi;
 		fam := GeneralMappingsFamily(ElementsFamily(FamilyObj(SourceEqG)),
-									 ElementsFamily(FamilyObj(RangeEqG)) );
+									 ElementsFamily(FamilyObj(Target)) );
 		return Objectify(NewType(fam,IsEquationHomomorphism),
 							rec(	mapFree := mapFree, 
 									mapGroup := mapGroup,
 									SourceEqG := SourceEqG,
-									Range := RangeEqG));
+									Range := Target));
 	end);
 
 InstallOtherMethod(EquationHomomorphism, "For an EquationGroup, a list of variables, and a list of images",
 	[IsEquationGroup,IsList,IsList],
 	function(eqG,gens,imgs)
+		local homFree;
 		if not Length(gens) = Length(imgs) then
 			Error("There must be as many images as generators");
 		fi;
 		if Length(gens) = 0 then
-			return EquationHomomorphism(eqG,IdentityMapping(eqG!.free),IdentityMapping(eqG!.group));
+			return EquationHomomorphism(eqG,eqG,IdentityMapping(eqG!.free),IdentityMapping(eqG!.group));
 		fi;
 		if not ForAll(gens,g->g in GeneratorsOfGroup(eqG!.free)) then
 			TryNextMethod();
 		fi;
-		if ForAll(imgs,x->x in eqG!.group) then #Evaluation
-			return EquationHomomorphism(eqG,
-									GroupHomomorphismByImages(Group(gens),eqG!.group,imgs),
-									IdentityMapping(eqG!.group));	
-		elif ForAll(imgs,x->x in eqG!.free) then #Renaming
-			return EquationHomomorphism(eqG,
-									GroupHomomorphismByImages(Group(gens),eqG!.free,imgs),
-									IdentityMapping(eqG!.group));
-		elif ForAny(imgs,IsList) then 
-			imgs := List(imgs,function(x)
+		gens := List(gens,gen->LetterRepAssocWord(gen)[1]);
+		
+		imgs := List(imgs,function(x)
 				if IsList(x) then
 					return(Equation(x,eqG));
 				elif IsEquation(x) then
 					return x;
+				elif x in eqG!.group or x in eqG!.free then
+					return(Equation([x],eqG));
 				else 
-					return Equation([x],eqG);
+					Error("Wrong input!");
 				fi;
+			end);
+		homFree := GroupHomomorphismByFunction(eqG!.free,eqG,function(w)
+			return Product(List(LetterRepAssocWord(w),
+				function(x)
+					local pos;
+						pos := Position(gens,AbsInt(x));
+						if pos = fail then
+							return Equation([AssocWordByLetterRep(FamilyObj(w),[x])],eqG);
+						else
+							return imgs[pos]^SignInt(x);
+						fi;	end));
 				end);
-		fi;
-		if not ForAll(imgs,IsEquation) then
-			Error("Wrong input!");
-		fi;
-		return EquationHomomorphism(eqG,
-					GroupHomomorphismByImages(Group(gens),eqG,imgs),
-					IdentityMapping(eqG!.group));
-	end);
+				return EquationHomomorphism(eqG,eqG,homFree,IdentityMapping(eqG!.group));
+			end);
 
 InstallMethod(Source ,"For an EquationHomomorphism",
 	[IsEquationHomomorphism],
@@ -701,9 +695,17 @@ InstallMethod( CompositionMapping2, "For two EquationHomomorphisms",
 	FamSource1EqFamRange2,
 	[IsEquationHomomorphism,IsEquationHomomorphism],0,
 	function(hom2,hom1)
-		return EquationHomomorphism(Source(hom2),
-				CompositionMapping2(hom2!.mapFree,hom1!.mapFree),
+		return EquationHomomorphism(Source(hom1),Range(hom2),
+				CompositionMapping2(hom2,hom1!.mapFree),
 				CompositionMapping2(hom2!.mapGroup,hom1!.mapGroup));
+	end	);
+
+InstallMethod( CompositionMapping2, "For an EquationHomomorphism and a group Homomorphisms",
+	FamSource1EqFamRange2,
+	[IsEquationHomomorphism,IsGroupHomomorphism],0,
+	function(hom2,hom1)
+		return GroupHomomorphismByFunction(Source(hom1),Range(hom2),
+					w->(hom1!.fun(w))^hom2);
 	end	);
 
 InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
@@ -729,11 +731,7 @@ InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
 			fi;
 			return Equation(res,Range(hom));
 		else 
-			if ForAll(res,x -> x in Range(hom)) then
-				return Product(res);
-			else
-				return Equation(res,eq!.eqG);
-			fi;
+			return Product(res);
 		fi;
 	end);
 
@@ -770,7 +768,7 @@ InstallMethod(EquationEvaluation, "For an Equation and a list of images",
 		if not Length(var)=Length(L) then
 			Error("There must be as many images as variables.");
 		fi;
-		return EquationHomomorphism(eq!.eqG,
+		return EquationHomomorphism(eq!.eqG,eq!.group,
 					GroupHomomorphismByImages(Group(var),eq!.group,L),
 					IdentityMapping(eq!.group));
 	end);
@@ -786,11 +784,12 @@ EqG := EquationGroup(G,F);
 Eq := Equation([Comm(F.1,F.2),(a*b)^2],EqG);
 id := IdentityMapping(G);
 
-h := GroupHomomorphismByImages(Group(EquationVariables(Eq)),F,[F.2,F.5]);
-eqhom2 := EquationHomomorphism(EqG,h,id);
 ev := EquationEvaluation(Eq,[a,b*a]);
-
 Image(ev,Eq);
+
+h1 := EquationHomomorphism(EqG,[F.1,F.3],[F.2,F.5]);
+h2 := EquationHomomorphism(EqG,[F.3],[F.7]);
+
 Eq^eqhom2;
 
 eqhom2*ev;

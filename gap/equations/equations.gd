@@ -69,7 +69,7 @@ DeclareOperation("EquationComponents", [IsEquation]);
 
 DeclareOperation("EquationEvaluation", [IsGroupHomomorphism, IsEquation]);
 DeclareOperation("EquationPartialEvaluation", [IsGroupHomomorphism, IsEquation]);
-DeclareOperation("EquationHomomorphism", [IsEquationGroup, IsGroupHomomorphism, IsGroupHomomorphism]);
+DeclareOperation("EquationHomomorphism", [IsEquationGroup, IsGroup, IsGroupHomomorphism, IsGroupHomomorphism]);
 #DeclareOperation("FREquation",[IsList,IsPerm,IsGroup]);
 #DeclareOperation("FREquationUnknown",[IsInt,IsPerm,IsFRGroup]);
 
