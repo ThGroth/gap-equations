@@ -630,7 +630,7 @@ InstallMethod(EquationHomomorphism ,"For an an EquationGroup and two group Homom
 		
 		fam := GeneralMappingsFamily(ElementsFamily(FamilyObj(SourceEqG)),
 									 ElementsFamily(FamilyObj(Target)) );
-		return Objectify(NewType(fam,IsEquationHomomorphism),
+		return Objectify(NewType(fam,IsEquationHomomorphism and IsEquationHomomorphismRep),
 							rec(	mapFree := mapFree, 
 									mapGroup := mapGroup,
 									SourceEqG := SourceEqG,
@@ -640,7 +640,7 @@ InstallMethod(EquationHomomorphism ,"For an an EquationGroup and two group Homom
 InstallOtherMethod(EquationHomomorphism, "For an EquationGroup, a list of variables, and a list of images",
 	[IsEquationGroup,IsList,IsList],
 	function(eqG,gens,imgs)
-		local homFree;
+		local homFree,nimgs,ngens,hom;
 		if not Length(gens) = Length(imgs) then
 			Error("There must be as many images as generators");
 		fi;
@@ -650,9 +650,9 @@ InstallOtherMethod(EquationHomomorphism, "For an EquationGroup, a list of variab
 		if not ForAll(gens,g->g in GeneratorsOfGroup(eqG!.free)) then
 			TryNextMethod();
 		fi;
-		gens := List(gens,gen->LetterRepAssocWord(gen)[1]);
+		ngens := List(gens,gen->LetterRepAssocWord(gen)[1]);
 		
-		imgs := List(imgs,function(x)
+		nimgs := List(imgs,function(x)
 				if IsList(x) then
 					return(Equation(x,eqG));
 				elif IsEquation(x) then
@@ -667,15 +667,19 @@ InstallOtherMethod(EquationHomomorphism, "For an EquationGroup, a list of variab
 			return Product(List(LetterRepAssocWord(w),
 				function(x)
 					local pos;
-						pos := Position(gens,AbsInt(x));
+						pos := Position(ngens,AbsInt(x));
 						if pos = fail then
 							return Equation([AssocWordByLetterRep(FamilyObj(w),[x])],eqG);
 						else
-							return imgs[pos]^SignInt(x);
-						fi;	end));
-				end);
-				return EquationHomomorphism(eqG,eqG,homFree,IdentityMapping(eqG!.group));
+							return nimgs[pos]^SignInt(x);
+						fi;	
+				end));
 			end);
+		hom := EquationHomomorphism(eqG,eqG,homFree,IdentityMapping(eqG!.group));
+		SetEquationHomomorphismImageData(hom,rec(imgs:=imgs,gens:=gens));
+		return hom;
+
+	end);
 
 InstallMethod(Source ,"For an EquationHomomorphism",
 	[IsEquationHomomorphism],
@@ -746,7 +750,13 @@ InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
 InstallMethod(ViewObj, "For an EquationsHomomorphism",
 	[IsEquationHomomorphism],
 	function(hom)
-		View(Source(hom),"->",Range(hom));
+		local imDa;
+		if HasEquationHomomorphismImageData(hom) then
+			imDa := EquationHomomorphismImageData(hom);
+			View(imDa!.gens,"->",imDa!.imgs);
+		else
+			View(Source(hom),"->",Range(hom));
+		fi;
 	end);
 
 InstallMethod(IsSolution, "For an EquationsHomomorphism and an Equation",

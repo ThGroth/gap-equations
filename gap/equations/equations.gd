@@ -11,6 +11,10 @@ DeclareCategory("IsEquation", IsMultiplicativeElementWithInverse);
 DeclareCategoryCollections("IsEquation");
 
 DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
+DeclareRepresentation("IsEquationHomomorphismRep",
+ IsComponentObjectRep  and IsAttributeStoringRep,
+ ["mapFree","mapGroup","SourceEqG","Range"]
+);
 
 #DeclareCategory("IsFREquation",IsMultiplicativeElementWithInverse);
 #InstallTrueMethod(IsEquation,IsFREquation);
@@ -70,6 +74,8 @@ DeclareOperation("EquationComponents", [IsEquation]);
 DeclareOperation("EquationEvaluation", [IsGroupHomomorphism, IsEquation]);
 DeclareOperation("EquationPartialEvaluation", [IsGroupHomomorphism, IsEquation]);
 DeclareOperation("EquationHomomorphism", [IsEquationGroup, IsGroup, IsGroupHomomorphism, IsGroupHomomorphism]);
+
+DeclareAttribute( "EquationHomomorphismImageData", IsEquationHomomorphism, "mutable" );
 #DeclareOperation("FREquation",[IsList,IsPerm,IsGroup]);
 #DeclareOperation("FREquationUnknown",[IsInt,IsPerm,IsFRGroup]);
 
