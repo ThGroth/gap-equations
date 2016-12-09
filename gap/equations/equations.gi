@@ -154,6 +154,36 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
              embeddings := embeddings ) );
     	return FP;   
 	end);
+#################################################################################
+####                                                                         ####
+####	         Free Products of free group and other groups     			 ####
+####                                                                         ####
+#################################################################################
+
+InstallMethod(FreeProductOp, "For FreeGroups and arbitrarygroups",
+	[IsList,IsFreeGroup],
+	function(L,G)
+		local embeddings,FP,i,names,nameLen,construct_map;
+		if ForAll(L,IsFreeGroup) then
+			TryNextMethod();
+		fi;
+		return(EquationGroup(G,L[1]));
+		 
+	end);
+
+
+####
+#TODO Continue here!
+
+
+
+
+
+
+
+
+
+
 
 
 #################################################################################
