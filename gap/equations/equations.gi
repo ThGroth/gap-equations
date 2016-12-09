@@ -480,8 +480,8 @@ InstallMethod(IsOrientedEquation, "for a square Equation",
 ####                                                                         ####
 #################################################################################
 InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
-	[IsList,IsEquationGroup,IsPerm,reduced],
-	function(words,DEqG,perm)
+	[IsList,IsEquationGroup,IsPerm,IsBool],
+	function(words,DEqG,perm,reduced)
 		local Ob;
 		if not IsDecompositionEquationGroup(DEqG)then
 			TryNextMethod();
@@ -492,7 +492,7 @@ InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEqu
        					free := DEqG!.free,
        					eqG := DEqG,
        					activity := perm));
-		if reducedt then
+		if reduced then
 			return EquationReducedForm(Ob);
 		else
 			return Ob;
@@ -501,14 +501,14 @@ InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEqu
 InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
 	[IsList,IsEquationGroup,IsPerm],
 	function(words,DEqG,perm)
-		return(words,DEqG,perm,true)
+		return Equation(words,DEqG,perm,true);
 	end);
 
 InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
-	[IsEquation and IsEquationDecomposedRep],
+	[IsEquation and IsDecomposedEquationRep],
 	function(x)
 		local Eq;
-		Eq := Equation(List(EquationComponents,eq->eq!.word),x!.eqG,x!.activity,false);
+		Eq := Equation(List(EquationComponents(x),eq->eq!.word),x!.eqG,x!.activity,false);
 		SetIsReducedEquation(Eq,true);
 		return 	Eq;
 	end);
