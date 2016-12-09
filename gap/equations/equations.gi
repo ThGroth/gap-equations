@@ -657,40 +657,32 @@ InstallOtherMethod(EquationHomomorphism, "For an EquationGroup, a list of variab
 		if not ForAll(gens,g->g in GeneratorsOfGroup(eqG!.free)) then
 			TryNextMethod();
 		fi;
-		if ForAll(imgs,x->x in eqG!.group or x in eqG!.free) then # part. Evaluation
-			homFree := GroupHomomorphismByFunction(eqG.free,eqG,function(x)
-					pos := Position(gens,x);
-					if pos = fail then
-						return Equation(eqG,[x]);
-					else
-						return Equation(eqG,[imgs[pos]]);
-					fi;
-				end);
-			return EquationHomomorphism(eqG,eqG,homFree,IdentityMapping(eqG!.group));	
-		elif ForAny(imgs,IsList) then 
-			imgs := List(imgs,function(x)
+		gens := List(gens,gen->LetterRepAssocWord(gen)[1]);
+		
+		imgs := List(imgs,function(x)
 				if IsList(x) then
 					return(Equation(x,eqG));
 				elif IsEquation(x) then
 					return x;
+				elif x in eqG!.group or x in eqG!.free then
+					return(Equation([x],eqG));
 				else 
-					return Equation([x],eqG);
+					Error("Wrong input!");
 				fi;
+			end);
+		homFree := GroupHomomorphismByFunction(eqG!.free,eqG,function(w)
+			return Product(List(LetterRepAssocWord(w),
+				function(x)
+					local pos;
+						pos := Position(gens,AbsInt(x));
+						if pos = fail then
+							return Equation([AssocWordByLetterRep(FamilyObj(w),[x])],eqG);
+						else
+							return imgs[pos]^SignInt(x);
+						fi;	end));
 				end);
-		fi;
-		if not ForAll(imgs,IsEquation) then
-			Error("Wrong input!");
-		fi;
-		homFree := GroupHomomorphismByFunction(eqG.free,eqG,function(x)
-					pos := Position(gens,x);
-					if pos = fail then
-						return Equation(eqG,[x]);
-					else
-						return [imgs[pos]];
-					fi;
-				end);
-		return EquationHomomorphism(eqG,eqG,homFree,IdentityMapping(eqG!.group));
-	end);
+				return EquationHomomorphism(eqG,eqG,homFree,IdentityMapping(eqG!.group));
+			end);
 
 InstallMethod(Source ,"For an EquationHomomorphism",
 	[IsEquationHomomorphism],
@@ -738,11 +730,7 @@ InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
 			fi;
 			return Equation(res,Range(hom));
 		else 
-			if ForAll(res,x -> x in Range(hom)) then
-				return Product(res);
-			else
-				return Equation(res,eq!.eqG);
-			fi;
+			return Product(res);
 		fi;
 	end);
 
@@ -795,11 +783,12 @@ EqG := EquationGroup(G,F);
 Eq := Equation([Comm(F.1,F.2),(a*b)^2],EqG);
 id := IdentityMapping(G);
 
-h := GroupHomomorphismByImages(Group(EquationVariables(Eq)),F,[F.2,F.5]);
-eqhom2 := EquationHomomorphism(EqG,h,id);
 ev := EquationEvaluation(Eq,[a,b*a]);
-
 Image(ev,Eq);
+
+h1 := EquationHomomorphism(EqG,[F.1,F.3],[F.2,F.5]);
+h2 := EquationHomomorphism(EqG,[F.3],[F.7]);
+
 Eq^eqhom2;
 
 eqhom2*ev;
