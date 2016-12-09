@@ -142,7 +142,7 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
 		#Thanks to Alexander Konovalov,
 		#See http://math.stackexchange.com/questions/2048106
 		construct_map := i -> (w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
-    					List(LetterRepAssocWord(w),k->SignInt(k)*Length(L)*(AbsInt(k)-1)+i)));
+    					List(LetterRepAssocWord(w),k->SignInt(k)*(Length(L)*(AbsInt(k)-1)+i)) ));
     	for i in [1..Length(L)] do
     			Add(embeddings,GroupHomomorphismByFunction(
     				L[i],
@@ -480,18 +480,39 @@ InstallMethod(IsOrientedEquation, "for a square Equation",
 ####                                                                         ####
 #################################################################################
 InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
-	[IsList,IsEquationGroup,IsPerm],
+	[IsList,IsEquationGroup,IsPerm,reduced],
 	function(words,DEqG,perm)
+		local Ob;
 		if not IsDecompositionEquationGroup(DEqG)then
 			TryNextMethod();
 		fi;
-		return Objectify(NewType(ElementsFamily(FamilyObj(DEqG)), IsEquation and IsDecomposedEquationRep),
+		Ob :=  Objectify(NewType(ElementsFamily(FamilyObj(DEqG)), IsEquation and IsDecomposedEquationRep),
     				rec(words := words,
        					group := DEqG!.group,
        					free := DEqG!.free,
        					eqG := DEqG,
        					activity := perm));
+		if reducedt then
+			return EquationReducedForm(Ob);
+		else
+			return Ob;
+		fi;
 	end);
+InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
+	[IsList,IsEquationGroup,IsPerm],
+	function(words,DEqG,perm)
+		return(words,DEqG,perm,true)
+	end);
+
+InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
+	[IsEquation and IsEquationDecomposedRep],
+	function(x)
+		local Eq;
+		Eq := Equation(List(EquationComponents,eq->eq!.word),x!.eqG,x!.activity,false);
+		SetIsReducedEquation(Eq,true);
+		return 	Eq;
+	end);
+
 
 InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
 		[IsEquation,IsGroupHomomorphism,IsEquationGroup],
@@ -645,7 +666,12 @@ InstallOtherMethod(EquationHomomorphism, "For an EquationGroup, a list of variab
 			Error("There must be as many images as generators");
 		fi;
 		if Length(gens) = 0 then
-			return EquationHomomorphism(eqG,eqG,IdentityMapping(eqG!.free),IdentityMapping(eqG!.group));
+			hom := EquationHomomorphism(eqG,eqG,IdentityMapping(eqG!.free),IdentityMapping(eqG!.group));
+			SetInverseGeneralMapping( hom, hom );
+		    ImmediateImplicationsIdentityMapping( hom );
+		    SetName(hom,"<Identity EqHom>");
+		    SetIsOne(hom,true);
+			return hom;
 		fi;
 		if not ForAll(gens,g->g in GeneratorsOfGroup(eqG!.free)) then
 			TryNextMethod();
@@ -711,6 +737,14 @@ InstallMethod( CompositionMapping2, "For an EquationHomomorphism and a group Hom
 		return GroupHomomorphismByFunction(Source(hom1),Range(hom2),
 					w->(hom1!.fun(w))^hom2);
 	end	);
+
+InstallMethod( IdentityMapping,
+    "for an Equation Group",
+    true,
+    [ IsEquationGroup ], 0,
+    function( eqG )
+	    return EquationHomomorphism(eqG,[],[]);
+    end );
 
 InstallMethod(ImageElm ,"For an EquationHomomorphism and an Equation",
 	[IsEquationHomomorphism,IsEquation and IsEquationRep],
@@ -800,9 +834,7 @@ Image(ev,Eq);
 h1 := EquationHomomorphism(EqG,[F.1,F.3],[F.2,F.5]);
 h2 := EquationHomomorphism(EqG,[F.3],[F.7]);
 
-Eq^eqhom2;
 
-eqhom2*ev;
 
 DEqG := DecompositionEquationGroup(EqG);
 constr := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),[(),()]);
