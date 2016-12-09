@@ -114,7 +114,7 @@ InstallOtherMethod(Abs, "for associative words",
 InstallMethod(FreeProductOp, "for infinitely generated free groups",
 	[IsList,IsFreeGroup],
 	function(L,G)
-		local embeddings,FP,i,names,nameLen;
+		local embeddings,FP,i,names,nameLen,construct_map;
 		if not ForAll(L,IsFreeGroup) then 
 			TryNextMethod();
 		fi;
@@ -139,23 +139,16 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
 				List(L{[1..Size(L)-1]},H->Concatenation(Name(H),"*")),
 				[Name(L[Size(L)])])));
 		fi;
+		#Thanks to Alexander Konovalov,
+		#See http://math.stackexchange.com/questions/2048106
+		construct_map := i -> (w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
+    					List(LetterRepAssocWord(w),k->SignInt(k)*Length(L)*(AbsInt(k)-1)+i)));
     	for i in [1..Length(L)] do
-    		if i = 1 then
     			Add(embeddings,GroupHomomorphismByFunction(
     				L[i],
     				FP,
-    				w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
-    					List(LetterRepAssocWord(w),k->SignInt(k)*(Length(L)*(AbsInt(k)-1)+1)))));
-    		elif i = 2 then
-    			Add(embeddings,GroupHomomorphismByFunction(
-    				L[i],
-    				FP,
-    				w-> AssocWordByLetterRep(FamilyObj(Representative(FP)),
-    					List(LetterRepAssocWord(w),k->SignInt(k)*(Length(L)*(AbsInt(k)-1)+2)))));
-    		else
-    			Error("Not implemented yet");
-    		fi;
-    	od;
+    				construct_map(i) ));
+       	od;
         SetFreeProductInfo( FP, 
         rec( groups := L,
              embeddings := embeddings ) );
