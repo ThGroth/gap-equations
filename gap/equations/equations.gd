@@ -5,10 +5,22 @@
 ###########################################################################
 
 
-DeclareCategory("IsEquationGroup", IsGroup);
+DeclareAttribute( "IsEquationGroup", IsGeneralFreeProduct);
 
-DeclareCategory("IsEquation", IsMultiplicativeElementWithInverse);
-DeclareCategoryCollections("IsEquation");
+DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
+
+DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
+DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
+
+DeclareOperation("Equation", [IsEquationGroup,IsList]);
+DeclareAttribute("IsEquation", IsFreeProductElm);
+DeclareOperation("EquationComponent", [IsEquation,IsInt]);
+DeclareOperation("EquationComponents", [IsEquation]);
+DeclareAttribute("EquationVariables",IsEquation);
+DeclareAttribute("EquationLetterRep",IsEquation);
+
+DeclareProperty("IsQuadraticEquation", IsEquation);
+DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 
 DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
 DeclareRepresentation("IsEquationHomomorphismRep",
@@ -21,10 +33,6 @@ DeclareRepresentation("IsEquationHomomorphismRep",
 
 #DeclareCategoryCollections("IsEquation");
 
-DeclareRepresentation("IsEquationRep",
- IsComponentObjectRep  and IsAttributeStoringRep,
- ["word","group","free","eqG"]
-);
 DeclareRepresentation("IsDecomposedEquationRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
  ["words","group","free","eqG","activity"]
@@ -63,13 +71,11 @@ DeclareRepresentation("IsDecomposedEquationRep",
 #						The resultin object is an implementation of an element of (F_NN * G)^n \wr S_n
 #FREquationUnknown: Defines a FRGroupWord object wich represents the unknowns of the corresponding group.
 #									 TODO 
-DeclareOperation("Abs", [IsObject]);
-							
-DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
-DeclareOperation("Equation", [IsList, IsEquationGroup, IsBool]);
 
-DeclareOperation("EquationComponent", [IsEquation,IsInt]);
-DeclareOperation("EquationComponents", [IsEquation]);
+							
+
+
+
 
 DeclareOperation("EquationEvaluation", [IsGroupHomomorphism, IsEquation]);
 DeclareOperation("EquationPartialEvaluation", [IsGroupHomomorphism, IsEquation]);
@@ -86,10 +92,10 @@ DeclareAttribute( "EquationHomomorphismImageData", IsEquationHomomorphism, "muta
 ####                                                                   ####
 ###########################################################################
 
-DeclareAttribute("EquationVariables",IsEquation);
 
-DeclareAttribute("EquationReducedForm",IsEquation);
-DeclareAttribute("EquationLetterRep",IsEquation);
+
+
+
 #DeclareAttribute("EquationNormalFormInverseHom", IsEquation);
 #DeclareAttribute("EquationNormalForm", IsEquation);
 #DeclareAttribute("LengthOfEquation",IsEquation);
@@ -97,8 +103,7 @@ DeclareAttribute("EquationLetterRep",IsEquation);
 #DeclareProperty("IsPermEquation",IsEquation);
 DeclareProperty("IsReducedEquation", IsEquation);
 DeclareProperty("IsEquationLetterRep", IsEquation);
-DeclareProperty("IsQuadraticEquation", IsEquation);
-DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
+);
 DeclareOperation("IsSolution", [IsEquationHomomorphism, IsEquation]);
 
 
@@ -109,8 +114,7 @@ DeclareOperation("IsSolution", [IsEquationHomomorphism, IsEquation]);
 ###########################################################################
 
 DeclareOperation("EquationEvaluation", [IsEquation,IsList]);
-DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
-DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
+
 
 
 DeclareOperation("DecompositionEquation", [IsEquation,IsGroupHomomorphism,IsEquationGroup]);
