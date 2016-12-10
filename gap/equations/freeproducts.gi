@@ -160,10 +160,15 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 		return Ob;
 	end);
 
-InstallMethod(GeneratorsOfGroup, "for an GeneralFreeProduct",
+InstallMethod(GeneratorsOfGroup, "for an f.g. GeneralFreeProduct",
 	[IsGeneralFreeProduct],
 	function(G)
-		return List(G!.groups,GeneratorsOfGroup);
+		if not ForAll(G!.groups,H->IsFinitelyGeneratedGroup(H)) then
+			TryNextMethod();
+		fi;
+		return Concatenation(List([1..Length(G!.groups)],
+				i->List(GeneratorsOfGroup(G!.groups[i]),
+					gen -> gen^Embedding(G,i) )));
 	end);
 
 InstallMethod( \=,  "for two GeneralFreeProducts",
@@ -233,14 +238,22 @@ InstallMethod( PrintObj, "for a FreeProductElm",
    [IsFreeProductElm and IsFreeProductElmRep],
     function( x )
 		local s;
-		Print("FreeProductElm(",x!.word,")");
+		if ForAll(x!.word,HasName) then
+			Print("FreeProductElm(",List(x!.word,Name),")");	
+		else
+			Print("FreeProductElm(",x!.word,")");
+		fi;
 	end);
 
 InstallMethod( ViewObj, "for a FreeProductElm",
    [IsFreeProductElm and IsFreeProductElmRep],
     function( x )
 		local s;
-		Print("FreeProductElm of length ",Length(x));
+		if ForAll(x!.word,HasName) then
+			View("(",x!.word,")");
+		else
+			Print("FreeProductElm of length ",Length(x));
+		fi;
 	end);
 
 InstallMethod( \=,  "for two FreeProductElms",
