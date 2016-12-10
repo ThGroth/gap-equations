@@ -124,7 +124,7 @@ FREE_PRODUCT_GROUP_FAMILIES := [];
 InstallMethod(FreeProductOp, "For arbitrary groups",
 	[IsList,IsGroup],
 	function(L,G)
-		local Ob, embeddings,i;
+		local Ob, embeddings,i,construct_map;
 		if ForAll(L,IsFreeGroup) then
 			TryNextMethod();
 		fi;
@@ -145,11 +145,12 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 				[Name(L[Size(L)])])));
 		fi;
 		embeddings := [];
+		construct_map := i -> (x->FreeProductElm(Ob,[x],[i]));
 		for i in [1..Length(L)] do
     		Add(embeddings,GroupHomomorphismByFunction(
     				L[i],
     				Ob,
-    				x->FreeProductElm(Ob,[x]) ));
+    				construct_map(i) ));
        	od;
        	Ob!.embeddings := embeddings;
 		SetKnowsHowToDecompose(Ob,false);
@@ -261,7 +262,7 @@ InstallOtherMethod( One,"for a GeneralFreeProduct",
 );
 
 InstallOtherMethod( \[\], "for an FreeProductElm",
-	[IsFreeProductElm and IsFreeProductElmRep,IsInt],
+	[IsFreeProductElm and IsFreePrdoductElmRep,IsInt],
 	function(w,i) 
 		return FreeProductElm(w!.group,[w!.word[i]],[w!.factors[i]]);
 	end);
