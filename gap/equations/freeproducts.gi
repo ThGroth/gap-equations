@@ -232,6 +232,23 @@ InstallMethod( FreeProductElm, "For a FreeProduct and a list of letters and a li
 		return Ob;
 	end);
 
+InstallMethod( FreeProductElmLetterRep, "For a FreeProduct and a list of letters and a list of corresponding factors",
+	[IsGeneralFreeProduct,IsList,IsList],
+	function(G,elms,factors)
+		local lastfactor,newword,newfactors,i,first,elm,Ob;
+		if not Length(elms) = Length(factors) then
+			Error("The list of letters must be of the same length as the list of factors");
+		fi;
+		if not ForAll([1..Length(elms)],i->elms[i] in G!.groups[factors[i]]) then
+			Error("elements must be in the corresponding free factor");
+		fi;
+		Ob := Objectify(NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsFreeProductElmLetterRep),
+    		rec(word := elms,
+    			factors := factors,
+       			group := G));
+		return Ob;
+	end);
+
 InstallOtherMethod( Length, "for a FreeProductElm",
 	[IsFreeProductElm and IsFreeProductElmRep],
 	function(x)
