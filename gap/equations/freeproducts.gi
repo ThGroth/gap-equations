@@ -163,12 +163,20 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 InstallMethod(GeneratorsOfGroup, "for an f.g. GeneralFreeProduct",
 	[IsGeneralFreeProduct],
 	function(G)
-		if not ForAll(G!.groups,H->IsFinitelyGeneratedGroup(H)) then
-			TryNextMethod();
-		fi;
-		return Concatenation(List([1..Length(G!.groups)],
+		local inf,fin,init;
+		inf := Filtered([1..Length(G!.groups)],i->not IsFinitelyGeneratedGroup(G!.groups[i]));
+		if Length(inf)=1 then
+			fin := Filtered([1..Length(G!.groups)],i->IsFinitelyGeneratedGroup(G!.groups[i]));
+			init := Concatenation(List(fin,i->List(GeneratorsOfGroup(G!.groups[i]),
+						gen -> gen^Embedding(G,i) )));
+			return InfiniteListOfGenerators(FamilyObj(G),init);
+		elif Length(inf)=0 then
+			return Concatenation(List([1..Length(G!.groups)],
 				i->List(GeneratorsOfGroup(G!.groups[i]),
 					gen -> gen^Embedding(G,i) )));
+		else
+			TryNextMethod();
+		fi;
 	end);
 
 InstallMethod( \=,  "for two GeneralFreeProducts",
