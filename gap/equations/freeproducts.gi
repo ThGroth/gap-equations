@@ -213,8 +213,10 @@ InstallMethod( FreeProductElm, "For a FreeProduct and a list of letters and a li
 				elm := elms[i];
 			fi;
 		od;
-		Add(newword,elm);
-		Add(newfactors,lastfactor);
+		if Length(elms)>0 then
+			Add(newword,elm);
+			Add(newfactors,lastfactor);
+		fi;
 		Ob := Objectify(NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsFreeProductElmRep),
     		rec(word := newword,
     			factors := newfactors,
@@ -264,6 +266,19 @@ InstallMethod( \=,  "for two FreeProductElms",
 		end 
 );
 
+InstallMethod(\<,"for two FreeProductElms",IsIdenticalObj,
+  [IsFreeProductElm and IsFreeProductElmRep, IsFreeProductElm and IsFreeProductElmRep],0,
+	function(x,y)
+	local i;
+	  if x!.factors = y!.factors then
+	  	i := First([1..Length(x!.word)],i-> not x!.word[i] = y!.word[i]);
+	  	if i = fail then return false; fi;
+	  	return x!.word[i]<y!.word[i];
+	  else 
+	  	return x!.factors < y!.factors;
+	  fi;
+	end);
+
 InstallMethod( OneOp, "for a FreeProductElm",
 	[IsFreeProductElm and IsFreeProductElmRep],
 	x -> FreeProductElm(x!.group,[],[]) 
@@ -275,7 +290,7 @@ InstallOtherMethod( One,"for a GeneralFreeProduct",
 );
 
 InstallOtherMethod( \[\], "for an FreeProductElm",
-	[IsFreeProductElm and IsFreePrdoductElmRep,IsInt],
+	[IsFreeProductElm and IsFreeProductElmRep,IsInt],
 	function(w,i) 
 		return FreeProductElm(w!.group,[w!.word[i]],[w!.factors[i]]);
 	end);
@@ -302,4 +317,67 @@ InstallMethod( InverseOp, "for a FreeProductElms",
 		return FreeProductElm(x!.group,
 							Reversed(List(x!.word,InverseOp)),
 							Reversed(x!.factors) );	
+	end);
+
+#################################################################################
+####                                                                         ####
+####    	         Free Products Homomorphisms     			 			 ####
+####                                                                         ####
+#################################################################################
+InstallMethod(FreeProductHomomorphism ,"For a GeneralFreeProduct and a list of group homomorphisms",
+	[IsGeneralFreeProduct, IsGeneralFreeProduct, IsList],
+	function(G,H,homs)
+		local fam;
+		if not Length(G!.groups) = Length(homs) then
+			Error("There need to be as many homomorphisms as free factors in the source.");
+		elif not Length(H!.groups) = Length(homs) then
+			Error("There need to be as many homomorphisms as free factors in the image.");
+		elif not ForAll([1..Length(G!.groups)],i->Source(homs[i])=G!.groups[i]) then
+			Error("Sources does not match.");
+		elif not ForAll([1..Length(G!.groups)],i->Range(homs[i])=H!.groups[i]) then
+			Error("Ranges does not match.");
+		fi;
+		fam := GeneralMappingsFamily(ElementsFamily(FamilyObj(G)),
+									 ElementsFamily(FamilyObj(H)) );
+		return Objectify(NewType(fam,IsFreeProductHomomorphism and IsFreeProductHomomorphismRep),
+							rec(	homs := homs,
+									Source := G,
+									Range := H));
+	end);
+
+InstallMethod(Source ,"For a FreeProductHomomorphism",
+	[IsFreeProductHomomorphism],
+	function(hom)
+		return hom!.Source;
+	end);
+
+InstallMethod(Range ,"For a FreeProductHomomorphism",
+	[IsFreeProductHomomorphism],
+	function(hom)
+		return hom!.Range;
+	end);
+
+InstallMethod( CompositionMapping2, "For two FreeProductHomomorphisms",
+	FamSource1EqFamRange2,
+	[IsFreeProductHomomorphism,IsFreeProductHomomorphism],0,
+	function(hom2,hom1)
+		return FreeProductHomomorphism(Source(hom1),Range(hom2),
+			List([1..Length(hom1!.homs)],i->hom1!.homs[i]*hom2!.homs[i]) );
+	end	);
+
+InstallMethod( IdentityMapping,
+    "for a FreeProduct Group",
+    true,
+    [ IsGeneralFreeProduct], 0,
+    function( G )
+	    return FreeProductHomomorphism(G,G,List(G!.groups,IdentityMapping));
+    end );
+
+InstallMethod(ImageElm ,"For a FreeProductHomomorphism and a GeneralFreeProduct",
+	[IsFreeProductHomomorphism,IsFreeProductElm and IsFreeProductElmRep],
+	function(hom,elm)
+		local img;
+		img := List([1..Length(elm!.word)],i->
+				Image(hom!.homs[elm!.factors[i]],elm!.word[i]));
+		return FreeProductElm(Range(hom),img,elm!.factors);
 	end);

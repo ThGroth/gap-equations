@@ -12,7 +12,11 @@ DeclareRepresentation("IsFreeProductElmRep",
  ["word","factors","group"]
 );
 
-
+DeclareCategory("IsFreeProductHomomorphism",IsGroupHomomorphism);
+DeclareRepresentation("IsFreeProductHomomorphismRep",
+ IsComponentObjectRep  and IsAttributeStoringRep,
+ ["homs,Source,Range"]
+);
 ###########################################################################
 ####                                                                   ####
 ####                         Constructors                              ####
@@ -20,3 +24,7 @@ DeclareRepresentation("IsFreeProductElmRep",
 ###########################################################################
 
 DeclareOperation("FreeProductElm", [IsGeneralFreeProduct,IsList,IsList]);
+
+
+DeclareOperation("Abs", [IsObject]);
+DeclareOperation("FreeProductHomomorphism", [IsGeneralFreeProduct, IsGroup, IsList]);
