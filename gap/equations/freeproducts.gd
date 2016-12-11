@@ -19,7 +19,7 @@ DeclareRepresentation("IsFreeProductElmLetterRep",
 DeclareCategory("IsFreeProductHomomorphism",IsGroupHomomorphism);
 DeclareRepresentation("IsFreeProductHomomorphismRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
- ["homs,Source,Range"]
+ ["homs","Source","Range"]
 );
 ###########################################################################
 ####                                                                   ####
