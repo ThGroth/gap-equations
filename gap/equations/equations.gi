@@ -109,6 +109,18 @@ InstallMethod( Equation, "(Equation) for a list of group elements and unknowns a
 		return eq;
 	end);
 
+InstallOtherMethod( Equation, "For a FreeProductElm",
+	[IsFreeProductElm],
+	function(elm)
+		if not IsEquationGroup(elm!.group) then
+			TryNextMethod();
+		fi;
+		elm!.const := elm!.group!.const;
+		elm!.free := elm!.group!.free;
+		SetIsEquation(elm,true);
+		return elm;
+	end);
+
 InstallMethod(EquationLetterRep, "for an Equation",
 	[IsEquation and IsFreeProductElmRep],
 	function(eq)
@@ -451,24 +463,3 @@ InstallMethod( IsSolution, "For an EquationsHomomorphism and an Equation",
 		return IsOne(eq^hom); 
 	end);
 
-
-
-#Example
-G := GrigorchukGroup;
-BS := BranchStructure(G);
-pi := BS.quo;
-AssignGeneratorVariables(G);
-F := FreeGroup(infinity,"xn",["x1","x2","x3","x4","x5","x6"]);
-SetName(F,"FX");
-EqG := EquationGroup(G,F);
-Eq := Equation(EqG,[Comm(F.1,F.2),(a*b)^2]);
-id := IdentityMapping(G);
-
-DEqG := DecompositionEquationGroup(EqG);
-constr := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),[(),()]);
-DEq:=DecompositionEquation(DEqG,Eq,constr);
-
-h := EquationHomomorphism(EqG,[F.1],[[F.2,a]]);
-ev := EquationEvaluation(Eq,[F.1,F.2],[b,a]);
-
-IsSolution(ev,Eq);
