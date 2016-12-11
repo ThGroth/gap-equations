@@ -394,13 +394,13 @@ InstallMethod( CompositionMapping2, "For two FreeProductHomomorphisms",
 			List([1..Length(hom1!.homs)],i->hom1!.homs[i]*hom2!.homs[i]) );
 	end	);
 
-InstallMethod( IdentityMapping,
-    "for a FreeProduct Group",
-    true,
-    [ IsGeneralFreeProduct], 0,
-    function( G )
-	    return FreeProductHomomorphism(G,G,List(G!.groups,IdentityMapping));
-    end );
+#InstallMethod( IdentityMapping,
+#    "for a FreeProduct Group",
+#    true,
+#    [ IsGeneralFreeProduct], 0,
+#    function( G )
+#	    return FreeProductHomomorphism(G,G,List(G!.groups,IdentityMapping));
+#    end );
 
 InstallMethod(ImageElm ,"For a FreeProductHomomorphism and a GeneralFreeProduct",
 	[IsFreeProductHomomorphism,IsFreeProductElm and IsFreeProductElmRep],
