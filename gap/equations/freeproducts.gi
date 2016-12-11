@@ -253,6 +253,26 @@ InstallMethod( FreeProductElmLetterRep, "For a FreeProduct and a list of letters
 		return Ob;
 	end);
 
+InstallOtherMethod( FreeProductElmLetterRep, "For a FreeProductElm",
+	[IsFreeProductElm and IsFreeProductElmRep],
+	function(elm)
+		local nw,nfactors,i,l;
+		nw := [];
+		nfactors := [];
+		for i in [1..Length(elm)] do
+			if IsAssocWord(elm!.word[i]) then
+				for l in LetterRepAssocWord(elm!.word[i]) do
+					Add(nw,AssocWordByLetterRep(FamilyObj(elm!.word[i]),[l]));
+					Add(nfactors,elm!.factors[i]);
+				od;
+			else
+				Add(nw,elm!.word[i]);
+				Add(nfactors,elm!.factors[i]);
+			fi;
+		od;
+		return FreeProductElmLetterRep(elm!.group,nw,nfactors);
+	end);
+
 InstallOtherMethod( Length, "for a FreeProductElm",
 	[IsFreeProductElm and IsFreeProductElmRep],
 	function(x)
