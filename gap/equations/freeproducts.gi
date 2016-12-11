@@ -125,7 +125,7 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 	[IsList,IsGroup],
 	function(L,G)
 		local Ob, embeddings,i,construct_map;
-		if ForAll(L,IsFreeGroup) then
+		if ForAll(L,IsFreeGroup) and ForAll(L,H->not IsFinitelyGeneratedGroup(H)) then
 			TryNextMethod();
 		fi;
 		Ob := First(FREE_PRODUCT_GROUP_FAMILIES,f->f[1]=L);
