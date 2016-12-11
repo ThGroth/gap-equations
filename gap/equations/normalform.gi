@@ -1,22 +1,47 @@
-#
-#
-# Actual problem: it is not good to cyclical reduce equation in between.
-# Furthermore is the terminology "equation" missleading in this case of
-# subwords.
-#
-#
+InstallOtherMethod(FreeProductElm, "For an EquationGroup and a list",
+	[IsEquationGroup,IsList],
+	function(eqG,elms)
+		return FreeProductElm(eqG,elms,List(elms,function(e)
+													if e in eqG!.const then
+														return 1; 
+													fi; return 2;
+												 end) );
+	end);
 
+InstallOtherMethod( \*,   "for FreeProductElms and GroupElements",
+    [ IsFreeProductElm and IsFreeProductElmRep, IsMultiplicativeElementWithInverse ],
+    function( x, y )
+    	local pos;
+    	pos := PositionProperty(x!.group!.groups,G->y in G);
+    	if pos = fail then
+    		TryNextMethod();
+    	fi;
+    	return x*y^Embedding(x!.group,pos);
+    end );
+
+InstallOtherMethod( \*,   "for FreeProductElms and GroupElements",
+    [ IsMultiplicativeElementWithInverse , IsFreeProductElm and IsFreeProductElmRep ],
+    function( y, x )
+    	local pos;
+    	pos := PositionProperty(x!.group!.groups,G->y in G);
+    	if pos = fail then
+    		TryNextMethod();
+    	fi;
+    	return y^Embedding(x!.group,pos)*x;
+    end );
 
 InstallMethod(EquationNormalForm, "for an Equation",
 	[IsEquation and IsEquationRep],
 	function(x)
-		local G,F,EqG,NormalForm,N,H,NormalVars;
+		local G,F,EqG,NormalForm,N,H,NormalVars,FPE;
 		if not IsQuadraticEquation(x) then
 			TryNextMethod();
 		fi;
-		G := x!.group;
+		G := x!.const;
 		F := x!.free;
-		EqG := x!.eqG;
+		EqG := x!.group;
+		FPE := elms->FreeProductElm(EqG,elms);
+		end
 		#Recursive worker function
 		NormalForm:= function(eq)
 			local case10,case11a,case11b,case3,i,j,t,x,y,Hom,N,
@@ -28,7 +53,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				# w₁,w₂ Equations v∈G,x∈F 
 				local N,Hom,c;
 				N := NormalForm(w1*w2);
-				Hom := EquationHomomorphism(EqG,[x],[x*w2^-1]);
+				Hom := EquationHomomorphism(EqG,[x],[x^f*w2^-1]);
 				if Length(N[1])=0 then
 					return [Equation([x^-1,v,x],EqG),Hom];
 				fi;
