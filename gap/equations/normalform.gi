@@ -1,4 +1,4 @@
-InstallOtherMethod(FreeProductElm, "For an EquationGroup and a list",
+InstallOtherMethod( FreeProductElm, "For an EquationGroup and a list",
 	[IsEquationGroup,IsList],
 	function(eqG,elms)
 		return FreeProductElm(eqG,elms,List(elms,function(e)
@@ -30,37 +30,38 @@ InstallOtherMethod( \*,   "for FreeProductElms and GroupElements",
     	return y^Embedding(x!.group,pos)*x;
     end );
 
+
+
 InstallMethod(EquationNormalForm, "for an Equation",
-	[IsEquation and IsEquationRep],
+	[IsEquation and IsFreeProductElmRep],
 	function(x)
-		local G,F,EqG,NormalForm,N,H,NormalVars,FPE;
+		local G,F,EqG,NormalForm,N,H,NormalVars;
 		if not IsQuadraticEquation(x) then
 			TryNextMethod();
 		fi;
 		G := x!.const;
 		F := x!.free;
 		EqG := x!.group;
-		FPE := elms->FreeProductElm(EqG,elms);
-		end
+		
 		#Recursive worker function
 		NormalForm:= function(eq)
 			local case10,case11a,case11b,case3,i,j,t,x,y,Hom,N,
 				  asInt,v,w,v1,v2,w1,w2,w11,w12,w21,w22,w3;
-			Info(InfoFRGW,3,"Call of NormalForm with",eq);
+			Info(InfoEQFP,3,"Call of NormalForm with",eq);
 
 				case10 := function(w1,v,w2,x)
 				# eq = w₁·x⁻·v·x·w₂
 				# w₁,w₂ Equations v∈G,x∈F 
 				local N,Hom,c;
 				N := NormalForm(w1*w2);
-				Hom := EquationHomomorphism(EqG,[x],[x^f*w2^-1]);
+				Hom := EquationHomomorphism(EqG,[x],[x*w2^-1]);
 				if Length(N[1])=0 then
-					return [Equation([x^-1,v,x],EqG),Hom];
+					return [FreeProductElm(EqG,[x^-1,v,x]),Hom];
 				fi;
 				#Does N end with a constant?
 				c:= N[1]!.word[Length(N[1])];
 				if c in F then
-					return [N[1]*Equation([x^-1,v,x],EqG),N[2]*Hom];
+					return [N[1]*FreeProductElm(EqG,[x^-1,v,x]),N[2]*Hom];
 				else
 					Hom := EquationHomomorphism(EqG,[x],[x*(c*w2^-1)]);
 					return [N[1]*c^-1*(x^-1*v*x)*c,N[2]*Hom];
@@ -92,7 +93,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				local N,N2,Hom,y,z;
 				N := NormalForm(w2);
 				#Check if N start with [y,z]
-				N[1]:=EquationLetterRep(N[1]);
+				N[1]:=FreeProductElmLetterRep(N[1]);
 				if Length(N[1])<4 or not N[1]!.word[2] in F or N[1]!.word[1]=N[1]!.word[2] then
 					#Already in required form
 					return [x^2*N[1],N[2]];
@@ -107,7 +108,8 @@ InstallMethod(EquationNormalForm, "for an Equation",
 					return [x^2*y^2*N2[1],Hom*N2[2]*N[2]];
 				fi;
 			end;
-			eq := EquationLetterRep(eq);
+			eq := Equation(FreeProductElmLetterRep(eq));
+			
 			if Length(eq)<3 then
 				return [eq,EquationHomomorphism(EqG,[],[])];
 			fi;
@@ -135,9 +137,9 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				else
 					Hom := EquationHomomorphism(EqG,[],[]);
 				fi;
-				w1 := EquationLetterRep(eq{[1..i-1]});
-				v := EquationLetterRep(eq{[i+1..j-1]});
-				w2 := EquationLetterRep(eq{[i+j..Length(eq)]});
+				w1 := FreeProductElmLetterRep(eq{[1..i-1]});
+				v := FreeProductElmLetterRep(eq{[i+1..j-1]});
+				w2 := FreeProductElmLetterRep(eq{[i+j..Length(eq)]});
 				
 				#Decomposition done
 				if Length(v)=1 then #Case 1
@@ -187,7 +189,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 						fi;
 						w21 := w2{[1..i-1]};
 						w22 := w2{[i+1..Length(w2)]};
-						N := case11a(w1*w21,v2*v1,x,w22,AbsInt(y));
+						N := case11a(w1*w21,v2*v1,x,w22,Abs(y));
 						Hom := EquationHomomorphism(EqG,[x],[v2^-1*x*w21^-1])*Hom;
 						return [N[1],N[2]*Hom];
 					fi;
@@ -225,7 +227,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 		end;
 		NormalVars := function(eq)
 			local gens,imgs,count,x;
-			eq := EquationLetterRep(eq);
+			eq := FreeProductElmLetterRep(eq);
 			gens := [];
 			imgs := [];
 			count := 1;
@@ -240,11 +242,68 @@ InstallMethod(EquationNormalForm, "for an Equation",
 		end;
 		N := NormalForm(x);
 		H :=NormalVars(N[1]);
-		return rec(nf := N[1]^H, hom := H*N[2]);
+		return rec(nf := Equation(N[1]^H), hom := H*N[2]);
 	end);
 
 
+testfunc := function()
+	local elms,e,L,xn,x,F,a,b,c,d,f1,f2,f3,G2,others,count;
+	G := GrigorchukGroup;
+	a := G.1;
+	b := G.2;
+	c := G.3;
+	d := G.4;
+	G2 := FreeGroup(5);
+	f1 := G2.1;
+	f2 := G2.2;
+	f3 := G2.3;
+	F := FreeGroup(infinity,"xn",["x1","x2","x3","x4","x5","x6","x7","x8","x9"]);
+	SetName(F,"FX");
+	SetName(G2,"F5");
+	elms := [[1,1],[-1,-1],[1,1,2,2],[-2,-1,2,1],[-1,-2,1,2],[2,1,1,2],[2,1,-2,1],[2,-1,-2,-1],[2,-1,2,-1],[-2,-1,-1,2,a],[-2,-1,-1,-2,a],[-1,3,-1,2,3,2],[3,2,1,-3,1,a,2],[-1,-4,3,4,a,-1,2,3,c,2],[1,-5,a,5,b,-1,-2,3,a,4,-3,b,-4,c,2]];
+	elms:=List(elms,e->List(e,function(i)
+						 if IsInt(i) then
+						 	return AssocWordByLetterRep(FamilyObj(Representative(F)),[i]);
+						 fi; 
+						 return i; end));
+	
+	others := [Equation(EquationGroup(G2,F),[F.9^-1,f1,F.8^-1,f2,F.9,F.8,f3])];
+	L := [];
+	EqG := EquationGroup(G,F);
+	count := 1;
+	for e in elms do
+		Print("Doing ",e,": ",count," \r");
+		x := Equation(EqG,e);
+		xn := EquationNormalForm(x);
+		if x^xn.hom <> xn.nf then
+			Add(L,e);
+		fi;
+		count := count+1;
+	od;
+	for e in others do
+		xn := EquationNormalForm(e);
+		if e^xn.hom <> xn.nf then
+			Add(L,e);
+		fi;
+	od;
+	Print("Errors happened at L: ");
+	Display(L);
+	Print("\n");
+end;
 
+
+
+
+
+#####
+#
+#
+#
+# TODO Continue Here.
+#
+#
+#
+#
 
 
 
@@ -739,49 +798,6 @@ InstallMethod(EquationSolve, "For a FRGroupWord",
 			return [];
 	end
 );
-testfunc := function()
-	local elms,e,L,xn,x,F,a,b,c,d,f1,f2,f3,G2,others,count;
-	G := GrigorchukGroup;
-	a := G.1;
-	b := G.2;
-	c := G.3;
-	d := G.4;
-	G2 := FreeGroup(5);
-	f1 := G2.1;
-	f2 := G2.2;
-	f3 := G2.3;
-	F := FreeGroup(infinity,"xn",["x1","x2","x3","x4","x5","x6","x7","x8","x9"]);
-	SetName(F,"FX");
-	elms := [[1,1],[-1,-1],[1,1,2,2],[-2,-1,2,1],[-1,-2,1,2],[2,1,1,2],[2,1,-2,1],[2,-1,-2,-1],[2,-1,2,-1],[-2,-1,-1,2,a],[-2,-1,-1,-2,a],[-1,3,-1,2,3,2],[3,2,1,-3,1,a,2],[-1,-4,3,4,a,-1,2,3,c,2],[1,-5,a,5,b,-1,-2,3,a,4,-3,b,-4,c,2]];
-	elms:=List(elms,e->List(e,function(i)
-						 if IsInt(i) then
-						 	return AssocWordByLetterRep(FamilyObj(Representative(F)),[i]);
-						 fi; 
-						 return i; end));
-	
-	others := [Equation([F.9^-1,f1,F.8^-1,f2,F.9,F.8,f3],EquationGroup(G2,F))];
-	L := [];
-	EqG := EquationGroup(G,F);
-	count := 1;
-	for e in elms do
-		Print("Doing ",e,": ",count," \r");
-		x := Equation(e,EqG);
-		xn := EquationNormalForm(x);
-		if x^xn.hom <> xn.nf then
-			Add(L,e);
-		fi;
-		count := count+1;
-	od;
-	for e in others do
-		xn := EquationNormalForm(e);
-		if x^xn.hom <> xn.nf then
-			Add(L,e);
-		fi;
-	od;
-	Print("Errors happened at L: ");
-	Display(L);
-	Print("\n");
-end;
 
 testfunc := function()
 	local elms,e,L,xn,x,F,a,b,c,d,f1,f2,f3,others;
