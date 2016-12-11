@@ -33,3 +33,4 @@ DeclareOperation("FreeProductElmLetterRep", [IsGeneralFreeProduct,IsList,IsList]
 
 DeclareOperation("Abs", [IsObject]);
 DeclareOperation("FreeProductHomomorphism", [IsGeneralFreeProduct, IsGroup, IsList]);
+DeclareGlobalFunction("FREE_PRODUCTS_REDUCE_WORDS");

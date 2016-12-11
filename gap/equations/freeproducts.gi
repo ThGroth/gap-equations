@@ -191,25 +191,15 @@ InstallMethod( \=,  "for two GeneralFreeProducts",
 ####					         Free ProductsElm     			 			 ####
 ####                                                                         ####
 #################################################################################
-
-InstallMethod( FreeProductElm, "For a FreeProduct and a list of letters and a list of corresponding factors",
-	[IsGeneralFreeProduct,IsList,IsList],
-	function(G,elms,factors)
-		local lastfactor,newword,newfactors,i,first,elm,Ob;
-		if not Length(elms) = Length(factors) then
-			Error("The list of letters must be of the same length as the list of factors");
-		fi;
-		if not ForAll([1..Length(elms)],i->elms[i] in G!.groups[factors[i]]) then
-			Error("elements must be in the corresponding free factor");
-		fi;
-		#Reduce the word
+InstallGlobalFunction(FREE_PRODUCTS_REDUCE_WORDS,function(w,factors)
+	local lastfactor,newword,newfactors,first,i,elm;
 		lastfactor := 0;
 		newword := [];
 		newfactors := [];
 		first := true;
-		for i in [1..Length(elms)] do
+		for i in [1..Length(w)] do
 			if lastfactor = factors[i] then
-				elm := elm*elms[i];
+				elm := elm*w[i];
 			else
 				if first then
 					first := false;
@@ -218,18 +208,32 @@ InstallMethod( FreeProductElm, "For a FreeProduct and a list of letters and a li
 					Add(newfactors,lastfactor);
 				fi;
 				lastfactor := factors[i];
-				elm := elms[i];
+				elm := w[i];
 			fi;
 		od;
-		if Length(elms)>0 then
+		if Length(w)>0 then
 			Add(newword,elm);
 			Add(newfactors,lastfactor);
 		fi;
-		Ob := Objectify(NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsFreeProductElmRep),
-    		rec(word := newword,
-    			factors := newfactors,
+		return rec(word:=newword,factors:=newfactors);
+	end);
+
+InstallMethod( FreeProductElm, "For a FreeProduct and a list of letters and a list of corresponding factors",
+	[IsGeneralFreeProduct,IsList,IsList],
+	function(G,elms,factors)
+		local red;
+		if not Length(elms) = Length(factors) then
+			Error("The list of letters must be of the same length as the list of factors");
+		fi;
+		if not ForAll([1..Length(elms)],i->elms[i] in G!.groups[factors[i]]) then
+			Error("elements must be in the corresponding free factor");
+		fi;
+		#Reduce the word
+		red := FREE_PRODUCTS_REDUCE_WORDS(elms,factors);
+		return Objectify(NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsFreeProductElmRep),
+    		rec(word := red.word,
+    			factors := red.factors,
        			group := G));
-		return Ob;
 	end);
 
 InstallMethod( FreeProductElmLetterRep, "For a FreeProduct and a list of letters and a list of corresponding factors",
