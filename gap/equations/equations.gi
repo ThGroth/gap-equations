@@ -77,6 +77,7 @@ InstallMethod( DecompositionEquationGroup, "for an EquationGroup",
 					List(GeneratorsOfGroup(eqG!.const),gen->State(gen,a))) ));
 		fi;
 		DEqG := EquationGroup(DG,FreeProduct(ListWithIdenticalEntries(Size(alph),eqG!.free)));
+		DEqG!.alph := alph;
 		SetIsDecompositionEquationGroup(DEqG,true);
 		return DEqG;
 	end);
@@ -202,43 +203,30 @@ InstallMethod(IsOrientedEquation, "for a square Equation",
 ####                                                                         ####
 #################################################################################
 InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
-	[IsList,IsEquationGroup,IsPerm,IsBool],
-	function(words,DEqG,perm,reduced)
-		local Ob;
-		if not IsDecompositionEquationGroup(DEqG)then
+	[IsEquationGroup,IsList,IsPerm],
+	function(G,words,perm)
+		local factors,red,Ob;
+		if not IsDecompositionEquationGroup(G)then
 			TryNextMethod();
 		fi;
-		Ob :=  Objectify(NewType(ElementsFamily(FamilyObj(DEqG)), IsEquation and IsDecomposedEquationRep),
-    				rec(words := words,
-       					group := DEqG!.group,
-       					free := DEqG!.free,
-       					eqG := DEqG,
-       					activity := perm));
-		if reduced then
-			return EquationReducedForm(Ob);
-		else
-			return Ob;
-		fi;
+		factors := List(words,w->List(w,function(e) 
+					if e in G!.free then return 2;fi;return 1;end));
+		red := List([1..Length(words)],i->FREE_PRODUCTS_REDUCE_WORDS(words[i],factors[i]));
+		Ob:= Objectify(
+				NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsDecomposedEquationRep),
+				rec(words := List(red,r->r.word),
+	    			factors := List(red,r->r.factors),
+	       			group := G,
+	       			const := G!.const,
+	       			free := G!.free,
+	       			activity := perm));
+		SetIsEquation(Ob,true);
+		return Ob;
 	end);
-InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
-	[IsList,IsEquationGroup,IsPerm],
-	function(words,DEqG,perm)
-		return Equation(words,DEqG,perm,true);
-	end);
-
-InstallMethod(EquationReducedForm, "for an Equation in Equation representation",
-	[IsEquation and IsDecomposedEquationRep],
-	function(x)
-		local Eq;
-		Eq := Equation(List(EquationComponents(x),eq->eq!.word),x!.eqG,x!.activity,false);
-		SetIsReducedEquation(Eq,true);
-		return 	Eq;
-	end);
-
 
 InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
-		[IsEquation,IsGroupHomomorphism,IsEquationGroup],
-		function(eq,acts,DEqG)
+		[IsEquationGroup,IsEquation,IsGroupHomomorphism],
+		function(DEqG,eq,acts)
 			local alph,vars,DecompEq,lastperm,x,i;
 			if not IsDecompositionEquationGroup(DEqG)then
 				TryNextMethod();
@@ -282,9 +270,7 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 					fi;
 				fi;
 			od;
-			return Equation(DecompEq,DEqG,lastperm);
-				
-			#return List(DecompEq,L->Equation(L,DEqG))
+			return Equation(DEqG,DecompEq,lastperm);
 		end);
 
 
@@ -294,12 +280,13 @@ InstallMethod(EquationComponent, "for an DecomposedEquation and Integer",
 		if Length(eq!.words)<comp then
 			Error("This component does not exist.");
 		fi;
-		return Equation(eq!.words[comp],eq!.eqG);
+		return Equation(eq!.group,eq!.words[comp]);
 	end);
 
 InstallMethod(EquationComponents, "for an DecomposedEquation",
 	[IsEquation and IsDecomposedEquationRep ],
-	eq->List(eq!.words,word->Equation(word,eq!.eqG)));
+	eq->List([1..Length(eq!.words)],
+			i->EquationComponent(eq,i) ));
 
 InstallMethod(EquationVariables, "for an DecomposedEquation",
 	[IsEquation and IsDecomposedEquationRep],
@@ -307,13 +294,19 @@ InstallMethod(EquationVariables, "for an DecomposedEquation",
 		return Set(Concatenation(List(EquationComponents(x),EquationVariables)));
 	end);
 
-InstallMethod( PrintObj,   "for DecomposedEquations)",
+InstallMethod( ViewObj,   "for DecomposedEquations)",
    [ IsEquation and IsDecomposedEquationRep ],
     function( x )
 		local s;
 		Print("DecomposedEquation in ",EquationVariables(x));
-	   end 
-);
+	   end);
+
+InstallMethod( PrintObj,   "for DecomposedEquations)",
+   [ IsEquation and IsDecomposedEquationRep ],
+    function( x )
+		local s;
+		Print("Equation(",EquationComponents(x),")");
+	   end);
 
 InstallMethod( \=,  "for two DecomposedEquations",
 		IsIdenticalObj,
@@ -326,36 +319,28 @@ InstallMethod( \=,  "for two DecomposedEquations",
 					x!.activity = y!.activity;
 		end);
 
-InstallMethod(OneOp, "for an DecomposedEquation",
+InstallMethod( OneOp, "for an DecomposedEquation",
 	[IsEquation and IsDecomposedEquationRep],
-		x->	Equation([],x!.group())
-);
+		x->	Equation(x!.group,List(x!.group!.alph,a->[]))
+	);
 
 InstallMethod( \*,   "for two DecomposedEquations",
-    [ IsEquation and IsDecomposedEquationRep, IsEquation and IsDecomposedEquationRep ],
+	IsIdenticalObj,
+    [ IsEquation and IsDecomposedEquationRep, IsEquation and IsDecomposedEquationRep ],0,
     function( x, y )
-    	if not Length(x!.words) = Length(y!.words) then
-    		Error("Not compatible, differnt number of states");
-    	fi;
-    	if not x!.eqG = y!.eqG then
-    		Error("Not compatible, differnt number Groups");
-    	fi;
-    	return Equation(
+    	return Equation(x!.group,
     			List([1..Length(x!.words)],
     				i->Concatenation(x!.words[i],y!.words[i^x!.activity])),
-    			x!.eqG,
     			x!.activity*y!.activity);
-    end 
-);
+    end);
 
-InstallMethod(InverseOp, "for a DecomposedEquation",
+InstallMethod( InverseOp, "for a DecomposedEquation",
 	[IsEquation and IsDecomposedEquationRep],
 	function(x)
-		return Equation(Permuted(Reversed(List(x!.words,Inverse)),x!.activity^-1),
-    			x!.eqG,
+		return Equation(x!.group,
+				Permuted(List(x!.words,w->Reversed(List(w,Inverse))),x!.activity^-1),
     			x!.activity^-1);
-	end
-);
+	end);
 
 #################################################################################
 ####                                                                         ####
@@ -559,6 +544,11 @@ EqG := EquationGroup(G,F);
 Eq := Equation(EqG,[Comm(F.1,F.2),(a*b)^2]);
 id := IdentityMapping(G);
 
+DEqG := DecompositionEquationGroup(EqG);
+constr := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),[(),()]);
+DEq:=DecompositionEquation(DEqG,Eq,constr);
+
+
 ev := EquationEvaluation(Eq,[a,b*a]);
 Image(ev,Eq);
 
@@ -567,8 +557,6 @@ h2 := EquationHomomorphism(EqG,[F.3],[F.7]);
 
 
 
-DEqG := DecompositionEquationGroup(EqG);
-constr := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),[(),()]);
-DEq:=DecompositionEquation(Eq,constr,DEqG);
+
 
 

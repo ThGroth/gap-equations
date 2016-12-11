@@ -14,15 +14,30 @@ DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
 
 DeclareOperation("Equation", [IsEquationGroup,IsList]);
 DeclareAttribute("IsEquation", IsFreeProductElm);
-DeclareOperation("EquationComponent", [IsEquation,IsInt]);
-DeclareOperation("EquationComponents", [IsEquation]);
+
 DeclareAttribute("EquationVariables",IsEquation);
 DeclareAttribute("EquationLetterRep",IsEquation);
 
 DeclareProperty("IsQuadraticEquation", IsEquation);
 DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 
+DeclareRepresentation("IsDecomposedEquationRep",
+ IsComponentObjectRep  and IsAttributeStoringRep,
+ ["words","factors","group","free","const","activity"]
+);
+
+DeclareOperation("DecompositionEquation", [IsEquationGroup,IsEquation,IsGroupHomomorphism]);
+DeclareOperation("EquationComponent", [IsEquation,IsInt]);
+DeclareOperation("EquationComponents", [IsEquation]); 
+
+# 
+# 
+#
+#
+#
+
 DeclareCategory("IsEquationHomomorphism",IsGroupHomomorphism);
+
 DeclareRepresentation("IsEquationHomomorphismRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
  ["mapFree","mapGroup","SourceEqG","Range"]
@@ -117,7 +132,7 @@ DeclareOperation("EquationEvaluation", [IsEquation,IsList]);
 
 
 
-DeclareOperation("DecompositionEquation", [IsEquation,IsGroupHomomorphism,IsEquationGroup]);
+
 
 
 #DeclareOperation("EquationAsElement",[IsEquation]);
