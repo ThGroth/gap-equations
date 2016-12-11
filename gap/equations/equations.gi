@@ -421,7 +421,7 @@ InstallMethod( EquationHomomorphism, "For an EquationGroup, a list of variables,
 		return hom;
 	end);
 
-InstallMethod( ViewObj, "For an EquationsHomomorphism",
+InstallMethod( ViewObj, "For an EquationHomomorphism",
 	[IsEquationHomomorphism],
 	function(hom)
 		local imDa;
@@ -431,6 +431,16 @@ InstallMethod( ViewObj, "For an EquationsHomomorphism",
 		else
 			TryNextMethod();
 		fi;
+	end);
+
+InstallMethod( CompositionMapping2, "For two EquationHomomorphisms",
+	FamSource1EqFamRange2,
+	[ IsEquationHomomorphism, IsEquationHomomorphism ], 0,
+	function(hom1,hom2)
+		local mapi,reshom;
+  		reshom:= CompositionMapping2General(hom1,hom2);
+  		SetIsEquationHomomorphism(reshom,true);
+  		return reshom;
 	end);
 
 InstallMethod( EquationEvaluation, "For an Equation, the list of variables and a list of images",
