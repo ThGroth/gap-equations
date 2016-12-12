@@ -221,7 +221,7 @@ InstallGlobalFunction(FREE_PRODUCTS_REDUCE_WORDS,function(w,factors)
 				fi;
 			fi;
 		od;
-		if Length(w)>0 then
+		if Length(w)>0 and not IsOne(elm)then
 			Add(newword,elm);
 			Add(newfactors,lastfactor);
 		fi;
