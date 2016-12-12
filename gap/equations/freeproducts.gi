@@ -312,6 +312,24 @@ InstallMethod( \=,  "for two FreeProductElms",
     [IsFreeProductElm and IsFreeProductElmRep, IsFreeProductElm and IsFreeProductElmRep],0,
     function( x, y )
 			return x!.word = y!.word and x!.factors = y!.factors ; 
+		end );
+InstallMethod( \=,  "for two FreeProductElms first in LetterRep",
+		IsIdenticalObj,
+    [IsFreeProductElm and IsFreeProductElmLetterRep, IsFreeProductElm and IsFreeProductElmRep],0,
+    function( x, y )
+			return FreeProductElm(x!.group,x!.word,x!.factors) = y ; 
+		end );
+InstallMethod( \=,  "for two FreeProductElms both in LetterRep",
+		IsIdenticalObj,
+    [IsFreeProductElm and IsFreeProductElmLetterRep, IsFreeProductElm and IsFreeProductElmLetterRep],0,
+    function( x, y )
+			return FreeProductElm(x!.group,x!.word,x!.factors) = FreeProductElm(y!.group,y!.word,y!.factors) ; 
+		end );
+InstallMethod( \=,  "for two FreeProductElms second in LetterRep",
+		IsIdenticalObj,
+    [IsFreeProductElm and IsFreeProductElmRep, IsFreeProductElm and IsFreeProductElmLetterRep],0,
+    function( x, y )
+			return x = FreeProductElm(y!.group,y!.word,y!.factors) ;
 		end 
 );
 
