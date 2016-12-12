@@ -203,12 +203,22 @@ InstallGlobalFunction(FREE_PRODUCTS_REDUCE_WORDS,function(w,factors)
 			else
 				if first then
 					first := false;
+					elm := w[i];
+					lastfactor := factors[i];
 				else
-					Add(newword,elm);
-					Add(newfactors,lastfactor);
+					if not IsOne(elm) then
+						Add(newword,elm);
+						Add(newfactors,lastfactor);
+						elm := w[i];
+						lastfactor := factors[i];
+					elif Length(newfactors)>0 and factors[i]=newfactors[Length(newfactors)] then
+						lastfactor := Remove(newfactors);
+						elm := Remove(newword)*w[i];
+					else
+						elm := w[i];
+						lastfactor := factors[i];
+					fi;
 				fi;
-				lastfactor := factors[i];
-				elm := w[i];
 			fi;
 		od;
 		if Length(w)>0 then
