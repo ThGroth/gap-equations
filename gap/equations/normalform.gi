@@ -47,7 +47,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 		NormalForm:= function(eq)
 			local case10,case11a,case11b,case3,i,j,t,x,y,Hom,N,
 				  asInt,v,w,v1,v2,w1,w2,w11,w12,w21,w22,w3;
-			Info(InfoEQFP,3,"Call of NormalForm with",eq);
+			Info(InfoEQFP,3,"Call of NormalForm with ",eq);
 
 				case10 := function(w1,v,w2,x)
 				# eq = w₁·x⁻·v·x·w₂
@@ -61,10 +61,10 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				#Does N end with a constant?
 				c:= N[1]!.word[Length(N[1])];
 				if c in F then
-					return [N[1]*FreeProductElm(EqG,[x^-1,v,x]),N[2]*Hom];
+					return [N[1]*FreeProductElm(EqG,[x^-1,v,x]),Hom*N[2]];
 				else
 					Hom := EquationHomomorphism(EqG,[x],[x*(c*w2^-1)]);
-					return [N[1]*c^-1*(x^-1*v*x)*c,N[2]*Hom];
+					return [N[1]*c^-1*(x^-1*v*x)*c,Hom*N[2]];
 				fi;
 			end;
 			case11a := function(w11,w12,v,w2,x)
@@ -85,15 +85,15 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				Hom := EquationHomomorphism(EqG,[x,v],[
 						w21^-1*w1^-1*x*w1,
 						w21^-1*w1^-1*v^-1*w1*w21]);
-				return [Comm(x,v)*N[1],N[2]*Hom];
+				return [Comm(x,v)*N[1],Hom*N[2]];
 			end;
 			case3 := function(x,w2)
 				# w = x²·w2
 				# w₂ Equation, x∈F
 				local N,N2,Hom,y,z;
 				N := NormalForm(w2);
-				#Check if N start with [y,z]
 				N[1]:=FreeProductElmLetterRep(N[1]);
+				#Check if N[1] is now still unoriented by checking if it starts with [y,z].
 				if Length(N[1])<4 or not N[1]!.word[2] in F or N[1]!.word[1]=N[1]!.word[2] then
 					#Already in required form
 					return [x^2*N[1],N[2]];
@@ -113,6 +113,11 @@ InstallMethod(EquationNormalForm, "for an Equation",
 			if Length(eq)<3 then
 				return [eq,EquationHomomorphism(EqG,[],[])];
 			fi;
+			#Added for the case the const group is also free and hence
+			#Length(eq) could be >1 although it is constant.
+			if ForAll(eq!.word,x->x in G) then
+				return [eq,EquationHomomorphism(EqG,[],[])];
+			fi;
 				
 			if IsOrientedEquation(eq) then
 				#Find x s.t. w=w₁ x⁻¹ v x w₂ with |v| minimal
@@ -128,6 +133,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				x := AssocWordByLetterRep(FamilyObj(Representative(F)),
 								[PositionProperty(t,i->i=Minimum(t))]);
 				#Find Decomposition w₁ x⁻¹ v x w₂ 
+				Info(InfoEQFP,4,"Oriented Case: Choosing x: ",x);
 				i := Position(eq,x^-1);
 				j := Position(eq,x);
 				if i>j then 
@@ -139,20 +145,20 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				fi;
 				w1 := FreeProductElmLetterRep(eq{[1..i-1]});
 				v := FreeProductElmLetterRep(eq{[i+1..j-1]});
-				w2 := FreeProductElmLetterRep(eq{[i+j..Length(eq)]});
+				w2 := FreeProductElmLetterRep(eq{[j+1..Length(eq)]});
 				
 				#Decomposition done
 				if Length(v)=1 then #Case 1
 					v := v!.word[1];
 					if v in F then #Case 1.1
 						#v->v⁻¹ if v is not a generator. 
-						Hom := EquationHomomorphism(EqG,[Abs(v)],[v])*Hom;
+						Hom := Hom*EquationHomomorphism(EqG,[Abs(v)],[v]);
 						i := Position(w1,v^-1);
 						if not i = fail then #Case 1.1.a
 							w11 := w1{[1..i-1]};
 							w12 := w1{[i+1..Length(w1)]};
 							N := case11a(w11,w12,Abs(v),w2,x);
-							return [N[1],N[2]*Hom];
+							return [N[1],Hom*N[2]];
 						else #Case 1.1.b
 							i := Position(w2,v^-1);
 							if i = fail then 
@@ -161,15 +167,15 @@ InstallMethod(EquationNormalForm, "for an Equation",
 							w21 := w2{[1..i-1]};
 							w22 := w2{[i+1..Length(w2)]};
 							N:= case11b(w1,Abs(v),w21,w22,x);
-							return [N[1],N[2]*Hom];
+							return [N[1],Hom*N[2]];
 						fi;
 					else #Case 1.0
 						N := case10(w1,v,w2,x);
-						return [N[1],N[2]*Hom];
+						return [N[1],Hom*N[2]];
 					fi;
 				else #Case 2
 					y := First(v!.word,e->e in F);
-					Hom := EquationHomomorphism(EqG,[Abs(y)],[y^-1])*Hom;
+					Hom := Hom*EquationHomomorphism(EqG,[Abs(y)],[y^-1]);
 					#v = v1 y v
 					i := Position(v,y);
 					v1 := v{[1..i-1]};
@@ -179,9 +185,9 @@ InstallMethod(EquationNormalForm, "for an Equation",
 					if not i = fail then #Case 2.a
 						w11 := w1{[1..i-1]};
 						w12 := w1{[i+1..Length(w1)]};
-						Hom := EquationHomomorphism(EqG,[x],[v2^-1*x*(Abs(y)*w12)])*Hom;
+						Hom := Hom*EquationHomomorphism(EqG,[x],[v2^-1*x*(Abs(y)*w12)]);
 						N := case11a(w11,v2*v1,x,w12*w2,Abs(y));
-						return [N[1],N[2]*Hom];
+						return [N[1],Hom*N[2]];
 					else #Case 2.b
 						i := Position(w2,y^-1);
 						if i = fail then 
@@ -190,8 +196,8 @@ InstallMethod(EquationNormalForm, "for an Equation",
 						w21 := w2{[1..i-1]};
 						w22 := w2{[i+1..Length(w2)]};
 						N := case11a(w1*w21,v2*v1,x,w22,Abs(y));
-						Hom := EquationHomomorphism(EqG,[x],[v2^-1*x*w21^-1])*Hom;
-						return [N[1],N[2]*Hom];
+						Hom := Hom*EquationHomomorphism(EqG,[x],[v2^-1*x*w21^-1]);
+						return [N[1],Hom*N[2]];
 					fi;
 				fi; 
 			else #so not oriented
@@ -207,7 +213,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				od;
 				x := AssocWordByLetterRep(FamilyObj(Representative(F)),
 							[PositionProperty(t,i->i=Minimum(Filtered(t,IsPosInt)))]);
-
+				Info(InfoEQFP,4,"Unoriented Case: Choosing x: ",x);
 				i := Position(eq,x);
 				if i=fail then
 					Hom := EquationHomomorphism(EqG,[x],[x^-1]);
@@ -220,29 +226,35 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				w1:= eq{[1..i-1]};
 				w2:= eq{[i+1..j-1]};
 				w3:= eq{[j+1..Length(eq)]};
-				Hom := EquationHomomorphism(EqG,[x],[w1^-1*x*w1*w2^-1])*Hom;
+				Hom := Hom*EquationHomomorphism(EqG,[x],[w1^-1*x*w1*w2^-1]);
 				N := case3(x,w1*w2^-1*w3);
-				return [N[1],N[2]*Hom];
+				return [N[1],Hom*N[2]];
 			fi; #End Nonoriented Case	
 		end;
 		NormalVars := function(eq)
-			local gens,imgs,count,x;
+			local gens,imgs,count,found,x;
 			eq := FreeProductElmLetterRep(eq);
 			gens := [];
 			imgs := [];
+			found := [];
 			count := 1;
 			for x in eq!.word do
-				if x in F and not Abs(x) in gens then
-					Add(gens,Abs(x));
-					Add(imgs,F.(count));
+				if x in F then
+					if not Abs(x) in found then 
+						if not Abs(x)=F.(count) then
+							Add(gens,Abs(x));
+							Add(imgs,F.(count));
+						fi;
+						Add(found,Abs(x));
+						count := count+1;
+					fi;
 				fi;
-				count := count+1;
 			od;
 			return EquationHomomorphism(EqG,gens,imgs);
 		end;
 		N := NormalForm(x);
 		H :=NormalVars(N[1]);
-		return rec(nf := Equation(N[1]^H), hom := H*N[2]);
+		return rec(nf := Equation(N[1]^H), hom := N[2]*H);
 	end);
 
 
@@ -272,11 +284,11 @@ testfunc := function()
 	EqG := EquationGroup(G,F);
 	count := 1;
 	for e in elms do
-		Print("Doing ",e,": ",count," \r");
+		Print("Testing : ",count," \r");
 		x := Equation(EqG,e);
 		xn := EquationNormalForm(x);
 		if x^xn.hom <> xn.nf then
-			Add(L,e);
+			Add(L,x);
 		fi;
 		count := count+1;
 	od;
@@ -286,9 +298,9 @@ testfunc := function()
 			Add(L,e);
 		fi;
 	od;
-	Print("Errors happened at L: ");
-	Display(L);
-	Print("\n");
+	Print("\nErrors happened at L: ",Size(L),"\n");
+	
+	return(L);
 end;
 
 
