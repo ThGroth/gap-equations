@@ -274,7 +274,77 @@ InstallMethod(EquationNormalForm, "for an Equation",
 			od;
 			return [EquationHomomorphism(EqG,gens,imgs),EquationHomomorphism(EqG,imgs,gens)];
 		end;
+		Info(InfoEQFP,2,"Computing NormalForm of: ",x);
 		N := NormalForm(x);
 		H :=NormalVars(N[1]);
 		return rec(nf := Equation(N[1]^H[1]), hom := N[2]*H[1], homInv:=H[2]*N[3]);
 	end);
+
+InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
+		[IsEquation and IsDecomposedEquationRep],
+		function(x)
+		local Comp,Vars,EqG,change,Hom,Homs,L,i,CommonVars,I,j,v1,v2,pos,sign;
+		if not IsQuadraticEquation(x) then
+			TryNextMethod();
+		fi;
+		#Step 1 find common variables.
+		Comp := List(EquationComponents(x),EquationLetterRep);
+		Vars := List(Comp,eq->EquationVariables(eq));
+		EqG := x!.group;
+		change := true;
+		Hom := EquationHomomorphism(EqG,[],[]);
+
+		while change do		
+			change := false;
+			for i in [1..Length(Comp)] do
+				CommonVars := [];
+				for j in [i+1..Length(Comp)] do
+					I := Intersection(Vars[i],Vars[j]);
+					if Length(I)>0 then
+						Add(CommonVars,[j,I[1]]);
+					fi;
+				od;
+				if Length(CommonVars)>0 then
+					break;
+				fi;
+			od;
+			# The components i and CommonVars[k][1] have the variable CommonVars[k][2]
+			# in common for all k.
+			Homs := rec(gens:=[],imgs:=[]);
+			for L in CommonVars do
+				pos := Position(Comp[L[1]],L[2]);
+				sign := 1;
+				if pos = fail then
+					pos := Position(Comp[L[1]],L[2]^-1);
+					sign := -1;
+				fi;
+				v1 := Comp[L[2]]{[1..pos]};
+				v2 := Comp[L[2]]{[pos+1..Length(Comp[L[2]])]};
+				Add(Homs.gens,L[2]);
+				Add(Homs.imgs,(v2*v1)^(-sign));
+				change := true;
+			od;
+			#The mappings don't interfere because the equation is quadratic
+			# and hence each variable can occure in at most two components.
+			Homs := EquationHomomorphism(EqG,Homs.gens,Homs.imgs);
+			Comp := List(Comp,eq->eq^Homs);
+			Hom := Hom*Homs;
+		od;
+		# Now each component is again a quadratic equation, and the 
+		# variables of all components are pairwise disjoint.
+		return [Equation(EqG,List(Comp,eq->eq!.word),x!.activity),Hom];
+	end);
+
+InstallMethod(EquationNormalForm," for a decomposed Equation",
+	[IsEquation and IsDecomposedEquationRep],
+	function(x)
+		local DisjointComp,
+
+		DisjointComp := DecomposedEquationDisjointForm(x);
+		return rec(	nf := Equation(EqG,List(Comp,eq->eq!.nf!.word,x!.activity)),
+					hom:= Hom*Product(List(Comp,eq->eq.hom)) );
+	end);
+			
+
+
+

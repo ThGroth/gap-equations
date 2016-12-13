@@ -1,1 +1,2 @@
-DeclareOperation("EquationNormalForm", [IsEquation]);
+DeclareAttribute("EquationNormalForm", IsEquation);
+DeclareAttribute("DecomposedEquationDisjointForm", IsEquation);
