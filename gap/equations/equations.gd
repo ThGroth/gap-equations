@@ -48,5 +48,5 @@ DeclareOperation("IsSolution", [IsEvaluation, IsEquation]);
 ####                             Info                                  ####
 ####                                                                   ####
 ###########################################################################
-InfoFRGW := NewInfoClass("InfoEQFP");
+InfoEQFP := NewInfoClass("InfoEQFP");
 SetInfoLevel(InfoEQFP,1);
