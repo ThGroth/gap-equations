@@ -243,7 +243,12 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 					fi;
 				fi;
 			od;
-			return Equation(DEqG,DecompEq,lastperm);
+			DecompEq := Equation(DEqG,DecompEq,lastperm);
+			#Quadratic equation is invariant under decomposition.
+			if IsQuadraticEquation(eq) then
+				SetIsQuadraticEquation(DecompEq,true);
+			fi;
+			return DecompEq;
 		end);
 
 
