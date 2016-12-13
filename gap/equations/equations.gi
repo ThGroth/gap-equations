@@ -46,6 +46,8 @@ InstallMethod( DecompositionEquationGroup, "for an EquationGroup",
 InstallMethod( IsDecompositionEquationGroup, "for an EquationGroup",
 	[IsEquationGroup],
 	EqG->HasFreeProductInfo(EqG!.free));
+
+
 #################################################################################
 ####                                                                         ####
 ####	                          Equations                                  ####
@@ -316,6 +318,7 @@ InstallMethod( InverseOp, "for a DecomposedEquation",
 				Permuted(List(x!.words,w->Reversed(List(w,Inverse))),x!.activity^-1),
     			x!.activity^-1);
 	end);
+
 
 #################################################################################
 ####                                                                         ####
