@@ -13,7 +13,7 @@ DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
 DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
 
 DeclareOperation("Equation", [IsEquationGroup,IsList]);
-DeclareAttribute("IsEquation", IsFreeProductElm);
+DeclareProperty("IsEquation", IsFreeProductElm);
 
 DeclareAttribute("EquationVariables",IsEquation);
 DeclareAttribute("EquationLetterRep",IsEquation);
@@ -30,7 +30,7 @@ DeclareOperation("DecompositionEquation", [IsEquationGroup,IsEquation,IsGroupHom
 DeclareOperation("EquationComponent", [IsEquation,IsInt]);
 DeclareOperation("EquationComponents", [IsEquation]); 
 
-DeclareAttribute("IsEquationHomomorphism",IsFreeProductHomomorphism);
+DeclareProperty("IsEquationHomomorphism",IsFreeProductHomomorphism);
 
 DeclareOperation("EquationHomomorphism", [IsEquationGroup, IsList, IsList]);
 
@@ -38,7 +38,7 @@ DeclareAttribute("EquationHomomorphismImageData", IsGroupHomomorphism, "mutable"
 
 DeclareOperation("EquationEvaluation", [IsEquation, IsList, IsList]);
 
-DeclareAttribute("IsEvaluation", IsGroupHomomorphism);
+DeclareProperty("IsEvaluation", IsGroupHomomorphism);
 
 DeclareOperation("IsSolution", [IsEvaluation, IsEquation]);
 
