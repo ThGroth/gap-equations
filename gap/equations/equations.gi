@@ -101,10 +101,7 @@ InstallMethod(EquationLetterRep, "for an Equation",
 														return 1;
 													fi; return 2;
 												 end) );
-		Eq!.const := eq!.const;
-		Eq!.free := eq!.free;
-		SetIsEquation(eq,true);
-		return Eq;
+		return Equation(Eq);
 	end);
 
 InstallMethod( EquationVariables, "for a Equation",
