@@ -332,17 +332,38 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 		od;
 		# Now each component is again a quadratic equation, and the 
 		# variables of all components are pairwise disjoint.
-		return [Equation(EqG,List(Comp,eq->eq!.word),x!.activity),Hom];
+		return rec(eq:=Equation(EqG,List(Comp,eq->eq!.word),x!.activity),hom:=Hom);
 	end);
 
-InstallMethod(EquationNormalForm," for a decomposed Equation",
-	[IsEquation and IsDecomposedEquationRep],
-	function(x)
-		local DisjointComp,
+#
+# Let sol be a list of solutions [s₁,…,sₙ] such that 
+# sᵢ is a solution for the NormalForm of th iᵗʰ component
+# of a DecomposedEquationDisjoint Form
+# of the DecomposedEquation `Deq` wich is the decomposition of an equation `eq`
+# with activities `acts`.
+# 
+# Then the following method computes a solution for `eq`
+InstallMethod(LiftSolution, "For a Decomposed Equation, an Eqation, a group hom, and a list of solutions",
+	[IsEquation and IsDecomposedEquationRep, IsEquation, IsGroupHomomorphism, IsList],
+	function(Deq,eq,acts,sol)
+		local Comp,NFs,imgs;
+		if not DecompositionEquation(Deq!.group,eq,acts)=Deq then
+			Error("The first argument must be the decomposition of the second argumen.");
+		fi;
+		Comp := EquationComponents(DecomposedEquationDisjointForm(Deq).eq);
+		NFs := List(Comp,EquationNormalForm);
 
-		DisjointComp := DecomposedEquationDisjointForm(x);
-		return rec(	nf := Equation(EqG,List(Comp,eq->eq!.nf!.word,x!.activity)),
-					hom:= Hom*Product(List(Comp,eq->eq.hom)) );
+		if not ForAll(ListN(sol,Comp,function(ev,eq) return IsSolution(ev,eq);end)) then
+			Error("The i-th entry of the last argument must be a solution for the i-th comp.");
+		fi;
+
+		sol := Product(List([1..Size(Comp)],i->NFs[i]*sol[i]));
+		imgs := List(EquationVariables(eq),
+			x-> UnderlyingMealyElement(FRElement(
+				 [List(FreeProductInfo(Deq!.group!.free).embeddings,e->[(x^e)^sol])],
+				 [x^acts],
+				 [1] )) );
+		return EquationEvaluation(eq,EquationVariables(eq),imgs);
 	end);
 			
 
