@@ -333,8 +333,8 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 					pos := Position(Comp[L[1]],L[2]^-1);
 					sign := -1;
 				fi;
-				v1 := Comp[L[2]]{[1..pos]};
-				v2 := Comp[L[2]]{[pos+1..Length(Comp[L[2]])]};
+				v1 := Comp[L[1]]{[1..pos]};
+				v2 := Comp[L[1]]{[pos+1..Length(Comp[L[1]])]};
 				Add(Homs.gens,L[2]);
 				Add(Homs.imgs,(v2*v1)^(-sign));
 				change := true;
