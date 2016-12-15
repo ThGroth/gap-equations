@@ -441,7 +441,7 @@ InstallMethod( EquationEvaluation, "For an Equation, the list of variables and a
 			Error("All free variables must have an image.");
 		fi;
 		hom := EquationHomomorphism(eq!.group,gens,imgs);
-		hom2 := GroupHomomorphismByFunction(eq!.group,eq!.const,q->Product(Image(hom,q)!.word),One(eq));
+		hom2 := GroupHomomorphismByFunction(eq!.group,eq!.const,q->Product(Image(hom,q)!.word),One(eq!.const));
 		SetIsEquationHomomorphism(hom2,true);
 		SetIsEvaluation(hom2,true);
 		return hom2;
@@ -458,7 +458,7 @@ InstallOtherMethod( EquationEvaluation, "For an Equation, the list of variables 
 			Error("There must be as many images as generators.");
 		fi;
 		hom := EquationHomomorphism(eqG,gens,imgs);
-		hom2 := GroupHomomorphismByFunction(eqG,eqG!.const,q->Product(Image(hom,q)!.word,One(eqG)));
+		hom2 := GroupHomomorphismByFunction(eqG,eqG!.const,q->Product(Image(hom,q)!.word,One(eqG!.const)));
 		SetIsEquationHomomorphism(hom2,true);
 		SetIsEvaluation(hom2,true);
 		return hom2;
