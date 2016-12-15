@@ -160,21 +160,24 @@ end;
 # If the length of γ is 4 then the computed pair (γ₁,γ₂) has the additional 
 # property that γ₁,γ₂ are again of length four.
 GetSuccessor  := function(q,gamma)
-	local q1,q2,F,acts,F2,frvars,frinvvars,t,I,normalforms,x,v,w,indx,v1,
-          v2,w1,w2,newEq,NoFI,NoFIhom,z,GHOnList,Gamma1,Dep,i,ga,first,gp,
-          trans,H,gpp,nf,gaP,Suc,r,ShortConstraintCase,qs,g1,g2;
+	local n,q1,q2,Gamma1,Dep,i,ga,first,gp,acts,qs,Suc,
+	F2,F,EqG,DEqG,FF,DEqQ,DEqF2,Bridge,Eq,DEq,EqComp,I,normalforms,x,indx,newEq,z,
+	H,nf,gaP,ShortConstraintCase,g1,g2;
+
 
     ShortConstraintCase := false;
     if IsGroupHomomorphism(gamma) then
         gamma := List(GeneratorsOfGroup(Source(gamma)),x->x^gamma);
     fi;
-	if Size(gamma)>6 then
+    n := Length(gamma);
+	if n>6 then
 		Error("gamma is too large!\n It need to be a reduced constraint");
-	elif Size(gamma)=5  then
+	elif n=5  then
 		Add(gamma,One(gamma[1]));
-    elif Size(gamma)=4  then
+		n:=6;
+    elif n=4  then
         ShortConstraintCase := true;
-	elif Size(gamma)<4  then
+	elif n<4  then
 		Error("invalid gamma!\n");
 	fi;
 	if not q in GmodKP then
@@ -204,11 +207,10 @@ GetSuccessor  := function(q,gamma)
     #Gamma1 contains all possible γ' such that <<γ'₂ₖ-₁,γ'₂ₖ>> = γₖ for k=1…6
     Gamma1 := DEP_CARTESIAN@fr(Gamma1,Dep);;#Size of Gamma1 about 4096
     
-    F := FreeGroup(2*Size(gamma)-2);
     acts := ActivityConstraint(gamma);
 	if ForAll(acts,IsOne) then #this is needed for the product of two commutators and the f.c.w. of K' corrolary
         for gp in Gamma1 do
-            gp := [gp{[1,3..2*Size(gamma)-1]},gp{[2,4..2*Size(gamma)]}]; #split gamma in two parts
+            gp := [gp{[1,3..2*n-1]},gp{[2,4..2*n]}]; #split gamma in two parts
             qs := [q1,q2];
             if ForAll(gp,gpi->HasNontrivialActivity(gpi)) then #No need for those with trivial activity
                 if ForAll([1,2],i->IsOne(Product(List([1..Size(gamma)/2],k->Comm(gp[i][2*k-1],gp[i][2*k])))*qs[i])) then
@@ -223,93 +225,62 @@ GetSuccessor  := function(q,gamma)
         return fail;
 	fi;
     #Now the "regular" case. gamma has activity in some component.
-	
-	F2 := FreeGroup(2); g1:=F2.1;g2:=F2.2;
-	frvars := List([1..Size(gamma)],x->FRGrpWordUnknown(3*x,acts[x],GrigorchukGroup));
-	frinvvars := List([1..Size(gamma)],x->FRGrpWordUnknown(-3*x,acts[x],GrigorchukGroup));
-	t := Product(List(Filtered([1..Size(gamma)],IsOddInt),y->frinvvars[y]*frinvvars[y+1]*frvars[y]*frvars[y+1]));
-	I := Intersection(List(t!.states[1]!.word,AbsInt),List(t!.states[2]!.word,AbsInt));
+    #
+    F2 := FreeGroup(2); g1:=F2.1;g2:=F2.2; SetName(F2,"F2");
+    F := FreeGroup(infinity,"xn",["x1","x2","x3","x4","x5","x6"]);SetName(F,"FX");
+    EqG := EquationGroup(G,F);
+    DEqG := DecompositionEquationGroup(EqG);
+    FF := DEqG!.free;
+    DEqQ := EquationGroup(Q,FF);
+    DEqF2 := EquationGroup(F2,DEqG!.free);
+    #Bridge: F₂⋆Fₓ⋆Fₓ → Q⋆Fₓ⋆Fₓ, g₁,g₂↦q1,q2 
+    Bridge := FreeProductHomomorphism(DEqF2,DEqQ,[GroupHomomorphismByImages(F2,Q,[q1,q2]),IdentityMapping(FF)]);
+    SetIsEquationHomomorphism(Bridge,true);
+    
+    Eq := Equation(EqG,[Product( List(List([1,3..n-1],i->Comm(F.(i),F.(i+1)))) )]);
+    acts := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),acts);
+    DEq := DecompositionEquation(DEqG,Eq,acts);
+    EqComp := List(EquationComponents(DEq),EquationLetterRep);
+    I := Intersection(EquationVariables(EqComp[1]),EquationVariables(EqComp[2]));
 	#I is nonempty as #act(γ) ≠ (1,1,1…1)
-	#x := I[1]; #What if we choose something different here?
-	#We now do. We take all.
 	normalforms := [];
 	for x in I do
-		v := t!.states[1]!.word;
-		w := t!.states[2]!.word;
-		indx := Position(List(v,AbsInt),x);
-		v1 := v{[1..indx-1]};
-		v2 := v{[indx+1..Size(v)]};
-		indx := Position(List(w,AbsInt),x);
-		w1 := w{[1..indx-1]};
-		w2 := w{[indx+1..Size(w)]};
-		newEq := GrpWord(Concatenation(v1,w2,[g2],w1,v2,[g1]),F2);
-		NoFI := GrpWordNormalFormInverseHom(newEq);
-		NoFIhom := GrpWordHom(NoFI[2]!.rules{[1..2*Size(gamma)-1]});
-		#z consist only of one element
-		z := NoFIhom!.rules[2*Size(gamma)-1]!.word; #z=x₁₁ or z=x₇ d
-		Assert(0,Size(z)=1);
-		z := z[1];
-		Add(normalforms,[z,NoFIhom]);
-	od;
+		#fail> n ∀n
+		newEq := []; #v1*w2*g2*w1*v2*g1;
+		indx := Minimum(Position(EqComp[1],x),Position(EqComp[1],x^-1));
+		newEq[1] := EqComp[1]{[1..indx-1]};
+		newEq[5] := EqComp[1]{[indx+1..Length(EqComp[1])]};
+		indx := Minimum(Position(EqComp[2],x),Position(EqComp[2],x^-1));
+		newEq[4] := EqComp[2]{[1..indx-1]};
+		newEq[2] := EqComp[2]{[indx+1..Length(EqComp[1])]};
+
+		Apply(newEq,eq->Equation(DEqF2,eq!.word));
+		newEq[3] := g2; 
+		newEq[6] := g1;
+		newEq := Equation(Product(newEq));
 		
-	#Compute the image of a G-Homomorphism with values in F₄ₙ ∗ {g₁,g₂} 
-	#of a γ ∈ Γ' mod K 
-    #TODO should be part of the grpword package
-	GHOnList := function(hom,gam)
-		#hom should be a grpWordHom Fₓ → Fₓ ∗ {g₁,g₂}
-		local newgam,i,r;
-		newgam := ListWithIdenticalEntries(Size(hom!.rules),One(Q));
+		nf := EquationNormalForm(newEq);
+		#Changed NormalForm algorithm, so make sure everything is still correct:
+		Assert(0,nf.nf^nf.homInv=newEq);
+		#normal form is [x₁₁,x₁₂]…[x₅₁,x₅₂] x₆₁⁻¹g₂g₁x₆₁ 
+		Assert(0,nf.nf=Equation(DEqF2,[Product(List([1,3..2*n-3],i->Comm(FF.(i),FF.(i+1)))),FF.(2*n-1)^-1,g2,FF.(2*n-1),g1]));
+		#z is the preimage of x₆₁ or z=x₄₁ depending on |γ|=n
+		z := Equation(FreeProductElm(DEqF2,[DEqG!.free.(2*n-1)]))^nf.homInv;
+		#Assert(0,Size(z)=1); #not nec. anymore, but true?
+		Add(normalforms,[z,nf,newEq]);
+	od;
 
-		for i in [1..Size(gam)] do
-			if IsBound(hom!.rules[i]) then
-				for r in hom!.rules[i]!.word do
-					if IsInt(r) then
-						if r>0 then
-							newgam[i] := newgam[i]*gam[r];
-						else
-							newgam[i] := newgam[i]*(gam[-r])^-1;
-						fi;
-					else
-						if r = g1 then
-							newgam[i] := newgam[i]*q1;	
-						elif r = g2 then #r = g2
-							newgam[i] := newgam[i]*q2;	
-						elif r = g1^-1 then
-							newgam[i] := newgam[i]*q1^-1;	
-						elif r = g2^-1 then #r = g2
-							newgam[i] := newgam[i]*q2^-1;	
-						else
-							Error("Compute GammAPrime Well this shouldn't happen...");
-						fi;
-					fi;
-				od;
-			fi;
-		od;
-		return newgam;
-	end;
-
-	trans := function(n)
-		return 3+n+Int((n-1)/2);
-	end;
 	for gp in Gamma1 do
-		H := [];
-		for i in [1..Size(gp)] do
-			H[trans(i)] := GrpWord([gp[i]],Q);
-		od;
-		H := GrpWordHom(H,Q);
-		if IsOne(ImageOfGrpWordHom(H,t!.states[1])*GrpWord([q1],Q)) and IsOne(ImageOfGrpWordHom(H,t!.states[2])*GrpWord([q2],Q)) then
-			gpp := [];
-			for i in [1..Size(gp)] do
-				if IsBound(gp[i]) then
-					gpp[trans(i)]:=gp[i];
-				fi;
-			od;
+		H := Bridge*EquationEvaluation(DEqQ,EquationVariables(DEq),gp);
+		
+		if IsOne(Equation(DEqF2,Concatenation(EqComp[1]!.word,[g1]))^H) and 
+		   IsOne(Equation(DEqF2,Concatenation(EqComp[2]!.word,[g2]))^H) then
 			for nf in normalforms do
-				z := gpp[AbsInt(nf[1])]^SignInt(nf[1]);
+				z := nf[1]^H;nf:=nf[2];
                 if z in List(Q){[1,2,5,9,13,6,15,10]} then # = [1,a,b,c,d,ab,ad,ba]^π
-    				NoFIhom := nf[2];
     				#Compute the image of γ' under the normalization hommorphism and simplify it to the F₅ case
-    				gaP := [MakeImmutable(ReducedConstraint(GHOnList(NoFIhom,gpp){[1..2*Size(gamma)-2]})),z];
+    				
+    				gaP := [MakeImmutable( ReducedConstraint( List([1..2*n-2],i->ImageElm(nf.homInv*H,FF.(i))) ) ),z];
     				Suc := List(PreImages(varpiPrimeLP,p_h(q,PreImagesRepresentative(pi,z))));
                     Add(gaP,Suc); #Adding all possible succeccors mod K' to the returned list
     				#Added check for nontrivial activity.
