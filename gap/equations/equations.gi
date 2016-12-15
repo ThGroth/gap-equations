@@ -426,11 +426,30 @@ InstallMethod( EquationEvaluation, "For an Equation, the list of variables and a
 		if not Length(var)=Length(gens) then
 			Error("There must be as many images as variables.");
 		fi;
+		if not Length(imgs)=Length(gens) then
+			Error("There must be as many images as generators.");
+		fi;
 		if not ForAll(var,v->v in gens) then
 			Error("All free variables must have an image.");
 		fi;
 		hom := EquationHomomorphism(eq!.group,gens,imgs);
 		hom2 := GroupHomomorphismByFunction(eq!.group,eq!.const,q->Product(Image(hom,q)!.word));
+		SetIsEvaluation(hom2,true);
+		return hom2;
+	end);
+
+InstallOtherMethod( EquationEvaluation, "For an Equation, the list of variables and a list of images",
+	[IsEquationGroup, IsList, IsList],
+	function(eqG,gens,imgs)
+		local var,hom,hom2;
+		if not ForAll(imgs,elm->elm in eqG!.const) then
+			Error("All images need to be in the group of constants.");
+		fi;
+		if not Length(imgs)=Length(gens) then
+			Error("There must be as many images as generators.");
+		fi;
+		hom := EquationHomomorphism(eqG,gens,imgs);
+		hom2 := GroupHomomorphismByFunction(eqG,eqG!.const,q->Product(Image(hom,q)!.word));
 		SetIsEvaluation(hom2,true);
 		return hom2;
 	end);
