@@ -18,7 +18,6 @@ ev := EquationEvaluation(Eq,[F.1,F.2],[b,a]);
 
 IsSolution(ev,Eq);
 
-
 #
 #
 #TODO More Testcases!
@@ -45,7 +44,9 @@ testfuncNF := function()
 						 fi; 
 						 return i; end));
 	
-	others := [Equation(EquationGroup(G2,F),[F.9^-1,f1,F.8^-1,f2,F.9,F.8,f3])];
+	others := [	Equation(EquationGroup(G2,F),[F.9^-1,f1,F.8^-1,f2,F.9,F.8,f3]),
+				Equation(EquationGroup(G2,F),[F.1^-1*F.2^-1*F.1*F.3*F.2, f2, F.3^-1, f1]) ]
+	
 	L := [];
 	K := [];
 	EqG := EquationGroup(G,F);
