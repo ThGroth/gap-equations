@@ -65,7 +65,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				else
 					Hom := EquationHomomorphism(EqG,[x],[x*(c*w2^-1)]);
 					HomIn := EquationHomomorphism(EqG,[x],[x*w2*c^-1]);
-					return [N[1]*c^-1*(x^-1*v*x)*c,Hom*N[2],N[3]*HomIn];
+					return [N[1]*FreeProductElm(EqG,[c^-1,x^-1,v,x,c]),Hom*N[2],N[3]*HomIn];
 				fi;
 			end;
 			case11a := function(w11,w12,v,w2,x)
