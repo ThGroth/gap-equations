@@ -451,6 +451,7 @@ InstallOtherMethod( EquationEvaluation, "For an Equation, the list of variables 
 		fi;
 		hom := EquationHomomorphism(eqG,gens,imgs);
 		hom2 := GroupHomomorphismByFunction(eqG,eqG!.const,q->Product(Image(hom,q)!.word));
+		SetIsEquationHomomorphism(hom2);
 		SetIsEvaluation(hom2,true);
 		return hom2;
 	end);
