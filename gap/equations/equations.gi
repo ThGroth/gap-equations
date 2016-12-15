@@ -84,6 +84,12 @@ InstallOtherMethod( Equation, "For a FreeProductElm",
 		return elm;
 	end);
 
+InstallMethod( IsEquation, "For a FreeProductElm",
+	[IsFreeProductElm],
+	function(elm)
+		return IsEquationGroup(elm!.group);
+	end);
+
 InstallMethod(EquationLetterRep, "for an Equation",
 	[IsEquation and IsFreeProductElmRep],
 	function(eq)
