@@ -30,6 +30,21 @@ InstallOtherMethod( \*,   "for FreeProductElms and GroupElements",
     	return y^Embedding(x!.group,pos)*x;
     end );
 
+InstallOtherMethod( ImageElm,
+    "For an EquationHomomorphisms and an group elment",
+    true,
+    [ IsEquationHomomorphism, IsMultiplicativeElementWithInverse ], 0,
+    function( map, elm )
+    	local pos;
+    	pos := PositionProperty(Source(map)!.groups,G->elm in G);
+    	if not pos = fail then
+    		pos := PositionProperty(Source(map)!.groups,G->elm in G);
+    		return ImageElm( map, elm^Embedding(Source(map),pos));
+    	else
+    		TryNextMethod();
+    	fi;
+    end );
+
 
 InstallMethod(EquationNormalForm, "for an Equation",
 	[IsEquation and IsFreeProductElmRep],
