@@ -415,6 +415,14 @@ InstallMethod( CompositionMapping2, "For two EquationHomomorphisms",
   		return reshom;
 	end);
 
+InstallOtherMethod( ImageElm,
+    "For an EquationHomomorphisms in CompositionMappingRep and an element",
+    FamSourceEqFamElm,
+    [ IsEquationHomomorphism and IsCompositionMappingRep, IsFreeProductElm ], 0,
+    function( map, elm )
+    return ImageElm( map!.map2, ImageElm( map!.map1, elm ));
+    end );
+
 InstallMethod( EquationEvaluation, "For an Equation, the list of variables and a list of images",
 	[IsEquation, IsList, IsList],
 	function(eq,gens,imgs)
