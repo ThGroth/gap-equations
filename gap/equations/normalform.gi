@@ -304,13 +304,13 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 		fi;
 		#Step 1 find common variables.
 		Comp := List(EquationComponents(x),EquationLetterRep);
-		Vars := List(Comp,eq->EquationVariables(eq));
 		EqG := x!.group;
 		change := true;
 		Hom := EquationHomomorphism(EqG,[],[]);
 
 		while change do		
 			change := false;
+			Vars := List(Comp,eq->EquationVariables(eq));
 			for i in [1..Length(Comp)] do
 				CommonVars := [];
 				for j in [i+1..Length(Comp)] do
@@ -333,7 +333,7 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 					pos := Position(Comp[L[1]],L[2]^-1);
 					sign := -1;
 				fi;
-				v1 := Comp[L[1]]{[1..pos]};
+				v1 := Comp[L[1]]{[1..pos-1]};
 				v2 := Comp[L[1]]{[pos+1..Length(Comp[L[1]])]};
 				Add(Homs.gens,L[2]);
 				Add(Homs.imgs,(v2*v1)^(-sign));
@@ -342,7 +342,7 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 			#The mappings don't interfere because the equation is quadratic
 			# and hence each variable can occure in at most two components.
 			Homs := EquationHomomorphism(EqG,Homs.gens,Homs.imgs);
-			Comp := List(Comp,eq->eq^Homs);
+			Comp := List(Comp,eq->Equation(eq^Homs));
 			Hom := Hom*Homs;
 		od;
 		# Now each component is again a quadratic equation, and the 
@@ -372,7 +372,7 @@ InstallMethod(LiftSolution, "For a Decomposed Equation, an Eqation, a group hom,
 			Error("The i-th entry of the last argument must be a solution for the i-th comp.");
 		fi;
 
-		sol := Product(List([1..Size(Comp)],i->NFs[i]*sol[i]));
+		sol := Product([1..Size(Comp)],i->NFs[i]*sol[i]);
 		imgs := List(EquationVariables(eq),
 			x-> UnderlyingMealyElement(FRElement(
 				 [List(FreeProductInfo(Deq!.group!.free).embeddings,e->[(x^e)^sol])],
