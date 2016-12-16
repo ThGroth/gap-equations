@@ -140,7 +140,7 @@ InstallOtherMethod( One,"for an EquationGroup",
 
 
 
-InstallMethod(IsQuadraticEquation, "for a Equation",
+InstallMethod( IsQuadraticEquation, "for a Equation",
 		[IsEquation and IsFreeProductElmRep],
 		function(x)
 			local i,Val;
@@ -163,7 +163,7 @@ InstallMethod(IsQuadraticEquation, "for a Equation",
 		end
 );
 
-InstallMethod(IsOrientedEquation, "for a square Equation",
+InstallMethod( IsOrientedEquation, "for a square Equation",
 		[IsQuadraticEquation],
 		function(x)
 			local LetterRep;
@@ -180,7 +180,7 @@ InstallMethod(IsOrientedEquation, "for a square Equation",
 ####	                     DecomposedEquations                             #### 
 ####                                                                         ####
 #################################################################################
-InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
+InstallOtherMethod( Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
 	[IsEquationGroup,IsList,IsPerm],
 	function(G,words,perm)
 		local factors,red,Ob;
@@ -202,7 +202,7 @@ InstallOtherMethod(Equation, "(Equation) for a list of lists, a DecompositionEqu
 		return Ob;
 	end);
 
-InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
+InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
 		[IsEquationGroup,IsEquation,IsGroupHomomorphism],
 		function(DEqG,eq,acts)
 			local alph,vars,DecompEq,lastperm,x,i;
@@ -256,8 +256,28 @@ InstallMethod(DecompositionEquation, "for an Equation a group homomorphism and a
 			return DecompEq;
 		end);
 
+InstallMethod( IsQuadraticEquation, "for an DecomposedEquation and Integer",
+	[IsEquation and IsDecomposedEquationRep],
+	function(eq)
+		local Val,i;
+		Val := rec();
+		for i in Flat(Concatenation(List(eq!.words,word->
+					List(Filtered(word,e->e in eq!.free),
+						fw -> LetterRepAssocWord(fw) ) ) )) do
+			i := AbsInt(i);
+			if IsBound(Val.(i)) then
+				if Val.(i) > 1 then
+					return false;
+				fi;
+				Val.(i) := 2;	
+			else
+				Val.(i) := 1;
+			fi;
+		od;
+		return true;
+	end);
 
-InstallMethod(EquationComponent, "for an DecomposedEquation and Integer",
+InstallMethod( EquationComponent, "for an DecomposedEquation and Integer",
 	[IsEquation and IsDecomposedEquationRep, IsInt],
 	function(eq,comp)
 		if Length(eq!.words)<comp then
@@ -266,12 +286,12 @@ InstallMethod(EquationComponent, "for an DecomposedEquation and Integer",
 		return Equation(eq!.group,eq!.words[comp]);
 	end);
 
-InstallMethod(EquationComponents, "for an DecomposedEquation",
+InstallMethod( EquationComponents, "for an DecomposedEquation",
 	[IsEquation and IsDecomposedEquationRep ],
 	eq->List([1..Length(eq!.words)],
 			i->EquationComponent(eq,i) ));
 
-InstallMethod(EquationVariables, "for an DecomposedEquation",
+InstallMethod( EquationVariables, "for an DecomposedEquation",
 	[IsEquation and IsDecomposedEquationRep],
 	function(x)
 		return Set(Concatenation(List(EquationComponents(x),EquationVariables)));
