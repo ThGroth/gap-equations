@@ -13,8 +13,9 @@ StateLP := function(q,i)
 	return (State(PreImagesRepresentative(tauLP,q)^isoGLPtoG,i)^isoGtoGLP)^piLP;
 end;
 
+
 nextGammas := function(gamma,q)
-	local Gamma1,Dep,i,ga,first,gp,acts,num,frvars,frinvvars,t,ac,newwords,U,NoFI,q1,q2,NoFIhom,trans,GHOnList,H,gpp,gaP,Suc;
+		local Gamma1,Dep,i,ga,first,gp,acts,F,EqG,DEqG,FF,DEqQ,Eq,DEq,nf,num,U,q1,q2,H,gaP,Suc;
 	Gamma1 := []; 
     Dep := [];
     i := 1;
@@ -33,82 +34,37 @@ nextGammas := function(gamma,q)
         od;
     od;
     Gamma1 := DEP_CARTESIAN@fr(Gamma1,Dep);;#Size of Gamma1 about 1024	
-	#statements
-	acts := ActivityConstraint(gamma);
-	num := 5;
-	frvars := List([1..num],x->FRGrpWordUnknown(3*x,acts[x],GrigorchukGroup));
-	frinvvars := List([1..num],x->FRGrpWordUnknown(-3*x,acts[x],GrigorchukGroup));
-	t := Product(List([1..num],y->frinvvars[y]*a*frvars[y]))*a;
-	#Remove the trivial G elements from the group word
-	Apply(t!.states,w->GrpWordReducedForm(w));
+	
+	F := FreeGroup(infinity,"xn",["x1","x2","x3","x4","x5","x6"]);SetName(F,"FX");
+    EqG := EquationGroup(G,F);
+    DEqG := DecompositionEquationGroup(EqG);
+    FF := DEqG!.free;
+    DEqQ := EquationGroup(Q,FF);
 
-	newwords := ShallowCopy(t!.states);
-	#F2 := FreeGroup(2); g1:=F2.1;g2:=F2.2;
-	#ac := f1*f3; #
-	#q1 := ac^m;
-	#q2 := ac^-m;
+    num := 5;    
+	Eq := Equation(Equation(EqG,Concatenation(List([1..num],i->[F.(i)^-1,a,F.(i)]) ))*a);
+
+	acts := ActivityConstraint(gamma);
+	acts := GroupHomomorphismByImages(Group(EquationVariables(Eq)),SymmetricGroup(2),acts);
+	DEq := DecompositionEquation(DEqG,Eq,acts);
 	q1:= StateLP(q,1)^isoGmodKtoQ;
 	q2:= StateLP(q,2)^isoGmodKtoQ;
-	newwords[1]!.group := Q;
-	newwords[2]!.group := Q;
-	newwords[1] := newwords[1]*GrpWord([q1],Q);
-	newwords[2] := newwords[2]*GrpWord([q2],Q);
-	#<<u₁xu₂,v₁x⁻¹v₂>> ↦ <<u₁v₁v₂uᵤ,1>>
-	U := Uniquify(newwords)[1];
-	Assert(0,IsOne(U[2]));
-	NoFI := GrpWordNormalFormInverseHom(U[1]);
-	#g@2⋅g@1 = 1 mod Q.
-	Assert(0,NoFI[1]!.word=[-1,-2,1,2,-3,-4,3,4]);
-	NoFIhom := GrpWordHom(NoFI[2]!.rules{[1..4]},Q);
-	trans := function(n)
-		return 3+n+Int((n-1)/2);
-	end;
-	GHOnList := function(hom,gam)
-		#hom should be a grpWordHom Fₓ → Fₓ ∗ {g₁,g₂}
-		local newgam,i,r;
-		newgam := ListWithIdenticalEntries(Size(hom!.rules),One(Q));
+	DEq := Equation(DEqQ,DEq!.words,DEq!.activity)*Equation(DEqQ,[[q1],[q2]],()); #Let this equation be defined over Q
 
-		for i in [1..Size(gam)] do
-			if IsBound(hom!.rules[i]) then
-				for r in hom!.rules[i]!.word do
-					if IsInt(r) then
-						if r>0 then
-							newgam[i] := newgam[i]*gam[r];
-						else
-							newgam[i] := newgam[i]*(gam[-r])^-1;
-						fi;
-					else
-						newgam[i] := newgam[i]*r;	
-					fi;
-				od;
-			fi;
-		od;
-		return newgam;
-	end;
+	U := DecomposedEquationDisjointForm(DEq);
+	nf := EquationNormalForm(First(EquationComponents(U.eq),eq->not IsOne(eq)));
+	Assert(0,nf.nf=Equation(DEqQ,[Comm(FF.1,FF.2)*Comm(FF.3,FF.4)]));
+
 	for gp in Gamma1 do
-		H := [];
-		for i in [1..Size(gp)] do
-			H[trans(i)] := GrpWord([gp[i]],Q);
-		od;
-		H := GrpWordHom(H,Q);
-
-		if IsOne(ImageOfGrpWordHom(H,t!.states[1])*GrpWord([q1],Q)) and IsOne(ImageOfGrpWordHom(H,t!.states[2])*GrpWord([q2],Q)) then
-			gpp := [];
-			for i in [1..Size(gp)] do
-				if IsBound(gp[i]) then
-					gpp[trans(i)]:=gp[i];
-				fi;
-			od;
-			#return GHOnList(NoFIhom,gpp);
-    		#Compute the image of γ' under the normalization hommorphism and simplify it to the F₅ case
-    		gaP := MakeImmutable(ReducedConstraint(GHOnList(NoFIhom,gpp)));
-    		#return gaP.index;
+		H := EquationEvaluation(DEqQ,List([1..10],i->FF.(i)),gp);
+		if ForAll(EquationComponents(DEq),eq->IsOne(eq^H))then
+			#Compute the image of γ' under the normalization hommorphism and simplify it to the F₅ case
+    		gaP := MakeImmutable(ReducedConstraint( List([1..10],i->ImageElm(nf.homInv*H,FF.(i))) ));
     		Suc := List(PreImages(varpiPrimeLP,p(q)));
             #Added check for nontrivial activity.
     		if HasNontrivialActivity(gaP) and ForAll(Suc, r->IsGoodPair(r,gaP)) then
     			return gaP; #[γ',z,{q₁,…,q₁₆}]
-    		fi;
-            
+    		fi;          
 		fi;
 	od;
 	return fail;
@@ -117,13 +73,12 @@ end;
 L := Cartesian(ListWithIdenticalEntries(5,Q));;
 i:=1;
 GoodOnes := [];
+Taken := [];
 for q in GPmodKP do
 	Info(InfoCW,1,"Doing ",i," from 128\n");
 	j := 1;
 	found := false;
-	for gamma in PCD.orbitReps do
-		gamma := gamma{[1..5]};
-		#gamma := Random(L);
+	for gamma in Taken do
 		next := nextGammas(gamma,q);
 		if not next = fail then
 			Add(GoodOnes,[q,gamma,next!.constraint]);
@@ -139,6 +94,7 @@ for q in GPmodKP do
 			Info(InfoCW,1,"Not found looking further ",j,"\r");
 			next := nextGammas(gamma,q);
 			if not next = fail then
+				Add(Taken,gamma);
 				Add(GoodOnes,[q,gamma,next!.constraint]);
 				found := true;
 				break;
@@ -155,4 +111,16 @@ ConjugacyWidthFile := Filename(dir,"PCD/conjugacyConstraints.go");
 PrintTo(ConjugacyWidthFile,Concatenation("return ",ReplacedString(String(GoodOnes),"<identity> of ...","One(Q)"),";"));
 Assert(0,ReadAsFunction(ConjugacyWidthFile)()=GoodOnes);
 
+
+#GoodOnes := ReadAsFunction(ConjugacyWidthFile)();
+#i := 1;
+#for q in GPmodKP do
+#	Info(InfoCW,1,"Doing ",i," from 128\r");
+#	L:=First(GoodOnes,L->L[1]=q);
+#	next := nextGammas(L[2],q);
+#	if next = fail then
+#		break;
+#	fi;
+#	i:=i+1;
+#od;
 
