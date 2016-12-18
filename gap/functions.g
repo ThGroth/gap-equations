@@ -81,6 +81,6 @@ LoadPrecomputedData := function()
                     [PCD.ReducedConstraints[L[3][1]],L[3][2]]]);;
     PCD.RealGoodPairs := RGP;
     PCD.specialSuccessor := ReadAsFunction(Filename(dir,"PCD/specSuc.go"))();
-    PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacyConstraints.go"))();
+    PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacySuccessors.go"))();
     return PCD;
 end;

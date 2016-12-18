@@ -70,12 +70,23 @@ nextGammas := function(gamma,q)
 	return fail;
 end;
 
-L := Cartesian(ListWithIdenticalEntries(5,Q));;
+#`Taken` is a short list of constraints, which will prop. do the job. 
+# Therefore the following lines first try the elements from `Taken`.
+# If the precomputed list `Taken` is not present, then random elements
+# from Q⁵ are tested.
+ConjugacyWidthConstraints := Filename(dir,"PCD/conjugacyConstraints.go");
+if IsExistingFile(ConjugacyWidthConstraints) then
+    Taken := ReadAsFunction(ConjugacyWidthConstraints)();
+    L := [];
+else
+	Taken := [];
+	L := Cartesian(ListWithIdenticalEntries(5,Q));;
+fi;
+
 i:=1;
 GoodOnes := [];
-Taken := [];
 for q in GPmodKP do
-	Info(InfoCW,1,"Doing ",i," from 128\n");
+	Info(InfoCW,1,"Doing ",i," from 128\r");
 	j := 1;
 	found := false;
 	for gamma in Taken do
@@ -85,13 +96,16 @@ for q in GPmodKP do
 			found := true;
 			break;
 		fi;
-		Info(InfoCW,1,"Try ",j,"\r");
+		Info(InfoCW,2,"Try ",j,"\r");
 		j:=j+1;
 	od;
 	if not found then
 		while true do
+			Info(InfoCW,2,"Not found in Takenlooking further. Guess no. ",j,".\r");
+			if Length(L)=0 then
+				L := Cartesian(ListWithIdenticalEntries(5,Q));
+			fi;
 			gamma := Random(L);
-			Info(InfoCW,1,"Not found looking further ",j,"\r");
 			next := nextGammas(gamma,q);
 			if not next = fail then
 				Add(Taken,gamma);
@@ -104,23 +118,13 @@ for q in GPmodKP do
 	fi;
 	i:=i+1;
 od;
-#All chosen gammas have a chance to be solvable
-Assert(0,ForAll(GoodOnes,dup->IsOne(f4^dup[2][1]*f4^dup[2][2]*f4^dup[2][3]*f4^dup[2][4]*f4^dup[2][5]*f4*(dup[1]^varpiLP)^isoGmodKtoQ)));
+Info(InfoCW,1,"Done Computing ",i," from 128\n");
+#Assert(0,ForAll(GoodOnes,dup->IsOne(f4^dup[2][1]*f4^dup[2][2]*f4^dup[2][3]*f4^dup[2][4]*f4^dup[2][5]*f4*(dup[1]^varpiLP)^isoGmodKtoQ)));
 #Write result to a file.
-ConjugacyWidthFile := Filename(dir,"PCD/conjugacyConstraints.go");
+ConjugacyWidthFile := Filename(dir,"PCD/conjugacySuccessors.go");
+ConjugacyWidthConstraints := Filename(dir,"PCD/conjugacyConstraints.go");
 PrintTo(ConjugacyWidthFile,Concatenation("return ",ReplacedString(String(GoodOnes),"<identity> of ...","One(Q)"),";"));
+
+PrintTo(ConjugacyWidthConstraints,Concatenation("return ",ReplacedString(String(Taken),"<identity> of ...","One(Q)"),";"));
 Assert(0,ReadAsFunction(ConjugacyWidthFile)()=GoodOnes);
-
-
-#GoodOnes := ReadAsFunction(ConjugacyWidthFile)();
-#i := 1;
-#for q in GPmodKP do
-#	Info(InfoCW,1,"Doing ",i," from 128\r");
-#	L:=First(GoodOnes,L->L[1]=q);
-#	next := nextGammas(L[2],q);
-#	if next = fail then
-#		break;
-#	fi;
-#	i:=i+1;
-#od;
 
