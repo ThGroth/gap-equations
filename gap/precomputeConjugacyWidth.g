@@ -86,7 +86,7 @@ fi;
 i:=1;
 GoodOnes := [];
 for q in GPmodKP do
-	Info(InfoCW,1,"Doing ",i," from 128\r");
+	Info(InfoCW,1,"Test element number ",i," from 128\r");
 	j := 1;
 	found := false;
 	for gamma in Taken do
@@ -96,12 +96,12 @@ for q in GPmodKP do
 			found := true;
 			break;
 		fi;
-		Info(InfoCW,2,"Try ",j,"\r");
+		Info(InfoCW,2,"Test element number ",i," from 128. Try ",j,"\r");
 		j:=j+1;
 	od;
 	if not found then
 		while true do
-			Info(InfoCW,2,"Not found in Takenlooking further. Guess no. ",j,".\r");
+			Info(InfoCW,2,"Test element number ",i," from 128. Guess no. ",j,".\r");
 			if Length(L)=0 then
 				L := Cartesian(ListWithIdenticalEntries(5,Q));
 			fi;
@@ -118,7 +118,7 @@ for q in GPmodKP do
 	fi;
 	i:=i+1;
 od;
-Info(InfoCW,1,"Done Computing ",i," from 128\n");
+Info(InfoCW,1,"Done Computing ",i-1," from 128\n");
 #Assert(0,ForAll(GoodOnes,dup->IsOne(f4^dup[2][1]*f4^dup[2][2]*f4^dup[2][3]*f4^dup[2][4]*f4^dup[2][5]*f4*(dup[1]^varpiLP)^isoGmodKtoQ)));
 #Write result to a file.
 ConjugacyWidthFile := Filename(dir,"PCD/conjugacySuccessors.go");
