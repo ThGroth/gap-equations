@@ -37,7 +37,9 @@ PCD := LoadPrecomputedData();;
 # ∙ "orbits" : compute the orbits of Aut(F₆)/Stab(R₃). Runtime: ~12h
 # ∙ "goodpairs" : computes all good pairs for all possible constraints and 
 # 				  the graph of the successors. Runtime: ~3/4h
-# ∙ "all" : Do both.
+# ∙ "conjugacywidth" : computes the succecors for the product of 6 conjugate equations.
+# 				  Runtime: ~1h
+# ∙ "all" : Do all of the above.
 #
 #
 RedoPrecomputation := function(mode)
@@ -48,9 +50,12 @@ RedoPrecomputation := function(mode)
 		Read(Filename(dir,"precomputeOrbits.g"));
 	elif  LowercaseString(mode) = "goodpairs"  then
 		Read(Filename(dir,"precomputeGoodPairs.g"));
+	elif  LowercaseString(mode) = "conjugacywidth"  then
+		Read(Filename(dir,"precomputeConjugacyWidth.g"));
 	elif  LowercaseString(mode) = "all"  then
 		Read(Filename(dir,"precomputeOrbits.g"));
 		Read(Filename(dir,"precomputeGoodPairs.g"));
+		Read(Filename(dir,"precomputeConjugacyWidth.g"));
 	else
 		Error("Input must be \"orbits\", \"goodPairs\" or \"all\"");
 	fi;
