@@ -263,7 +263,7 @@ GetSuccessor  := function(q,gamma)
 		#Changed NormalForm algorithm, so make sure everything is still correct:
 		Assert(0,nf.nf^nf.homInv=newEq);
 		#normal form is [x₁₁,x₁₂]…[x₅₁,x₅₂] x₆₁⁻¹g₂g₁x₆₁ 
-		Assert(0,nf.nf=Equation(DEqF2,[Product(List([1,3..2*n-3],i->Comm(FF.(i),FF.(i+1)))),FF.(2*n-1)^-1,g2,FF.(2*n-1),g1]));
+		Assert(0,nf.nf=Equation(DEqF2,[Product([1,3..2*n-3],i->Comm(FF.(i),FF.(i+1))),FF.(2*n-1)^-1,g2,FF.(2*n-1),g1]));
 		#z is the preimage of x₆₁ or z=x₄₁ depending on |γ|=n
 		z := Equation(FreeProductElm(DEqF2,[DEqG!.free.(2*n-1)]))^nf.homInv;
 		#Assert(0,Size(z)=1); #not nec. anymore, but true?
