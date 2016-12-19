@@ -1,0 +1,89 @@
+digraph MealyMachine {
+a [shape=doublecircle]
+b [shape=circle]
+c [shape=circle]
+d [shape=circle]
+e [shape=circle]
+f [shape=circle]
+g [shape=circle]
+h [shape=circle]
+aa [shape=circle]
+ab [shape=circle]
+ac [shape=circle]
+ad [shape=circle]
+ae [shape=circle]
+af [shape=circle]
+ag [shape=circle]
+ah [shape=circle]
+ba [shape=circle]
+bb [shape=circle]
+bc [shape=circle]
+bd [shape=circle]
+be [shape=circle]
+bf [shape=circle]
+bg [shape=circle]
+bh [shape=circle]
+ca [shape=circle]
+cb [shape=circle]
+cc [shape=circle]
+cd [shape=circle]
+ce [shape=circle]
+  a -> b [label="1/1",color=red];
+  a -> c [label="2/2",color=blue];
+  b -> d [label="1/1",color=red];
+  b -> e [label="2/2",color=blue];
+  c -> f [label="1/1",color=red];
+  c -> g [label="2/2",color=blue];
+  d -> h [label="1/1",color=red];
+  d -> h [label="2/2",color=blue];
+  e -> aa [label="1/1",color=red];
+  e -> ab [label="2/2",color=blue];
+  f -> ac [label="1/1",color=red];
+  f -> ac [label="2/2",color=blue];
+  g -> ad [label="1/1",color=red];
+  g -> ae [label="2/2",color=blue];
+  h -> af [label="1/1",color=red];
+  h -> ac [label="2/2",color=blue];
+  aa -> ag [label="1/1",color=red];
+  aa -> ah [label="2/2",color=blue];
+  ab -> ba [label="1/1",color=red];
+  ab -> bb [label="2/2",color=blue];
+  ac -> bc [label="1/1",color=red];
+  ac -> bd [label="2/2",color=blue];
+  ad -> be [label="1/1",color=red];
+  ad -> bf [label="2/2",color=blue];
+  ae -> bg [label="1/1",color=red];
+  ae -> bf [label="2/2",color=blue];
+  af -> bd [label="1/1",color=red];
+  af -> bc [label="2/2",color=blue];
+  ag -> bh [label="1/2",color=red];
+  ag -> ca [label="2/1",color=blue];
+  ah -> cb [label="1/2",color=red];
+  ah -> bb [label="2/1",color=blue];
+  ba -> bb [label="1/2",color=red];
+  ba -> cb [label="2/1",color=blue];
+  bb -> cc [label="1/2",color=red];
+  bb -> ac [label="2/1",color=blue];
+  bc -> cc [label="1/2",color=red];
+  bc -> cc [label="2/1",color=blue];
+  bd -> bc [label="1/1",color=red];
+  bd -> bf [label="2/2",color=blue];
+  be -> cd [label="1/2",color=red];
+  be -> bd [label="2/1",color=blue];
+  bf -> cc [label="1/1",color=red];
+  bf -> ac [label="2/2",color=blue];
+  bg -> bc [label="1/2",color=red];
+  bg -> bd [label="2/1",color=blue];
+  bh -> ce [label="1/2",color=red];
+  bh -> ca [label="2/1",color=blue];
+  ca -> bc [label="1/2",color=red];
+  ca -> bf [label="2/1",color=blue];
+  cb -> bf [label="1/2",color=red];
+  cb -> bc [label="2/1",color=blue];
+  cc -> cc [label="1/1",color=red];
+  cc -> cc [label="2/2",color=blue];
+  cd -> cb [label="1/2",color=red];
+  cd -> ca [label="2/1",color=blue];
+  ce -> ac [label="1/2",color=red];
+  ce -> cc [label="2/1",color=blue];
+}
