@@ -252,8 +252,8 @@ We shall prove the following theorem:
   If $M$ is still not in $O_{0,s}$ this procedure can be repeated with
   $z$ instead of $x$.
 \end{proof}
-For a quadratic equation $E$ we denote by $\Normal(E) := \Normal_E(E)$
-the image of $E$ under the $G$-isomorphism $\Normal_E$ constructed in
+For a quadratic equation $E$ we denote by $\nf(E) := \nf_E(E)$
+the image of $E$ under the $G$-isomorphism $\nf_E$ constructed in
 the proof.
 
 From now on we will consider oriented equations $O_{(n,1)}$. For this
@@ -496,17 +496,17 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  For $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ it is $(\gamma'*\pi)(x_0)=({\gamma'*\pi})(w_2g_2w_1)$ so with $X'=X\setminus x_0$ there is no loss of information if 
  we consider $\gamma'|_{F_{X'}}$ instead of $\gamma'$.
  From section \ref{sec:normal_form} remember the normalization 
- automorphism $\Normal_{\gamma,n,x_0}:=\Normal_{v_1w_2g_2w_1v_1g_1}\colon F_{X'}*F_2 \to F_{X'}*F_2$
+ automorphism $\nf_{\gamma,n,x_0}:=\nf_{v_1w_2g_2w_1v_1g_1}\colon F_{X'}*F_2 \to F_{X'}*F_2$
   and note that
- $\Normal_{\gamma,n,x_0}(l_{x_0}(v))=R_{2n-1}g_2^{{y_{\gamma'}}}g_1$ for some generator ${y_{\gamma'}}\in X$.
+ $\nf_{\gamma,n,x_0}(l_{x_0}(v))=R_{2n-1}g_2^{{y_{\gamma'}}}g_1$ for some generator ${y_{\gamma'}}\in X$.
  This leads to the following definition.
- \[\Gamma_3^{q_1,q_2,n,x_0}(\gamma) = \left\{\gamma'|_{X'} \circ \Normal_{\gamma,n,x_0} \bigmid \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
+ \[\Gamma_3^{q_1,q_2,n,x_0}(\gamma) = \left\{\gamma'|_{X'} \circ \nf_{\gamma,n,x_0} \bigmid \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
  A solution for the the constrained equation
  \[(R_{2n-1}(g\at2)^{\textup{rep}(\gamma''({y_{\gamma''}}))}(g\at1),\gamma'')\textup{ for }\gamma'' \in \Gamma_3^{(g\at{1})^\pi,(g\at{2})^\pi,n,x_0}\]
  can be 
  extended by the map ${y_{\gamma''}}\mapsto \textup{rep}(\gamma''({y_{\gamma''}}))$ to a solution $s'$ 
- of the equation $(R_{2n-1} (g\at{2})^{{y_{\gamma'}}} g\at{1},\gamma'')$. The map $s'\circ \Normal_{\gamma,n,x_0}^{-1}$ 
- is a solution for the constrained equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'}:=\gamma'' \circ \Normal_{\gamma,n,x_0}^{-1})$.
+ of the equation $(R_{2n-1} (g\at{2})^{{y_{\gamma'}}} g\at{1},\gamma'')$. The map $s'\circ \nf_{\gamma,n,x_0}^{-1}$ 
+ is a solution for the constrained equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'}:=\gamma'' \circ \nf_{\gamma,n,x_0}^{-1})$.
  Which can be extended by the mapping $x_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of $(\Phi_\gamma(R_n g),\gamma')$.
  By definition of $\omega$ it is $t_i:=\pair{s(y_{2i-1}),s(y_{2i})}\act(\gamma(x_i)) \in G$ for all $i$. So the mapping $x_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
  
@@ -521,7 +521,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  z &\mapsto z^{(g_2w_1v_1g_1)^{-1}}& z &\mapsto z^{g_2^{x_{11}}g_1}  & &\text{ for }z\in \Var(R_{n-m})\\
  x &\mapsto x & & & &\text{ for all other generators}
  \end{align*}
- have the property that $\Normal_{v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1} = \psi_2\circ\Normal_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and 
+ have the property that $\nf_{v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1} = \psi_2\circ\nf_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and 
  $\gamma' \circ \psi_i = \gamma'$. Hence $\Gamma_3^{q_1,q_2,n,x_0}$ is independent of $n$.
  
  The map $\Gamma_3^{q_1,q_2,n,x_0}$ does depend on $x_0$, therefore we take the union of all of them and define
@@ -867,7 +867,7 @@ There is an element in the 4th level Germgroup.
 \subsection{Usage of the attached files}
 In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
 you will get as output a list of lemmata which are then proven to be true. 
-The file calls all the previously mentioned methods \gapinline{verifi...}.
+The file calls all the previously mentioned methods \gapinline{verifi*}.
 This approach uses
 precomputed data which is also in the archive. This saves you a lot of computation time.
 
@@ -879,7 +879,7 @@ argument can be one of the following:
 \begin{itemize}
     \item [``orbits''] This will compute the $90$ orbits of $\RNK{\Aut(F_6)}{\Stab(R_3)}$ and the
 		       $86$ orbits of $\RNK{\Aut(F_4)}{\Stab(R_2)}$. This computation will take
-		       about $12$ hours of ordinary machine and has no progress bar.
+		       about $12$ hours on an ordinary machine and has no progress bar.
    \item [``goodpairs''] First this will compute for each constraint $\gamma\in\Red\cup\Red^4$ 
 		      the set of all $q\in\RNK{G'}{K'}$ such that $(q,\gamma)$ is a good pair.
 		      
@@ -892,7 +892,16 @@ argument can be one of the following:
 		      
 		      Afterwards the successor of $(q,\id)$ is computed which is needed for 
 		      Corollary \ref{cor:KhasCW2}. 
-  \item [``all''] This will do both of the above.		      
+   \item [``conjugacywidth''] Denote by $E_g$ the equation $a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag$.
+		      For each $g^\tau=q\in\RNK{G'}{K'}$ this will compute a constraint 
+		      $\gamma\colon F_5 \to Q$ for the equations $E_g$
+		      and a constraint $\gamma'\colon F_4\to Q$ such that
+		      $(\gamma * \pi)(E_g) = 1$ and 
+		      \[E'_g := \nf(\Phi_\gamma(E_g))=[x_1,x_2][x_3,x_4](g\at{2})(g\at{1}).\] and
+		      $(E'_g,\gamma')$ is a good pair for all $g$ with $g^\tau=q$.
+		      
+		      The computation will take about one hour and is equipped with a progress bar.
+  \item [``all''] This will do all of the above one after another.		      
    \end{itemize}
   
 
