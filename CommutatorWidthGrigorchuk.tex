@@ -184,7 +184,7 @@ We shall prove the following theorem:
   Starting with the oriented case: If the reduced equation $E$ has no
   variables then it is already in normal form $O_{0,1}$. If there is a
   variable $x\in X$ occurring in $E$ then it also appears with
-  opposite sign.  Therefore, the equation has the form
+  opposite sign.  Therefore the equation has the form
   $E = ux^{-1}vxw$ or can be brought to this form by applying the
   automorphism $x \mapsto x^{-1}$. Choose $x\in X$ in such a way that
   $\Var(v)$ is minimal.
@@ -192,8 +192,8 @@ We shall prove the following theorem:
   We distinguish between multiple cases:
   \begin{itemize}
   \item[Case $1.0$] $v\in G$. The word $uw$ has fewer variables than
-    $E$ and can thus be brought into normal form $N\in O_{r,s}$ by
-    $G$-isomorphism $\varphi$. If $N$ ends with a variable we can use
+    $E$ and can thus be brought into normal form $N\in O_{r,s}$ by the
+    $G$-isomorphism $\varphi$. If $N$ ends with a variable, we can use
     the $G$-isomorphism $\varphi \circ (x\mapsto xw^{-1}) $ to map $E$
     to the equation $Nv^x \in O_{r,s+1}$.
     
@@ -212,12 +212,13 @@ We shall prove the following theorem:
     both cases $u_1u_2w$, respectively $uw_1w_2$ have fewer variables
     and so composition with the corresponding isomorphism results in a
     normal form.
-  \item[Case $2$] Length$(v)>1$. Then $v$ is a word consisting of
+  \item[Case $2$] Length$(v)>1$. In this case $v$ is a word consisting of
     elements $X\cup X^{-1}$ with each symbol occurring at most once as
     $v$ was chosen with minimal variable set, and some elements of
     $G$.  If $v$ starts with a constant $b\in G$ we can use the
     homomorphism $x\mapsto bx$ to achieve that $v$ starts with a
-    variable $y\in X$, possibly using $y \mapsto y^{-1}$. As in Case
+    variable $y\in X$, possibly by using the homomorphism 
+    $y \mapsto y^{-1}$. As in Case
     $1.1$ there are two possibilities: $y^{-1}$ is either part of $u$
     or part of $w$. In the first case $E= u_1 y^{-1} u_2 x^{-1}yv_1xw$
     we can use the isomorphism $x\mapsto x^{u_1v_1}u_2$,
