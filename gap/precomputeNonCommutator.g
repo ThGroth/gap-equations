@@ -20,7 +20,7 @@ quot := EpimorphismGermGroup(G,4);
 GQ := Range(quot);
 GQp := DerivedSubgroup(GQ);
 #	CC := ConjugacyClasses(GQ);;
-#	tbl := CharacterTable(GN);;
+#	tbl := CharacterTable(GQ);;
 #	irr:= Irr( tbl );;
 #	derived:= Intersection(List(LinearCharacters( tbl ),ClassPositionsOfKernel) );;
 #	commut:= Filtered([1 .. Length( irr )],i->not Sum( irr, chi -> chi[i]/chi[1] )=0);;
