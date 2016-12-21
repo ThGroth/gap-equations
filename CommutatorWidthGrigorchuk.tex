@@ -853,9 +853,14 @@ genus does not increase by passing to a successing pair.
 
 In fact not every element $g\in G'$ is a commutator. This can be seen by passing to finite quotients. If every element would be a commutator then
 it would be a commutator in the quotient group. 
-%For example the element $d(ac)^2ada$ is not a commutator. TODO this is not an example. Find one
-There is an element in the 4th level Germgroup. 
-%TODO Write this.
+
+The 4th level \emph{germgroup} is of commutator width $2$ there are two conjugacy classes which are 
+not commutators. A corresponding image in $G$ is the automaton shown in figure \ref{fig:noncomm}. 
+%TODO Add gap proof for this which doesn't rely on FR.
+\begin{figure}
+ \includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
+ \caption{Element of the derived of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
+\end{figure}
 
 \begin{cor}
  All elements $g\in G'$ are products of two commutators.
@@ -903,8 +908,11 @@ argument can be one of the following:
 		      The computation will take about one hour and is equipped with a progress bar.
   \item [``all''] This will do all of the above one after another.		      
    \end{itemize}
-  
-
+If you are going to recompute the orbits GAP should be started with the \gapinline{-o} flag
+to provide enough memory for the computation. For example start GAP by 
+\begin{lstlisting}
+ gap -o 8G verify.g
+\end{lstlisting}
 
 \subsection{Implementation details}
 \label{sec:gap_details}
