@@ -130,7 +130,7 @@ every $G$-equation $E$ gives rise to an $H$-equation $\varphi_*(E)$,
 which is solvable whenever $E$ is solvable.
 
 \begin{defi}
-  Let $E,F\in F_X* G$ be two equations. We say $E$ and $F$ are
+  Let $E,F\in F_X* G$ be two $G$-equations. We say $E$ and $F$ are
   \emph{equivalent} if there is a $G$-automorphism $\varphi$ of
   $F_X*G$ which maps $E$ to $F$.
 \end{defi}
@@ -272,7 +272,7 @@ first generators of $F_X$.
   pair $(E,\gamma)$ is called a \emph{constrained} equation and
   $\gamma$ is called a \emph{constraint} for the equation $E$ on $H$.
  
-  A solution for $(E,\gamma)$ is a solution $s$ for $E$ with the
+  A \emph{solution} for $(E,\gamma)$ is a solution $s$ for $E$ with the
   additional property that $s\circ\pi=\gamma$.
 \end{defi}
 
@@ -280,13 +280,14 @@ first generators of $F_X$.
 Let $T_n$ be an infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
 The group $\Aut(T_n)$ consists of all root preserving graph automorphisms of the tree $T_n$. 
 Note that $T_n$ is isomorphic to any $n$-ary subtree and therefore there is an isomorphism
-$\psi\colon \Aut(T_n)\xrightarrow{\sim} \Aut(T)\wr S_n$. 
+$\psi\colon \Aut(T_n)\xrightarrow{\sim} \Aut(T_n)\wr S_n$. 
 %TODO!!!LB: Stopped checking the grammar!!!
 
 
 A self similar subgroup of $\Aut(T_n)$ is a group $G$ with $G< \psi(G)$ For the sake of an easy notation we
-will identify elements with the image of these embedding and will write $g=\pair{g_1,\ldots,g_n}\pi$ for elements $g\in G$. 
-Furthermore we will call the $g_i$ states of the element $g$ and write $g\at{i}:=g_i$. 
+will identify elements with the image of these embedding and will write $g=\pair{g_1,\ldots,g_n}\sigma$ for elements $g\in G$. 
+Furthermore we will call the $g_i\in G$ states of the element $g$ and write $g\at{i}:=g_i$ to address the states and we will
+call $\sigma \in S_n$ the \emph{activity} of the element $g$ and write $\act(g):= \sigma$. 
 
 The Grigorchuk $2$-group is a finitely generated self-similar group with finite state generators:
 \[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
@@ -298,15 +299,14 @@ Some useful identities are
  \item $(ad)^4=(ac)^8=(ab)^{16}= \id$.
 \end{itemize}
 
-\begin{lem}
+\begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK}
 The Grigorchuk group is regular branched with branching subgroup 
- $K:= \left< (ab)^2,(bada)^2,(abad)^2 \right>$.  
- 
+ \[K:= \left<(ab)^2\right>^G=\left< (ab)^2,(bada)^2,(abad)^2 \right>. \]
  The Quotient $Q := \RNK{G}{K}$ is of order $16$.
 \end{lem}
 
 \begin{lem}[\cite{Lysenok:QudraticEquationsInGrig}]\label{lem:finitelyManyConstraints}
- Given $n\in \NN$ and any homomorphism $\gamma\colon F_X \to Q$ with $\supp(\gamma) \subset \left<x_1,\ldots x_{2n}\right>$
+ Given $n\in \NN$ and any homomorphism $\gamma\colon F_X \to Q$ with $\supp(\gamma) \subset \left<x_1,\ldots ,x_{2n}\right>$
  there is an element $\varphi \in \Stab(R_n)<\Aut(F_X)$ such that $\supp(\gamma\circ\varphi) \in \left<x_1,\ldots,x_5\right>$.
 \end{lem}
 \begin{lem}\label{lem:90Constraints}
@@ -362,10 +362,11 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of
  The Grigorchuk group has a branch structure.
 \end{lem}
 \begin{proof}
- This can be seen in \cite{Bartholdi:RepresentationZetaFunctions}. In GAP the branch structure can be computed
+ This can be seen in \cite{Bartholdi:RepresentationZetaFunctions}.
+ The branching subgroup is the group $K$ defined in Lemma \ref{lem:subgroupK}. In GAP the branch structure can be computed
  by the method \gapinline{BranchStructure(GrigorchukGroup)} which is included in the FR package. 
 \end{proof}
-
+From now on we will fix that branch structure for $G$ and denote by $K$ the branching subgroup, $Q$ the factor group with natural homomorphism $\pi$.
 
 \begin{thm}[\cite{Lysenok:QudraticEquationsInGrig}]\label{IgorsThm}
  The Grigorchuk group has finite commutator width. That is
@@ -375,7 +376,7 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of
  This is not true for all constrained equations: For example
  \[\left(R_n(ab)^2,(\gamma\colon x_i\mapsto 1\ \forall i)\right)\] 
  is not solvable for any $n$ because otherwise it would be $ac,ca\in G'$ 
- which is impossible since $ac$ has activity.
+ which is impossible since $ac$ has nontrivial activity.
 \end{re}
 
 \subsection{Good Pairs}\label{sec:good_pairs}
@@ -387,18 +388,18 @@ $(R_ng,\gamma)$ is solvable.
 
 \begin{lem}
  Denote by 
- \[\tau\colon G\to\RNK{G}{K'}\quad\text{ and }\quad\varpi\colon \RNK{G}{K'} \to \RNK{\RNK{G}{K'}}{\RNK{K}{K'}}\simeq \RNK{G}{K}\]
+ \[\tau\colon G\to\RNK{G}{K'}\quad\text{ and }\quad\varpi\colon \RNK{G}{K'} \to \RNK{(\RNK{G}{K'})}{(\RNK{K}{K'})}\simeq \RNK{G}{K}\]
  the natural projections.
  
  The pair $(g,\gamma)$ is a good pair if and only if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with $s(x_i) \in \varpi^{-1}(\gamma(x_i))$. 
 \end{lem}
 \begin{proof}
- If $(g,\gamma)$ is a good pair and $s$ a solution for $R_ng,\gamma$ 
+ If $(g,\gamma)$ is a good pair and $s$ a solution for $(R_ng,\gamma)$ 
  then $s(x_i)\in K$ for $i\geq6$, so $s(R_n) = s(R_3) \cdot k'$ for some $k'\in K'$. 
  Therefore there is a solution $\tau\circ s$ for $R_3g^\tau$ with $s(x_i) = \gamma(x_i)$.
  
  On the other hand if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with for each $s(x_i) \in \varpi^{-1}(\gamma(x_i))$ then
- for $g_i \in \tau^{-1}(s(x_i))$ there is some $k'\in K'$ such that $R_n(x_1,\ldots,x_6)gk'=1$ and so $(g,\gamma)$ is a good pair.
+ for $g_i \in \tau^{-1}(s(x_i))$ there is some $k'\in K'$ such that $R_3(g_1,\ldots,g_6)k'g=1$ and so $(g,\gamma)$ is a good pair.
 \end{proof}
 The previous lemma shows that the question if $(g,\gamma)$ is a good pair depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. So 
 $(q,\gamma)$ will be called a good pair if $(g,\gamma)$ is a good pair for one (and hence all) preimages of $q$ under $\tau$.
@@ -413,8 +414,8 @@ The following are equivalent:
  First the easy direction: If $k\in K'$ then $(k,\id)$ is a good pair. So $(R_nk,\id)$ is solvable in $G$ for an $n\leq N$ but the constraints ensures that it is solvable in $K$.
  Therefore the commutator width of $K$ is at most $N$.
  
- If $(g,\gamma)$ is a good pair there is an $m\in \NN$ and a solution $s$ for $R_mg,\gamma$. As $s(x_i)^\pi =1$ for all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
- a solution for $R_3kg,\gamma$. By \ref{Cor:EqStatement1}) there is an $N$ such that all $k\in K'$ can be written as product of $N$ commutators of elements of $K$ and
+ If $(g,\gamma)$ is a good pair there is an $m\in \NN$ and a solution $s$ for $(R_mg,\gamma)$. As $s(x_i)^\pi =1$ for all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
+ a solution for $(R_3kg,\gamma)$. By \ref{Cor:EqStatement1}) there is an $N$ such that all $k\in K'$ can be written as product of $N$ commutators of elements of $K$ and
  therefore there is a solution for $(R_{N+3}g,\gamma)$.
 \end{proof}
 This motivates to study $K'$ and $\RNK{G}{K'}$ further.
@@ -483,7 +484,8 @@ with the following properties:
  Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
  Now define a homomorphism  
  \begin{align*}
-  \Phi_{\gamma}\colon F_X*F_1 &\to (F_X*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ x_i\qquad &\mapsto \pair{x_i^{(1)},x_i^{(2)}}\act(\gamma(x_i)).
+  %\Phi_{\gamma}\colon F_X*F_1 &\to (F_X*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ x_i\qquad &\mapsto \pair{x_i^{(1)},x_i^{(2)}}\act(\gamma(x_i)).
+  \Phi_{\gamma}\colon F_X*F_1 &\to (F_X*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ x_i\qquad &\mapsto \pair{y_{2i-1},y_{2i}}\act(\gamma(x_i)).
  \end{align*}
 Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
@@ -553,7 +555,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
   the correct choices of $\gamma' \in \Gamma^q(\gamma)$. 
  
   By Lemma \ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
- and the natural homomorphism \[\varpi'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{K\times K} \]
+ and the natural homomorphism \[\varpi'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
  and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(y_{\gamma'})}(q)$ under $\varpi'$ 
  form good pairs with $\gamma'$. In formulas what needs to be checked is: Let $\mathcal{G}$ be the predicate of being a good pair. %TODO Find better name than \mathcal{G}
  \[\forall q\in\RNK{G'}{K'}
@@ -613,16 +615,18 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 \] So in both cases $y_1,y_2\in \Var(w_1)\cap \Var(w_2)$. 
 \end{proof}
 \begin{lem} \label{lem:productOfStatesIsInDerived} 
- Let $h\in G$ and $p_h\colon G\to G$ be the map $g\mapsto \left((g\at{2})^{h}\cdot g\at{1},\gamma'''\right)$.
+ Let $h\in G$ and $p_h\colon G\to G$ be the map $g\mapsto (g\at{2})^{h}\cdot g\at{1}$.
  
  It holds that $p_h(G')\subset G'$ for all $h\in G$ and $p_1(G')\subset K$. 
 \end{lem}
 \begin{proof}
- Denote first by $p:=p_1$ then
- each element $g\in G'$ is a word in generators $w((ab)^2,(abad)^2,(bada)^2,(ad)^2)$. 
+ Denote first by $p:=p_1$ then  each element $g\in G'$ is a word $w$ in the generators of $G'$:
+ $g=w((ab)^2,(abad)^2,(bada)^2,(ad)^2)$. 
  The generators have the following form:
- \[(ab)^2=\pair{ca,ac}, (abad)^2 = \pair{1,(ab)^2}, (bada)^2=\pair{(ab)^2,1}, (ad)^2=\pair{b,b}.\]
- Therefore Since $b$ commutes with all generators of $G$ modulo $K$ it is
+ \begin{align*}
+ (ab)^2=&\pair{ca,ac},& (abad)^2 &= \pair{1,(ab)^2},& (bada)^2&=\pair{(ab)^2,1},& (ad)^2&=\pair{b,b}.
+ \end{align*}
+ since $b$ commutes with all generators of $G$ modulo $K$ it is
  \begin{align*}
   p(g) &= w(ac,(ab)^2,1,b) \cdot w(ca,1,(ab)^2,b)\\ &\equiv w(ac,1,1,1) \cdot w(ca,1,1,1) \cdot w(1,1,1,b)^2 \equiv 1 \mod K.
  \end{align*}
@@ -639,7 +643,7 @@ is well defined.
 \begin{proof}
 %  It's easy to verify by GAP that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$ using Lemma \ref{lem:subgroupsOfG}.
 %  For check this call the function \gapinline{verifyLemmaStatesOfKPinKxK} of the attached GAP file.
-We need to show that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$. 
+We need to show that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$. Remember the generators $k_1=(ab)^2$, $k_2=(abad)^2$. Then 
 \begin{align*}
  [k_1,k_2]=bb^a(db^a)^2b^ab(b^ad)^2 = \pair{1,cabab}=\pair{1,\pair{1,dabac}}=\pair{1,\pair{1,k_2^{-1}k_1}}.
 \end{align*}
