@@ -238,4 +238,6 @@ tabsize=2
 % For filenames
 \newcommand{\filename}[1]{{\texttt{#1}}}
 %TODO replace this by a nicer one
-\newcommand{\gapinline}[1]{{\lstinline{#1}}}
+\newcommand*{\myfont}{\fontfamily{fvs}\selectfont}
+\DeclareTextFontCommand{\gapinline}{\smaller\myfont}
+%\newcommand{\gapinline}[1]{{\lstinline{#1}}}
