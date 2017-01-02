@@ -57,6 +57,8 @@ In this paper we show by a direct proof that $G$ has finite commutator width
 furthermore we prove that the commutator width is in fact $2$.
 \begin{thm}\label{thm:CWGrigorchukGroup}
  The Grigorchuk group $G$ has commutator width 2.
+ 
+ The normal subgroup $K$ has commutator width 2.
 \end{thm}
 % ALSO: say this is a new proof, that does not require LMU
 We don't need the previous result from \cite{Lysenok:QudraticEquationsInGrig}
@@ -78,7 +80,8 @@ for this computations will be distributed with this document. It can
 be validated using precomputed data on a GAP standard installation
 by running the command \gapinline{gap verfify.g} in the main directory.
 
-%ALSO: say that the proof is GAP-assisted; verification of the arguments is done by running GAP code, and checking the proof === checking the GAP code.
+%ALSO: say that the proof is GAP-assisted; verification of the arguments
+%is done by running GAP code, and checking the proof === checking the GAP code.
 For a more advanced experimentation with the code and redoing all 
 the precomputations GAP needs to be at least of version $4.7.6$ 
 with installed packages FR\cite{FR2.3.6} and 
@@ -784,8 +787,27 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ and $N\in \NN$ such that every element in $T$ is a product of at most $N$ commutators
  in $H$ then $H$ has commutator width at most $N+2$.
 \end{proof}
+\subsection{Not every element is a commutator}
+The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
+genus does not increase by passing to a successing pair. 
+
+In fact not every element $g\in G'$ is a commutator. This can be seen by passing to finite quotients. If every element would be a commutator then
+it would be a commutator in the quotient group. 
+
+The 4th level \emph{germgroup} is of commutator width $2$ there are two conjugacy classes which are 
+not commutators. A corresponding image in $G$ with a minimal number of states is the automaton shown in Figure \ref{fig:noncomm}. 
+The construction of the element and a representation in the standard generators of $G$ can be found in the file
+ \filename{gap/precomputeNonCommutator.g}. With the representation in standard generators it is easy to show using the 
+ homomorphism $\pi$ on the generators that this element is even a member of $K$.
+%TODO Add gap proof for this which doesn't rely on FR.
+\begin{figure}
+ \includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
+ \caption{Element of the derived of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
+\end{figure}
+This finishes the proof of Theorem \ref{thm:CWGrigorchukGroup}.
 \subsection{Bounded conjugacy width}
-In \cite{Fink:Conjugacy_growth} it is proven that $G$ has finite bounded conjugacy width. 
+In \cite{Fink:Conjugacy_growth} it is proven that $G$ has finite bounded conjugacy width. Here we give an explicit bound 
+on this width.
 \begin{pro}
  Let $g$ be in $G'$. Then the equation 
  \begin{align*}
@@ -806,19 +828,21 @@ Therefore the constrained equation $(R_2(g\at{2})(g\at{1}),\gamma')$ is solvable
 for each $g\in G'$ and hence the equation $a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag$.
 
 In GAP use the function \gapinline{verifyExistGoodConjugacyConstraints} to check this.
-%  We distinguish between to cases either $g\in K$ or $g\in (ad)^2K$. In the first case
-%  we know from Lemma \ref{lem:productOfStatesIsInDerived} that $g\at{2}\cdot g\at{1}$ is 
-%  also in $K$. 
- 
-%  The constrained equation $(a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag,\id)$ is solvable if
-%  the constrained equation $(R_2(g\at{2})(g\at{1}),\id)$ is solvable since if we replace $x_i$
-%  by $\pair{y_i,z_i}$ we get the equivalent equation
-%  \[\pair{y_1^{-1}z_1z_2^{-1}y_2y_3^{-1}z_3z_4^{-1}y_4y_5^{-1}z_5(g\at{1}),z_1^{-1}y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})} = \pair{1,1}.\]
-%  The $G-$homomorphism $z_1\mapsto y_1y_2^{-1}z_2z_3^{-1}y_3y_4^{-1}z_4z_5^{-1}y_5(g\at{2})$ doesn't affect 
-%  a solution of this problem and the normalization of the corresponding first
-%  state is $R_2(g\at{2})(g\at{1})$. The latter is solvable as shown in the proof of Corollary \ref{cor:KhasCW2}.
-%  %TODO no its not!. (g\at{2})(g\at{1}) not nec. in K' !
- %
+\begin{lem}
+ There exits an element $g\in G'$ such that the equation 
+ \begin{align*}
+  a^{x_1}a^{x_2}a^{x_3}ag=1
+ \end{align*}
+ is not solvable.
+\end{lem}
+As before independent of the activities of a possible constraint $\gamma$ and of the element $g\in G'$
+the normalform of $\Phi_\gamma(a^{x_1}a^{x_2}a^{x_3}ag)$ turns out to
+be $R_1(g\at{2}) g\at{1}$. So all there is to prove is that there is an element $h\in K$
+where the products of states $h\at{2}\cdot h\at{1}$ is not a commutator.
+
+The element $g$ displayed in Figure \ref{fig:noncomm} provides such an element. It can easily be verified 
+that $\pair{(cag)^\pi,(ac)^\pi}\in Q_1$ and $\omega(\pair{(cag)^\pi,(ac)^\pi})=1$. Thus by
+the properties of the branch structure it is true that $\pair{(cag)^\pi,(ac)^\pi}\in K<G'$. 
 \end{proof}
 \begin{defi}[\cite{Fink:Conjugacy_growth}]
  The \emph{conjugacy width} of a group $G$ with generating set $S$ 
@@ -847,24 +871,7 @@ In GAP use the function \gapinline{verifyExistGoodConjugacyConstraints} to check
 
 
 
-\subsection{Not every element is a commutator}
-The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
-genus does not increase by passing to a successing pair. 
 
-In fact not every element $g\in G'$ is a commutator. This can be seen by passing to finite quotients. If every element would be a commutator then
-it would be a commutator in the quotient group. 
-
-The 4th level \emph{germgroup} is of commutator width $2$ there are two conjugacy classes which are 
-not commutators. A corresponding image in $G$ is the automaton shown in figure \ref{fig:noncomm}. 
-%TODO Add gap proof for this which doesn't rely on FR.
-\begin{figure}
- \includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
- \caption{Element of the derived of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
-\end{figure}
-
-\begin{cor}
- All elements $g\in G'$ are products of two commutators.
-\end{cor}
 
 
 
