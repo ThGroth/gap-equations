@@ -699,7 +699,9 @@ In \cite{Bartholdi:Growth} there is a choice of weights on generators which resu
 The next lemma is a small variation of a lemma in \cite{Bartholdi:Growth}.
 \begin{lem}
  Denote by $\partial_\omega$ the length on $G$ induced by the weight $\omega$. Then
- $\partial_\omega(p_x(g)) \leq \delta \partial_\omega(g)$ for all $x\in S, g\in G$ with $\partial_\omega(g)>C$ some constant $C\in\NN,\delta<1$.
+ there are some constants $C\in\NN$, $\delta<1$ such that for all $x\in S$, $g\in G$ 
+ with $\partial_\omega(g)>C$ it holds 
+ $\partial_\omega(p_x(g)) \leq \delta \partial_\omega(g)$.
 \end{lem}
 \begin{cor}
 The sequences of sets
@@ -770,7 +772,7 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  $K$ has commutator width at most $2$. 
 \end{cor}
 \begin{proof}
- To show that $K$ has commutator width $2$ it is sufficient, to show that the constrained equations $(R_2g,\id)$ have solutions for all $g\in K'$. 
+ To show that $K$ has commutator width at most $2$ it is sufficient, to show that the constrained equations $(R_2g,\id)$ have solutions for all $g\in K'$. 
  Since $\id$ has trivial activity one cannot directly apply Proposition \ref{pro:solvableConstraintedEquations}.
  But one can check that all pairs $(h,\gamma_1),(f,\gamma_2)$
  such that $g=\pair{h,f}$ and $\gamma_1=(1,1,(bad)^\pi,1)$, $\gamma_2=(1,1,1,(ca)^\pi)$
@@ -781,15 +783,23 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  
  The previous check is implemented in the GAP function \gapinline{verifyCorollaryFiniteCWK}. 
 \end{proof}
+% \begin{cor}
+%  All normal subgroups $H\normal G$ are of finite commutator width.
+% \end{cor}
 \begin{cor}
- All normal subgroups $H\normal G$ are of finite commutator width.
+  All subgroups $H \leq G$ of finite index are of finite commutator width.
 \end{cor}
+
 \begin{proof}
- Note that from corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore $K^n$ have commutator width $2$. 
+ Note that from corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore $K^n$ have commutator width $2$.
+ We start now with the case that $H\leq G$ is normal. 
  In %\cite TODO
- is shown that for $H\normal G$ there is $n$ such that $K^{2^n}\leq H$. As $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
+ is shown that for $H\normal G$, $H\neq q$ there is $n$ such that $K^{2^n}\leq H$. As $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
  So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ and $N\in \NN$ such that every element in $T$ is a product of at most $N$ commutators
  in $H$ then $H$ has commutator width at most $N+2$.
+ 
+ If $H$ is not necessarily normal we can use that $G$ is conjugacy separable %\cite{} TODO
+ to find a nontrivial normal subgr
 \end{proof}
 \subsection{Not every element is a commutator}
 The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
