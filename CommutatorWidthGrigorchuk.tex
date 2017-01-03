@@ -812,18 +812,20 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
   $t\in T$ which is thus a product of at most $2+m$ commutators.  
 \end{proof}
 \subsection{Not every element is a commutator}
-The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
+The previous procedure can not be used to prove that every element is a
+commutator since for equations of genus $1$ the 
 genus does not increase by passing to a successing pair. 
 
-In fact not every element $g\in G'$ is a commutator. This can be seen by passing to finite quotients. If every element would be a commutator then
-it would be a commutator in the quotient group. 
+In fact not every element $g\in G'$ is a commutator. This can be seen by
+passing to finite quotients. A commutator in the group would be also a
+commutator in the quotient group. 
 
 The 4th level \emph{germgroup} is of commutator width $2$ there are two conjugacy classes which are 
 not commutators. A corresponding image in $G$ with a minimal number of states is the automaton shown in Figure \ref{fig:noncomm}. 
 The construction of the element and a representation in the standard generators of $G$ can be found in the file
  \filename{gap/precomputeNonCommutator.g}. With the representation in standard generators it is easy to show using the 
  homomorphism $\pi$ on the generators that this element is even a member of $K$.
-%TODO Add gap proof for this which doesn't rely on FR.
+%TODO give this paragraph more substance. 
 \begin{figure}
  \includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
  \caption{Element of the derived of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
