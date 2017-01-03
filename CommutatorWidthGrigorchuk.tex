@@ -64,10 +64,9 @@ furthermore we prove that the commutator width is in fact $2$.
 We don't need the previous result from \cite{Lysenok:QudraticEquationsInGrig}
 but use a similar method.
 
-This is then used to show that every normal subgroup of $G$ has
+This is then used to show that every subgroup of $G$ of finite index has
 finite commutator width.
-% ALSO: all finite index subgroups have c.w. finite; maybe even all 2?
-%TODO: every subgroup of finite index?
+% maybe even all 2?
 
 Our result answers a question of Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth}
 Furthermore we can conclude that every element of $G'$ is a product of 
@@ -791,15 +790,23 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
 \end{cor}
 
 \begin{proof}
- Note that from corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore $K^n$ have commutator width $2$.
- We start now with the case that $H\leq G$ is normal. 
+ Note that from corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore 
+ $K^n$ have commutator width $2$. We start now with the case that $H\leq G$ is normal. 
+ 
  In %\cite TODO
- is shown that for $H\normal G$, $H\neq q$ there is $n$ such that $K^{2^n}\leq H$. As $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
- So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ and $N\in \NN$ such that every element in $T$ is a product of at most $N$ commutators
+ is shown that for $H\normal G$, $H\neq q$ there is $n$ such that $K^{2^n}\leq H$. As 
+ $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
+ So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ and 
+ $N\in \NN$ such that every element in $T$ is a product of at most $N$ commutators
  in $H$ then $H$ has commutator width at most $N+2$.
  
- If $H$ is not necessarily normal we can use that $G$ is conjugacy separable %\cite{} TODO
- to find a nontrivial normal subgr
+ If $H$ is not necessarily normal we can use that $G$ has the congruence subgroup property
+ \cite{Bartholdi:BranchGroups}%TODO not really. Better Grigorchuk:just infinite branch groups.
+ to find a nontrivial normal subgroup $N<H$. By the same argument as before we can take a 
+ finite transversal $T$ of $\RNK{[H,H]}{[N,N]}$ and find a number $M$ such that every element 
+ of $T$ is a product of at most $M$ commutators in $H$. Then again if $M_1$ is the finite
+ commutator width of $N$ we can write each element $h\in [H,H]$ as product $nt$, $n\in N$, 
+ $t\in T$ which is thus a product of at most $M+M_1$ commutators. 
 \end{proof}
 \subsection{Not every element is a commutator}
 The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
