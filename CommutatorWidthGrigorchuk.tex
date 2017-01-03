@@ -434,7 +434,7 @@ Furthermore we have this chain of indices:
 \end{align*}
 \end{lem}
 \begin{proof}
- This is shown in \cite{Bartholdi:BranchGroups} and can be verified using the GAP standard methods
+ This is shown in for example in \cite{Bartholdi:BranchGroups} and can be verified using the GAP standard methods
  \gapinline{NormalClosure} and \gapinline{Index}. 
 \end{proof}
 
@@ -771,11 +771,13 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  $K$ has commutator width at most $2$. 
 \end{cor}
 \begin{proof}
- To show that $K$ has commutator width at most $2$ it is sufficient, to show that the constrained equations $(R_2g,\id)$ have solutions for all $g\in K'$. 
- Since $\id$ has trivial activity one cannot directly apply Proposition \ref{pro:solvableConstraintedEquations}.
- But one can check that all pairs $(h,\gamma_1),(f,\gamma_2)$
- such that $g=\pair{h,f}$ and $\gamma_1=(1,1,(bad)^\pi,1)$, $\gamma_2=(1,1,1,(ca)^\pi)$
- are good pairs with active constraints and hence admit solutions $s_1,s_2\colon F_4\to G$.
+ To show that $K$ has commutator width at most $2$ it is sufficient, to show that 
+ the constrained equations $(R_2g,\id)$ have solutions for all $g\in K'$. 
+ Since $\id$ has trivial activity one cannot directly apply 
+ Proposition \ref{pro:solvableConstraintedEquations}.  But one can check that all 
+ pairs $(h,\gamma_1),(f,\gamma_2)$ such that $g=\pair{h,f}$ and
+ $\gamma_1=(1,1,(bad)^\pi,1)$, $\gamma_2=(1,1,1,(ca)^\pi)$ are good pairs with active
+ constraints and hence admit solutions $s_1,s_2\colon F_4\to G$.
  
  Then we can define the map $s\colon F_4\to G, x_i\mapsto \pair{s_1(x_i),s_2(x_i)}$ this is a solution
  for $R_2g$ and $s(x_i)\in K$ for all $i=1,\ldots,4$. Therefore the commutator width of $K$ is at most $2$.
@@ -791,22 +793,23 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
 
 \begin{proof}
  Note that from corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore 
- $K^n$ have commutator width $2$. We start now with the case that $H\leq G$ is normal. 
+ $K^{\times n}$ have commutator width $2$. 
  
- In %\cite TODO
- is shown that for $H\normal G$, $H\neq q$ there is $n$ such that $K^{2^n}\leq H$. As 
- $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
- So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ and 
- $N\in \NN$ such that every element in $T$ is a product of at most $N$ commutators
- in $H$ then $H$ has commutator width at most $N+2$.
- 
- If $H$ is not necessarily normal we can use that $G$ has the congruence subgroup property
- \cite{Bartholdi:BranchGroups}%TODO not really. Better Grigorchuk:just infinite branch groups.
- to find a nontrivial normal subgroup $N<H$. By the same argument as before we can take a 
- finite transversal $T$ of $\RNK{[H,H]}{[N,N]}$ and find a number $M$ such that every element 
- of $T$ is a product of at most $M$ commutators in $H$. Then again if $M_1$ is the finite
- commutator width of $N$ we can write each element $h\in [H,H]$ as product $nt$, $n\in N$, 
- $t\in T$ which is thus a product of at most $M+M_1$ commutators. 
+ Let $H$ be a subgroup of finite index since $G$ has the congruence subgroup property
+ (\cite{Bartholdi:parabolicSubgroups}) we can find a nontrivial normal subgroup $N=\Stab_G(m)<H$
+ for some $m\in\NN$. Furthermore from the discussion of the top of the lattice of normal subgroups
+ in $G$ done in \cite{Bartholdi:parabolicSubgroups} we can see that 
+ \begin{align*}
+  K&<\Stab_G(1), & K\times K&<\Stab_G(2), & K^{\times 4}&<\Stab_G(3).
+ \end{align*}
+ Furthermore it is $\Stab_G(n)=\Stab_G(3)^{\times 2^n-1}$ for $n\geq 4$ and hence for every 
+ subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}<H$.
+  
+  As $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
+  So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ we can find 
+  $m\in \NN$ such that every element in $T$ is a product of at most $m$ commutators in $H$.
+  So we can write each element $h\in [H,H]$ as product $kt$, $k\in K^{\times 2^n}$, 
+  $t\in T$ which is thus a product of at most $2+m$ commutators.  
 \end{proof}
 \subsection{Not every element is a commutator}
 The previous procedure can not be used to prove that each element is a commutator since for equations of genus $1$ the 
