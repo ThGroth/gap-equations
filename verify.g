@@ -33,6 +33,11 @@ fi;
 # ∙ GermGroup4 : The 4ᵗʰ level germgroup of the Grigorchuk group.
 # ∙ CharTblGermGroup4 : The character table of the 4ᵗʰ level germgroup
 # 						together with the list of irreducible characters.
+# ∙ nonCommutatorGermGroup4 : An element of derived of the 4ᵗʰ level germgroup 
+# 							  which is not a commutator.
+# (∙ nonCommutatorG : Only available with loaded FR package: an element of G' which is not
+# 					  a commutator. )
+# (∙ epiGermGroup4 : Only available with loaded FR package: The epimorphism G → GermGroup4 )
 PCD := LoadPrecomputedData();;
 
 #
@@ -43,6 +48,11 @@ PCD := LoadPrecomputedData();;
 # 				  the graph of the successors. Runtime: ~3/4h
 # ∙ "conjugacywidth" : computes the succecors for the product of 6 conjugate equations.
 # 				  Runtime: ~1h
+# ∙ "charactertable" : computes the character table with irreducibles of 
+# 					   the 4ᵗʰ germ group. Runtime ~16h
+# ∙ "noncommutator" : computes an element of G which is not a commutator.
+# 					  Runtime ~2h
+# ∙ "noncommutatorNoFR" :  					  
 # ∙ "all" : Do all of the above.
 #
 #
@@ -56,6 +66,12 @@ RedoPrecomputation := function(mode)
 		Read(Filename(dir,"precomputeGoodPairs.g"));
 	elif  LowercaseString(mode) = "conjugacywidth"  then
 		Read(Filename(dir,"precomputeConjugacyWidth.g"));
+	elif  LowercaseString(mode) = "charactertable"  then
+		Read(Filename(dir,"precomputeCharacterTableGermGroup.g"));	
+	elif  LowercaseString(mode) = "noncommutator"  then
+		Read(Filename(dir,"precomputeNonCommutator.g"));	
+	elif  LowercaseString(mode) = "noncommutatornofr"  then
+		Read(Filename(dir,"precomputeNonCommutatorNoFR.g"));	
 	elif  LowercaseString(mode) = "all"  then
 		Read(Filename(dir,"precomputeOrbits.g"));
 		Read(Filename(dir,"precomputeGoodPairs.g"));
@@ -110,6 +126,11 @@ verifyCorollaryFiniteCWK := function()
 	return not  PCD.specialSuccessor = fail;
 end;
 
+verifyGermGroup4hasCW2 := function()
+	return not IsCommutatorInFiniteGroup(PCD.GermGroup4,nonCommutatorGermGroup4) 
+			and PCD.nonCommutatorGermGroup4 in DerivedSubgroup(PCD.GermGroup4);
+end;
+
 verifyAll := function()
 	local func;
 	for func in [	verifyLemma90orbits,
@@ -118,7 +139,8 @@ verifyAll := function()
 					verifyLemmaExistGoodConstraints4,
 					verifyPropExistsSuccessor,
 					verifyCorollaryFiniteCWK,
-					verifyExistGoodConjugacyConstraints
+					verifyExistGoodConjugacyConstraints,
+					verifyGermGroup4hasCW2
 #					verifyLemmaStatesOfKPinKxK
 				] do
 		Info(InfoCW,1,NameFunction(func),": ",func(),"\n");
