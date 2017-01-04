@@ -84,6 +84,6 @@ LoadPrecomputedData := function()
     PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacySuccessors.go"))();
     NonCom := ReadAsFunction(Filename(dir,"noncommutatorNoFR.g"))();
     PCD.GermGroup4 := NonCom.GermGroup4;
-  #  PCD.nonCommutator := NonCom.noncom;
+    PCD.nonCommutator := NonCom.noncom;
     return PCD;
 end;
