@@ -854,11 +854,11 @@ is solvable in $G$.
 \begin{proof}
 We need to solve the equation $(E=a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag,\gamma)$ for
 some constraint $\gamma$. Independent of the chosen constraint the replacement of
-$x_i$ by $\pair{y_i,z_i}\act(\gamma(x_i)$ leads to an equivalent equation 
+$x_i$ by $\pair{y_i,z_i}\act(\gamma(x_i)$ leads after normalization to an equivalent equation 
 $R_2(g\at{2})(g\at{1})$. Similar to the construction of $\Gamma^q$ in the section
 before one can find for each $q\in\RNK{G'}{K'}$ a constraint $\gamma$ such that
 $\gamma(E^{\id*\pi})=1$ and $\gamma'\in\Gamma_1(\gamma)$ such that all for all 
-$g\in\pi^{-1}(q)$ holds that $(g\at{2}g\at{1},\gamma')$ are good pairs.
+$g\in\pi^{-1}(q)$ it holds that $(g\at{2}g\at{1},\gamma')$ are good pairs.
 
 Therefore the constrained equation $(R_2(g\at{2})(g\at{1}),\gamma')$ is solvable
 for each $g\in G'$ and hence the equation $a^{x_1}a^{x_2}a^{x_3}a^{x_4}a^{x_5}ag$.
@@ -881,7 +881,7 @@ that $\pair{(cag)^\pi,(ac)^\pi}\in Q_1$ and $\omega(\pair{(cag)^\pi,(ac)^\pi})=1
 the properties of the branch structure it is true that $\pair{(cag)^\pi,(ac)^\pi}\in K<G'$. 
 \end{proof}
 \begin{defi}[\cite{Fink:Conjugacy_growth}]
- The \emph{conjugacy width} of a group $G$ with generating set $S$ 
+ The \emph{conjugacy width} of a group $G$ with respect to a generating set $S$ 
  is the least number $N\in\NN$ such that every element $g\in G$ is a product of
  at most $N$ conjugates of generators $s\in S$.
 \end{defi}
@@ -905,19 +905,15 @@ the properties of the branch structure it is true that $\pair{(cag)^\pi,(ac)^\pi
 %  \[(g\at{1},g\at{2})^{\pi\times\pi} \in \left\{\left(\left((ca)^n\right)^\pi,\left((ac)^n\right)^\pi\right) \mid n=1,\ldots,4\right\}\]
 % \end{lem}
 
-
-
-
-
-
-
 \section{Implementation in GAP}
 \subsection{Usage of the attached files}
 In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
-you will get as output a list of lemmata which are then proven to be true. 
-The file calls all the previously mentioned methods \gapinline{verifi*}.
-This approach uses
-precomputed data which is also in the archive. This saves you a lot of computation time.
+you will get as output a list of functions with their return value. All the functions should
+return \gapinline{true}. Each function has the name schema \gapinline{verifi*} and checks
+if the corresponding statement is true.
+
+This approach uses precomputed data which is also in the archive. This saves you a lot of
+computation time.
 
 However you can recompute this data yourself if a sufficiently new version of GAP and
 some packages are present. Inside the interactive gap shell after calling \gapinline{gap verify.g}
@@ -949,6 +945,21 @@ argument can be one of the following:
 		      $(E'_g,\gamma')$ is a good pair for all $g$ with $g^\tau=q$.
 		      
 		      The computation will take about one hour and is equipped with a progress bar.
+   \item [``charactertable''] This will compute the character table of the $4$-th level germgroup
+		      and the set of irreducible characters. 
+		      As the germgroup is quite large, this
+		      will take about $16$ hours. There is no kind of progress bar.
+   \item [``noncommutator''] Inside the $4$-th level germgroup there is an element which is not
+		      a commutator but in the commutator subgroup. This command will find this 
+		      element using the character table of the germgroup. The search will be 
+		      almost immediately give a result. Most of the computation time is used
+		      to assert that the found element is indeed not a commutator.
+		      
+		      The element is then used to compute a preimage in $G$ with a minimal 
+		      number of states.
+
+		      Checking the assertion will take approximately $3$ hours and is equipped 
+		      with a progress bar. 
   \item [``all''] This will do all of the above one after another.		      
    \end{itemize}
 If you are going to recompute the orbits GAP should be started with the \gapinline{-o} flag
