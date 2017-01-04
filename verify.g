@@ -4,7 +4,7 @@ fi;
 
 dir := Directory("gap");
 Read(Filename(dir,"init.g"));
-if not TestPackageAvailability( "fr","2.3") = fail then
+if not TestPackageAvailability( "fr","3.3") = fail then
 	LoadPackage("fr");
 	Read(Filename(dir,"declarationsFR.g"));
 	Read(Filename(dir,"functionsFR.g"));
@@ -60,7 +60,7 @@ RedoPrecomputation := function(mode)
 	if not DeclarationsLoadedFR then
 		Error("To redo the precomputation the fr package must be available.");
 	fi;
-	if IsList(mode) then
+	if IsList(mode) and not IsString(mode) then
 		Perform(mode,RedoPrecomputation);
 	elif LowercaseString(mode) = "orbits" then
 		Read(Filename(dir,"precomputeOrbits.g"));
