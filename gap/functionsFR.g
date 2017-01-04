@@ -431,12 +431,12 @@ LoadPrecomputedData := function()
     PCD.RealGoodPairs := RGP;
     PCD.specialSuccessor := ReadAsFunction(Filename(dir,"PCD/specSuc.go"))();
     PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacySuccessors.go"))();
-    PCD.nonCommutatorG := ReadAsFunction(Filename(dir,"PCD/nonCommutator.go"))();
+    PCD.nonCommutatorG := ReadAsFunction(Filename(dir,"PCD/noncommutator.go"))();
     PCD.epiGermGroup4 := EpimorphismGermGroup(G,4);
     PCD.GermGroup4 := Range(PCD.epiGermGroup4);
     tbl := CharacterTable(PCD.GermGroup4);
     SetIrr(tbl,List(ReadAsFunction(Filename(dir,"PCD/IrrGermGroup4.go"))(),L->Character(tbl,L)) );
-    PCD.nonCommutatorGermGroup4 := PCD.nonCommutatorG^epi;
+    PCD.nonCommutatorGermGroup4 := PCD.nonCommutatorG^PCD.epiGermGroup4;
     return PCD;
 end;
 PCD := LoadPrecomputedData();;
