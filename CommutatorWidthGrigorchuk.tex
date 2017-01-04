@@ -352,7 +352,6 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr P$ consists of
 \begin{itemize}
  \item a branching subgroup $K\normal G$ of finite index. 
  \item the corresponding quotient $Q=\RNK{G}{K}$ and the factor homomorphism $\pi\colon G \to Q$.
- %TODO Q_1 or \mathcal{F}
  \item A group $Q_1 \subset Q \wr P$ such that $\pair{q_1,q_2}\sigma\in Q_1$ if and only if $\pair{g_1,g_2}\sigma \in G$ for all $g_i \in \pi^{-1}(q_i)$.
  \item A map $\omega\colon Q_1 \to Q$ with the following property. If $g=\pair{g_1,g_2}\sigma \in G$ then $\omega(\pair{\pi(g_1),\pi(g_2)}\sigma) = \pi(g)$.
 \end{itemize}
@@ -928,7 +927,7 @@ argument can be one of the following:
 		      the set of all $q\in\RNK{G'}{K'}$ such that $(q,\gamma)$ is a good pair.
 		      
 		      Then it computes for each good pair $(q,\gamma)$ one $\gamma'\in\Gamma_q(\gamma)$
-		      with decorated $x=y_{\gamma'}\in S$ as defined in \ref{def:Gammaq} which 
+		      with decorated $x=y_{\gamma'}\in S$ as defined in Definition \ref{def:Gammaq} which 
 		      fulfills depending whether $\gamma\in\Red^4_{act}$ or $\gamma\in\Red_{act}$ 
 		      either Proposition \ref{pro:existsNextPair} or Proposition \ref{pro:existsNextPair4}.
 		      This computation will take about $2$ hours on ordinary machines and is equipped 
@@ -992,7 +991,7 @@ plus additional ones which can switch two neighboring pairs:
 \end{align*}
 It can easily be checked, that these are also contained in $\Stab(R_n)$. These elements
 are used to reduce a given constraint in a form of a list with entries in $Q$ to a
-list where all entries with index larger then $5$ are one. 
+list where all entries with index larger then $5$ are trivial. 
 This constraint can then be further reduced by a lookup table for the orbits
 of $\RNK{\Aut(F_6)}{\Stab(R_3)}$. 
 
