@@ -1,4 +1,6 @@
 #Polycyclic version
+local GermGroup0,PermGroup4,isoToPC,GG,GermGroup4,noncom,IsCommutatorInFiniteGroup;
+
 GermGroup0 := Image(IsomorphismPcGroup(Group([(1,2),(3,4)])));
 PermGroup4 := Group([ 
 	(1,9)(2,10)(3,11)(4,12)(5,13)(6,14)(7,15)(8,16),
@@ -23,8 +25,8 @@ IsCommutatorInFiniteGroup := function(G,x)
 	return s<>0;
 end;
 Assert(2,not IsCommutatorInFiniteGroup(GermGroup4,noncom) and
-		noncom in DerivedSubgroup(GermGroup4)));
-
+		noncom in DerivedSubgroup(GermGroup4));
+return rec(GermGroup4:=GermGroup4, noncom := noncom);
 
 ###Permutation Group version (Too slow for computations)
 

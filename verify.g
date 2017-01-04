@@ -27,8 +27,11 @@ fi;
 # ∙ RealGoodPairs : The list of all good pairs where a successor exists.
 # ∙ specialSuccessor : The successor of (1,[1,1,1,1]) 
 # ∙ ConjugacyConstraints : For each q∈G'/K' a constraint γ and γ' such that 
-#   forall g ∈ τ⁻¹(q) the successor of 
-#   (a^x₁a^x₂a^x₃a^x₄a^x₅ag,γ) is (R₂(g@2)(g@1),γ') and ((g@2)(g@1),γ') is a good pair. 
+#   					   forall g ∈ τ⁻¹(q) the successor of 
+#   					   (a^x₁a^x₂a^x₃a^x₄a^x₅ag,γ) is (R₂(g@2)(g@1),γ')
+#   					   and ((g@2)(g@1),γ') is a good pair. 
+# ∙ GermGroup4 : The 4ᵗʰ level germgroup of the Grigorchuk group.
+# 
 PCD := LoadPrecomputedData();;
 
 #

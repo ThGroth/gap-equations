@@ -61,7 +61,7 @@ end;
 #   forall g ∈ τ⁻¹(q) the successor of 
 #   (a^x₁a^x₂a^x₃a^x₄a^x₅ag,γ) is (R₂(g@2)(g@1),γ') and ((g@2)(g@1),γ') is a good pair. 
 LoadPrecomputedData := function()
-    local PCD,AGP,RGP;
+    local PCD,AGP,RGP,NonCom;
     PCD := rec( orbitReps :=ReadAsFunction(Filename(dir,"PCD/orbitReps.go"))(),
                 orbitReps2 :=ReadAsFunction(Filename(dir,"PCD/orbitReps2.go"))(),
                 orbitTable := ReadAsFunction(Filename(dir,"PCD/orbitTable.go"))(),
@@ -82,5 +82,8 @@ LoadPrecomputedData := function()
     PCD.RealGoodPairs := RGP;
     PCD.specialSuccessor := ReadAsFunction(Filename(dir,"PCD/specSuc.go"))();
     PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacySuccessors.go"))();
+    NonCom := ReadAsFunction(Filename(dir,"noncommutatorNoFR.g"))();
+    PCD.GermGroup4 := NonCom.GermGroup4;
+  #  PCD.nonCommutator := NonCom.noncom;
     return PCD;
 end;
