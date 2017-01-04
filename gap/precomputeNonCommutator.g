@@ -1,11 +1,12 @@
-if not IsBound(dirRep) then
-    dirRep := "~/Repositories/GrigorchukCommutatorWidth/";
-    #
-    dir := Concatenation(dirRep,"gap/90orbs/");
+if not IsBound(dir) then
+    dir := Directory("gap");
 fi;
-if not IsBound(DeclarationsLoaded)  then
-    Read(Concatenation(dirRep,"gap/declarations.g"));
-    Read(Concatenation(dirRep,"gap/functions.g"));
+################################################################
+
+if not IsBound(DeclarationsLoadedFR)  then
+    LoadPackage("fr");
+    Read(Filename(dir,"declarationsFR.g"));
+    Read(Filename(dir,"functionsFR.g"));
 fi;
 
 IsCommutatorInFiniteGroup := function(G,x)
@@ -19,30 +20,36 @@ end;
 quot := EpimorphismGermGroup(G,4);
 GQ := Range(quot);
 GQp := DerivedSubgroup(GQ);
-#	CC := ConjugacyClasses(GQ);;
-#	tbl := CharacterTable(GQ);;
+CC := ConjugacyClasses(GQ);;
+tbl := CharacterTable(GQ);;
+chTblFile := Filename(dir,"PCD/IrrGermGroup4.go");
+irr := List(ReadAsFunction(chTblFile)(),L->Character(tbl,L));
+SetIrr(tbl,irr);
 #	irr:= Irr( tbl );;
-#	derived:= Intersection(List(LinearCharacters( tbl ),ClassPositionsOfKernel) );;
-#	commut:= Filtered([1 .. Length( irr )],i->not Sum( irr, chi -> chi[i]/chi[1] )=0);;
-#	noncommut:= List( Difference(derived,commut), i->IdentificationOfConjugacyClasses(tbl)[i]);;
+derived:= Intersection(List(LinearCharacters( tbl ),ClassPositionsOfKernel) );;
+commut:= Filtered([1 .. Length( irr )],i->not Sum( irr, chi -> chi[i]/chi[1] )=0);;
+noncommut:= List( Difference(derived,commut), i->IdentificationOfConjugacyClasses(tbl)[i]);;
 #	#gives [628,644]
-#	noncoms := Concatenation(List(noncommut,i->List(CC[i])));;
-#	noncomsG := List(noncoms,e->PreImagesRepresentative(quot,e));;
-#	min := Minimum(List(noncomsG,e->Size(States(e))));
-#	noncomMinStates := First(noncomsG,e->Size(States(e))=min);
+noncoms := Concatenation(List(noncommut,i->List(CC[i])));;
+noncomsG := List(noncoms,e->PreImagesRepresentative(quot,e));;
+min := Minimum(List(noncomsG,e->Size(States(e))));
+noncomMinStates := First(noncomsG,e->Size(States(e))=min);
+Assert(0,not IsCommutatorInFiniteGroup(GQ,noncomMinStates^quot) and noncomMinStates in GQp);
+noncomFile := Filename(dir,"PCD/noncommutator.go");
+PrintTo(noncomFile,Concatenation("return ",String(noncomMinStates^isoGtoGLP),";"));
 
 #	noncomGens := List(noncomsG,e->PreImagesRepresentative(EpimorphismFromFreeGroup(G),e));
 #	minGens := Minimum(List(noncomGens,e->Length(e)));
 #	noncomMinGens := First(noncomsG,e->Length(e)=minGens);
-noncomMinStates := (a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*(a*c*a*b)^3*a*c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^3*a*b*a*c*a*d*(a*c*a*b)^2\
-	)^5*a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*(a*c*a*b*a*c*a*d*a*c)^2*(a*b*a*c)^3*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^2*(a*c*a*b*(a*c)^3*a*b\
-	*a*c*a*d)^2*a*c*a*b*a*c*a*d*((a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^2*a*c*a*b*a*c*a*d*(a*c*a*b)^3*a*c*a*d*a*c*a*b*(a*c)^2)^2*((a*c*a*b*a*c*a*d)^3*a*c*a*b)^2*a*c*a*b*(a*c*a*b\
-	*a*c*a*d)^2*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^3*a*b*a; #29 states
-noncommMinGens := c*(a*c*a*b)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^2*a*c*a*b*(a*c*a*d)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^3*(a*c*a*b*a*c*a*d)^2*a*b*a*c*a*d*(a*c*a*b)^3*(a*c)^3*a*b*a*c*a*\
-	d*(a*c*a*b)^3*a*c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*a*c*a*b*(a*c*a*d*(a*c*a*b)^3*a*c*a*d)^2*(a*c*a*b*a*c*a*d)^2*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*(a*c*a*b)^3*a*\
-	c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^3*a*b*a*c*a*d*(a*c*a*b)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^2*a*c*a*b*a*c*a*d*a*c; #34 states
-Assert(2,not IsCommutatorInFiniteGroup(GQ,noncomMinStates^quot) and noncomMinStates in GQp);
-Assert(2,not IsCommutatorInFiniteGroup(GQ,noncomMinGens^quot) and noncomMinStates in GQp);
+
+#noncomMinStates := (a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*(a*c*a*b)^3*a*c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^3*a*b*a*c*a*d*(a*c*a*b)^2\
+#	)^5*a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*(a*c*a*b*a*c*a*d*a*c)^2*(a*b*a*c)^3*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^2*(a*c*a*b*(a*c)^3*a*b\
+#	*a*c*a*d)^2*a*c*a*b*a*c*a*d*((a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^2*a*c*a*b*a*c*a*d*(a*c*a*b)^3*a*c*a*d*a*c*a*b*(a*c)^2)^2*((a*c*a*b*a*c*a*d)^3*a*c*a*b)^2*a*c*a*b*(a*c*a*b\
+#	*a*c*a*d)^2*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^3*a*b*a; #29 states
+#noncommMinGens := c*(a*c*a*b)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^2*a*c*a*b*(a*c*a*d)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^3*(a*c*a*b*a*c*a*d)^2*a*b*a*c*a*d*(a*c*a*b)^3*(a*c)^3*a*b*a*c*a*\
+#	d*(a*c*a*b)^3*a*c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^2*a*c*a*b*(a*c*a*d*(a*c*a*b)^3*a*c*a*d)^2*(a*c*a*b*a*c*a*d)^2*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*(a*c*a*b)^3*a*\
+#	c*a*d*a*c*a*b*(a*c)^2*(a*c*a*b*a*c*a*d)^3*a*c*a*b*(a*c)^3*a*b*a*c*a*d*(a*c*a*b)^2*(a*c*a*b*a*c*a*d*a*c*a*b*(a*c)^2)^2*a*c*a*b*a*c*a*d*a*c; #34 states
+#Assert(2,not IsCommutatorInFiniteGroup(GQ,noncomMinGens^quot) and noncomMinStates in GQp);
 
 # Show there is an element g ∈ G such that g@2⋅g@1 = noncomMinStates
 # This is needed to show that noncomMinStates is not a product of 4 conjugates of a. 
