@@ -51,8 +51,7 @@ PCD := LoadPrecomputedData();;
 # ∙ "charactertable" : computes the character table with irreducibles of 
 # 					   the 4ᵗʰ germ group. Runtime ~16h
 # ∙ "noncommutator" : computes an element of G which is not a commutator.
-# 					  Runtime ~2h
-# ∙ "noncommutatorNoFR" :  					  
+# 					  Runtime ~2h 					  
 # ∙ "all" : Do all of the above.
 #
 #
@@ -70,7 +69,6 @@ RedoPrecomputation := function(mode)
 		Read(Filename(dir,"precomputeCharacterTableGermGroup.g"));	
 	elif  LowercaseString(mode) = "noncommutator"  then
 		Read(Filename(dir,"precomputeNonCommutator.g"));	
-	elif  LowercaseString(mode) = "noncommutatornofr"  then
 		Read(Filename(dir,"precomputeNonCommutatorNoFR.g"));	
 	elif  LowercaseString(mode) = "all"  then
 		Read(Filename(dir,"precomputeOrbits.g"));
@@ -127,8 +125,7 @@ verifyCorollaryFiniteCWK := function()
 end;
 
 verifyGermGroup4hasCW2 := function()
-	return not IsCommutatorInFiniteGroup(PCD.GermGroup4,nonCommutatorGermGroup4) 
-			and PCD.nonCommutatorGermGroup4 in DerivedSubgroup(PCD.GermGroup4);
+	return IsBound(PCD.noncommutator);
 end;
 
 verifyAll := function()

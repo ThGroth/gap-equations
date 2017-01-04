@@ -2,21 +2,23 @@ if not IsBound(dir) then
     dir := Directory("gap");
 fi;
 
-ignoreIrr := true;
+
 NonCom := ReadAsFunction(Filename(dir,"noncommutatorNoFR.g"))();
 GermGroup4 := NonCom.GermGroup4;
 noncom := NonCom.noncom;
-ignoreIrr := false;
-
-tbl := CharacterTable(GermGroup4);
-chTblFile := Filename(dir,"PCD/IrrGermGroup4noFR.go");
-PrintTo(chTblFile,Concatenation("return ",String(Irr(tbl)),";"));
 
 IsCommutatorInFiniteGroup := function(G,x)
-	local tbl,irr,s,g,h;
+	local tbl,irr,s,g,h,i,chi;
 	tbl :=  CharacterTable(G);
 	irr := Irr(tbl);
-	s := Sum(irr, chi -> x^chi/(One(G)^chi));
+	s := 0;
+	i := 0;
+	for chi in irr do
+		s := s+ x^chi/(One(G)^chi);
+		Info(InfoCW,1,"Check if element is commutator: ",Int((i*100)/Size(irr)),"% done\r");
+		i := i+1;
+	od;
+	Info(InfoCW,1,"Check if element is commutator: 100% done\n");
 	return s<>0;
 end;
 
