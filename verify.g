@@ -51,7 +51,7 @@ PCD := LoadPrecomputedData();;
 # ∙ "charactertable" : computes the character table with irreducibles of 
 # 					   the 4ᵗʰ germ group. Runtime ~16h
 # ∙ "noncommutator" : computes an element of G which is not a commutator.
-# 					  Runtime ~2h 					  
+# 					  Runtime ~3h 					  
 # ∙ "all" : Do all of the above.
 # Additionally it is possible to give a list of modes. They are then performed in
 # the given order. 
@@ -72,7 +72,7 @@ RedoPrecomputation := function(mode)
 		Read(Filename(dir,"precomputeCharacterTableGermGroup.g"));	
 	elif  LowercaseString(mode) = "noncommutator"  then
 		Read(Filename(dir,"precomputeNonCommutator.g"));	
-		Read(Filename(dir,"precomputeNonCommutatorNoFR.g"));	
+	#	Read(Filename(dir,"precomputeNonCommutatorNoFR.g"));	
 	elif  LowercaseString(mode) = "all"  then
 		Read(Filename(dir,"precomputeOrbits.g"));
 		Read(Filename(dir,"precomputeGoodPairs.g"));
