@@ -1,5 +1,5 @@
 #Polycyclic version
-local GermGroup0,PermGroup4,isoToPC,GG,GermGroup4,noncom,IsCommutatorInFiniteGroup;
+local GermGroup0,PermGroup4,isoToPC,GG,GermGroup4,noncom,tbl,irr,IsCommutatorInFiniteGroup;
 
 if not IsBound(dir) then
     dir := Directory("gap");
