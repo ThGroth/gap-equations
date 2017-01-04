@@ -68,6 +68,7 @@ i := First([1..Length(noncomMinStatesList)],i-> ForAny(Source(BS.epi),
 			wrE->wrE![2]=Product(noncomMinStatesListQ{[1..i]}) and 
 				 wrE![1]=Product(noncomMinStatesListQ{[i+1..Length(noncomMinStatesList)]}) and
 				 IsOne(wrE^BS.epi) ));
+Assert(0,not i = fail);
 x2 := Product(noncomMinStatesList{[1..i]});
 x1 := x2^-1*noncomMinStates;
 #i=2; x2 = a*c
