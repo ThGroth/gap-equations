@@ -820,20 +820,22 @@ In fact not every element $g\in G'$ is a commutator. This can be seen by
 passing to finite quotients. A commutator in the group would be also a
 commutator in the quotient group. 
 
-The 4-th level \emph{germgroup} (\cite{Erschler:BoundaryBehavior}, %TODO is this a good ref? The notation is quite different.
+The 4-th level \emph{germgroup} (\cite{Erschler:BoundaryBehavior}), %TODO is this a good ref? The notation is quite different.
 a group of order $67\,108\,864$ has commutator width $2$.
 If the FR package is present this group can be constructed in GAP with 
 the command 
 \begin{lstlisting}
    Range(EpimorphismGermGroup(GrigorchukGroup,4))
 \end{lstlisting}
-%TODO continue here.
-So in this group there is an element which is not a commutator but in the commutator subgroup.
+In this germgroup there is an element which is not a commutator 
+but in the commutator subgroup. This element is part of the
+precomputed data and can be used in gap with
+\gapinline{PCD.nonCommutatorGermGroup4}.
+
  A corresponding image in $G$ with a minimal number of states is the automaton shown in Figure \ref{fig:noncomm}. 
 The construction of the element and a representation in the standard generators of $G$ can be found in the file
  \filename{gap/precomputeNonCommutator.g}. With the representation in standard generators it is easy to show using the 
  homomorphism $\pi$ on the generators that this element is even a member of $K$.
-%TODO give this paragraph more substance. 
 \begin{figure}
  \includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
  \caption{Element of the derived of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
