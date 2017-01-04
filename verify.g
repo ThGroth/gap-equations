@@ -53,13 +53,16 @@ PCD := LoadPrecomputedData();;
 # ∙ "noncommutator" : computes an element of G which is not a commutator.
 # 					  Runtime ~2h 					  
 # ∙ "all" : Do all of the above.
-#
+# Additionally it is possible to give a list of modes. They are then performed in
+# the given order. 
 #
 RedoPrecomputation := function(mode)
 	if not DeclarationsLoadedFR then
 		Error("To redo the precomputation the fr package must be available.");
 	fi;
-	if LowercaseString(mode) = "orbits" then
+	if IsList(mode) then
+		Perform(mode,RedoPrecomputation);
+	elif LowercaseString(mode) = "orbits" then
 		Read(Filename(dir,"precomputeOrbits.g"));
 	elif  LowercaseString(mode) = "goodpairs"  then
 		Read(Filename(dir,"precomputeGoodPairs.g"));
@@ -74,8 +77,11 @@ RedoPrecomputation := function(mode)
 		Read(Filename(dir,"precomputeOrbits.g"));
 		Read(Filename(dir,"precomputeGoodPairs.g"));
 		Read(Filename(dir,"precomputeConjugacyWidth.g"));
+		Read(Filename(dir,"precomputeCharacterTableGermGroup.g"));	
+		Read(Filename(dir,"precomputeNonCommutator.g"));	
+		Read(Filename(dir,"precomputeNonCommutatorNoFR.g"));
 	else
-		Error("Input must be \"orbits\", \"goodPairs\" or \"all\"");
+		Error("Input must be \"orbits\", \"goodPairs\" , \"conjugacywidth\", \"charactertable\", \"noncommutator\" or \"all\"");
 	fi;
 	PCD := LoadPrecomputedData();;
 end;
@@ -125,7 +131,7 @@ verifyCorollaryFiniteCWK := function()
 end;
 
 verifyGermGroup4hasCW2 := function()
-	return IsBound(PCD.noncommutator);
+	return IsBound(PCD.nonCommutatorGermGroup4);
 end;
 
 verifyAll := function()
