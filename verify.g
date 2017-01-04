@@ -31,7 +31,8 @@ fi;
 #   					   (a^x₁a^x₂a^x₃a^x₄a^x₅ag,γ) is (R₂(g@2)(g@1),γ')
 #   					   and ((g@2)(g@1),γ') is a good pair. 
 # ∙ GermGroup4 : The 4ᵗʰ level germgroup of the Grigorchuk group.
-# 
+# ∙ CharTblGermGroup4 : The character table of the 4ᵗʰ level germgroup
+# 						together with the list of irreducible characters.
 PCD := LoadPrecomputedData();;
 
 #
