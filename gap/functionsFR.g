@@ -401,8 +401,16 @@ end;
 # ∙ ConjugacyConstraints : For each q∈G'/K' a constraint γ and γ' such that 
 #   forall g ∈ τ⁻¹(q) the successor of 
 #   (a^x₁a^x₂a^x₃a^x₄a^x₅ag,γ) is (R₂(g@2)(g@1),γ') and ((g@2)(g@1),γ') is a good pair. 
+# ∙ GermGroup4 : The 4ᵗʰ level germgroup of the Grigorchuk group.
+# ∙ CharTblGermGroup4 : The character table of the 4ᵗʰ level germgroup
+#                       together with the list of irreducible characters.
+# ∙ nonCommutatorGermGroup4 : An element of derived of the 4ᵗʰ level germgroup 
+#                             which is not a commutator.
+# (∙ nonCommutatorG : Only available with loaded FR package: an element of G' which is not
+#                     a commutator. )
+# (∙ epiGermGroup4 : Only available with loaded FR package: The epimorphism G → GermGroup4 )
 LoadPrecomputedData := function()
-    local PCD,AGP,RGP;
+    local PCD,AGP,RGP,tbl;
     PCD := rec( orbitReps :=ReadAsFunction(Filename(dir,"PCD/orbitReps.go"))(),
                 orbitReps2 :=ReadAsFunction(Filename(dir,"PCD/orbitReps2.go"))(),
                 orbitTable := ReadAsFunction(Filename(dir,"PCD/orbitTable.go"))(),
@@ -423,10 +431,15 @@ LoadPrecomputedData := function()
     PCD.RealGoodPairs := RGP;
     PCD.specialSuccessor := ReadAsFunction(Filename(dir,"PCD/specSuc.go"))();
     PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacySuccessors.go"))();
-    PCD.GermGroup4 := Range(EpimorphismGermGroup(G,4));
+    PCD.nonCommutatorG := ReadAsFunction(Filename(dir,"PCD/nonCommutator.go"))();
+    PCD.epiGermGroup4 := EpimorphismGermGroup(G,4);
+    PCD.GermGroup4 := Range(PCD.epiGermGroup4);
+    tbl := CharacterTable(PCD.GermGroup4);
+    SetIrr(tbl,List(ReadAsFunction(Filename(dir,"PCD/IrrGermGroup4.go"))(),L->Character(tbl,L)) );
+    PCD.nonCommutatorGermGroup4 := PCD.nonCommutatorG^epi;
     return PCD;
 end;
-
+PCD := LoadPrecomputedData();;
 
 #
 # Function to compute an element φ fixing Rₙ which transorms a given
@@ -452,7 +465,6 @@ end;
 #   
 # There are aliases available:
 # ReducedConstraint(γ)=ReducedConstraintAllModes(γ,0,orbitTable)
-PCD := LoadPrecomputedData();;
 ReducedConstraint := function(gamma)
     if IsList(gamma) and Size(gamma) = 4 then
         return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
