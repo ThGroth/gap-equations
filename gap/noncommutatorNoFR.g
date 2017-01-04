@@ -1,6 +1,11 @@
 #Polycyclic version
 local GermGroup0,PermGroup4,isoToPC,GG,GermGroup4,noncom,IsCommutatorInFiniteGroup;
 
+if not IsBound(dir) then
+    dir := Directory("gap");
+fi;
+################################################################
+
 GermGroup0 := Image(IsomorphismPcGroup(Group([(1,2),(3,4)])));
 PermGroup4 := Group([ 
 	(1,9)(2,10)(3,11)(4,12)(5,13)(6,14)(7,15)(8,16),
@@ -17,15 +22,14 @@ GermGroup4 := Group(
 #Epi := GroupHomomorphismByImagesNC(GrigorchukGroup,GermGroup4);
 noncom := Product([13,14,15,16,17,18,19,20,22,24,26,28,31,35,37,38,40,41,42,44],i->GG.(i));
 
-IsCommutatorInFiniteGroup := function(G,x)
-	local tbl,irr,s,g,h;
-	tbl :=  CharacterTable(G);
-	irr := Irr(tbl);
-	s := Sum(irr, chi -> x^chi/(One(G)^chi));
-	return s<>0;
-end;
-Assert(2,not IsCommutatorInFiniteGroup(GermGroup4,noncom) and
-		noncom in DerivedSubgroup(GermGroup4));
+tbl := CharacterTable(GermGroup4);
+irr := List(ReadAsFunction(Filename(dir,"PCD/IrrGermGroup4.go"))(),L->Character(tbl,L));
+SetIrr(tbl,irr);
+
+
+
+#Assert(2,not IsCommutatorInFiniteGroup(GermGroup4,noncom) and
+#		noncom in DerivedSubgroup(GermGroup4));
 return rec(GermGroup4:=GermGroup4, noncom := noncom);
 
 ###Permutation Group version (Too slow for computations)
