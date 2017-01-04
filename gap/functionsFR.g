@@ -423,6 +423,7 @@ LoadPrecomputedData := function()
     PCD.RealGoodPairs := RGP;
     PCD.specialSuccessor := ReadAsFunction(Filename(dir,"PCD/specSuc.go"))();
     PCD.ConjugacyConstraints := ReadAsFunction(Filename(dir,"PCD/conjugacySuccessors.go"))();
+    PCD.GermGroup4 := Range(EpimorphismGermGroup(G,4));
     return PCD;
 end;
 
