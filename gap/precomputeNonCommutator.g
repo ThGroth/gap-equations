@@ -41,7 +41,7 @@ noncoms := Concatenation(List(noncommut,i->List(CC[i])));;
 noncomsG := List(noncoms,e->PreImagesRepresentative(quot,e));;
 min := Minimum(List(noncomsG,e->Size(States(e))));
 noncomMinStates := First(noncomsG,e->Size(States(e))=min);
-Assert(0,not IsCommutatorInFiniteGroup(GQ,noncomMinStates^quot) and noncomMinStates in GQp);
+Assert(0,not IsCommutatorInFiniteGroup(GQ,noncomMinStates^quot) and noncomMinStates^quot in GQp);
 noncomFile := Filename(dir,"PCD/noncommutator.go");
 PrintTo(noncomFile,Concatenation("return ",String(noncomMinStates^isoGtoGLP),";"));
 
