@@ -49,7 +49,7 @@ PCD := LoadPrecomputedData();;
 # ∙ "conjugacywidth" : computes the succecors for the product of 6 conjugate equations.
 # 				  Runtime: ~1h
 # ∙ "charactertable" : computes the character table with irreducibles of 
-# 					   the 4ᵗʰ germ group. Runtime ~16h
+# 					   the 4ᵗʰ germ group. Runtime ~3h
 # ∙ "noncommutator" : computes an element of G which is not a commutator.
 # 					  Runtime ~3h 					  
 # ∙ "all" : Do all of the above.
