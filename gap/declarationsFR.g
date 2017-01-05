@@ -1,9 +1,5 @@
-Read(Filename(dir,"equations/freeproducts.gd"));
-Read(Filename(dir,"equations/freeproducts.gi"));
-Read(Filename(dir,"equations/equations.gd"));
-Read(Filename(dir,"equations/equations.gi"));
-Read(Filename(dir,"equations/normalform.gd"));
-Read(Filename(dir,"equations/normalform.gi"));
+SetPackagePath("equations",Filename(dir,"equations/"));
+LoadPackage("equations");
 
 #Set up all Branchstructure, quotients etc.
 #Working with L presentation
