@@ -239,61 +239,61 @@ give the details of the proof in an algorithmic manner.
     equation $sv^xb\in \eq{O}_{n,m+1}$.
 
   \item[Case $1.1$:] $v\in X\cup X^{-1}$. For simplicity let us assume
-    that $v\in X$. In the other case we can apply $v \mapsto v^{-1}$.
+    that $v\in X$. In the other case we can apply the $G$-homomorphism
+    $v \mapsto v^{-1}$.
     Now there are two possibilities: either $v^{-1} \in u$ or
     $v^{-1} \in w$. In the first case $\eq{E}= u_1v^{-1}u_2x^{-1}vxw$, and
-    then the isomorphism $x \mapsto x^{u_1}u_2$, $v \mapsto v^{u_1}$
-    results in the equation $[v,x]u_1u_2w$. In the second case
+    then the $G$-isomorphism $x \mapsto x^{u_1}u_2$, $v \mapsto v^{u_1}$
+    yields the equation $[v,x]u_1u_2w$. In the second case
     $\eq{E}= ux^{-1}vxw_1v^{-1}w_2$ is transformed to $[x,v]uw_1w_2$ by the
-    isomorphism $x \mapsto x^{uw_1}w_1^{-1}$, $v\mapsto v^{-uw_1}$. In
+    $G$-isomorphism $x \mapsto x^{uw_1}w_1^{-1}$, $v\mapsto v^{-uw_1}$. In
     both cases $u_1u_2w$, respectively $uw_1w_2$ have fewer variables
-    and so composition with the corresponding isomorphism results in a
+    and so composition with the corresponding $G$-isomorphism results in a
     normal form.
-  \item[Case $2$] Length$(v)>1$. In this case $v$ is a word consisting of
+  \item[Case $2$:] Length$(v)>1$. In this case $v$ is a word consisting of
     elements $X\cup X^{-1}$ with each symbol occurring at most once as
     $v$ was chosen with minimal variable set, and some elements of
     $G$.  If $v$ starts with a constant $b\in G$ we can use the
-    homomorphism $x\mapsto bx$ to achieve that $v$ starts with a
-    variable $y\in X$, possibly by using the homomorphism 
+    $G$-homomorphism $x\mapsto bx$ to achieve that $v$ starts with a
+    variable $y\in X$, possibly by using the $G$-homomorphism 
     $y \mapsto y^{-1}$. As in Case
     $1.1$ there are two possibilities: $y^{-1}$ is either part of $u$
     or part of $w$. In the first case $\eq{E}= u_1 y^{-1} u_2 x^{-1}yv_1xw$
-    we can use the isomorphism $x\mapsto x^{u_1v_1}u_2$,
+    we can use the $G$-isomorphism $x\mapsto x^{u_1v_1}u_2$,
     $y\mapsto y^{u_1v_1}v_1^{-1}$ to obtain $[y,x]u_1v_1u_2w$. In the
-    second we use the isomorphism
+    second we use the $G$-isomorphism
     $x\mapsto x^{uw_1v_1}v_1^{-1}w_1^{-1}$,
     $y\mapsto y^{-uw_1v_1}v_1^{-1}$ to obtain $[x,y]uw_1v_1w_2$. In
     both cases the second subword has again less variables and can be
     brought into normal form by induction.
   \end{itemize}
-  Therefore each oriented equation can be brought to normal form by a
+  Therefore each oriented equation can be brought to normal form by 
   $G$-iso\-mor\-phisms.
 
-  In the unoriented case decompose the equation into $\eq{E} = uxvxw$ with
-  again $v$ having a minimal number of variables.  The shorter word
+  In the unoriented case there exists a variable $x\in X$ such that
+  $\eq{E} = uxvxw$. Choose $v$ to have a minimal number of variables.
+  The shorter word
   $uv^{-1}w$ is equivalent by $\varphi$ to a normal form $N$ by
   induction.
  
   The $G$-isomorphism $\varphi \circ (x\mapsto x^uv^{-1})$ maps $\eq{E}$ to
-  $x^2r$. If $r\in \eq{U}_{n,m}\cup\thinspace \eq{O}_{0,p}$ for some $n,m,p$,
+  $x^2r$. If $r\in \eq{U}_{n,m}$ for some $n,m$,
   there remains nothing to do.  Otherwise $r=[y,z]s$, and then the
-  homomorphism
+  $G$-homomorphism
   \begin{align*}
-    x&\mapsto xyz, & y&\mapsto z^{-1}y^{-1}x^{-1}yzxyz, & z&\mapsto z^{-1}y^{-1}x^{-1}z
-  \end{align*}
-  maps $x^2N$ to $x^2y^2z^2M$. This homomorphism is indeed an
-  isomorphism, with inverse
-  \begin{align*}
+    x&\mapsto xyz, & y&\mapsto z^{-1}y^{-1}x^{-1}yzxyz, & z&\mapsto z^{-1}y^{-1}x^{-1}z \\
+  \intertext{maps $x^2N$ to $x^2y^2z^2M$. This homomorphism is indeed an
+  isomorphism, with inverse}
     x&\mapsto x^2y^{-1}x^{-1}, & y&\mapsto xyx^{-1}z^{-1}x^{-1}, & z&\mapsto xz.
   \end{align*}
-  If $s$ is still not in $\eq{O}_{0,m}$ this procedure can be repeated with
-  $z$ instead of $x$.
+  Note $s \in \eq{O}_{n,m}$. If $n\geq 1$ then this procedure can be repeated with
+  $z$ in place of $x$.
 \end{proof}
 For a quadratic equation $\eq{E}$ we denote by $\nf(\eq{E}) := \nf_\eq{E}(\eq{E})$
 the image of $\eq{E}$ under the $G$-isomorphism $\nf_\eq{E}$ constructed in
 the proof.
 
-From now on we will consider oriented equations $\eq{O}_{(n,1)}$. For this
+From now on we will consider oriented equations $\eq{O}_{n,1}$. For this
 we will use the abbreviation
 \[R_n(x_1,\ldots,x_{2n})=\prod_{i=1}^n [x_{2i-1},x_{2i}]\]
 and often write $R_n=R_n(x_1,\ldots,x_{2n})$ if the $x_i$ are the
