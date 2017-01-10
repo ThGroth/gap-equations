@@ -98,11 +98,8 @@ Theorem \ref{thm:CWGrigorchukGroup} is then used to prove the following theorem:
 It comes to mind that this could be true for all groups, but there
 are examples of groups of finite commutator width with a subgroup of
 infinite commutator width.
-%TODO would be better hence finite index!
-%\begin{ex}
-% The group $SL_2(\ZZ)$ is of finite commutator width %TODO really? 
-% and contains $F_2$ as finite index subgroup which has infinite commutator width.
-%\end{ex}
+%TODO replace by finite index example
+
 \begin{ex}
  The group $F_2\wr \ZZ$ is of commutator width $3$
  and contains $F_2$ as subgroup which has infinite commutator width.
@@ -307,14 +304,38 @@ first generators of $F_X$.
   $\gamma$ is called a \emph{constraint} for the equation $\eq{E}$ on $H$.
  
   A \emph{solution} for $(\eq{E},\gamma)$ is a solution $s$ for $\eq{E}$ with the
-  additional property that $s\circ\pi=\gamma$.
+  additional property that $\pi\circ s=\gamma$.
 \end{defi}
+\section{Self similar groups}\label{sec:SelfSimilarGroups}
+Let $T_n$ be the infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
+The group $\Aut(T_n)$ consists of all root-preserving graph automorphisms of the tree $T_n$. 
 
+Let $T_{1,n},\ldots,T_{n,n}$ be the subtrees hanging in the neighborhood of the root. 
+Every $g\in\Aut(T_n)$ permutes the $T_{i,n}$ by a permutation $\sigma$ and simultaneously
+acts on each of them by automorphisms $g_i\in\Aut(T_{i,n})$.
+
+Note that for all $i$ the tree $T_n$ is isomorphic to $T_{n,i}$ and hence there is an isomorphism
+\begin{align*}
+\psi\colon \Aut(T_n)\xrightarrow{\sim} \Aut(T_n)\wr S_n\\
+g\mapsto \pair{g_1,\ldots,g_n}\sigma.
+\end{align*}
+
+A \emph{self similar subgroup} of $\Aut(T_n)$ is a group $G$ with $G\leq \psi(G)$. 
+For the sake of notation we will identify elements with their image under this embedding
+and will write $g=\pair{g_1,\ldots,g_n}\sigma$ for elements $g\in G$. 
+Furthermore we will call the $g_i\in G$ states of the element $g$,
+will write $g\at{i}:=g_i$ to address the states, will
+call $\sigma \in S_n$ the \emph{activity} of the element $g$, 
+and will write $\act(g):= \sigma$. 
+
+
+\subsection{Commutator width of \texorpdfstring{$\mathbf{\textup{Aut}(T_2)}$}{Aut(T2)} }
 %TODO find good position for this. Perhaps after new subsection self similar groups.
-To give an idea how the general method works in the Grigorchuk group
-we look first as an easier example at the group $\Aut(T_2)$. In this group
-we have a nice property: If $g,h\in \Aut(T_n)$ then also the element 
-$\pair{g,h}\sigma\in \Aut(T_n)$. This is not true for the Grigorchuk group
+To give an idea how the proof works in the Grigorchuk group
+we first look as an easier example at the group $\Aut(T_2)$. In this group
+we have a nice property: For every two elements $g,h\in \Aut(T_n)$ the
+element $\pair{g,h}$ is also a member of the group.
+This is not true for the Grigorchuk group
 and will make the notation a bit more complicated there.
 
 \begin{pro}\label{pro:comwidthAutT2}
@@ -331,12 +352,14 @@ For the proof we need a little observation:
  we get a constraint such that the corresponding constrained equation is solvable. 
  We distinguish two cases. If $\gamma$ is the trivial mapping 
  then the equations $R_n(x_1,\ldots,x_{2n})g\at{1}$,
- $R_n(y_1,\ldots,y_{2n})g\at{2}$ are both solvable and hence
- $g\at{1},g\at{2} \in H'$. 
+ $R_n(y_1,\ldots,y_{2n})g\at{2}$ are both solvable since
+ $s_1\colon x_i \mapsto s(x_i)\at{1}$ and $s_2\colon y_i\mapsto s(x_i)\at{2}$ are 
+ corresponding solutions. Hence $g\at{1},g\at{2} \in H'$. 
  
- If $\gamma$ is nontrivial then the solvability of $R_ng,\gamma$ is equivalent 
+ If $\gamma$ is nontrivial then the solvability of $(R_ng,\gamma)$ is equivalent 
  to the solvability of $R_{2n-1}(g\at{2})^{x_{4n-1}}(g\at{1})$ and hence 
  also in this case $(g\at{2})\cdot(g\at{1})\in H'$.
+ %TODO this second case needs more details since the map $\Phi_\gamma$ is not introduced yet!
 \end{proof}
 
 \begin{proof}[Proof of Proposition \ref{pro:comwidthAutT2}]
@@ -372,18 +395,6 @@ For the proof we need a little observation:
 
 
 \section{The first Grigorchuk Group}\label{sec:GrigorchukGroup}
-Let $T_n$ be an infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
-The group $\Aut(T_n)$ consists of all root preserving graph automorphisms of the tree $T_n$. 
-Note that $T_n$ is isomorphic to any $n$-ary subtree and therefore there is an isomorphism
-$\psi\colon \Aut(T_n)\xrightarrow{\sim} \Aut(T_n)\wr S_n$. 
-%TODO!!!LB: Stopped checking the grammar!!!
-
-
-A self similar subgroup of $\Aut(T_n)$ is a group $G$ with $G< \psi(G)$ For the sake of an easy notation we
-will identify elements with the image of these embedding and will write $g=\pair{g_1,\ldots,g_n}\sigma$ for elements $g\in G$. 
-Furthermore we will call the $g_i\in G$ states of the element $g$ and write $g\at{i}:=g_i$ to address the states and we will
-call $\sigma \in S_n$ the \emph{activity} of the element $g$ and write $\act(g):= \sigma$. 
-
 The Grigorchuk $2$-group is a finitely generated self-similar group with finite state generators:
 \[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
 
@@ -397,7 +408,7 @@ Some useful identities are
 \begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK}
 The Grigorchuk group is regular branched with branching subgroup 
  \[K:= \left<(ab)^2\right>^G=\left< (ab)^2,(bada)^2,(abad)^2 \right>. \]
- The Quotient $Q := \RNK{G}{K}$ is of order $16$.
+ The quotient $Q := \RNK{G}{K}$ is of order $16$.
 \end{lem}
 
 \begin{lem}[\cite{Lysenok:QudraticEquationsInGrig}]\label{lem:finitelyManyConstraints}
