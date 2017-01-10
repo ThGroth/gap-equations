@@ -67,7 +67,7 @@
 
 %Quellcode Aussehen:
 \lstset {
-basicstyle=\normalsize,
+basicstyle=\normalsize\ttfamily,
 language=GAP,
 breaklines=true,
 showstringspaces=false,
@@ -218,5 +218,5 @@ tabsize=2
 \newcommand{\filename}[1]{{\texttt{#1}}}
 %TODO replace this by a nicer one
 \newcommand*{\myfont}{\fontfamily{fvs}\selectfont}
-\DeclareTextFontCommand{\gapinline}{\smaller\myfont}
-%\newcommand{\gapinline}[1]{{\lstinline{#1}}}
+%\DeclareTextFontCommand{\gapinline}{\smaller\myfont}
+\newcommand{\gapinline}[1]{{\lstinline{#1}}}
