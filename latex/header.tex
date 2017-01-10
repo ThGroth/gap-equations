@@ -79,7 +79,11 @@ tabsize=2
 \newtheorem{pro}{Proposition}[section]
 \newtheorem{con}[pro]{Conjecture}
 \newtheorem{thm}[pro]{Theorem}
+\newtheorem{thma}{Theorem}
+\renewcommand{\thethma}{\Alph{thma}}
 \newtheorem{cor}[pro]{Corollary}
+\newtheorem{cora}[thma]{Corollary}
+\renewcommand{\thecora}{\Alph{cora}}
 \newtheorem{lem}[pro]{Lemma}
 
 \newtheorem{task}{Task}
@@ -191,6 +195,9 @@ tabsize=2
 \newcommand{\Stab}{\textup{Stab}}
 %Undefined elememts
 \newcommand{\undef}{\varnothing}
+
+%Variable names for equations
+\newcommand{\eq}[1]{\mathcal{#1}}
 
 %Funktionen aufrecht
 \newcommand{\Aut}{\textup{Aut}}
