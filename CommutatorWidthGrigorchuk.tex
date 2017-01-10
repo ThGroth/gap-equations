@@ -188,7 +188,7 @@ negative sign coincide, namely if $\eq{E}$ maps to the identity under the
 natural map $F_X*G\to F_X/[F_X,F_X]*1$.  Otherwise $\eq{E}$ is called
 \emph{unoriented}.
 \begin{lem}
- Being oriented or not is the same for equivalent equations.
+ Being oriented or not preserved under equivalence of equations.
 \end{lem}
 \begin{proof}
   $\eq{E}$ is oriented if and only if it belongs to the normal closure of
@@ -209,35 +209,36 @@ natural map $F_X*G\to F_X/[F_X,F_X]*1$.  Otherwise $\eq{E}$ is called
  \emph{genus} of the normal form of an equation.
 \end{defi}
 
-We shall prove the following theorem:
+We recall the following theorem, and hence we will use it in the algorithm we
+give the details of the proof in an algorithmic manner.
 \begin{thm}[\cite{ComerfordEquationsFreeGroups}] \label{Thm:equationNormalForm}
   Every quadratic equation $\eq{E} \in F_X*G$ is equivalent to an equation
   in normal form, and the isomorphism can be effectively computed.
 \end{thm}
 
 \begin{proof}
-  The proof goes through an induction on the number of variables.
+  The proof proceeds by an induction on the number of variables.
   Starting with the oriented case: If the reduced equation $\eq{E}$ has no
   variables then it is already in normal form $\eq{O}_{0,1}$. If there is a
-  variable $x\in X$ occurring in $\eq{E}$ then it also appears with
-  opposite sign.  Therefore the equation has the form
+  variable $x\in X$ occurring in $\eq{E}$ then $x^{-1}$ also appears.
+  Therefore the equation has the form
   $\eq{E} = ux^{-1}vxw$ or can be brought to this form by applying the
   automorphism $x \mapsto x^{-1}$. Choose $x\in X$ in such a way that
   $\Var(v)$ is minimal.
  
   We distinguish between multiple cases:
   \begin{itemize}
-  \item[Case $1.0$] $v\in G$. The word $uw$ has fewer variables than
-    $\eq{E}$ and can thus be brought into normal form $N\in \eq{O}_{r,s}$ by the
-    $G$-isomorphism $\varphi$. If $N$ ends with a variable, we can use
+  \item[Case $1.0$:] $v\in G$. The word $uw$ has fewer variables than
+    $\eq{E}$ and can thus be brought into normal form $r\in \eq{O}_{n,m}$ by the
+    $G$-isomorphism $\varphi$. If $r$ ends with a variable, we can use
     the $G$-isomorphism $\varphi \circ (x\mapsto xw^{-1}) $ to map $\eq{E}$
-    to the equation $Nv^x \in \eq{O}_{r,s+1}$.
+    to the equation $rv^x \in \eq{O}_{n,m+1}$.
     
-    If $N$ ends with a group constant $b$, $N=Mb$ we can use the
+    If $r$ ends with a group constant $b$, $r=sb$ we can use the
     isomorphism $\varphi \circ(x \mapsto xbw^{-1}) $ to map $\eq{E}$ to the
-    equation $Mv^xb\in \eq{O}_{r,s+1}$.
+    equation $sv^xb\in \eq{O}_{n,m+1}$.
 
-  \item[Case $1.1$] $v\in X\cup X^{-1}$. For simplicity let us assume
+  \item[Case $1.1$:] $v\in X\cup X^{-1}$. For simplicity let us assume
     that $v\in X$. In the other case we can apply $v \mapsto v^{-1}$.
     Now there are two possibilities: either $v^{-1} \in u$ or
     $v^{-1} \in w$. In the first case $\eq{E}= u_1v^{-1}u_2x^{-1}vxw$, and
@@ -274,8 +275,8 @@ We shall prove the following theorem:
   induction.
  
   The $G$-isomorphism $\varphi \circ (x\mapsto x^uv^{-1})$ maps $\eq{E}$ to
-  $x^2N$. If $N\in \eq{U}_{r,s}\cup\thinspace \eq{O}_{0,t}$ for some $r,s,t$,
-  there remains nothing to do.  Otherwise $N=[y,z]M$, and then the
+  $x^2r$. If $r\in \eq{U}_{n,m}\cup\thinspace \eq{O}_{0,p}$ for some $n,m,p$,
+  there remains nothing to do.  Otherwise $r=[y,z]s$, and then the
   homomorphism
   \begin{align*}
     x&\mapsto xyz, & y&\mapsto z^{-1}y^{-1}x^{-1}yzxyz, & z&\mapsto z^{-1}y^{-1}x^{-1}z
@@ -285,7 +286,7 @@ We shall prove the following theorem:
   \begin{align*}
     x&\mapsto x^2y^{-1}x^{-1}, & y&\mapsto xyx^{-1}z^{-1}x^{-1}, & z&\mapsto xz.
   \end{align*}
-  If $M$ is still not in $\eq{O}_{0,s}$ this procedure can be repeated with
+  If $s$ is still not in $\eq{O}_{0,m}$ this procedure can be repeated with
   $z$ instead of $x$.
 \end{proof}
 For a quadratic equation $\eq{E}$ we denote by $\nf(\eq{E}) := \nf_\eq{E}(\eq{E})$
