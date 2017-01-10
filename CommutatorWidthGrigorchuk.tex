@@ -477,9 +477,9 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr S_n$ consists of
 \end{proof}
 From now on we will fix that branch structure for $G$ and denote by $K$ the branching subgroup and by $Q$ the factor group with natural homomorphism $\pi$.
 
-%TODO Inserted remarks till here.
+%TODO move to the introduction, but what about the remark thereafter?
 \begin{thm}[\cite{Lysenok:QudraticEquationsInGrig}]\label{IgorsThm}
- The Grigorchuk group has finite commutator width, namly
+ The Grigorchuk group has finite commutator width, namely
  there exists an $N\in\NN$ such that for all $g\in G'$ the equation $R_Ng$ is solvable.
 \end{thm}
 \begin{re}
@@ -491,52 +491,58 @@ From now on we will fix that branch structure for $G$ and denote by $K$ the bran
 \subsection{Good Pairs}\label{sec:good_pairs}
 The previous remark motivates the following definition.
 \begin{defi}
-Given $g\in G'$ and $\gamma\in\Red$ . The tuple $(g,\gamma)$ is called a \emph{good pair} if there exists an $n$ such that
+Given $g\in G'$ and $\gamma\in\Red$, the tuple $(g,\gamma)$ is called a \emph{good pair} if there exists an $n$ such that
 $(R_ng,\gamma)$ is solvable.  
 \end{defi}
 
 \begin{lem}
  Denote by 
- \[\tau\colon G\to\RNK{G}{K'}\quad\text{ and }\quad\varpi\colon \RNK{G}{K'} \to \RNK{(\RNK{G}{K'})}{(\RNK{K}{K'})}\simeq \RNK{G}{K}\]
+ \[\tau\colon G\to\RNK{G}{K'}\quad\text{ and }\quad\rho\colon \RNK{G}{K'} \to \RNK{(\RNK{G}{K'})}{(\RNK{K}{K'})}\simeq \RNK{G}{K}\]
  the natural projections.
  
- The pair $(g,\gamma)$ is a good pair if and only if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with $s(x_i) \in \varpi^{-1}(\gamma(x_i))$. 
+ The pair $(g,\gamma)$ is a good pair if and only if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with $s(x_i) \in \rho^{-1}(\gamma(x_i))$. 
 \end{lem}
 \begin{proof}
  If $(g,\gamma)$ is a good pair and $s$ a solution for $(R_ng,\gamma)$ 
  then $s(x_i)\in K$ for $i\geq6$, so $s(R_n) = s(R_3) \cdot k'$ for some $k'\in K'$. 
  Therefore there is a solution $\tau\circ s$ for $R_3g^\tau$ with $s(x_i) = \gamma(x_i)$.
  
- On the other hand if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with for each $s(x_i) \in \varpi^{-1}(\gamma(x_i))$ then
+ On the other hand if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with for each $s(x_i) \in \rho^{-1}(\gamma(x_i))$ then
  for $g_i \in \tau^{-1}(s(x_i))$ there is some $k'\in K'$ such that $R_3(g_1,\ldots,g_6)k'g=1$ and so $(g,\gamma)$ is a good pair.
 \end{proof}
-The previous lemma shows that the question if $(g,\gamma)$ is a good pair depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. So 
+The previous lemma shows that the question if $(g,\gamma)$ is a good pair depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. Therefore
 $(q,\gamma)$ will be called a good pair if $(g,\gamma)$ is a good pair for one (and hence all) preimages of $q$ under $\tau$.
 \begin{cor}\label{cor:finiteCommutatorWidthKimpliesBoundedConstraintedCommutators}
 The following are equivalent:
 \begin{enumerate}[a)]
- \item $K$ is of finite commutator width. \label{Cor:EqStatement1}
- \item There is a $N\in\NN$ uniform for all good pairs $(g,\gamma),g \in G',\gamma\in\Red$ such that $(R_Ng,\gamma)$ is solvable.
-\end{enumerate}
+ \item $K$ has finite commutator width. \label{Cor:EqStatement1}
+ \item There is an $N\in\NN$ such that $(R_Ng,\gamma)$ is solvable 
+ for all good pairs $(g,\gamma),g \in G',\gamma\in\Red$.
+ \label{Cor:EqStatement2}
+\end{enumerate} 
 \end{cor}
 \begin{proof}
- First the easy direction: If $k\in K'$ then $(k,\id)$ is a good pair. So $(R_nk,\id)$ is solvable in $G$ for an $n\leq N$ but the constraints ensures that it is solvable in $K$.
+ (\ref{Cor:EqStatement2})$\Rightarrow$(\ref{Cor:EqStatement1}): If $k\in K'$ then $(k,\id)$ is a good pair.
+ So $(R_nk,\id)$ is solvable in $G$ for an $n\leq N$ but the constraints ensures that it is solvable in $K$.
  Therefore the commutator width of $K$ is at most $N$.
  
- If $(g,\gamma)$ is a good pair there is an $m\in \NN$ and a solution $s$ for $(R_mg,\gamma)$. As $s(x_i)^\pi =1$ for all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
- a solution for $(R_3kg,\gamma)$. By \ref{Cor:EqStatement1}) there is an $N$ such that all $k\in K'$ can be written as product of $N$ commutators of elements of $K$ and
+ (\ref{Cor:EqStatement1})$\Rightarrow$(\ref{Cor:EqStatement2}):If $(g,\gamma)$ is a good pair 
+ there is an $m\in \NN$ and a solution $s$ for $(R_mg,\gamma)$. As $s(x_i)^\pi =1$ for all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
+ a solution for $(R_3kg,\gamma)$. By (\ref{Cor:EqStatement1}) there is 
+ an $N$ such that all $k$ can be written as product of $N$ commutators of elements of $K$ and
  therefore there is a solution for $(R_{N+3}g,\gamma)$.
 \end{proof}
-This motivates to study $K'$ and $\RNK{G}{K'}$ further.
+This motivates further study $K'$ and $\RNK{G}{K'}$.
 \begin{lem} \label{lem:subgroupsOfG}
-Denote by $k_1 := (ab)^2, k_2:=\pair{1,k_1} = (abad)^2$ and $k_3:=\pair{k_1,1} = (bada)^2$ then 
+Let us note by $k_1 := (ab)^2, k_2:=\pair{1,k_1} = (abad)^2$ and $k_3:=\pair{k_1,1} = (bada)^2$. Then 
  \begin{align*}
   G' &= \left< k_1,k_2,k_3,(ad)^2\right>, \\
   K &= \left< k_1,k_2,k_3\right>, \\
   K\times K &= \{\pair{k,k'} \mid k,k'\in K\} \\&= \left< k_2,k_3,k_2k_1^{-1}k_2^{-1}k_1,(k_2k_1^{-1}k_2^{-1}k_1)^a,k_2k_1k_2k_1^{-1},(k_2k_1k_2k_1^{-1})^a  \right>,\\
   K' &= \left< [k_1,k_2] \right>^G \\ 
-  &= \left<(dacabaca)^2(baca)^4,((ca)^2baca)^2,(dacabaca)^2c(acab)^3acad,\right.\\
-  &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{1,a}\ .
+  &= \left<[k_2,k_1],[k_1,k_2^{-1}],[k_2,k_1]^{k_2},[k_1^{-1},k_2], [k_2,k_1]^{k_1},[k_2^{-1},k_1^{-1}]\right>^{1,a} %TODO double check this
+ % &= \left<(dacabaca)^2(baca)^4,((ca)^2baca)^2,(dacabaca)^2c(acab)^3acad,\right.\\
+ % &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{1,a}\ .
  \end{align*}
 Furthermore we have this chain of indices:
 \begin{align*}
@@ -544,18 +550,18 @@ Furthermore we have this chain of indices:
 \end{align*}
 \end{lem}
 \begin{proof}
- This is shown in for example in \cite{Bartholdi:BranchGroups} and can be verified using the GAP standard methods
+ The chain of indices is shown for example in \cite{Bartholdi:BranchGroups} and the generating sets can be verified using the GAP standard methods
  \gapinline{NormalClosure} and \gapinline{Index}. 
 \end{proof}
 
-\subsection{Successing pairs}
+\subsection{Succeeding pairs}
 \begin{defi}
  We define the activity of an element $q\in Q$ as the activity of an arbitrary element of $\pi^{-1}(q)$. 
- This is well defined as $K<\Stab(1)$. 
+ This is well defined since $K<\Stab(1)$. 
 %TODO need to define Stab(1)?
  
  Consider a constraint $\gamma\colon F_X \to Q$. 
- Define $\act(\gamma):= x \mapsto \act(\gamma(x))$.
+ Define $\act(\gamma): F_X\to C_2$, $x \mapsto \act(\gamma(x))$.
  
  Denote by $\Red_{act}$ the reduced constraints which have a nontrivial activity.
 \end{defi}
@@ -570,12 +576,14 @@ Furthermore we have this chain of indices:
 \end{proof}
 
 Denote by $S$ the set $\{1,a,b,c,d,ab,ad,ba\}\subset G$.
-We will define a map $\Gamma^q$ which maps a constraint $\gamma\colon F_{2n} \to Q$ with nontrivial activity to a a set of constraints $\gamma'\colon F_{4n-1}\to Q$ 
+We will define for all $q\in \RNK{G'}{K'}$ a map $\Gamma^q$ which maps a constraint
+$\gamma\colon F_{2n} \to Q$ with nontrivial activity to a set of constraints $\gamma'\colon F_{4n-1}\to Q$ 
 with the following properties:
 \begin{itemize}
-  \item There is a generator $y_{\gamma'}$ in $F_{4n-1}$ and $x\in S$ such that $\gamma'(y_{\gamma'})=x^\pi$. Denote by $F_{4n-2}$ the subgroup of $F_{4n-1}$ without the generator $y_{\gamma'}$.
+  \item there is a generator $y_{\gamma'}$ in $F_{4n-1}$ and $x\in S$ such that $\gamma'(y_{\gamma'})=x^\pi$.
+    Denote by $F_{4n-2}$ the subgroup of $F_{4n-1}$ without the generator $y_{\gamma'}$;
   %y was once x_{4n-1}
-  \item The solvability of $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma'|_{F_{4n-2}})$ implies
+  \item the solvability of $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma'|_{F_{4n-2}})$ implies
   the solvability of $(R_ng,\gamma)$.
  \end{itemize}
 
@@ -641,12 +649,13 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  The map $\Gamma_3^{q_1,q_2,n,x_0}$ does depend on $x_0$, therefore we take the union of all of them and define
   \[\Gamma_4^{q_1,q_2}(\gamma)\in \bigcup_{x_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,x_0}(\gamma).\]
  Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
- then $q_i = q\att{i}$ (Lemma \ref{lem:atIsWellDefinedModK'}). So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and filter those 
+ then $q_i = q\att{i}$  by Lemma \ref{lem:atIsWellDefinedModK'}. So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and filter those 
  constraints out which doesn't fulfill the requested properties and therefore finally define
- \begin{defi}\label{def:Gammaq}
- \[\Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
-  \act(\gamma')\neq 1, \gamma'({y_{\gamma'}}) \in S^\pi \right\}.\]
- \end{defi}
+ \begin{align}
+ \Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
+  \act(\gamma')\neq 1, \gamma'({y_{\gamma'}}) \in S^\pi \right\}. 
+  \label{def:Gammaq}
+ \end{align}
  \begin{pro}\label{pro:existsNextPair}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{act}$ the set $\Gamma^q(\gamma)$ 
  contains some $\gamma'$ with special generator $y_{\gamma'}$ such that for all $g$ with $g^\tau=q$ the
@@ -664,13 +673,13 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
   the correct choices of $\gamma' \in \Gamma^q(\gamma)$. 
  
   By Lemma \ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
- and the natural homomorphism \[\varpi'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
- and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(y_{\gamma'})}(q)$ under $\varpi'$ 
+ and the natural homomorphism \[\rho'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
+ and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(y_{\gamma'})}(q)$ under $\rho'$ 
  form good pairs with $\gamma'$. In formulas what needs to be checked is: Let $\mathcal{G}$ be the predicate of being a good pair. %TODO Find better name than \mathcal{G}
  \[\forall q\in\RNK{G'}{K'}
       \forall \gamma\in\Red_{act} 
 	 \exists \gamma'\in \Gamma^q(\gamma)
-	    \forall r\in \varpi'^{-1}(\bar p_{\textup{rep}(\gamma'(y_{\gamma'}))}):
+	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(y_{\gamma'}))}):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  
  This last formula quantifies only over finite sets and is implemented in GAP and can be verified there by calling \gapinline{verifyPropExistsSuccessor}. 
@@ -681,8 +690,8 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}(\gamma'(y_{\gamma'}))\in S$ which exist by the previous proposition.
  
  With Lemma \ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
- For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{successing pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
- Moreover by applying this iteratively we get the \emph{successing sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$.
+ For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{succeeding pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
+ Moreover by applying this iteratively we get the \emph{succeeding sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$.
  \end{defi}
  
  % Keep it here for the case that an easy method to show that K' has finite c.w. comes up
@@ -868,11 +877,11 @@ The proof is the same as for Proposition \ref{pro:existsNextPair}. The correspon
 \[\forall q\in\RNK{G'}{K'}
       \forall \gamma\in\Red^4_{act} 
 	 \exists \gamma'\in \Gamma^q(\gamma)
-	    \forall r\in \varpi'^{-1}(\bar p_{\textup{rep}(\gamma'(y_{\gamma'}))}):
+	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(y_{\gamma'}))}):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
-The resulting successing pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
+The resulting succeeding pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
 by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \ref{lem:existsGoodGammaForRed4} this proves the following corollary.
 \begin{cor}\label{cor:GhasCW2}
  The Grigorchuk group $G$ has commutator width at most $2$.
@@ -915,27 +924,29 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
  Furthermore it is $\Stab_G(n)=\Stab_G(3)^{\times 2^n-1}$ for $n\geq 4$ and hence for every 
  subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}<H$.
   
-  As $G$ is just infinite $[K^{2^n},K^{2^n}]$ has finite index in $[H,H]$.
-  So if $T$ is a transversal of $\RNK{[H,H]}{[K^{2^n},K^{2^n}]}$ we can find 
+  Since $G$ is just infinite, $[K^{\times2^n},K^{\times2^n}]$ has finite index in $[H,H]$.
+  Therefore $T$ is a transversal of $\RNK{[H,H]}{[K^{\times2^n},K^{\times2^n}]}$ we can find 
   $m\in \NN$ such that every element in $T$ is a product of at most $m$ commutators in $H$.
-  So we can write each element $h\in [H,H]$ as product $kt$, $k\in K^{\times 2^n}$, 
-  $t\in T$ which is thus a product of at most $2+m$ commutators.  
+  We can thus write each element $h\in [H,H]$ as product $kt$ with $k\in K^{\times 2^n}$, 
+  $t\in T$ and thus as a product of at most $2+m$ commutators.  
 \end{proof}
 \subsection{Not every element is a commutator}
-The previous procedure can not be used to prove that every element is a
+The procedure used to prove that every element is a product of two commutators 
+can not be used to prove that every element is a
 commutator since for equations of genus $1$ the 
-genus does not increase by passing to a successing pair. 
+genus does not increase by passing to a succeeding pair. 
 
 In fact not every element $g\in G'$ is a commutator. This can be seen by
-passing to finite quotients. A commutator in the group would be also a
+considering finite quotients. A commutator in the group would be also a
 commutator in the quotient group. 
 
+TODO Find short way to define germgroups here!
 The 4-th level \emph{germgroup} (\cite{Erschler:BoundaryBehavior}), %TODO is this a good ref? The notation is quite different.
 a group of order $67\,108\,864$ has commutator width $2$.
 If the FR package is present this group can be constructed in GAP with 
 the command 
 \begin{lstlisting}
-   Range(EpimorphismGermGroup(GrigorchukGroup,4))
+   gap> Range(EpimorphismGermGroup(GrigorchukGroup,4))
 \end{lstlisting}
 In this germgroup there is an element which is not a commutator 
 but in the commutator subgroup. This element is part of the
@@ -1038,7 +1049,7 @@ argument can be one of the following:
 		      the set of all $q\in\RNK{G'}{K'}$ such that $(q,\gamma)$ is a good pair.
 		      
 		      Then it computes for each good pair $(q,\gamma)$ one $\gamma'\in\Gamma_q(\gamma)$
-		      with decorated $x=y_{\gamma'}\in S$ as defined in Definition \ref{def:Gammaq} which 
+		      with decorated $x=y_{\gamma'}\in S$ as defined in equation \ref{def:Gammaq} which 
 		      fulfills depending whether $\gamma\in\Red^4_{act}$ or $\gamma\in\Red_{act}$ 
 		      either Proposition \ref{pro:existsNextPair} or Proposition \ref{pro:existsNextPair4}.
 		      This computation will take about $2$ hours on ordinary machines and is equipped 
@@ -1110,13 +1121,13 @@ If the file \filename{verify.g} is loaded in a GAP environment with the FR packa
 the function \gapinline{ReducedConstraint} can be used as an alias to get 
 reduced constraints. For Example:
  \begin{lstlisting}
-    f4 := Q.1; f2 := Q.2;
-    gamma:= [f1,f1,f1,f1,f1,f1];
-    constr := ReducedConstraint(gamma);;
-    Print(constr.constraint);
+    gap> f4 := Q.1; f2 := Q.2;
+    gap> gamma:= [f1,f1,f1,f1,f1,f1];
+    gap> constr := ReducedConstraint(gamma);;
+    gap> Print(constr.constraint);
 \end{lstlisting} 
 \begin{verbatim}
->>>      [ <id>, <id>, <id>, <id> , f4, <id>]
+[ <id>, <id>, <id>, <id> , f4, <id>]
 \end{verbatim} 
 
 \subsubsection{Good pairs}
@@ -1126,7 +1137,7 @@ of $\gamma\in\Red$. (See Section \ref{sec:good_pairs}.) So this is already a
 finite problem. 
 
 For a given constraint $\gamma$ to get all $q$ which form a good pair we can
-enumerate all possible commutators for $r_i\in\varpi^{-1}(\gamma(x_i)$.
+enumerate all possible commutators for $r_i\in\rho^{-1}(\gamma(x_i)$.
 $[r_1,r_2][r_3,r_4][r_5,r_6]$. Since $\lvert\RNK{K}{K'}\rvert=64$ considering all 
 combinations at once is far from beeing efficient thus the possible values for
 $[r_1,r_2]$ are computed and in a second step products of those elements.
@@ -1150,28 +1161,28 @@ $\omega(\pair{\gamma_1(x_i),\gamma_2(x_i)})=\gamma(x_i)$.
 
 If the FR package is available
 the function \gapinline{GetSuccessorLookup} can be used to explore the
-successors of elements. It returns the successing pair. For example
+successors of elements. It returns the succeeding pair. For example
  \begin{lstlisting}
-    f1 := Q.1; f2 := Q.2;
-    gamma:= [f1,f1,f1,f1,f1,f1];;
-    g := (a*b)^8;;
-    IsGoodPair(g,gamma);
+    gap> f1 := Q.1; f2 := Q.2;
+    gap> gamma:= [f1,f1,f1,f1,f1,f1];;
+    gap> g := (a*b)^8;;
+    gap> IsGoodPair(g,gamma);
 \end{lstlisting}
 \begin{verbatim}
->>>      true
+true
 \end{verbatim} 
 \begin{lstlisting}
-    suc := GetSuccessorLookup(g,gamma);;    
-    suc[1];
+    gap> suc := GetSuccessorLookup(g,gamma);;    
+    gap> suc[1];
 \end{lstlisting}
 \begin{verbatim}
->>>      <Trivial Mealy element on alphabet [ 1 .. 2 ]>
+<Trivial Mealy element on alphabet [ 1 .. 2 ]>
 \end{verbatim} 
 \begin{lstlisting}
-    suc[2].constraint;
+    gap> suc[2].constraint;
 \end{lstlisting}
 \begin{verbatim}
->>>       [ <id>, <id>, <id>, <id>, f1*f2, <id> ]
+[ <id>, <id>, <id>, <id>, f1*f2, <id> ]
 \end{verbatim} 
 
 
