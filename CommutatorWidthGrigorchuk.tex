@@ -26,30 +26,20 @@ The computations for the proofs are computer assisted by the
 computer algebra system GAP.
 \end{abstract}
 \maketitle
-\tableofcontents
+%\tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-%TODO
-% INTRO: groups acting on trees. Decision problems. Importance of
-% quadratic equations. Commutator width, simplest example of $2$-group
-% with width $\ge2$, show that it appears in Grig. gp.
-An interesting type of groups acting on rooted trees are self similar
-groups. We won't give a detailed introduction into this field but
-refer the reader to the book by Nekrashevych \cite{Nekrashevych:SelfSimilarGroups}. 
-One famous finitely generated such group was defined by 
-Grigorchuk and was the first known group of intermediate growth. We will
-refer to this group as the first Grigorchuk group $G$.
+One famous finitely generated self similar group 
+was defined by Grigorchuk and was the first known group of intermediate growth.
+We will refer to this group as the \emph{first Grigorchuk group} $G$.
+For a more detailed introduction into the topic of self similar
+groups we refer to the book by Nekrashevych \cite{Nekrashevych:SelfSimilarGroups}. 
 
 Many decision problems which are solvable in large subclasses of 
-self similar groups where first studied in this group. The group
-has known to have solvable word problem and solvable conjugacy problem
+self similar groups where first studied in the group $G$. The group
+is known to have solvable word problem and solvable conjugacy problem
 \cite{Leonov:Conjugacy-alg.-Grig-group,Rozhkov:Conjugacy-alg.-Grig-group}.
-Furthermore it has been shown that $G$ has solvable diophantine problem of
-quadratic words and that the commutator width of $G$ is finite
-\cite{Lysenok:QudraticEquationsInGrig} that is there is a bound $N$ such
-that every element of the derived group $G'$ can be written as product
-of $N$ commutators.
 
 The methods used to solve the problems in $G$ can often be generalized 
 to a wider class of branch groups. In
@@ -57,38 +47,65 @@ to a wider class of branch groups. In
 branch groups with a well behaving length function have solvable 
 conjugacy problem.
 
-In this paper we show by a direct proof that $G$ has finite commutator width 
-furthermore we prove that the commutator width is in fact $2$.
-\begin{thm}\label{thm:CWGrigorchukGroup}
+\subsection{Commutator width}
+The definition of the derived subgroup $H'=[H,H]$ of a group $H$ invokes 
+the question for which groups the set of commutators is a proper subset
+of the derived. 
+Furthermore one can ask how many commutators are necessary to get every 
+element of the derived subgroup.
+\begin{defi}
+ The \emph{commutator width} of a group $H$ is the least number $n\in \NN\cup \infty$ such
+ that every element $g\in [H,H]$ is a product of $n$ commutators.
+\end{defi}
+In 1951 Ore (\cite{Ore:Commutators}) conjectured that every finite non abelian simple group is 
+of commutator width $1$. This was proven to be correct in 2010 (\cite{Liebeck:OreConjecture}).
+
+The smallest group of commutator width greater then $1$ is a group of 
+order $96$ \cite{Guralnick:Group96}.
+
+%TODO Character formula
+
+%The notion of a stable commutator which is a useful tool for bounded cohomology is 
+%defined with respect to the lengt of an element%TODO perhaps this leads too far away.
+
+In \cite{Lysenok:QudraticEquationsInGrig} it is proved that the \emph{diophantine problem}
+of quadratic words in $G$ is solvable. A by-product is the result that the
+commutator width of $G$ is a bounded number. This given bound is by the nature
+of the prove inexplicit.
+
+\subsection{Main results}
+In this paper we show that the commutator width of $G$ is in fact $2$.
+\begin{thma}\label{thm:CWGrigorchukGroup}
  The Grigorchuk group $G$ has commutator width 2.
  
  The normal subgroup $K$ has commutator width 2.
-\end{thm}
-% ALSO: say this is a new proof, that does not require LMU
-We don't need the previous result from \cite{Lysenok:QudraticEquationsInGrig}
-but use a similar method.
+\end{thma}
+The proof does not rely on the previous result from \cite{Lysenok:QudraticEquationsInGrig}
+but uses a similar method.
 
-This is then used to show that every subgroup of $G$ of finite index has
-finite commutator width.
-% maybe even all 2?
+This result is then used to prove the following theorem:
+\begin{thma}
+ All subgroups $H\leq G$ of finite index have finite commutator width.
+\end{thma}
 
-Our result answers a question of Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth}
-Furthermore we can conclude that every element of $G'$ is a product of 
+Our result answers a question of Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth}.
+Furthermore we can conclude the following corollary: 
+\begin{cora}
+ Every element of $G'$ is a product of 
 $6$ conjugates of the generator $a$.
+\end{cora}
 %TODO is something stronger possible. 4 conjugates?
 
 The main ingredient of our proof requires many computations which are 
-done by the computer algebra system GAP \cite{GAP4}. The source code
-for this computations will be distributed with this document. It can
+done using the computer algebra system GAP \cite{GAP4}. The source code
+for these computations are distributed with this document as auxiliary material. It can
 be validated using precomputed data on a GAP standard installation
-by running the command \gapinline{gap verfify.g} in the main directory.
+by running the command \gapinline{gap verify.g} in its main directory.
 
-%ALSO: say that the proof is GAP-assisted; verification of the arguments
-%is done by running GAP code, and checking the proof === checking the GAP code.
-For a more advanced experimentation with the code and redoing all 
-the precomputations GAP needs to be at least of version $4.7.6$ 
-with installed packages FR\cite{FR2.3.6} and 
-LPRES\cite{LPRES0.3.0}.
+For a more advanced experimentation with the code and to recompute 
+the precomputations GAP is required to be of version at least $4.7.6$ 
+and the packages FR\cite{FR2.3.6} and 
+LPRES\cite{LPRES0.3.0} must be installed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Equations}
