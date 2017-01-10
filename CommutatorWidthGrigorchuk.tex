@@ -83,11 +83,6 @@ In this paper we show that the commutator width of $G$ is in fact $2$.
 The proof does not rely on the previous result from \cite{Lysenok:QudraticEquationsInGrig}
 but uses a similar method.
 
-This result is then used to prove the following theorem:
-\begin{thma}
- All subgroups $H\leq G$ of finite index have finite commutator width.
-\end{thma}
-
 Our result answers a question of Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth}.
 Furthermore we can conclude the following corollary: 
 \begin{cora}
@@ -95,6 +90,23 @@ Furthermore we can conclude the following corollary:
 $6$ conjugates of the generator $a$.
 \end{cora}
 %TODO is something stronger possible. 4 conjugates?
+
+Theorem \ref{thm:CWGrigorchukGroup} is then used to prove the following theorem:
+\begin{thma}
+ All subgroups $H\leq G$ of finite index have finite commutator width.
+\end{thma}
+It comes to mind that this could be true for all groups, but there
+are examples of groups of finite commutator width with a subgroup of
+infinite commutator width.
+%TODO would be better hence finite index!
+%\begin{ex}
+% The group $SL_2(\ZZ)$ is of finite commutator width %TODO really? 
+% and contains $F_2$ as finite index subgroup which has infinite commutator width.
+%\end{ex}
+\begin{ex}
+ The group $F_2\wr \ZZ$ is of commutator width $3$
+ and contains $F_2$ as subgroup which has infinite commutator width.
+\end{ex}
 
 The main ingredient of our proof requires many computations which are 
 done using the computer algebra system GAP \cite{GAP4}. The source code
