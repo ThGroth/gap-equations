@@ -308,6 +308,67 @@ first generators of $F_X$.
   additional property that $s\circ\pi=\gamma$.
 \end{defi}
 
+%TODO find good position for this. Perhaps after new subsection self similar groups.
+To give an idea how the general method works in the Grigorchuk group
+we look first as an easier example at the group $\Aut(T_2)$. In this group
+we have a nice property: If $g,h\in \Aut(T_n)$ then also the element 
+$\pair{g,h}\sigma\in \Aut(T_n)$. This is not true for the Grigorchuk group
+and will make the notation a bit more complicated there.
+
+\begin{pro}\label{pro:comwidthAutT2}
+ The commutator width of $\Aut(T_2)$ is $1$.
+\end{pro}
+For the proof we need a little observation:
+\begin{lem}
+  Let $H$ be a self similar group.
+  If $g\in H'$ then $g\at{2}\cdot g\at{1}\in H'$. 
+\end{lem}
+  \begin{proof}
+ If $h\in H'$ then there is some $n$ such that the equation $R_n(x_1,\ldots,x_{2n})g$ is 
+ solvable by some solution $s$. By setting $\gamma\colon F_X\to S_2, x_i\mapsto \act(s(x_i))$
+ we get a constraint such that the corresponding constrained equation is solvable. 
+ We distinguish two cases. If $\gamma$ is the trivial mapping 
+ then the equations $R_n(x_1,\ldots,x_{2n})g\at{1}$,
+ $R_n(y_1,\ldots,y_{2n})g\at{2}$ are both solvable and hence
+ $g\at{1},g\at{2} \in H'$. 
+ 
+ If $\gamma$ is nontrivial then the solvability of $R_ng,\gamma$ is equivalent 
+ to the solvability of $R_{2n-1}(g\at{2})^{x_{4n-1}}(g\at{1})$ and hence 
+ also in this case $(g\at{2})\cdot(g\at{1})\in H'$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition \ref{pro:comwidthAutT2}]
+ Given any element $g\in \Aut(T_2)'$ we consider the equation $[x,y]g$.
+ If we replace the variable $x$ by $\pair{x_1,x_2}$ and $y$ by $\pair{y_1,y_2}(1,2)$ 
+ we obtain $\pair{x_2^{-1}y_2^{-1}x_2y_2g\at{1},x_1^{-1}y_1^{-1}x_1y_1g\at{2}}$. Hence a 
+ solution for this would map both states to the identity the solvability of 
+ the system of equations $x_2^{-1}y_2^{-1}x_2y_2g\at{1}$, $x_1^{-1}y_1^{-1}x_1y_1g\at{2}$
+ is equivalent to the solvability of the image of the system of equations under 
+ the $H$-homomorphism $x_2\mapsto y_1^{-1}x_1y_1 g\at{2}$, $x_i\mapsto x_i$ 
+ for all other $i$. 
+ 
+ Therefore the solvability of the constrained equation
+ $\left([x,y]g, (x\mapsto 1,y\mapsto (1,2)) \right)$ is equivalent to the solvability of
+ $x_1^{-1}y_2^{-1}y_1^{-1}x_1y_1(g\at{2}) y_2 g\at{1}$ which is under the 
+ normal form $H$-isomorphism $y_1\mapsto y_1y_2^{-1}$ equivalent to the 
+ solvability of $[x_1,y_1](g\at{2})^{y_2} g\at{1}$. After choosing $y_2=1$ we are 
+ again in the original situation since $g\at{2} g\at{1}\in H'$. 
+ 
+ This allows us to recursively define a solution $s$ for the equation $[x,y]g$ explicitly:
+%  \begin{align*}
+%   x &= \pair{x_1,y_1^{-1}x_1y_1 g\at{2} } & y &=\pair{y_1,1}(1,2) \\
+%   x_1 &= \pair{x_{11},y_{11}^{-1}x_{11}y_{11} (g\at{2}g\at{1})\at{2} } & y_1 &=\pair{y_{11},1}(1,2) \\
+%   &\ \vdots & &\ \vdots
+%   x_{1	 &= \pair{x_{11},y_{11}^{-1}x_{11}y_{11} (g\at{2}g\at{1})\at{2} } & y_1 &=\pair{y_{11},1}(1,2) \\
+%  \end{align*}
+\begin{align*}
+  s(x) &= \pair{x_1,y_1^{-1}x_1y_1 g\at{2} }, & s(y) &=\pair{y_1,1}(1,2), &g_0&=g\at{2} \cdot g\at{1}, \\
+  x_1 &= \pair{x_{2},y_{2}^{-1}x_{2}y_{2} g_0\at{2} }, & y_1 &=\pair{y_{2},1}(1,2),&g_1&=g_0\at{2} \cdot g_0\at{1}, \\
+  x_{i+1} &= \pair{x_{i},y_{i}^{-1}x_{i}y_{i} g_i\at{2} }, & y_{i+1} &=\pair{y_{i},1}(1,2),&g_{i+1}&=g_i\at{2} \cdot g_i\at{1}. 
+ \end{align*}
+\end{proof}
+
+
 \section{The first Grigorchuk Group}\label{sec:GrigorchukGroup}
 Let $T_n$ be an infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
 The group $\Aut(T_n)$ consists of all root preserving graph automorphisms of the tree $T_n$. 
