@@ -102,21 +102,6 @@ tabsize=2
   \raisebox{-1ex}{\ensuremath{#2}}
 }
 \newcommand{\RNK}[2]{{#1/#2}}
-% \newcommand{\RNK}[2]{
-%   \mathchoice{ \raisebox{1ex}{\ensuremath{#1}}%
-% 	       \ensuremath{\mkern-4mu} \big/  \ensuremath{\mkern-4mu}%
-% 	       \raisebox{-1ex}{\ensuremath{#2}}}%
-% 	     { \raisebox{0.2ex}{\ensuremath{#1}}%
-% 	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
-% 	       \raisebox{-0.2ex}{\ensuremath{#2}}}%
-% 	     { \raisebox{0.1ex}{\ensuremath{\scriptstyle#1}}%
-% 	       \ensuremath{\mkern-4mu} /  \ensuremath{\mkern-4mu}%
-% 	       \raisebox{-0.1ex}{\ensuremath{\scriptstyle#2}}}%
-% 	     { {\ensuremath{#1}}%
-% 	        /%
-% 	       {\ensuremath{#2}}}%
-%   \ 
-% }
 
 %uppergausian bracket
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
@@ -142,11 +127,9 @@ tabsize=2
 %das d hinter dem Integral
 \newcommand{\intd}{d}
 
-%Sprachen
-\newcommand{\La}{\mathcal{L}}
+
 \newcommand{\emptyword}{\epsilon}
-%Zustandmenge
-\newcommand{\States}{\zeta}
+
 %Alphabet
 \newcommand{\Al}{\mathcal{A}}
 %Zentrum
@@ -154,25 +137,15 @@ tabsize=2
 %Free Variables in a groupword
 \newcommand{\Var}{\textup{Var}}
 %Commutator width
-\newcommand{\cw}{\textup{width}}
+\DeclareMathOperator{\cw}{width}
 %Stabilizer
-\newcommand{\Sta}{\textup{St}}
-%Projektion auf Alphabet
-\newcommand{\alphab}{\mathfrak{wr}}
-\newcommand{\state}{\mathfrak{state}} 
-%zugehörige Mealy
-\newcommand{\mealy}[1]{\mathfrak{M}_{#1}}
-%Aktivität eines Automorphismus
-%\newcommand{\act}{\mathcal{A}\mathcal{CT}}
-%\newcommand{\act}{{\scalebox{0.9}{$\mathcal{A}$}\mspace{-2mu}\raisebox{-0.3ex}{\tiny$\mathbf{ct}$}}}
-\newcommand{\act}{{\textup{\smaller$\mathcal{A}\mathbf{ct}$}}}
-%PairKlammern
+\DeclareMathOperator{\Stab}{Stab}
+%Activity
+\DeclareMathOperator{\act}{act}
+%Pair
 \DeclarePairedDelimiter{\pair}{\langle\negthickspace\langle}{\rangle\negthickspace\rangle}
-%\newcommand{\pair}[1]{{\langle\negthickspace\langle #1 \rangle\negthickspace\rangle}}
 %Nucleus
 \newcommand{\Nuc}{\mathcal{N}}
-%Commutatror Width
-\newcommand{\mcount}{{\#_M}}
 %Normal normal_form
 \newcommand{\nf}{\mathfrak{nf}}
 %Reduced constraints
@@ -191,41 +164,40 @@ tabsize=2
 
 %Centralizer:
 \newcommand{\centra}{\mathcal{C}}
-%Stabilizer
-\newcommand{\Stab}{\textup{Stab}}
 %Undefined elememts
 \newcommand{\undef}{\varnothing}
 
 %Variable names for equations
 \newcommand{\eq}[1]{\mathcal{#1}}
-
-%Funktionen aufrecht
-\newcommand{\Aut}{\textup{Aut}}
-\newcommand{\RAut}{\textup{RAut}}
-\newcommand{\FAut}{\textup{FAut}}
-\newcommand{\Poly}{\textup{Poly}}
-\newcommand{\EPoly}{\mbox{\smaller$\frac{1}{2}$}\Poly}
-%\newcommand{\EPoly}{\textup{EPoly}}
-\newcommand{\Orb}{\textup{Orb}}
-\newcommand{\OS}{\textup{OS}}
-\newcommand{\OSA}{\textup{OSA}}
-\newcommand{\supp}{\textup{supp}}
-\newcommand{\End}{\textup{End}}
-\newcommand{\rad}{\textup{rad}}
-\newcommand{\ad}{\textup{ad}}
-\newcommand{\id}{\mathbbm{1}}
 \newcommand{\im}{\textup{i}}
-\newcommand{\Min}{\textup{Min}}
-\newcommand{\Imm}{\textup{Im}}
-\newcommand{\Span}{\textup{span}}
-\newcommand{\Spec}{\textup{Spec}}
-\newcommand{\Spur}{\textup{tr}}
-\newcommand{\rk}{\textup{rk}}
-\newcommand{\sign}{\textup{sign}}
-\newcommand{\diag}{\textup{diag}}
-\newcommand{\Sym}{\textup{Sym}}
-\newcommand{\ord}{\textup{ord}}
-\newcommand{\suc}{\textup{suc}}
+
+\newcommand{\id}{\mathbbm{1}}
+%Funktionen aufrecht
+\DeclareMathOperator{\Aut}{{Aut}}
+\DeclareMathOperator{\RAut}{{RAut}}
+\DeclareMathOperator{\FAut}{{FAut}}
+\DeclareMathOperator{\Poly}{{Poly}}
+\DeclareMathOperator{\EPoly}{\mbox{\smaller$\frac{1}{2}$}\Poly}
+%\DeclareMathOperator{\EPoly}{{EPoly}}
+\DeclareMathOperator{\Orb}{{Orb}}
+\DeclareMathOperator{\OS}{{OS}}
+\DeclareMathOperator{\OSA}{{OSA}}
+\DeclareMathOperator{\supp}{{supp}}
+\DeclareMathOperator{\End}{{End}}
+\DeclareMathOperator{\rad}{{rad}}
+\DeclareMathOperator{\ad}{{ad}}
+
+\DeclareMathOperator*{\Min}{{Min}}
+\DeclareMathOperator{\Imm}{{Im}}
+\DeclareMathOperator{\Span}{{span}}
+\DeclareMathOperator{\Spec}{{Spec}}
+\DeclareMathOperator{\Spur}{{tr}}
+\DeclareMathOperator{\rk}{{rk}}
+\DeclareMathOperator{\sign}{{sign}}
+\DeclareMathOperator{\diag}{{diag}}
+\DeclareMathOperator{\Sym}{{Sym}}
+\DeclareMathOperator{\ord}{{ord}}
+\DeclareMathOperator{\suc}{{suc}}
 \DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\operp}{{ \bigcirc\!\!\!\!\!\!\!\perp}}
 
