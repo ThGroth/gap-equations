@@ -170,17 +170,36 @@ is known to have solvable word problem and solvable conjugacy problem
 %conjugacy problem.
 
 \subsection{Sketch of proofs}
-!!! say a bit more about the strategy: construct a graph, good pairs, etc.???
+%!!! say a bit more about the strategy: construct a graph, good pairs, etc.???
+The general idea for the proof of Theorem~\ref{thm:CWGrigorchukGroup} is
+the decomposition of group elements into states. We consider the equation
+$\eq{E}=[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g$. By fixing the activity
+of a possible solution of $\eq{E}$ the equation inherits
+some new equation which is after some normalization process of the same 
+form but of higher genus and hence easier to solve.
 
-The main ingredient of our proof requires many computations which are
-done using the computer algebra system GAP \cite{GAP4}. The source
+Not all solutions for the new equations compose back to solutions 
+of the original equation. Thus instead of pure equations we consider
+constrained equations. The pair of a constraint and an element $g\in G$ 
+will be a \emph{good pair} if there is some $n$ such that the 
+constrained equation $[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g$ is solvable.
+It turns out that this only depends on the image of $g$ in a finite
+quotient $\RNK{G}{K'}$. 
+
+Then by direct computations we show that every good pair inherits
+another good pair where the genus of the equation increases.
+This is used to build a graph of good pairs which is then shown
+to be finite. 
+
+The computations are done
+ using the computer algebra system GAP \cite{GAP4}. The source
 code for these computations are distributed with this document as
 auxiliary material. It can be validated using precomputed data on a
 GAP standard installation by running the command \gapinline{gap
   verify.g} in its main directory.
 
 For a more advanced experimentation with the code and to recompute 
-the precomputations GAP is required to be of version at least $4.7.6$ 
+the precomputations GAP is required to be at least $4.7.6$  of version 
 and the packages FR\cite{FR2.3.6} and 
 LPRES\cite{LPRES0.3.0} must be installed.
 
@@ -400,7 +419,6 @@ and will write $\act(g):= \sigma$.
 
 
 \subsection{Commutator width of \texorpdfstring{$\mathbf{\textup{Aut}(T_2)}$}{Aut(T2)} }
-%TODO find good position for this. Perhaps after new subsection self similar groups.
 To give an idea how the proof works in the Grigorchuk group
 we first look as an easier example at the group $\Aut(T_2)$. In this group
 we have a nice property: For every two elements $g,h\in \Aut(T_n)$ the
