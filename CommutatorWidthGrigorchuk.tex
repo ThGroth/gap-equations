@@ -16,26 +16,147 @@
 \author{Thorsten Groth}
 \author{Igor Lysionok}
 \begin{abstract}
-Let $G$ be the first Grigorchuk group. 
-In the present paper we show that the \emph{commutator width}
-of $G$ is $2$ and hence every element $g\in [G,G]$ is a product
-of two commutators. Furthermore we show that every subgroup $H\leq G$ 
-of finite index has finite commutator width
-although it can be arbitrary large. %TODO not shown yet.
-The computations for the proofs are computer assisted by the
-computer algebra system GAP.
+  Let $G$ be the first Grigorchuk group.  We show that the commutator
+  width of $G$ is $2$: every element $g\in [G,G]$ is a product of two
+  commutators. Furthermore, we show that every finitely generated
+  subgroup $H\leq G$ has finite commutator width, which however can be
+  arbitrarily large. The proofs were assisted by the computer algebra
+  system GAP.
 \end{abstract}
 \maketitle
 %\tableofcontents
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-One famous finitely generated self similar group 
-was defined by Grigorchuk and was the first known group of intermediate growth.
-We will refer to this group as the \emph{first Grigorchuk group} $G$.
-For a more detailed introduction into the topic of self similar
-groups we refer to the book by Nekrashevych \cite{Nekrashevych:SelfSimilarGroups}. 
+Let $\Gamma$ be a group and let $\Gamma'=[\Gamma,\Gamma]$ denote its
+derived subgroup. The \emph{commutator width} of $\Gamma$ is the least
+$n\in \NN\cup \infty$ such that every element of $\Gamma'$ is a
+product of $n$ commutators.
 
+We compute, in this article, the commutator width of the \emph{first
+  Grigorchuk group} $G$. This is a prominent example from the class of
+\emph{branched groups}, and as such is a good testing ground for
+decision and algebraic problems in group theory. We prove:
+\begin{thma}\label{thm:CWGrigorchukGroup}
+  The first Grigorchuk group and its branching subgroup have
+  commutator width $2$.
+\end{thma}
+It was already proven in~\cite{Lysenok:QudraticEquationsInGrig} that
+the commutator width of $G$ is finite, with an inherently inexplicit
+method. Our proof does not rely on that previous work. Our result as
+answers a question of Elisabeth
+Fink~\cite[Question~3]{Fink:Conjugacy_growth}:
+\begin{cora}
+  Every element of $G'$ is a product of $6$ conjugates of the
+  generator $a$.
+\end{cora}
+%TODO is something stronger possible. 4 conjugates?
+
+There are examples of groups of finite commutator width with subgroups
+of infinite commutator width; and even finitely presented, perfect
+examples in which the subgroup has finite index. However, we can
+prove:
+\begin{thma}\label{thm:subgroups}
+  Every finitely generated subgroup of $G$ has finite commutator
+  width; however, their commutator width cannot be bounded, even among
+  finite-index subgroups.
+\end{thma}
+
+\subsection{Commutator width}
+Let $\Gamma$ be a group. It is well-known that sometimes elements of
+$\Gamma'$ are not commutators---for example,
+$[x_1,x_2]\cdots[x_{2n-1},x_{2n}]$ is not a commutator in the free
+group $F_{2n}$. In fact, every non-abelian free group has infinite
+commutator width, because it contains $F_{2n}$ for all $n$. There are
+finite groups in which some elements are not commutators, the smallest
+having order $96$, see~\cite{Guralnick:Group96}. On the other hand,
+non-abelian finite simple groups have commutator width $1$, as
+conjectured by Ore~\cite{Ore:Commutators} in~1951 and proven in~2010,
+see~\cite{Liebeck:OreConjecture}.
+
+Commutator width of groups, and of elements, has proven to be an
+important group property, in particular via its connections with
+``stable commutator length'' and bounded
+cohomology~\cite{Calegari:SCL}. It is also related to solvability of
+quadratic equations in groups: a group $\Gamma$ has commutator width
+$\le n$ if and only if the equation
+$[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g=1$ is solvable for all
+$g\in\Gamma$. Needless to say, there are groups in which solvability
+of equations is undecidable. It was proven
+in~\cite{Lysenok:QudraticEquationsInGrig} that quadratic equations are
+solvable in the first Grigorchuk group $G$, and the mere existence of
+an algorithm solving quadratic equations implies that $G$ has finite
+commutator width, withuout giving an explicit bound.
+
+We note that if the character table of a group $\Gamma$ is computable,
+then it may be used to compute the commutator width: Burnside shows
+(or, rather, hints) in~\cite[\S238, Ex. 7]{Burnside:Groups} that an
+element $g\in\Gamma$ may be expressed as a product of $r$ commutators
+if and only if
+\[\sum_{\chi\in\operatorname{Irr}(\Gamma)}\frac{\chi(g)}{\chi(1)^{2r-1}}>0.\]
+This may yield another proof of Theorem~\ref{thm:CWGrigorchukGroup},
+using the quite explicit description of $\operatorname{Irr}(G)$ given
+in~\cite{Bartholdi:RepresentationZetaFunctions}.
+
+Consider a group $\Gamma$ and a subgroup $\Delta$. There is in general
+little connection between the commutator width of $\Gamma$ and that of
+$\Delta$. If $\Delta$ has finite commutator width and
+$[\Gamma:\Delta]$ is finite, then obviously $\Gamma$ also has finite
+commutator width---for example, because
+$\Gamma/\operatorname{core}(\Delta)'$ is virtually abelian, and every
+commutator in $\Gamma$ can be written as a product of a commutator in
+$\Delta$ with the lift of one in
+$\Gamma/\operatorname{core}(\Delta)'$, but that seems to be all that
+can be said. Danny Calegari pointed us to the following example:
+\begin{ex}
+  Consider the group $\Delta$ of orientation-preserving
+  self-homeomorphisms of $\RR$ that commute with integer translations,
+  and let $\Gamma$ be the extension of $\Delta$ by the involution
+  $x\mapsto-x$. Then, by~\cite[Theorems~2.3
+  and~2.4]{Eisenbud-Hirsch-Neumann:SeifertBundles}, every element of
+  $\Gamma'=\Delta$ is a commutator in $\Gamma$, while the commutator
+  width of $\Delta$ is infinite.
+
+  Both $\Gamma$ and $\Delta$ can be made perfect by replacing them
+  respectively with $(\Gamma\wr A_5)'$ and $\Delta\wr A_5$; and can be
+  made finitely presented by restricting to those self-homeomorphisms
+  that are piecwise-affine with dyadic slopes and breakpoints.
+\end{ex}
+
+\subsection{Branched groups}
+For a more detailed introduction into the topic of self similar groups
+we refer to the book by Nekrashevych
+\cite{Nekrashevych:SelfSimilarGroups}. More details will be given
+in~\S\ref{sec:SelfSimilarGroups}; here we briefly introduce
+the Grigorchuk group and some of its properties.
+
+A \emph{self-similar group} is a group $\Gamma$ endowed with an
+injective homomorphism $\psi\colon\Gamma\to\Gamma\wr S_n$ for some
+symmetric group $S_n$. It is \emph{regular branched} if there exists a
+finite-index subgroup $K\le\Gamma$ such that $\psi(K)\ge K^n$. It is
+convenient to write $\pair{g_1,\dots,g_n}\pi$ for an element of
+$\Gamma\wr S_n$. It is also convenient to indentify, in a self-similar
+group, elements with their image under $\psi$.
+
+A self-similar group may be specified by giving a set $S$ of
+generators, some relations that they satisfy, and defining $\psi$ on
+$S$. There is then a maximal quotient $\Gamma$ of the free group $F_S$
+on which $\psi$ induces an injective homomorphism to $\Gamma\wr S_n$.
+
+The first Grigorchuk group $G$ may be defined in this manner. It is
+the group generated by $S=\{a,b,c,d\}$, with $a^2=b^2=c^2=d^2=bcd=1$,
+and with
+\[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}. \]
+
+Here are some remarkable properties of $G$: it is an infinite torsion
+group, and more precisely for every $g\in G$ we have $g^{2^n}=1$ for
+some $n\in\NN$. On the other hand, it is not an Engel group, namely it
+is not true that for every $g,h\in G$ we have $[g,h,\dots,h]=1$ for a
+long-enough iterated commutator~\cite{Bartholdi:Engel}. It is a group
+of intermediate word growth, and answered in this manner a celebrated
+question of Milnor.
+
+!!! maybe shorten what is below? It does not seem so fundamental to the present text???
 Many decision problems which are solvable in large subclasses of 
 self similar groups where first studied in the group $G$. The group
 is known to have solvable word problem and solvable conjugacy problem
@@ -47,69 +168,15 @@ to a wider class of branch groups. In
 branch groups with a well behaving length function have solvable 
 conjugacy problem.
 
-\subsection{Commutator width}
-The definition of the derived subgroup $H'=[H,H]$ of a group $H$ invokes 
-the question for which groups the set of commutators is a proper subset
-of the derived. 
-Furthermore one can ask how many commutators are necessary to get every 
-element of the derived subgroup.
-\begin{defi}
- The \emph{commutator width} of a group $H$ is the least number $n\in \NN\cup \infty$ such
- that every element $g\in [H,H]$ is a product of $n$ commutators.
-\end{defi}
-In 1951 Ore (\cite{Ore:Commutators}) conjectured that every finite non abelian simple group is 
-of commutator width $1$. This was proven to be correct in 2010 (\cite{Liebeck:OreConjecture}).
+\subsection{Sketch of proofs}
+!!! say a bit more about the strategy: construct a graph, good pairs, etc.???
 
-The smallest group of commutator width greater then $1$ is a group of 
-order $96$ \cite{Guralnick:Group96}.
-
-%TODO Character formula
-
-%The notion of a stable commutator which is a useful tool for bounded cohomology is 
-%defined with respect to the lengt of an element%TODO perhaps this leads too far away.
-
-In \cite{Lysenok:QudraticEquationsInGrig} it is proved that the \emph{diophantine problem}
-of quadratic words in $G$ is solvable. A by-product is the result that the
-commutator width of $G$ is a bounded number. This given bound is by the nature
-of the prove inexplicit.
-
-\subsection{Main results}
-In this paper we show that the commutator width of $G$ is in fact $2$.
-\begin{thma}\label{thm:CWGrigorchukGroup}
- The Grigorchuk group $G$ has commutator width 2.
- 
- The normal subgroup $K$ has commutator width 2.
-\end{thma}
-The proof does not rely on the previous result from \cite{Lysenok:QudraticEquationsInGrig}
-but uses a similar method.
-
-Our result answers a question of Elisabeth Fink~\cite[Question 3]{Fink:Conjugacy_growth}.
-Furthermore we can conclude the following corollary: 
-\begin{cora}
- Every element of $G'$ is a product of 
-$6$ conjugates of the generator $a$.
-\end{cora}
-%TODO is something stronger possible. 4 conjugates?
-
-Theorem \ref{thm:CWGrigorchukGroup} is then used to prove the following theorem:
-\begin{thma}
- All subgroups $H\leq G$ of finite index have finite commutator width.
-\end{thma}
-It comes to mind that this could be true for all groups, but there
-are examples of groups of finite commutator width with a subgroup of
-infinite commutator width.
-%TODO replace by finite index example
-
-\begin{ex}
- The group $F_2\wr \ZZ$ is of commutator width $3$
- and contains $F_2$ as subgroup which has infinite commutator width.
-\end{ex}
-
-The main ingredient of our proof requires many computations which are 
-done using the computer algebra system GAP \cite{GAP4}. The source code
-for these computations are distributed with this document as auxiliary material. It can
-be validated using precomputed data on a GAP standard installation
-by running the command \gapinline{gap verify.g} in its main directory.
+The main ingredient of our proof requires many computations which are
+done using the computer algebra system GAP \cite{GAP4}. The source
+code for these computations are distributed with this document as
+auxiliary material. It can be validated using precomputed data on a
+GAP standard installation by running the command \gapinline{gap
+  verify.g} in its main directory.
 
 For a more advanced experimentation with the code and to recompute 
 the precomputations GAP is required to be of version at least $4.7.6$ 
@@ -306,6 +373,8 @@ first generators of $F_X$.
   A \emph{solution} for $(\eq{E},\gamma)$ is a solution $s$ for $\eq{E}$ with the
   additional property that $\pi\circ s=\gamma$.
 \end{defi}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Self similar groups}\label{sec:SelfSimilarGroups}
 Let $T_n$ be the infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
 The group $\Aut(T_n)$ consists of all root-preserving graph automorphisms of the tree $T_n$. 
@@ -1025,6 +1094,13 @@ the properties of the branch structure it is true that $\pair{(cag)^\pi,(ac)^\pi
 %  If $g\in K$ then 
 %  \[(g\at{1},g\at{2})^{\pi\times\pi} \in \left\{\left(\left((ca)^n\right)^\pi,\left((ac)^n\right)^\pi\right) \mid n=1,\ldots,4\right\}\]
 % \end{lem}
+
+\section{Proof of Theorem~\ref{thm:subgroups}}
+Will need somewhere:
+\cite[Theorem~1]{Grigorchuk-Wilson:Commensurability} saying that every
+finitely generated subgroup is abstractly commensurable with $G$.
+
+
 
 \section{Implementation in GAP}
 \subsection{Usage of the attached files}
