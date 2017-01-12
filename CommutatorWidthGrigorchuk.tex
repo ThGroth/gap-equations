@@ -237,9 +237,8 @@ denote by $F_X$ the free group on the generating set $X$.
   An \emph{evaluation} is a $G$-homomorphism $e\colon F_X * G \to G$.
   A \emph{solution} of an equation $\eq{E}$ is an evaluation $s$
   satisfying $s(\eq{E})=1$. If a solution exists for $\eq{E}$ then the
-  equation $\eq{E}$ is called \emph{solvable}, and one writes
-  $\models \eq{E}$ (!!! DO WE REALLY USE IT???).  The set of elements $x\in X$ with $s(x)\neq 1$ is
-  called the \emph{support} of the solution.
+  equation $\eq{E}$ is called \emph{solvable}. The set of elements
+  $x\in X$ with $s(x)\neq 1$ is called the \emph{support} of the solution.
 \end{defi}
 
 The support of a solution for an equation $\eq{E}$ may be assumed to be
@@ -457,28 +456,24 @@ For the proof we need a small observation:
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{pro:comwidthAutT2}]
- Given any element $g\in \Aut(T_2)'$ we consider the equation $[x,y]g$. (!!! DON'T WE WANT $X,Y$ IN UPPERCASE FOR COHERENCE???)
- If in it we replace the variable $x$ by $\pair{X_1,X_2}$ and $y$ by $\pair{Y_1,Y_2}(1,2)$ 
- we obtain $\pair{X_1^{-1}Y_2^{-1}X_2Y_2g\at{1},X_2^{-1}Y_1^{-1}X_1Y_1g\at{2}}$. Therefore, $[x,y]g$ is solvable if
- the system of equations $X_2^{-1}Y_2^{-1}X_2Y_2g\at{1}$, $X_1^{-1}Y_1^{-1}X_1Y_1g\at{2}$ is solvable. We apply the $\Aut(T_2)$-homomorphism $X_1\mapsto X_1,X_2\mapsto Y_1^{-1}X_1Y_1 g\at{2},Y_i\mapsto Y_i$ to eliminate one equation and one variable.
+ Given any element $g\in \Aut(T_2)'$ we consider the equation $[X,Y]g$. 
+ If in it we replace the variable $X$ by $\pair{X_1,X_2}$ and $Y$ by $\pair{Y_1,Y_2}(1,2)$ 
+ we obtain $\pair{X_1^{-1}Y_2^{-1}X_2Y_2g\at{1},X_2^{-1}Y_1^{-1}X_1Y_1g\at{2}}$. Therefore, $[X,Y]g$ is solvable if
+ the system of equations $X_2^{-1}Y_2^{-1}X_2Y_2g\at{1}$, $X_1^{-1}Y_1^{-1}X_1Y_1g\at{2}$ is solvable.
+ We apply the $\Aut(T_2)$-homomorphism $X_1\mapsto X_1,X_2\mapsto Y_1^{-1}X_1Y_1 g\at{2},Y_i\mapsto Y_i$ to eliminate one equation and one variable.
  
  Therefore the solvability of the constrained equation
- $\left([x,y]g, (x\mapsto 1,y\mapsto (1,2)) \right)$ follows from the solvability of
+ $\left([X,Y]g, (X\mapsto 1,Y\mapsto (1,2)) \right)$ follows from the solvability of
  $X_1^{-1}Y_2^{-1}Y_1^{-1}X_1Y_1(g\at{2}) Y_2 g\at{1}$ which is under the 
  normal form $\Aut(T_2)$-isomorphism $Y_1\mapsto Y_1Y_2^{-1}$ equivalent to the 
  solvability of $[X_1,Y_1](g\at{2})^{Y_2} g\at{1}$. After choosing $Y_2=1$ we are 
  again in the original situation since $g\at{2} g\at{1}\in H'$. 
  
- This allows us to recursively define a solution $s$ for the equation $[x,y]g$ as follows:
-%  \begin{align*}
-%   x &= \pair{X_1,Y_1^{-1}X_1Y_1 g\at{2} } & y &=\pair{Y_1,1}(1,2) \\
-%   X_1 &= \pair{X_{11},Y_{11}^{-1}X_{11}Y_{11} (g\at{2}g\at{1})\at{2} } & Y_1 &=\pair{Y_{11},1}(1,2) \\
-%   &\ \vdots & &\ \vdots
-%   x_{1	 &= \pair{X_{11},Y_{11}^{-1}X_{11}Y_{11} (g\at{2}g\at{1})\at{2} } & Y_1 &=\pair{Y_{11},1}(1,2) \\
-%  \end{align*}
+ This allows us to recursively define a solution $s$ for the equation $[X,Y]g$ as follows:
 \begin{align*}
-  s(x) &= \pair{a_1,b_1^{-1}a_1b_1 g\at{2} }, & s(y) &=\pair{b_1,1}(1,2), &c_1&=g\at{2} \cdot g\at{1}, \\
-\intertext{and for all $i\ge1$}
+  s(X) &= \pair{a_1,b_1^{-1}a_1b_1 g\at{2} },
+& s(Y) &= \pair{b_1,1}(1,2), &c_1&=g\at{2} \cdot g\at{1}, \\
+\intertext{and for all $i\geq 1$}
   a_{i} &= \pair{a_{i+1},b_{i+1}^{-1}a_{i+1}b_{i+1} c_i\at{2} }, & b_{i} &=\pair{b_{i+1},1}(1,2),&c_{i+1}&=c_{i}\at{2} \cdot c_{i}\at{1}. 
  \end{align*}
  Note that the elements $a_i,b_i\in\Aut(T_2)$ are well-defined,
@@ -490,10 +485,8 @@ For the proof we need a small observation:
  $a_1=\lim a_1^{(n)}$ and $b_1=\lim b_1^{(n)}$.
 \end{proof}
 
-(!!! WE NEVER DEFINED ``REGULAR BRANCH''. IS THIS A GOOD PLACE???)
-
 \section{The first Grigorchuk Group}\label{sec:GrigorchukGroup}
-The Grigorchuk $2$-group is a finitely generated self-similar group with finite state (!!! UNDEFINED FINITE STATE ???) generators:
+The Grigorchuk $2$-group is a finitely generated self-similar group with generators:
 \[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
 
 Some useful identities are
@@ -502,9 +495,13 @@ Some useful identities are
   b^a= \pair{c,a}, c^a=\pair{d,a}, d^a=\pair{b,\id},\\
   (ad)^4=(ac)^8=(ab)^{16}= \id.
 \end{gather*}
-
-\begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK}
-The Grigorchuk group is regular branched (!!! UNDEFINED REGULAR BRANCH ???) with branching subgroup 
+%(!!! WE NEVER DEFINED ``REGULAR BRANCH''. IS THIS A GOOD PLACE???)
+\begin{defi}
+ A self similar group $\Gamma$ is called \emph{regular branched} if it
+ has a finite-index subgroup $K\leq \Gamma$ such that $K^{\times n} \leq \psi(K)$.
+\end{defi}
+\begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK} %TODO make sure this is a good ref.
+The Grigorchuk group is regular branched with branching subgroup 
  \[K:= \left<(ab)^2\right>^G=\left< (ab)^2,(bada)^2,(abad)^2 \right>. \]
  The quotient $Q := \RNK{G}{K}$ is of order $16$.
 \end{lem}
@@ -518,7 +515,7 @@ The Grigorchuk group is regular branched (!!! UNDEFINED REGULAR BRANCH ???) with
  Then \[\left|\RNK{Q^n}{\Stab(R_n)}\right|=90 \text{ for all } n\geq 3	.\]
 \end{lem}
 \begin{proof}
-%TODO Reference for the generators of the mcg. 
+%TODO Reference for the generators of the mcg?. 
 By Lemma~\ref{lem:finitelyManyConstraints} every element $\gamma\in Q^n$ has a representative in $Q^6$.
 
  The group $\Stab(R_n)$ can be generated by the 
@@ -563,30 +560,30 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr S_n$ consists of
  \item a map $\omega\colon Q_1 \to Q$ with the following property. If $g=\pair{g_1,g_2}\sigma \in G$ then $\omega(\pair{\pi(g_1),\pi(g_2)}\sigma) = \pi(g)$.
 \end{enumerate}
 \end{defi}
-\begin{lem}[{\cite[Lemma~!!!FILLIN???]{Bartholdi:RepresentationZetaFunctions}}]
- The Grigorchuk group has a branch structure.
-\end{lem}
-\begin{proof}
- The branching subgroup is the group $K$ defined in Lemma~\ref{lem:subgroupK}. In GAP the branch structure can be computed
- by the method \gapinline{BranchStructure(GrigorchukGroup)} which is included in the FR package. 
-\end{proof}
-From now on we will fix that branch structure for $G$ and denote by $K$ the branching subgroup and by $Q$ the factor group with natural homomorphism $\pi$.
+All regular branched groups have a branch structure
+(see {\cite[Remark after Definition~5.1]{Bartholdi:RepresentationZetaFunctions}}).
+We will from now on fix such a structure for $G$ and take 
+the group $K$ defined in Lemma~\ref{lem:subgroupK} as branching subgroup and 
+denote by $Q$ the factor group with natural homomorphism $\pi\colon G \to \RNK{G}{K}=Q$.
+
+ The branch structure of $G$ is included in the FR package and can be computed by the method
+  \gapinline{BranchStructure(GrigorchukGroup)}.
+
+
 
 %TODO move to the introduction, but what about the remark thereafter?
 % \begin{thm}[\cite{Lysenok:QudraticEquationsInGrig}]\label{IgorsThm}
 %  The Grigorchuk group has finite commutator width, namely
 %  there exists an $N\in\NN$ such that for all $g\in G'$ the equation $R_Ng$ is solvable.
 % \end{thm}
-\begin{re}
- %This is not true for all constrained equations: For example
- It is not true that for every $g\in G'$ and every constraint $\gamma$ 
- there is an $N$ such that the equation $R_N$ is solvable. For example 
+\subsection{Good Pairs}\label{sec:good_pairs}
+Note that 
+ it is not true that for every $g\in G'$ and every constraint $\gamma$ 
+ there is an $N$ such that the constrained equation $(R_N,\gamma)$ is solvable. For example 
  \[\left(R_n(ab)^2,(\gamma\colon X_i\mapsto 1\ \forall i)\right)\] 
  is not solvable for any $n$ because $(ab)^2\notin K'$.
-\end{re}
 
-\subsection{Good Pairs}\label{sec:good_pairs}
-The previous remark motivates the following definition.
+This motivates the following definition.
 \begin{defi}
 Given $g\in G'$ and $\gamma\in\Red$, the tuple $(g,\gamma)$ is called a \emph{good pair} if 
 $(R_ng,\gamma)$ is solvable for some $n\in\NN$.  
@@ -705,7 +702,8 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
 										g_1\mapsto q_1 \\
 										g_2\mapsto q_2 }, (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{1,1}\right\}.\] 
- Denote by $v,w=v_n,w_n$ (!!! CLASH WITH THE $v=v_1x_0v_2$ BELOW???) the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$. By the following Lemma~\ref{lem:commonVar} there is 
+ Denote by $v,w=v(n),w(n)$ the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$.
+ By the following Lemma~\ref{lem:commonVar} there is 
  $X_0 \in X\cup X^{-1}$ such that $v=v_1X_0v_2$ and $w=w_1X_0^{-1}w_2$. Then the homomorphism
  \[l_{X_0}\colon F_X*F_2\to F_X*F_2, X_i \mapsto \begin{cases}
 						X_i &\text{ if } X_i\neq {X_0} \\
