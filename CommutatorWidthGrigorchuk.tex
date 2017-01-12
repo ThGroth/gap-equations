@@ -46,7 +46,7 @@ the commutator width of $G$ is finite, with an inherently inexplicit
 method. Our proof does not rely on that previous work. Our result also
 answers a question of Elisabeth
 Fink~\cite[Question~3]{Fink:Conjugacy_growth}:
-\begin{cora}
+\begin{cora}\label{cor:productOf6Conjugates}
   Every element of $G'$ is a product of $6$ conjugates of the
   generator $a$.
 \end{cora}
@@ -971,11 +971,15 @@ The proof is the same as for Proposition~\ref{pro:existsNextPair}. The correspon
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
-The resulting succeeding pairs are now equations of genus $3$ with an active constraint. Those are already shown to be solvable 
-by Proposition~\ref{pro:solvableConstraintedEquations}. So together with Lemma~\ref{lem:existsGoodGammaForRed4} this proves the following corollary.
-\begin{cor}\label{cor:GhasCW2}
- The Grigorchuk group $G$ has commutator width at most $2$.
+The resulting succeeding pairs are now equations of genus $3$ with an active constraint. T
+hose are already shown to be solvable 
+by Proposition~\ref{pro:solvableConstraintedEquations}. Hence we have the following
+corollary which improves Proposition~\ref{pro:solvableConstraintedEquations}:
+\begin{cor}\label{cor:solvableConstraintedEquations}
+If $n\geq2$ and $(g,\gamma)$ is a good pair with active constraint $\gamma$ with $\supp(\gamma)\subset\{X_1,\ldots,X_{n}\}$
+ then the constrained equation $(R_n(X_1,\ldots,X_{2n})g,\gamma)$ is solvable. 
 \end{cor}
+So together with Lemma~\ref{lem:existsGoodGammaForRed4} this proves the first part of Theorem~\ref{thm:CWGrigorchukGroup}.
 \begin{cor}\label{cor:KhasCW2}
  $K$ has commutator width at most $2$. 
 \end{cor}
@@ -1085,12 +1089,16 @@ $X_i$ by $\pair{Y_i,Z_i}\act(\gamma(X_i)$ leads after normalization to an equiva
 $R_2(g\at{2})(g\at{1})$. Similar to the construction of $\Gamma^q$ in the section
 before one can find for each $q\in\RNK{G'}{K'}$ a constraint $\gamma$ such that
 $\gamma(\eq{E}^{\id*\pi})=1$ and $\gamma'\in\Gamma_1(\gamma)$ such that all for all 
-$g\in\pi^{-1}(q)$ it holds that $(g\at{2}g\at{1},\gamma')$ are good pairs.
+$g\in\pi^{-1}(q)$ the pairs $(g\at{2}g\at{1},\gamma')$ are good pairs and $\gamma'$ is 
+an active constraint.
 
 Therefore the constrained equation $(R_2(g\at{2})(g\at{1}),\gamma')$ is solvable
+by Corollary~\ref{cor:solvableConstraintedEquations}
 for each $g\in G'$ and hence the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
 
 In GAP use the function \gapinline{verifyExistGoodConjugacyConstraints} to check this.
+\end{proof}	
+This finishes the proof of Corollary~\ref{cor:productOf6Conjugates}.
 \begin{lem}
  There exits an element $g\in G'$ such that the equation 
  \begin{align*}
@@ -1098,6 +1106,7 @@ In GAP use the function \gapinline{verifyExistGoodConjugacyConstraints} to check
  \end{align*}
  is not solvable.
 \end{lem}
+\begin{proof}
 As before independent of the activities of a possible constraint $\gamma$ and of the element $g\in G'$
 the normalform of $\Phi_\gamma(a^{X_1}a^{X_2}a^{X_3}ag)$ turns out to
 be $R_1(g\at{2}) g\at{1}$. So all there is to prove is that there is an element $h\in K$
