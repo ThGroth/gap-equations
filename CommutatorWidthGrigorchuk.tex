@@ -486,7 +486,8 @@ For the proof we need a small observation:
 \end{proof}
 
 \section{The first Grigorchuk Group}\label{sec:GrigorchukGroup}
-The Grigorchuk $2$-group is a finitely generated self-similar group with generators:
+The Grigorchuk $2$-group is a finitely generated self-similar group acting faithful
+on the binary rooted tree with generators:
 \[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
 
 Some useful identities are
@@ -495,7 +496,6 @@ Some useful identities are
   b^a= \pair{c,a}, c^a=\pair{d,a}, d^a=\pair{b,\id},\\
   (ad)^4=(ac)^8=(ab)^{16}= \id.
 \end{gather*}
-%(!!! WE NEVER DEFINED ``REGULAR BRANCH''. IS THIS A GOOD PLACE???)
 \begin{defi}
  A self similar group $\Gamma$ is called \emph{regular branched} if it
  has a finite-index subgroup $K\leq \Gamma$ such that $K^{\times n} \leq \psi(K)$.
@@ -571,7 +571,6 @@ denote by $Q$ the factor group with natural homomorphism $\pi\colon G \to \RNK{G
 
 
 
-%TODO move to the introduction, but what about the remark thereafter?
 % \begin{thm}[\cite{Lysenok:QudraticEquationsInGrig}]\label{IgorsThm}
 %  The Grigorchuk group has finite commutator width, namely
 %  there exists an $N\in\NN$ such that for all $g\in G'$ the equation $R_Ng$ is solvable.
@@ -652,7 +651,6 @@ Furthermore these groups form a tower with indices
 \begin{defi}
  We define the activity of an element $q\in Q$ as the activity of an arbitrary element of $\pi^{-1}(q)$. 
  This is well defined since $K<\Stab(1)$. 
-%TODO need to define Stab(1)?
  
  Consider a constraint $\gamma\colon F_X \to Q$. 
  Define $\act(\gamma): F_X\to C_2$, $x \mapsto \act(\gamma(x))$.
