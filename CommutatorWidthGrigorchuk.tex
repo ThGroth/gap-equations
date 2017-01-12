@@ -188,7 +188,7 @@ quotient $\RNK{G}{K'}$.
 
 Then by direct computations we show that every good pair inherits
 another good pair where the genus of the equation increases.
-This is used to build a graph of good pairs which is then shown
+This is used to build a graph of good pairs which turns out 
 to be finite. 
 
 The computations are done
@@ -999,18 +999,18 @@ by Proposition \ref{pro:solvableConstraintedEquations}. So together with Lemma \
 \end{cor}
 
 \begin{proof}
- Note that from corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore 
+ Note that from Corollary \ref{cor:KhasCW2} it follows that $K\times K$ and furthermore 
  $K^{\times n}$ have commutator width $2$. 
  
- Let $H$ be a subgroup of finite index since $G$ has the congruence subgroup property
+ Let $H$ be a subgroup of finite index. Since $G$ has the congruence subgroup property
  (\cite{Bartholdi:parabolicSubgroups}) we can find a nontrivial normal subgroup $N=\Stab_G(m)<H$
  for some $m\in\NN$. Furthermore from the discussion of the top of the lattice of normal subgroups
  in $G$ done in \cite{Bartholdi:parabolicSubgroups} we can see that 
  \begin{align*}
   K&<\Stab_G(1), & K\times K&<\Stab_G(2), & K^{\times 4}&<\Stab_G(3).
  \end{align*}
- Furthermore it is $\Stab_G(n)=\Stab_G(3)^{\times 2^n-1}$ for $n\geq 4$ and hence for every 
- subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}<H$.
+ Furthermore it is $\Stab_G(n)=\Stab_G(3)^{\times 2^{n-3}}$ for $n\geq 4$ and hence for every 
+ subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}\leq H$.
   
   Since $G$ is just infinite, $[K^{\times2^n},K^{\times2^n}]$ has finite index in $[H,H]$.
   Therefore $T$ is a transversal of $\RNK{[H,H]}{[K^{\times2^n},K^{\times2^n}]}$ we can find 
