@@ -505,7 +505,7 @@ The Grigorchuk group is regular branched with branching subgroup
 \end{lem}
 \begin{lem}\label{lem:90Constraints}
  Identify the group of homomorphisms $\{\gamma \colon F_X \to Q \mid \supp(\gamma) \subset \left<X_1,\ldots X_n\right>\}$ with $Q^n$. 
- Then \[\left|\RNK{Q^6}{\Stab(R_n)}\right|=90 \text{ for all } n\geq 3	.\]
+ Then \[\left|\RNK{Q^n}{\Stab(R_n)}\right|=90 \text{ for all } n\geq 3	.\]
 \end{lem}
 \begin{proof}
 %TODO Reference for the generators of the mcg. 
@@ -997,33 +997,7 @@ So together with Lemma~\ref{lem:existsGoodGammaForRed4} this proves the first pa
  
  The previous check is implemented in the GAP function \gapinline{verifyCorollaryFiniteCWK}. 
 \end{proof}
-% \begin{cor}
-%  All normal subgroups $H\normal G$ are of finite commutator width.
-% \end{cor}
-\begin{cor}
-  All subgroups $H \leq G$ of finite index are of finite commutator width.
-\end{cor}
 
-\begin{proof}
- Note that from Corollary~\ref{cor:KhasCW2} it follows that $K\times K$ and furthermore 
- $K^{\times n}$ have commutator width $2$. 
- 
- Let $H$ be a subgroup of finite index. Since $G$ has the congruence subgroup property
- (\cite{Bartholdi:parabolicSubgroups}) we can find a nontrivial normal subgroup $N=\Stab_G(m)<H$
- for some $m\in\NN$. Furthermore from the discussion of the top of the lattice of normal subgroups
- in $G$ done in \cite{Bartholdi:parabolicSubgroups} we can see that 
- \begin{align*}
-  K&<\Stab_G(1), & K\times K&<\Stab_G(2), & K^{\times 4}&<\Stab_G(3).
- \end{align*}
- Furthermore it is $\Stab_G(n)=\Stab_G(3)^{\times 2^{n-3}}$ for $n\geq 4$ and hence for every 
- subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}\leq H$.
-  
-  Since $G$ is just infinite, $[K^{\times2^n},K^{\times2^n}]$ has finite index in $[H,H]$.
-  Therefore $T$ is a transversal of $\RNK{[H,H]}{[K^{\times2^n},K^{\times2^n}]}$ we can find 
-  $m\in \NN$ such that every element in $T$ is a product of at most $m$ commutators in $H$.
-  We can thus write each element $h\in [H,H]$ as product $kt$ with $k\in K^{\times 2^n}$, 
-  $t\in T$ and thus as a product of at most $2+m$ commutators.  
-\end{proof}
 \subsection{Not every element is a commutator}
 The procedure used to prove that every element is a product of two commutators 
 can not be used to prove that every element is a
@@ -1142,12 +1116,42 @@ the properties of the branch structure it is true that $\pair{(cag)^\pi,(ac)^\pi
 % \end{lem}
 
 \section{Proof of Theorem~\ref{thm:subgroups}}
-Will need somewhere:
-\cite[Theorem~1]{Grigorchuk-Wilson:Commensurability} saying that every
-finitely generated subgroup is abstractly commensurable with $G$.
+We will proof the statement first for finite index subgroups. 
+\begin{pro}\label{pro:f.i.subgroupsFiniteCW}
+  All subgroups $H \leq G$ of finite index are of finite commutator width.
+\end{pro}
+\begin{proof}
+ Note that from Corollary~\ref{cor:KhasCW2} it follows that $K\times K$ and furthermore 
+ $K^{\times n}$ have commutator width $2$. 
+ 
+ Let $H$ be a subgroup of finite index. Since $G$ has the congruence subgroup property
+ (\cite{Bartholdi:parabolicSubgroups}) we can find a nontrivial normal subgroup $N=\Stab_G(m)<H$
+ for some $m\in\NN$. Furthermore from the discussion of the top of the lattice of normal subgroups
+ in $G$ done in \cite{Bartholdi:parabolicSubgroups} we can see that 
+ \begin{align*}
+  K&<\Stab_G(1), & K\times K&<\Stab_G(2), & K^{\times 4}&<\Stab_G(3).
+ \end{align*}
+ Furthermore it is $\Stab_G(n)=\Stab_G(3)^{\times 2^{n-3}}$ for $n\geq 4$ and hence for every 
+ subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}\leq H$.
+  
+  Since $G$ is just infinite, $[K^{\times2^n},K^{\times2^n}]$ has finite index in $[H,H]$.
+  Taken a transversal $T$ of $\RNK{[H,H]}{[K^{\times2^n},K^{\times2^n}]}$ we can find 
+  $m\in \NN$ such that every element in $T$ is a product of at most $m$ commutators in $H$.
+  We can thus write each element $h\in [H,H]$ as product $kt$ with $k\in K^{\times 2^n}$, 
+  $t\in T$ and thus as a product of at most $2+m$ commutators.  
+\end{proof}
+Now we can use that every finitely generated subgroup of $G$ is 
+abstractly commensurable with $G$ which can be seen in 
+\cite[Theorem~1]{Grigorchuk-Wilson:Commensurability}.
 
+This, by definition, means that every finitely generated subgroup $H\leq G$ 
+contains a finite index subgroup which is isomorphic to a finite index subgroup
+of $G$ and hence by Proposition~\ref{pro:f.i.subgroupsFiniteCW} has finite
+commutator width. 
 
-
+%TODO:
+%Expand this:
+%There can't be a result for arbitrary subgroups, because the restricted product of all finite groups.
 \section{Implementation in GAP}
 \subsection{Usage of the attached files}
 In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
