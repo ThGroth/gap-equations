@@ -453,6 +453,8 @@ For the proof we need a small observation:
  to the solvability of $R_{2n-1}(g\at{2})^{x_{4n-1}}(g\at{1})$ and hence 
  also in this case $(g\at{2})\cdot(g\at{1})\in H'$.
  %TODO this second case needs more details since the map $\Phi_\gamma$ is not introduced yet!
+ %TODO Ask Laurent if he knows a way to give more details here without repeating the 
+%  same argument over and over again. Perhaps definition of \Phi_gamma already before this proposition?
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{pro:comwidthAutT2}]
@@ -477,7 +479,7 @@ For the proof we need a small observation:
   a_{i} &= \pair{a_{i+1},b_{i+1}^{-1}a_{i+1}b_{i+1} c_i\at{2} }, & b_{i} &=\pair{b_{i+1},1}(1,2),&c_{i+1}&=c_{i}\at{2} \cdot c_{i}\at{1}. 
  \end{align*}
  Note that the elements $a_i,b_i\in\Aut(T_2)$ are well-defined,
- although is constructed recursively out of the $a_j,b_j$ for
+ although they are constructed recursively out of the $a_j,b_j$ for
  \emph{larger} $j$. Indeed, if one considers the recursions above for
  $i\in\{1,\dots,n\}$ and sets $a_{n+1}=b_{n+1}=\id$, one defines in
  this manner elements $a_1^{(n)},b_1^{(n)}\in\Aut(T_2)$ which form
@@ -500,7 +502,9 @@ Some useful identities are
  A self similar group $\Gamma$ is called \emph{regular branched} if it
  has a finite-index subgroup $K\leq \Gamma$ such that $K^{\times n} \leq \psi(K)$.
 \end{defi}
-\begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK} %TODO make sure this is a good ref.
+\begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK}
+%TODO make sure this is a good ref. Update: I tried to find the group K in the Paper Gri80 and Gri84 but I didn't find them. 
+% Roz93 was the oldest paper I found, which construced K and proved K^2<Phi(K). 
 The Grigorchuk group is regular branched with branching subgroup 
  \[K:= \left<(ab)^2\right>^G=\left< (ab)^2,(bada)^2,(abad)^2 \right>. \]
  The quotient $Q := \RNK{G}{K}$ is of order $16$.
