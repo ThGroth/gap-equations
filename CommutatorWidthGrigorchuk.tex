@@ -633,7 +633,7 @@ Let us write $k_1 := (ab)^2, k_2:=\pair{1,k_1} = (abad)^2$ and $k_3:=\pair{k_1,1
   K &= \left< k_1,k_2,k_3\right>, \\
   K\times K &= \{\pair{k,k'} \mid k,k'\in K\} \\&= \left< k_2,k_3,k_2k_1^{-1}k_2^{-1}k_1,(k_2k_1^{-1}k_2^{-1}k_1)^a,k_2k_1k_2k_1^{-1},(k_2k_1k_2k_1^{-1})^a  \right>,\\
   K' &= \left< [k_1,k_2] \right>^G \\ 
-  &= \left<[k_2,k_1],[k_1,k_2^{-1}],[k_2,k_1]^{k_2},[k_1^{-1},k_2], [k_2,k_1]^{k_1},[k_2^{-1},k_1^{-1}]\right>^{1,a} %TODO double check this
+  &= \left<[k_2,k_1],[k_1,k_2^{-1}],[k_2,k_1]^{k_2},[k_1^{-1},k_2], [k_2,k_1]^{k_1},[k_2^{-1},k_1^{-1}]\right>^{1,a} 
  % &= \left<(dacabaca)^2(baca)^4,((ca)^2baca)^2,(dacabaca)^2c(acab)^3acad,\right.\\
  % &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{1,a}\ .
  \end{align*}
@@ -768,7 +768,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
   By Lemma~\ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
  and the natural homomorphism \[\rho'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
  and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(y_{\gamma'})}(q)$ under $\rho'$ 
- form good pairs with $\gamma'$. In formulas what needs to be checked is: Let $\mathcal{G}$ be the predicate of being a good pair. %TODO Find better name than \mathcal{G}
+ form good pairs with $\gamma'$. In formulas what needs to be checked is: Let $\mathcal{G}$ be the predicate of being a good pair. 
  \[\forall q\in\RNK{G'}{K'}
       \forall \gamma\in\Red_{act} 
 	 \exists \gamma'\in \Gamma^q(\gamma)
@@ -809,7 +809,6 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 %  Therefore the sequence of good pairs $(g_k,\gamma_k)$ is a sequence 
 %  of solvable equations $(R_{2^k+1}g_k,\gamma_k)$.
 % \end{proof}
-%TODO replace Y_i^\gamma_j by \gamma_j(Y_i) otherwise it gets unreadable // hopefully Done everywhere. Check if its consistent!
 
 \begin{lem} \label{lem:commonVar}
  If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
@@ -1112,7 +1111,7 @@ the properties of the branch structure it is true that $\pair{(cag)^\pi,(ac)^\pi
 
 \end{proof}
 
-%TODO no need for this a.t.m.
+%no need for this any more!
 % \begin{lem}
 %  If $g\in K$ then 
 %  \[(g\at{1},g\at{2})^{\pi\times\pi} \in \left\{\left(\left((ca)^n\right)^\pi,\left((ac)^n\right)^\pi\right) \mid n=1,\ldots,4\right\}\]
