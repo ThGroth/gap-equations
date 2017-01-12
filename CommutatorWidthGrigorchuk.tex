@@ -67,12 +67,21 @@ Let $\Gamma$ be a group. It is well-known that sometimes elements of
 $\Gamma'$ are not commutators---for example,
 $[X_1,X_2]\cdots[x_{2n-1},X_{2n}]$ is not a commutator in the free
 group $F_{2n}$. In fact, every non-abelian free group has infinite
-commutator width, because it contains $F_{2n}$ for all $n$. There are
-finite groups in which some elements are not commutators, the smallest
-having order $96$, see~\cite{Guralnick:Group96}. On the other hand,
-non-abelian finite simple groups have commutator width $1$, as
-conjectured by Ore~\cite{Ore:Commutators} in~1951 and proven in~2010,
-see~\cite{Liebeck:OreConjecture}.
+commutator width, because it contains $F_{2n}$ for all $n$.
+
+Finite groups, and more generally virtually abelian groups, have
+finite commutator width.  There are finite groups in which some
+elements are not commutators, the smallest having order $96$,
+see~\cite{Guralnick:Group96}. On the other hand, non-abelian finite
+simple groups have commutator width $1$, as conjectured by
+Ore~\cite{Ore:Commutators} in~1951 and proven in~2010,
+see~\cite{Liebeck:OreConjecture}. The commutator width cannot be
+bounded among finite groups; for example,
+$\Gamma=\langle x_1,\dots,x_{2n}\mid
+x_1^p,\dots,x_{2n}^p,\gamma_3(\langle x_1,\dots,x_{2n})\rangle$ is a
+finite class-$2$ nilpotent group in which $\Gamma'$ has order
+$p^{\binom{2n}2}$ but at most $\binom{p^{2}}2$ elements are
+commutators.
 
 Commutator width of groups, and of elements, has proven to be an
 important group property, in particular via its connections with
@@ -207,39 +216,37 @@ LPRES\cite{LPRES0.3.0} must be installed.
 \section{Equations}
 %In this section some standard notations similar to the ones introduced
 %in~\cite{ComerfordEquationsFreeGroups} are established.
-We fix a set $X$ and call the elements \emph{variables}.
-As it should always be infinite countable it
-can be assumed to be in bijection with $\NN$. Implicitly, it is well
-ordered, and its family of finite subsets is also well ordered, by
-size and then lexicographic order. We denote by $F_X$ the free group
-on the generating set $X$.
+We fix a set $X$ and call its elements \emph{variables}.  We assume
+that $X$ is infinite countable, is well ordered, and its family of finite
+subsets is also well ordered, by size and then lexicographic order. We
+denote by $F_X$ the free group on the generating set $X$.
 
 \begin{defi}
   Let $G$ be a group. A \emph{$G$-group} is a group with a
-  distinguished copy of $G$ inside it; A typical example is 
+  distinguished copy of $G$ inside it; a typical example is 
   $G*H$ for some group $H$. A \emph{$G$-homomorphism} 
   between $G$-groups is a homomorphism
   that is the identity between the marked copies of $G$.
 
   A \emph{$G$-equation} is an element $\eq{E}$ of the group $F_X * G$,
-  regarded as an reduced word. For $\eq{E}$ a $G$-equation, its set of
+  regarded as a reduced word. For $\eq{E}$ a $G$-equation, its set of
   \emph{variables} $\Var(\eq{E})\subset X$ is the set of symbols in $X$
   that occur in it; namely, $\Var(\eq{E})$ is the minimal subset of $X$
   such that $\eq{E}$ belongs to $F_{\Var(\eq{E})}*G$.
 
-  An \emph{evaluation} is a $G$-endomorphism $e\colon F_X * G \to G$.
-  A \emph{solution} of an equation $\eq{E}$ is an evaluation $s$ with
-  $s(\eq{E})=1$. If a solution exists for $\eq{E}$ then the equation $\eq{E}$ is
-  called \emph{solvable}, and one writes $\models \eq{E}$.  The set of
-  elements $x\in X$ with $s(x)\neq 1$ is called the \emph{support} of
-  the solution.
+  An \emph{evaluation} is a $G$-homomorphism $e\colon F_X * G \to G$.
+  A \emph{solution} of an equation $\eq{E}$ is an evaluation $s$
+  satisfying $s(\eq{E})=1$. If a solution exists for $\eq{E}$ then the
+  equation $\eq{E}$ is called \emph{solvable}, and one writes
+  $\models \eq{E}$ (!!! DO WE REALLY USE IT???).  The set of elements $x\in X$ with $s(x)\neq 1$ is
+  called the \emph{support} of the solution.
 \end{defi}
 
-Often the support of a solution for an equation $\eq{E}$ is assumed to be
+The support of a solution for an equation $\eq{E}$ may be assumed to be
 a subset of $F_{\Var(\eq{E})}$ and hence the data of a solution
 is equivalent to a map $\Var(\eq{E}) \to G$.  The question of whether an
-equation $\eq{E}$ is solvable will be referred to as the \emph{diophantine}
-problem of $\eq{E}$.
+equation $\eq{E}$ is solvable will be referred to as the \emph{diophantine
+problem} of $\eq{E}$.
 
 Every homomorphism $\varphi \colon G \to H$ extends uniquely to an
 $F_X$-ho\-mo\-morphism $\varphi_* \colon F_X*G \to F_X*H$. In this manner,
@@ -247,9 +254,9 @@ every $G$-equation $\eq{E}$ gives rise to an $H$-equation $\varphi_*(\eq{E})$,
 which is solvable whenever $\eq{E}$ is solvable.
 
 \begin{defi}
-  Let $\eq{E},\eq{F}\in F_X* G$ be two $G$-equations. We say $\eq{E}$ and $\eq{F}$ are
+  Let $\eq{E},\eq{F}\in F_X* G$ be two $G$-equations. We say that $\eq{E}$ and $\eq{F}$ are
   \emph{equivalent} if there is a $G$-automorphism $\varphi$ of
-  $F_X*G$ which maps $\eq{E}$ to $\eq{F}$.
+  $F_X*G$ that maps $\eq{E}$ to $\eq{F}$.
 \end{defi}
 \begin{lem}
   Let $\eq{E}$ be an equation and let $\varphi$ be a $G$-endomorphism of
@@ -282,27 +289,27 @@ natural map $F_X*G\to F_X/[F_X,F_X]*1$.  Otherwise $\eq{E}$ is called
 
 \subsection{Normal form of quadratic equations} \label{sec:normal_form}
 \begin{defi}
-  For $X_i,Y_i,Z_i \in X$ and $c_i \in G$ the following two kinds of
+  For $m>n\ge0$, $X_i,Y_i,Z_i \in X$ and $c_i \in G$ the following two kinds of
   equations are called in \emph{normal form}:
  \begin{align}
   \eq{O}_{n,m}:\qquad & [X_1,Y_1][X_2,Y_2]\cdots[X_n,Y_n]c_1^{Z_1}\cdots c_{m-1}^{z_{m-1}}c_m  \\
    \eq{\eq{U}}_{n,m}:\qquad & X_1^2X_2^2\cdots X_n^2 c_1^{Z_1}\cdots c_{m-1}^{z_{m-1}}c_m\ .
  \end{align} 
  The form $\eq{O}_{n,m}$ is called the oriented case and $\eq{U}_{n,m}$ for
- $n>0$ the unoriented.  The parameter $n$ is referred to as
+ $n>0$ the unoriented case.  The parameter $n$ is referred to as
  \emph{genus} of the normal form of an equation.
 \end{defi}
 
-We recall the following theorem, and hence we will use it in the algorithm we
-give the details of the proof in an algorithmic manner.
+We recall the following result, and 
+give the details of the proof in an algorithmic manner, because we will need them in our algorithm:
 \begin{thm}[\cite{ComerfordEquationsFreeGroups}] \label{Thm:equationNormalForm}
   Every quadratic equation $\eq{E} \in F_X*G$ is equivalent to an equation
   in normal form, and the isomorphism can be effectively computed.
 \end{thm}
 
 \begin{proof}
-  The proof proceeds by an induction on the number of variables.
-  Starting with the oriented case: If the reduced equation $\eq{E}$ has no
+  The proof proceeds by induction on the number of variables.
+  Starting with the oriented case: if the reduced equation $\eq{E}$ has no
   variables then it is already in normal form $\eq{O}_{0,1}$. If there is a
   variable $x\in X$ occurring in $\eq{E}$ then $x^{-1}$ also appears.
   Therefore the equation has the form
@@ -313,20 +320,19 @@ give the details of the proof in an algorithmic manner.
   We distinguish between multiple cases:
   \begin{itemize}
   \item[Case $1.0$:] $v\in G$. The word $uw$ has fewer variables than
-    $\eq{E}$ and can thus be brought into normal form $r\in \eq{O}_{n,m}$ by the
-    $G$-isomorphism $\varphi$. If $r$ ends with a variable, we can use
+    $\eq{E}$ and can thus be brought into normal form $r\in \eq{O}_{n,m}$ by a
+    $G$-isomorphism $\varphi$. If $r$ ends with a variable, we use
     the $G$-isomorphism $\varphi \circ (x\mapsto xw^{-1}) $ to map $\eq{E}$
-    to the equation $rv^x \in \eq{O}_{n,m+1}$.
-    
-    If $r$ ends with a group constant $b$, $r=sb$ we can use the
+    to the equation $rv^x \in \eq{O}_{n,m+1}$.   
+    If $r$ ends with a group constant $b$, say $r=sb$, we use the
     isomorphism $\varphi \circ(x \mapsto xbw^{-1}) $ to map $\eq{E}$ to the
     equation $sv^xb\in \eq{O}_{n,m+1}$.
 
   \item[Case $1.1$:] $v\in X\cup X^{-1}$. For simplicity let us assume
-    that $v\in X$. In the other case we can apply the $G$-homomorphism
+    $v\in X$; in the other case we can apply the $G$-homomorphism
     $v \mapsto v^{-1}$.
-    Now there are two possibilities: either $v^{-1} \in u$ or
-    $v^{-1} \in w$. In the first case $\eq{E}= u_1v^{-1}u_2x^{-1}vxw$, and
+    Now there are two possibilities: either $v^{-1}$ occurs in $u$ or
+    $v^{-1}$ occurs in $w$. In the first case $\eq{E}= u_1v^{-1}u_2x^{-1}vxw$, and
     then the $G$-isomorphism $x \mapsto x^{u_1}u_2$, $v \mapsto v^{u_1}$
     yields the equation $[v,x]u_1u_2w$. In the second case
     $\eq{E}= ux^{-1}vxw_1v^{-1}w_2$ is transformed to $[x,v]uw_1w_2$ by the
@@ -337,7 +343,7 @@ give the details of the proof in an algorithmic manner.
   \item[Case $2$:] Length$(v)>1$. In this case $v$ is a word consisting of
     elements $X\cup X^{-1}$ with each symbol occurring at most once as
     $v$ was chosen with minimal variable set, and some elements of
-    $G$.  If $v$ starts with a constant $b\in G$ we can use the
+    $G$.  If $v$ starts with a constant $b\in G$ we use the
     $G$-homomorphism $x\mapsto bx$ to achieve that $v$ starts with a
     variable $y\in X$, possibly by using the $G$-homomorphism 
     $y \mapsto y^{-1}$. As in Case
@@ -348,17 +354,16 @@ give the details of the proof in an algorithmic manner.
     second we use the $G$-isomorphism
     $x\mapsto x^{uw_1v_1}v_1^{-1}w_1^{-1}$,
     $y\mapsto y^{-uw_1v_1}v_1^{-1}$ to obtain $[x,y]uw_1v_1w_2$. In
-    both cases the second subword has again less variables and can be
+    both cases the second subword has again fewer variables and can be
     brought into normal form by induction.
   \end{itemize}
   Therefore each oriented equation can be brought to normal form by 
   $G$-iso\-mor\-phisms.
 
-  In the unoriented case there exists a variable $x\in X$ such that
+  In the unoriented case there is a variable $x\in X$ such that
   $\eq{E} = uxvxw$. Choose $v$ to have a minimal number of variables.
-  The shorter word
-  $uv^{-1}w$ is equivalent by $\varphi$ to a normal form $N$ by
-  induction.
+  By induction, the shorter word
+  $uv^{-1}w$ is equivalent by $\varphi$ to a normal form $r$.
  
   The $G$-isomorphism $\varphi \circ (x\mapsto x^uv^{-1})$ maps $\eq{E}$ to
   $x^2r$. If $r\in \eq{U}_{n,m}$ for some $n,m$,
@@ -366,12 +371,12 @@ give the details of the proof in an algorithmic manner.
   $G$-homomorphism
   \begin{align*}
     x&\mapsto xyz, & y&\mapsto z^{-1}y^{-1}x^{-1}yzxyz, & z&\mapsto z^{-1}y^{-1}x^{-1}z \\
-  \intertext{maps $x^2N$ to $x^2y^2z^2M$. This homomorphism is indeed an
+  \intertext{maps $x^2r$ to $x^2y^2z^2s$. This homomorphism is indeed an
   isomorphism, with inverse}
     x&\mapsto x^2y^{-1}x^{-1}, & y&\mapsto xyx^{-1}z^{-1}x^{-1}, & z&\mapsto xz.
   \end{align*}
   Note $s \in \eq{O}_{n,m}$. If $n\geq 1$ then this procedure can be repeated with
-  $z$ in place of $x$.
+  $z,$ in place of $x,r$.
 \end{proof}
 For a quadratic equation $\eq{E}$ we denote by $\nf(\eq{E}) := \nf_\eq{E}(\eq{E})$
 the image of $\eq{E}$ under the $G$-isomorphism $\nf_\eq{E}$ constructed in
@@ -396,46 +401,47 @@ first generators of $F_X$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Self similar groups}\label{sec:SelfSimilarGroups}
-Let $T_n$ be the infinite regular rooted $n$-ary tree and $S_n$ the symmetric group on $n$ symbols.
+Let $T_n$ be the infinite regular rooted $n$-ary tree and let $S_n$ be the symmetric group on $n$ symbols.
 The group $\Aut(T_n)$ consists of all root-preserving graph automorphisms of the tree $T_n$. 
 
-Let $T_{1,n},\ldots,T_{n,n}$ be the subtrees hanging in the neighborhood of the root. 
+Let $T_{1,n},\ldots,T_{n,n}$ be the subtrees hanging from neighbours of the root. 
 Every $g\in\Aut(T_n)$ permutes the $T_{i,n}$ by a permutation $\sigma$ and simultaneously
-acts on each of them by automorphisms $g_i\in\Aut(T_{i,n})$.
+acts on each of them by isomorphisms $g_i\colon T_{i,n}\to T_{i^\sigma,n}$.
 
-Note that for all $i$ the tree $T_n$ is isomorphic to $T_{n,i}$ and hence there is an isomorphism
-\begin{align*}
-\psi\colon \Aut(T_n)\xrightarrow{\sim} \Aut(T_n)\wr S_n\\
-g\mapsto \pair{g_1,\ldots,g_n}\sigma.
-\end{align*}
+Note that for all $i$ the tree $T_n$ is isomorphic to $T_{n,i}$; identifying each $T_{n,i}$ with $T_n$, we identify each $g_i$ with an element of $\Aut(T_n)$, and obtain in this manner an isomorphism
+\[\psi\colon\begin{array}{r@{\;}l}
+              \Aut(T_n) &\xrightarrow{\sim} \Aut(T_n)\wr S_n\\
+              g &\mapsto \pair{g_1,\ldots,g_n}\sigma.
+            \end{array}
+\]
 
 A \emph{self similar subgroup} of $\Aut(T_n)$ is a group $G$ with $G\leq \psi(G)$. 
 For the sake of notation we will identify elements with their image under this embedding
 and will write $g=\pair{g_1,\ldots,g_n}\sigma$ for elements $g\in G$. 
-Furthermore we will call the $g_i\in G$ states of the element $g$,
+Furthermore we will call the $g_i\in G$ \emph{states} of the element $g$,
 will write $g\at{i}:=g_i$ to address the states, will
 call $\sigma \in S_n$ the \emph{activity} of the element $g$, 
 and will write $\act(g):= \sigma$. 
 
 
 \subsection{Commutator width of \texorpdfstring{$\mathbf{\textup{Aut}(T_2)}$}{Aut(T2)} }
-To give an idea how the proof works in the Grigorchuk group
-we first look as an easier example at the group $\Aut(T_2)$. In this group
-we have a nice property: For every two elements $g,h\in \Aut(T_n)$ the
+To give an idea of how the commutator width of Grigorchuk's group is computed,
+we consider as an easier example the group $\Aut(T_2)$. In this group
+we have the following useful property: for every two elements $g,h\in \Aut(T_n)$ the
 element $\pair{g,h}$ is also a member of the group.
-This is not true for the Grigorchuk group
-and will make the notation a bit more complicated there.
+This is only true up to finite index in the Grigorchuk group
+and will produce extra complications there.
 
 \begin{pro}\label{pro:comwidthAutT2}
  The commutator width of $\Aut(T_2)$ is $1$.
 \end{pro}
-For the proof we need a little observation:
-\begin{lem}
+For the proof we need a small observation:
+\begin{lem}\label{lem:H'}
   Let $H$ be a self similar group.
   If $g\in H'$ then $g\at{2}\cdot g\at{1}\in H'$. 
 \end{lem}
   \begin{proof}
- If $h\in H'$ then there is some $n$ such that the equation $R_n(X_1,\ldots,X_{2n})g$ is 
+ If $g\in H'$ then there is some $n$ such that the equation $R_n(X_1,\ldots,X_{2n})g$ is 
  solvable by some solution $s$. By setting $\gamma\colon F_X\to S_2, X_i\mapsto \act(s(X_i))$
  we get a constraint such that the corresponding constrained equation is solvable. 
  We distinguish two cases. If $\gamma$ is the trivial mapping 
@@ -451,23 +457,19 @@ For the proof we need a little observation:
 \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{pro:comwidthAutT2}]
- Given any element $g\in \Aut(T_2)'$ we consider the equation $[x,y]g$.
- If we replace the variable $x$ by $\pair{X_1,X_2}$ and $y$ by $\pair{Y_1,Y_2}(1,2)$ 
- we obtain $\pair{X_2^{-1}Y_2^{-1}X_2Y_2g\at{1},X_1^{-1}Y_1^{-1}X_1Y_1g\at{2}}$. Hence a 
- solution for this would map both states to the identity the solvability of 
- the system of equations $X_2^{-1}Y_2^{-1}X_2Y_2g\at{1}$, $X_1^{-1}Y_1^{-1}X_1Y_1g\at{2}$
- is equivalent to the solvability of the image of the system of equations under 
- the $H$-homomorphism $X_2\mapsto Y_1^{-1}X_1Y_1 g\at{2}$, $X_i\mapsto X_i$ 
- for all other $i$. 
+ Given any element $g\in \Aut(T_2)'$ we consider the equation $[x,y]g$. (!!! DON'T WE WANT $X,Y$ IN UPPERCASE FOR COHERENCE???)
+ If in it we replace the variable $x$ by $\pair{X_1,X_2}$ and $y$ by $\pair{Y_1,Y_2}(1,2)$ 
+ we obtain $\pair{X_1^{-1}Y_2^{-1}X_2Y_2g\at{1},X_2^{-1}Y_1^{-1}X_1Y_1g\at{2}}$. Therefore, $[x,y]g$ is solvable if
+ the system of equations $X_2^{-1}Y_2^{-1}X_2Y_2g\at{1}$, $X_1^{-1}Y_1^{-1}X_1Y_1g\at{2}$ is solvable. We apply the $\Aut(T_2)$-homomorphism $X_1\mapsto X_1,X_2\mapsto Y_1^{-1}X_1Y_1 g\at{2},Y_i\mapsto Y_i$ to eliminate one equation and one variable.
  
  Therefore the solvability of the constrained equation
- $\left([x,y]g, (x\mapsto 1,y\mapsto (1,2)) \right)$ is equivalent to the solvability of
+ $\left([x,y]g, (x\mapsto 1,y\mapsto (1,2)) \right)$ follows from the solvability of
  $X_1^{-1}Y_2^{-1}Y_1^{-1}X_1Y_1(g\at{2}) Y_2 g\at{1}$ which is under the 
- normal form $H$-isomorphism $Y_1\mapsto Y_1Y_2^{-1}$ equivalent to the 
+ normal form $\Aut(T_2)$-isomorphism $Y_1\mapsto Y_1Y_2^{-1}$ equivalent to the 
  solvability of $[X_1,Y_1](g\at{2})^{Y_2} g\at{1}$. After choosing $Y_2=1$ we are 
  again in the original situation since $g\at{2} g\at{1}\in H'$. 
  
- This allows us to recursively define a solution $s$ for the equation $[x,y]g$ explicitly:
+ This allows us to recursively define a solution $s$ for the equation $[x,y]g$ as follows:
 %  \begin{align*}
 %   x &= \pair{X_1,Y_1^{-1}X_1Y_1 g\at{2} } & y &=\pair{Y_1,1}(1,2) \\
 %   X_1 &= \pair{X_{11},Y_{11}^{-1}X_{11}Y_{11} (g\at{2}g\at{1})\at{2} } & Y_1 &=\pair{Y_{11},1}(1,2) \\
@@ -475,26 +477,34 @@ For the proof we need a little observation:
 %   x_{1	 &= \pair{X_{11},Y_{11}^{-1}X_{11}Y_{11} (g\at{2}g\at{1})\at{2} } & Y_1 &=\pair{Y_{11},1}(1,2) \\
 %  \end{align*}
 \begin{align*}
-  s(x) &= \pair{X_1,Y_1^{-1}X_1Y_1 g\at{2} }, & s(y) &=\pair{Y_1,1}(1,2), &g_0&=g\at{2} \cdot g\at{1}, \\
-  X_1 &= \pair{X_{2},Y_{2}^{-1}X_{2}Y_{2} g_0\at{2} }, & Y_1 &=\pair{Y_{2},1}(1,2),&g_1&=g_0\at{2} \cdot g_0\at{1}, \\
-  X_{i+1} &= \pair{X_{i},Y_{i}^{-1}X_{i}Y_{i} g_i\at{2} }, & Y_{i+1} &=\pair{Y_{i},1}(1,2),&g_{i+1}&=g_i\at{2} \cdot g_i\at{1}. 
+  s(x) &= \pair{a_1,b_1^{-1}a_1b_1 g\at{2} }, & s(y) &=\pair{b_1,1}(1,2), &c_1&=g\at{2} \cdot g\at{1}, \\
+\intertext{and for all $i\ge1$}
+  a_{i} &= \pair{a_{i+1},b_{i+1}^{-1}a_{i+1}b_{i+1} c_i\at{2} }, & b_{i} &=\pair{b_{i+1},1}(1,2),&c_{i+1}&=c_{i}\at{2} \cdot c_{i}\at{1}. 
  \end{align*}
+ Note that the elements $a_i,b_i\in\Aut(T_2)$ are well-defined,
+ although is constructed recursively out of the $a_j,b_j$ for
+ \emph{larger} $j$. Indeed, if one considers the recursions above for
+ $i\in\{1,\dots,n\}$ and sets $a_{n+1}=b_{n+1}=\id$, one defines in
+ this manner elements $a_1^{(n)},b_1^{(n)}\in\Aut(T_2)$ which form
+ Cauchy sequences, and therefore have well-defined limits
+ $a_1=\lim a_1^{(n)}$ and $b_1=\lim b_1^{(n)}$.
 \end{proof}
 
+(!!! WE NEVER DEFINED ``REGULAR BRANCH''. IS THIS A GOOD PLACE???)
 
 \section{The first Grigorchuk Group}\label{sec:GrigorchukGroup}
-The Grigorchuk $2$-group is a finitely generated self-similar group with finite state generators:
+The Grigorchuk $2$-group is a finitely generated self-similar group with finite state (!!! UNDEFINED FINITE STATE ???) generators:
 \[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
 
 Some useful identities are
-\begin{itemize}
- \item $a^2=b^2=c^2=d^2=\id$ 
- \item $b^a= \pair{c,a}, c^a=\pair{d,a}, d^a=\pair{b,\id}$
- \item $(ad)^4=(ac)^8=(ab)^{16}= \id$.
-\end{itemize}
+\begin{gather*}
+  a^2=b^2=c^2=d^2=\id,\\
+  b^a= \pair{c,a}, c^a=\pair{d,a}, d^a=\pair{b,\id},\\
+  (ad)^4=(ac)^8=(ab)^{16}= \id.
+\end{gather*}
 
 \begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK}
-The Grigorchuk group is regular branched with branching subgroup 
+The Grigorchuk group is regular branched (!!! UNDEFINED REGULAR BRANCH ???) with branching subgroup 
  \[K:= \left<(ab)^2\right>^G=\left< (ab)^2,(bada)^2,(abad)^2 \right>. \]
  The quotient $Q := \RNK{G}{K}$ is of order $16$.
 \end{lem}
@@ -516,11 +526,9 @@ By Lemma~\ref{lem:finitelyManyConstraints} every element $\gamma\in Q^n$ has a r
  \begin{align*}
   \varphi_i&\colon& X_i&\mapsto x_{i-1}X_i, \textup{ others fixed} & \textup{for }&i=2,4,\ldots,2n , \\
   \varphi_i&\colon&X_i&\mapsto X_{i+1}X_i, \textup{ others fixed} & \textup{for }&i=1,3,\ldots,2n-1 ,\\
-  \psi_i&\colon&X_i&\mapsto X_{i+1}X_{i+2}^{-1}X_i, && \\  
-  &&X_{i+1}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+1}X_{i+2}X_{i+1}^{-1}, && \\  
-  &&X_{i+2}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+2}X_{i+2}X_{i+1}^{-1}, && \\  
-  &&X_{i+3}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+3},&&\\
-  &&x_k &\mapsto x_k \textup{ for } k\neq i,\ldots,i+3 & \textup{for }&i=1,3,\ldots,2n-3 .  
+  \psi_i&\colon&X_i&\mapsto X_{i+1}X_{i+2}^{-1}X_i, &X_{i+1}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+1}X_{i+2}X_{i+1}^{-1},\\  
+  &&X_{i+2}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+2}X_{i+2}X_{i+1}^{-1}, &X_{i+3}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+3},\\
+  &&X_k &\mapsto X_k \textup{ for } k\neq i,\ldots,i+3 & \textup{for }&i=1,3,\ldots,2n-3 .  
  \end{align*}
  The GAP orbit enumeration method \gapinline{OrbitsDomain} can be used to 
  to compute the orbits of $\RNK{Q^6}{\Stab(R_3)}$.
@@ -555,11 +563,10 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr S_n$ consists of
  \item a map $\omega\colon Q_1 \to Q$ with the following property. If $g=\pair{g_1,g_2}\sigma \in G$ then $\omega(\pair{\pi(g_1),\pi(g_2)}\sigma) = \pi(g)$.
 \end{enumerate}
 \end{defi}
-\begin{lem}
+\begin{lem}[{\cite[Lemma~!!!FILLIN???]{Bartholdi:RepresentationZetaFunctions}}]
  The Grigorchuk group has a branch structure.
 \end{lem}
 \begin{proof}
- This can be seen in \cite{Bartholdi:RepresentationZetaFunctions}.
  The branching subgroup is the group $K$ defined in Lemma~\ref{lem:subgroupK}. In GAP the branch structure can be computed
  by the method \gapinline{BranchStructure(GrigorchukGroup)} which is included in the FR package. 
 \end{proof}
@@ -575,14 +582,14 @@ From now on we will fix that branch structure for $G$ and denote by $K$ the bran
  It is not true that for every $g\in G'$ and every constraint $\gamma$ 
  there is an $N$ such that the equation $R_N$ is solvable. For example 
  \[\left(R_n(ab)^2,(\gamma\colon X_i\mapsto 1\ \forall i)\right)\] 
- is not solvable for any $n$ because $(ab)^2\notin K$.
+ is not solvable for any $n$ because $(ab)^2\notin K'$.
 \end{re}
 
 \subsection{Good Pairs}\label{sec:good_pairs}
 The previous remark motivates the following definition.
 \begin{defi}
-Given $g\in G'$ and $\gamma\in\Red$, the tuple $(g,\gamma)$ is called a \emph{good pair} if there exists an $n$ such that
-$(R_ng,\gamma)$ is solvable.  
+Given $g\in G'$ and $\gamma\in\Red$, the tuple $(g,\gamma)$ is called a \emph{good pair} if 
+$(R_ng,\gamma)$ is solvable for some $n\in\NN$.  
 \end{defi}
 
 \begin{lem}
@@ -600,31 +607,31 @@ $(R_ng,\gamma)$ is solvable.
  On the other hand if there is a solution $s\colon F_X \to \RNK{G}{K'}$ for $R_3g^\tau$ with for each $s(X_i) \in \rho^{-1}(\gamma(X_i))$ then
  for $g_i \in \tau^{-1}(s(X_i))$ there is some $k'\in K'$ such that $R_3(g_1,\ldots,g_6)k'g=1$ and so $(g,\gamma)$ is a good pair.
 \end{proof}
-The previous lemma shows that the question if $(g,\gamma)$ is a good pair depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. Therefore
+The previous lemma shows that the question whether $(g,\gamma)$ is a good pair depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. Therefore
 $(q,\gamma)$ will be called a good pair if $(g,\gamma)$ is a good pair for one (and hence all) preimages of $q$ under $\tau$.
 \begin{cor}\label{cor:finiteCommutatorWidthKimpliesBoundedConstraintedCommutators}
 The following are equivalent:
-\begin{enumerate}[a)]
- \item $K$ has finite commutator width. \label{Cor:EqStatement1}
- \item There is an $N\in\NN$ such that $(R_Ng,\gamma)$ is solvable 
+\begin{enumerate}[(a)]
+ \item $K$ has finite commutator width; \label{Cor:EqStatement1}
+ \item there is an $N\in\NN$ such that $(R_Ng,\gamma)$ is solvable 
  for all good pairs $(g,\gamma),g \in G',\gamma\in\Red$.
  \label{Cor:EqStatement2}
 \end{enumerate} 
 \end{cor}
 \begin{proof}
- (\ref{Cor:EqStatement2})$\Rightarrow$(\ref{Cor:EqStatement1}): If $k\in K'$ then $(k,\id)$ is a good pair.
+ (\ref{Cor:EqStatement2})$\Rightarrow$(\ref{Cor:EqStatement1}): if $k\in K'$ then $(k,\id)$ is a good pair.
  So $(R_nk,\id)$ is solvable in $G$ for an $n\leq N$ but the constraints ensures that it is solvable in $K$.
  Therefore the commutator width of $K$ is at most $N$.
  
- (\ref{Cor:EqStatement1})$\Rightarrow$(\ref{Cor:EqStatement2}):If $(g,\gamma)$ is a good pair 
+ (\ref{Cor:EqStatement1})$\Rightarrow$(\ref{Cor:EqStatement2}): if $(g,\gamma)$ is a good pair 
  there is an $m\in \NN$ and a solution $s$ for $(R_mg,\gamma)$. As $s(X_i)^\pi =1$ for all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
  a solution for $(R_3kg,\gamma)$. By (\ref{Cor:EqStatement1}) there is 
  an $N$ such that all $k$ can be written as product of $N$ commutators of elements of $K$ and
  therefore there is a solution for $(R_{N+3}g,\gamma)$.
 \end{proof}
-This motivates further study $K'$ and $\RNK{G}{K'}$.
+This motivates further study of $K'$ and $\RNK{G}{K'}$.
 \begin{lem} \label{lem:subgroupsOfG}
-Let us note by $k_1 := (ab)^2, k_2:=\pair{1,k_1} = (abad)^2$ and $k_3:=\pair{k_1,1} = (bada)^2$. Then 
+Let us write $k_1 := (ab)^2, k_2:=\pair{1,k_1} = (abad)^2$ and $k_3:=\pair{k_1,1} = (bada)^2$. Then 
  \begin{align*}
   G' &= \left< k_1,k_2,k_3,(ad)^2\right>, \\
   K &= \left< k_1,k_2,k_3\right>, \\
@@ -634,7 +641,7 @@ Let us note by $k_1 := (ab)^2, k_2:=\pair{1,k_1} = (abad)^2$ and $k_3:=\pair{k_1
  % &= \left<(dacabaca)^2(baca)^4,((ca)^2baca)^2,(dacabaca)^2c(acab)^3acad,\right.\\
  % &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{1,a}\ .
  \end{align*}
-Furthermore we have this chain of indices:
+Furthermore these groups form a tower with indices
 \begin{align*}
   [G:G']&=8, & [G':K]&=2, &[K:K\times K]&= 4, &[K\times K:K']&=16. 
 \end{align*}
@@ -698,7 +705,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
 										g_1\mapsto q_1 \\
 										g_2\mapsto q_2 }, (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{1,1}\right\}.\] 
- Denote by $v,w=v_n,w_n$ the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$. By the following Lemma~\ref{lem:commonVar} there is 
+ Denote by $v,w=v_n,w_n$ (!!! CLASH WITH THE $v=v_1x_0v_2$ BELOW???) the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$. By the following Lemma~\ref{lem:commonVar} there is 
  $X_0 \in X\cup X^{-1}$ such that $v=v_1X_0v_2$ and $w=w_1X_0^{-1}w_2$. Then the homomorphism
  \[l_{X_0}\colon F_X*F_2\to F_X*F_2, X_i \mapsto \begin{cases}
 						X_i &\text{ if } X_i\neq {X_0} \\
@@ -916,25 +923,25 @@ The sequences of sets
  \[\textup{Suc}_1^g=\{g\},\ \textup{Suc}_n^g = \{p_x(h) \mid h\in \textup{Suc}_{n-1}^g, x\in S\} \]
  stagnates at a finite step for all $g\in G$.
 \end{cor}
-\begin{proof}[Proof of Lemma.(\cite{Bartholdi:Growth})] 
- Each element $g\in G$ can be written in a word of minimal length of the form $g=a^\varepsilon x_1 a x_2 a\ldots x_n a^\delta$ where
- $x_i\in \{b,c,d\}$ and $\varepsilon,\delta\in \{0,1\}$. Denote by $n_b,n_c,n_d$ the number of occurrences of $b,c,d$ accordingly. 
+\begin{proof}[Proof of Lemma (see~{\cite[Proposition~5]{Bartholdi:Growth}})] 
+ Each element $g\in G$ can be written in a word of minimal length of the form $g=a^\varepsilon x_1 a x_2 a\ldots x_n a^\zeta$ where
+ $x_i\in \{b,c,d\}$ and $\varepsilon,\zeta\in \{0,1\}$. Denote by $n_b,n_c,n_d$ the number of occurrences of $b,c,d$ accordingly. 
  Then
  \begin{align*}
-  \partial_\omega(g) &= (n-1+\varepsilon+\delta)\omega(a)+n_b\omega(b)+n_c\omega(c)+n_d\omega(d)\\
+  \partial_\omega(g) &= (n-1+\varepsilon+\zeta)\omega(a)+n_b\omega(b)+n_c\omega(c)+n_d\omega(d)\\
   \partial_\omega(p_x(g)) &\leq (n_b+n_c)\omega(a)+n_b\omega(c)+n_c\omega(d)+n_d\omega(b) + 2\partial_\omega(x)\\
   &= \eta\left( (n_b+n_c+n_d)\omega(a)+n_b\omega(b)+n_c\omega(c)+n_d\omega(d) \right) + 2\partial_\omega(x)\\
-  &= \eta(\partial_\omega(g) +(1-\varepsilon-\delta)\omega(a)) + 2\partial_\omega(x) \\
+  &= \eta(\partial_\omega(g) +(1-\varepsilon-\zeta)\omega(a)) + 2\partial_\omega(x) \\
   &\leq \eta(\partial_\omega(g)+\omega(a)) + 2(\omega(a)+\omega(b))\\
   &= \eta(\partial_\omega(g)+\omega(a)) + 2.
  \end{align*}
- Thus the length of $p_x(g)$ growths with a linear factor smaller $1$ in terms of the length of $g$. Therefore the claim holds.
+ Thus the length of $p_x(g)$ growths with a linear factor smaller than $1$ in terms of the length of $g$. Therefore the claim holds.
  For instance one could take $\delta =0.86$ and $C=50$ or $\delta=0.96$ and $C=16$.
 \end{proof}
-This completes the proof of the following proposition
+This completes the proof of the following proposition:
 \begin{pro}\label{pro:solvableConstraintedEquations}
  If $n\geq3$ and $(g,\gamma)$ is a good pair with active constraint $\gamma$ with $\supp(\gamma)\subset\{X_1,\ldots,X_{2n}\}$
- then the constrained equation $(R_n(X_1,\ldots,X_{2n})g,\gamma)$ is solvable. 
+ then the constrained equation $(R_n(X_1,\ldots,X_{2n})g,\gamma)$ is solvable.\qed
 \end{pro}
 \begin{cor}
  The Grigorchuk group $G$ has commutator width at most $3$.
@@ -1043,7 +1050,7 @@ The construction of the element and a representation in the standard generators 
  homomorphism $\pi$ on the generators that this element is even a member of $K$.
 \begin{figure}
  \includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
- \caption{Element of the derived of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
+ \caption{Element of the derived subgroup of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
 \end{figure}
 This finishes the proof of Theorem~\ref{thm:CWGrigorchukGroup}.
 \subsection{Bounded conjugacy width}
