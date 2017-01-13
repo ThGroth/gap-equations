@@ -12,7 +12,7 @@ InstallMethod( EquationGroup, "for two groups",
 	[IsGroup,IsFreeGroup],
 	function(G,Free)
 		local Ob;
-		Ob := FreeProduct(G,Free);
+		Ob := GeneralFreeProduct(FreeProduct(G,Free));
 		Ob!.free :=Free;
 		Ob!.const :=G;
 		SetIsEquationGroup(Ob,true);
