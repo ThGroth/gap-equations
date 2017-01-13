@@ -145,6 +145,9 @@ InstallMethod(GeneralFreeProduct, "For a group",
 	[ IsGroup and HasFreeProductInfo],
 	function(G)
 		local L,Ob, embeddings,i,construct_map;
+		if IsGeneralFreeProduct(G) then
+			return G;
+		fi;
 		L := FreeProductInfo(G).groups;
 		Ob := First(FREE_PRODUCT_GROUP_FAMILIES,f->f[1]=L);
 		if Ob = fail then
