@@ -124,10 +124,28 @@ FREE_PRODUCT_GROUP_FAMILIES := [];
 InstallMethod(FreeProductOp, "For arbitrary groups",
 	[IsList,IsGroup],
 	function(L,G)
-		local Ob, embeddings,i,construct_map;
+		local H;
+		#How to avoid using this method when 
+		#IsomorphismFpGroup(G) gives a result?
+		if ForAll(L,G->	IsFpGroup(G) or 
+						IsSymmetricGroup(G) or 
+						IsAlternatingGroup(G) or 
+						(IsFreeGroup(G) and IsFinitelyGeneratedGroup(G)) )then
+			TryNextMethod(); #Here the standard version from lib/gprd.gi works	
+		fi;
 		if ForAll(L,IsFreeGroup) and ForAll(L,H->not IsFinitelyGeneratedGroup(H)) then
 			TryNextMethod();
 		fi;
+		H := Group([()]);
+		SetFreeProductInfo(H,rec(groups:=L));
+		return GeneralFreeProduct(H);
+	end);
+
+InstallMethod(GeneralFreeProduct, "For a group",
+	[ IsGroup and HasFreeProductInfo],
+	function(G)
+		local L,Ob, embeddings,i,construct_map;
+		L := FreeProductInfo(G).groups;
 		Ob := First(FREE_PRODUCT_GROUP_FAMILIES,f->f[1]=L);
 		if Ob = fail then
 			Ob := Objectify(NewType(

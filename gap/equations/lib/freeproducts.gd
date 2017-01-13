@@ -43,6 +43,30 @@ DeclareCategory("IsFreeProductHomomorphism",IsGroupHomomorphism);
 ####                         Constructors                              ####
 ####                                                                   ####
 ###########################################################################
+#O GeneralFreeProduct . . . . . . . . . . . . create a free product element
+##
+## <#GAPDoc Label="GeneralFreeProduct">
+## <ManSection>
+##   <Oper Name="GeneralFreeProduct" Arg="group"
+##		 Label="group"/>
+##   <Returns>A a new general free product isomorphic to <A>group</A>.</Returns>
+##   <Description>
+##		Takes a group which has free product information stored and
+##		returns a new group which lies in the filter 
+##		<C>IsGeneralFreeProduct</C>. The returned groups represents
+##		the free product of the groups in <C>FreeProductInfo.groups</C>.
+## <Example><![CDATA[
+## gap> S2 := SymmetricGroup(2);; SetName(S2,"S2");
+## gap> S3 := SymmetricGroup(3);; SetName(F2,"F2");
+## gap> G := FreeProduct(S2,S3);
+## <fp group on the generators [ f1, f2, f3 ]>
+## gap> G := GeneralFreeProduct(G);
+## S2*S3
+## ]]></Example>
+##   </Description>
+## </ManSection>
+## <#/GAPDoc>
+DeclareOperation("GeneralFreeProduct", [IsGroup]);
 #O FreeProductElm . . . . . . . . . . . . . . create a free product element
 #O FreeProductElmLetterReo . . . . . . . . . create a f.p.e. in letter repr
 ##
