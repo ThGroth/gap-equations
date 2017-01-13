@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Reading PKGVERSIONDATA chunk from the PackageInfo.g file -->
+
+<!DOCTYPE Book SYSTEM "gapdoc.dtd"
+   [ <!ENTITY Package "<Package>Equations</Package>">
+     <#Include Label="PKGVERSIONDATA">
+   ]>
+
+<!-- Documentation of the Equations package. -->
+
+<Book Name="Equations"> 
+
+<TitlePage>
+  <Title>&Package;</Title>
+  <Version>Version &VERSION;</Version>
+  <Date>&RELEASEDATE;</Date>
+  <Author> Thorsten Groth
+    <Email>thorsten.groth@mathematik.uni-goettingen.de</Email>
+  </Author>
+    <Copyright> 
+    <Index>License</Index>
+    &copyright; 2016 by Thorsten Groth<P/>
+    &Package; package is free software; 
+    you can redistribute it and/or modify it under the terms of the 
+    <URL Text="GNU General Public License">http://www.fsf.org/licenses/gpl.html</URL> 
+    as published by the Free Software Foundation; either version 2 of the License, 
+    or (at your option) any later version.
+  </Copyright>
+</TitlePage>
+
+<TableOfContents/>
+
+<Body>
+
+<#Include SYSTEM "examples.xml">
+
+<#Include SYSTEM "install.xml">
+
+<Chapter><Heading>FreeProducts</Heading>
+<Section><Heading>Construction</Heading>
+This package installs a new method for the command 
+<C>FreeProduct</C> if the arguments are not finitely
+presented groups. If the resulting group was generated
+by the method of this group they will be in the following 
+filter:
+</Section>
+<Section><Heading>Filters</Heading>
+<#Include Label="IsGeneralFreeProduct">
+</Section>
+
+<Section><Heading>Elements</Heading>
+<#Include Label="FreeProductElm">
+There are two representations for this kind of elements. 
+<#Include Label="IsFreeProductElmRep">
+</Section>
+
+<Section><Heading>Homomorphisms</Heading>
+<#Include Label="FreeProductHomomorphism">
+<#Include Label="IsFreeProductHomomorphismRep">  
+</Section>
+<Section>
+<Heading>Other operations</Heading>
+<#Include Label="Abs"> 
+</Section>
+</Chapter>
+</Body>
+
+<#Include SYSTEM "hints.xml">
+
+<TheIndex/>
+
+</Book>
+
+<!-- ==================================================================== -->
+

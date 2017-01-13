@@ -82,6 +82,7 @@ DeclareCategory("IsFreeProductHomomorphism",IsGroupHomomorphism);
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+## <#/GAPDoc>
 DeclareOperation("FreeProductElm", [IsGeneralFreeProduct,IsList,IsList]);
 DeclareOperation("FreeProductElmLetterRep", [IsGeneralFreeProduct,IsList,IsList]);
 #############################################################################
@@ -121,6 +122,7 @@ DeclareOperation("FreeProductElmLetterRep", [IsGeneralFreeProduct,IsList,IsList]
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+## <#/GAPDoc>
 DeclareOperation("FreeProductHomomorphism", [IsGeneralFreeProduct, IsGroup, IsList]);
 
 
@@ -192,7 +194,7 @@ DeclareRepresentation("IsFreeProductHomomorphismRep",
 ##		 Label="assocword"/>
 ##   <Returns>An assocword without inverses of generators</Returns>
 ##   <Description>
-##		In the word <A>obj<A> all occurencies of inverse generators are
+##		In the word <A>obj</A> all occurencies of inverse generators are
 ##		replaced by the coresponding generators.
 ## <Example><![CDATA[
 ## gap> F2 := FreeGroup(2);; SetName(F2,"F2");
@@ -203,6 +205,7 @@ DeclareRepresentation("IsFreeProductHomomorphismRep",
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+## <#/GAPDoc>
 DeclareOperation("Abs", [IsObject]);
 
 DeclareGlobalFunction("FREE_PRODUCTS_REDUCE_WORDS");
