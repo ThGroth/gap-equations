@@ -6,3 +6,6 @@
 *.out
 CommutatorWidthGrigorchuk.pdf
 *~
+#Exclude the documentation help files.
+gap/equations/doc/*
+!gap/equations/doc/*.xml
