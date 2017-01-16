@@ -436,26 +436,36 @@ and will produce extra complications there.
 \end{pro}
 For the proof we need a small observation:
 \begin{lem}\label{lem:H'}
-  Let $H$ be a self similar group.
+  Let $H$ be a self similar group acting on a binary tree.
   If $g\in H'$ then $g\at{2}\cdot g\at{1}\in H'$. 
 \end{lem}
-  \begin{proof}
- If $g\in H'$ then there is some $n$ such that the equation $R_n(X_1,\ldots,X_{2n})g$ is 
- solvable by some solution $s$. By setting $\gamma\colon F_{\mathcal{X}}\to S_2, X_i\mapsto \act(s(X_i))$
- we get a constraint such that the corresponding constrained equation is solvable. 
- We distinguish two cases. If $\gamma$ is the trivial mapping 
- then the equations $R_n(X_1,\ldots,X_{2n})g\at{1}$,
- $R_n(Y_1,\ldots,Y_{2n})g\at{2}$ are both solvable since
- $s_1\colon X_i \mapsto s(X_i)\at{1}$ and $s_2\colon Y_i\mapsto s(X_i)\at{2}$ are 
- corresponding solutions. Hence $g\at{1},g\at{2} \in H'$. 
- 
- If $\gamma$ is nontrivial then the solvability of $(R_ng,\gamma)$ is equivalent 
- to the solvability of $R_{2n-1}(g\at{2})^{X_{4n-1}}(g\at{1})$ and hence 
- also in this case $(g\at{2})\cdot(g\at{1})\in H'$.
- %TODO this second case needs more details since the map $\Phi_\gamma$ is not introduced yet!
- %TODO Ask Laurent if he knows a way to give more details here without repeating the 
-%  same argument over and over again. Perhaps definition of \Phi_gamma already before this proposition?
+\begin{proof}
+ For a commutator $g=[f,h]$ with $f,g,h\in H$ there are $4$ cases for the combination
+ of activities $\sigma_f,\sigma_h$ for $f=\pair{f_1,f_2}\sigma_f$ and $h=\pair{h_1,h_2}\sigma_h$:
+ \begin{align*}
+  \sigma_f=\sigma_h=()&: & g\at{2}\cdot g\at{1} &= [f_2,h_2][f_1,h_1], \\
+  \sigma_f=(),\ \sigma_h=(1,2)&: & g\at{2}\cdot g\at{1} &= [h_1,f_1^{-1}]^{f_2}[f_2,h_2], \\
+  \sigma_f=(1,2),\ \sigma_h=()&: & g\at{2}\cdot g\at{1} &= [f_1,h_1^{-1}][h_2,f_2]^{h_1^{-1}}, \\
+  \sigma_f=\sigma_h=(1,2)&: & g\at{2}\cdot g\at{1} &= [f_2^{-1},h_1^{-1}]^{h_2f_1}[f_1,h_2].
+ \end{align*}
+ Therefore if $g\in H'$ is a product of commutators then $g\at{2}\cdot g\at{1}\in H'$ is a product
+ of commutators as well.
 \end{proof}
+
+%   \begin{proof}
+%  If $g\in H'$ then there is some $n$ such that the equation $R_n(X_1,\ldots,X_{2n})g$ is 
+%  solvable by some solution $s$. By setting $\gamma\colon F_{\mathcal{X}}\to S_2, X_i\mapsto \act(s(X_i))$
+%  we get a constraint such that the corresponding constrained equation is solvable. 
+%  We distinguish two cases. If $\gamma$ is the trivial mapping 
+%  then the equations $R_n(X_1,\ldots,X_{2n})g\at{1}$,
+%  $R_n(Y_1,\ldots,Y_{2n})g\at{2}$ are both solvable since
+%  $s_1\colon X_i \mapsto s(X_i)\at{1}$ and $s_2\colon Y_i\mapsto s(X_i)\at{2}$ are 
+%  corresponding solutions. Hence $g\at{1},g\at{2} \in H'$. 
+%  
+%  If $\gamma$ is nontrivial then the solvability of $(R_ng,\gamma)$ is equivalent 
+%  to the solvability of $R_{2n-1}(g\at{2})^{X_{4n-1}}(g\at{1})$ and hence 
+%  also in this case $(g\at{2})\cdot(g\at{1})\in H'$.
+% \end{proof}
 
 \begin{proof}[Proof of Proposition~\ref{pro:comwidthAutT2}]
  Given any element $g\in \Aut(T_2)'$ we consider the equation $[X,Y]g$. 
