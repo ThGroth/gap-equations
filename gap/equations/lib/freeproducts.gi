@@ -128,8 +128,8 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 		#How to avoid using this method when 
 		#IsomorphismFpGroup(G) gives a result?
 		if ForAll(L,G->	IsFpGroup(G) or 
-						IsSymmetricGroup(G) or 
-						IsAlternatingGroup(G) or 
+						#IsSymmetricGroup(G) or 
+						#IsAlternatingGroup(G) or 
 						(IsFreeGroup(G) and IsFinitelyGeneratedGroup(G)) )then
 			TryNextMethod(); #Here the standard version from lib/gprd.gi works	
 		fi;
