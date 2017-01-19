@@ -1191,10 +1191,19 @@ repeat the proofs here.
   but the size of $\Gamma_n'$ is $2^{\binom{n}{2}} \geq2^{\frac{n^2}{4}}$ and hence 
   the commutator width of $\Gamma_{8m}$ is at least $m$.
   \item  $K$ contains for each $n$ the $n$-fold iterated wreath product
-  $W_n(C_2)=C_2\wr \ldots \wr C_2$. Then 
+  $W_n(C_2)=C_2\wr \ldots \wr C_2$. 
+  This can be found by finding finitely many vertices of the tree $T_2$ which
+  are isomorphic to a finite binary rooted tree of $k$ levels $T_2^k$ and finding 
+  elements $k_i\in K$ such that $\left<k_i\right>$ acts on $T_2^k$ like the full group of 
+  automorphisms $\Aut(T_2^k)\simeq W_k(C_2)$.
+  
+  Then 
   since $W_n(C_2)$ is a Sylow $2$-subgroup of $S_{2^n}$ every finite $2$-group is a subgroup of
   $W_n(C_2)$ and hence of $K$.
-  \item 
+  \item Consider again the vertices of $T_2$ which are isomorphic to a
+  the finite tree $T_2^k$ on which a subgroup of $K$ acts like $W_n(C_2)$. Take $m$ be large
+  enough such that all this vertices are above the $m$-th level. Hence a copy of $W_n(C_2)$ can
+  be found inside $\RNK{G}{\Stab(m)}$.
  \end{enumerate}
 \end{proof}
 In the following theorem we summarize our results for the commutator width of the Grigorchuk Group.
@@ -1215,12 +1224,6 @@ In the following theorem we summarize our results for the commutator width of th
  For every $n\in\NN$ we can find two groups $H_1,H_2$ of finite index in $G$ such that $\RNK{H_1}{H_2}$ has commutator
  width at least $n$. Then $H_1$ has commutator width at least $n$ as well and thus the commutator width of finite index subgroups can not be bounded.
 \end{proof}
-
-
-
-%TODO:
-%Expand this:
-%There can't be a result for arbitrary subgroups, because the restricted product of all finite groups.
 \section{Implementation in GAP}
 \subsection{Usage of the attached files}
 In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
