@@ -68,6 +68,33 @@ There are two representations for this kind of elements.
 <#Include Label="Abs"> 
 </Section>
 </Chapter>
+<Chapter><Heading>Equations</Heading>
+We fix a set <M>X</M> and call its elements <E>variables</E>.  We assume
+that <M>X</M> is infinite countable, is well ordered, and its family of finite
+subsets is also well ordered, by size and then lexicographic order. We
+denote by <M>F_X</M> the free group on the generating set <M>X</M>.
+<P/>
+  Let <M>G</M> be a group. The <E>equation group</E> will
+  be the free product <M>G*F_X</M> and the elements belonging 
+  to <M>G</M> will be called <E>constants</E>.
+<P/>
+  A <M>G</M>-equation is an element <M>E</M> of the group <M>F_X*G</M>
+  regarded as a reduced word. For <M>E</M> a <M>G</M>-equation, its set of
+  <E>variables</E> <M>\textup{Var}(E)\subset X</M> is the set of symbols in <M>X</M>
+  that occur in it; namely, <M>\textup{Var}(E)</M> is the minimal subset of <M>X</M>
+  such that <M>E</M> belongs to <M>F_{\textup{Var}(E)}*G</M>.
+<P/>
+  An <E>evaluation</E> is a <M>G</M>-homomorphism <M>e\colon F_{X} * G \to G</M>.
+  A <E>solution</E> of an equation <M>E</M> is an evaluation <M>s</M>
+  satisfying <M>s(E)=1</M>. If a solution exists for <M>E</M> then the
+  equation <M>E</M> is called <E>solvable</E>. The set of elements
+  <M>x\in X</M> with <M>s(x)\neq 1</M> is called the <E>support</E> of the solution.
+<Section><Heading>Construction</Heading>
+<#Include Label="EquationGroup">
+<#Include Label="Equation">
+  </Section>
+</Chapter>
+
 </Body>
 
 <#Include SYSTEM "hints.xml">
