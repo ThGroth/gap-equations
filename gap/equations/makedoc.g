@@ -5,4 +5,4 @@ files := [	"../PackageInfo.g",
 			"../lib/equations.gd",
 			"../lib/normalform.gd" ];
 bookname := "Equations";
-MakeGAPDocDoc(dir,main,files,bookname);
+MakeGAPDocDoc(dir,main,files,bookname,"../../");
