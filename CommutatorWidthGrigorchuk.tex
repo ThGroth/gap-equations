@@ -707,15 +707,28 @@ with the following properties:
  Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
  Now define a homomorphism  
  \begin{align*}
-  %\Phi_{\gamma}\colon F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{X_i^{(1)},X_i^{(2)}}\act(\gamma(X_i)).
   \Phi_{\gamma}\colon F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{Y_{2i-1},Y_{2i}}\act(\gamma(X_i)).
  \end{align*}
+\begin{lem} \label{lem:commonVar}
+ If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
+\end{lem}
+\begin{proof}
+ Let $X$ be generator of $F_{\mathcal{X}}$ with non vanishing constraint activity. 
+ Then $R_n$ contains either a factor $[X,Y]$ or $[Y,X]$ for another generator $Y$. Assume without loss of generality the first case.
+ Let further be $\Phi_\gamma(X)=\pair{X_1,X_2}(1,2)$ and $\Phi_\gamma(Y)=\pair{Y_1,Y_2}\sigma$. 
+ Then $\Phi_\gamma(R_n g)$ contains a factor 
+ \[ [\pair{X_1,X_2}(1,2),\pair{Y_1,Y_2}\sigma] = \begin{cases}
+                                                   \pair{X_2^{-1}Y_2^{-1}X_2Y_1,X_1^{-1}Y_1^{-1}X_1Y_2} & \textup{ if } \sigma=\id \\
+                                                   \pair{X_2^{-1}Y_1^{-1}X_1Y_2,X_1^{-1}Y_2^{-1}X_2Y_1} & \textup{ if } \sigma=(1,2) . \\
+                                                 \end{cases}
+\] So in both cases $Y_1,Y_2\in \Var(w_1)\cap \Var(w_2)$. 
+\end{proof}
 Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
 										g_1\mapsto q_1 \\
 										g_2\mapsto q_2 }, (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{1,1}\right\}.\] 
  Denote by $v,w=v(n),w(n)$ the elements such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$.
- By the following Lemma~\ref{lem:commonVar} there is 
+ By Lemma~\ref{lem:commonVar} there is 
  $X_0 \in \mathcal{X}\cup \mathcal{X}^{-1}$ such that $v=v_1X_0v_2$ and $w=w_1X_0^{-1}w_2$. Then the homomorphism
  \[l_{X_0}\colon F_{\mathcal{X}}*F_2\to F_{\mathcal{X}}*F_2, X_i \mapsto \begin{cases}
 						X_i &\text{ if } X_i\neq {X_0} \\
@@ -768,7 +781,71 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $g^\tau=q$ the
  pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'})}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
+For the proof of this proposition we need a few lemmata:
+%TODO: Check if this Lemma is now obsolet since we have Lemma \ref{lem:H'}.
+%Update: It is, also the fact that p_1(G) \subset K is only needed implicetely in the proof that cw(K)>1
+% \begin{lem} \label{lem:productOfStatesIsInDerived} 
+%  Let $h\in G$ and $p_h\colon G\to G$ be the map $g\mapsto (g\at{2})^{h}\cdot g\at{1}$.
+%  
+%  It holds that $p_h(G')\subset G'$ for all $h\in G$ and $p_1(G')\subset K$. 
+% \end{lem}
+% \begin{proof}
+%  Denote first by $p:=p_1$ then  each element $g\in G'$ is a word $w$ in the generators of $G'$:
+%  $g=w((ab)^2,(abad)^2,(bada)^2,(ad)^2)$. 
+%  The generators have the following form:
+%  \begin{align*}
+%  (ab)^2=&\pair{ca,ac},& (abad)^2 &= \pair{1,(ab)^2},& (bada)^2&=\pair{(ab)^2,1},& (ad)^2&=\pair{b,b}.
+%  \end{align*}
+%  since $b$ commutes with all generators of $G$ modulo $K$ it is
+%  \begin{align*}
+%   p(g) &= w(ac,(ab)^2,1,b) \cdot w(ca,1,(ab)^2,b)\\ &\equiv w(ac,1,1,1) \cdot w(ca,1,1,1) \cdot w(1,1,1,b)^2 \equiv 1 \mod K.
+%  \end{align*}
+%  For $h\in G$ it is $p_h(g)=[h,(g\at{2})^{-1}]p(g)$ and therefore $p_h(g)\in G'$ for all $g\in G'$.
+% \end{proof}
+\begin{lem} \label{lem:pIsDefinedModK'}
+ The map 
+ \begin{align*} 
+  \bar p_h\colon \RNK{G'}{K'} &\to \RNK{G'}{K\times K}\\
+  gK'&\mapsto \left(g\at{2})^h\cdot g\at{1}\right){K\times K}
+ \end{align*}
+is well defined.
+\end{lem}
 \begin{proof}
+%  It's easy to verify by GAP that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$ using Lemma~\ref{lem:subgroupsOfG}.
+%  For check this call the function \gapinline{verifyLemmaStatesOfKPinKxK} of the attached GAP file.
+We need to show that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$. Remember the generators $k_1=(ab)^2$, $k_2=(abad)^2$. Then 
+\begin{align*}
+ [k_1,k_2]=bb^a(db^a)^2b^ab(b^ad)^2 = \pair{1,cabab}=\pair{1,\pair{1,dabac}}=\pair{1,\pair{1,k_2^{-1}k_1}}.
+\end{align*}
+So both states of $[k_1,k_2]$ are in $K\times K$. Now take an arbitrary element $k\in K'$.
+There is $n\in\NN$, $\varepsilon \in \{1,-1\}$ and $g_i\in G$ such that 
+$k=\prod_{j=1}^n [k_1,k_2]^{\varepsilon g_j}$
+and therefore 
+\[k\at{i}=\prod_{j=1}^n\left( \left([k_1,k_2]^{\varepsilon g_j}\right)\at{i}\right)
+	 = \prod_{j=1}^n \left(([k_1,k_2])\at{i^{g_j^{-1}}}\right)^{\varepsilon g_j\at{i^{g_j^{-1}}}}\in K\times K\]
+ Then for $k\in K'$ it is 
+ \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in (g\at{2})^h\cdot g\at{1}K\times K.\]
+\end{proof}
+\begin{lem} \label{lem:atIsWellDefinedModK'}
+ The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps \[\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}.\]
+\end{lem}
+\begin{proof}
+ As before it is $k'\at{i} \in K\times K < K$.
+%  
+%  Note that $\at{i}|_{G'}$ is a group homomorphism then consider the following diagram:
+%  
+%  \hfill
+%  \begin{xy}
+%   \xymatrix{
+%       1 \ar[r]& \RNK{K}{K'} \ar[r] \ar[d]_\varphi   & \RNK{G'}{K'}   \ar[r] & \RNK{G'}{K} \ar[r]\ar[d]_=& 1  \\
+%       1 \ar[r]& \RNK{K}{K\times K} \ar[r]   & \RNK{G'}{K\times K}   \ar[r] & \RNK{G'}{K} \ar[r] &1  
+%   }
+% \end{xy}\hfill\ 
+% 
+% Where the map $\varphi$ exists because the group $\RNK{K}{K\times K}$ has order $4$ and hence is abelian. So there need to be a homomorphism 
+% $\RNK{G'}{K'}\to \RNK{G'}{K\times K}$ which makes all cells commute.
+\end{proof}
+\begin{proof}[Proof of Proposition~\ref{pro:existsNextPair}]
  In the construction before it is clear that the sets $\Gamma_3^{q,X_0}$ are nonempty and for the finitely many $\gamma\in \Red_{act}$ it is
  easy to check whether some of the finitely many $\gamma'\in\bigcup_{X_0}\Gamma_3^{q,X_0}(\gamma)$ fulfill $\gamma'(y_\gamma) \in S^\pi$ and $\act(\gamma')\neq 1$.
  
@@ -776,7 +853,9 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  %resulting pairs $\left((g\at{2})^{\textup{rep}(y)}\cdot g\at{1},\gamma'''\right)$.
  
   Define for $h\in G$ maps $p_h\colon G\to G$ by $g\mapsto (g\at{2})^{h}\cdot g\at{1}$ this maps are in general not homomorphisms but 
-  by Lemma~\ref{lem:productOfStatesIsInDerived} we see that for $g\in G'$ that $p_h(g)\in G'$ for all $h\in G$ thus there is a chance that these elements form good pairs with
+  %by Lemma~\ref{lem:productOfStatesIsInDerived}
+  by Lemma~\ref{lem:H'} 
+  we see that for $g\in G'$ that $p_h(g)\in G'$ for all $h\in G$ thus there is a chance that these elements form good pairs with
   the correct choices of $\gamma' \in \Gamma^q(\gamma)$. 
  
   By Lemma~\ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
@@ -823,82 +902,6 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 %  Therefore the sequence of good pairs $(g_k,\gamma_k)$ is a sequence 
 %  of solvable equations $(R_{2^k+1}g_k,\gamma_k)$.
 % \end{proof}
-
-\begin{lem} \label{lem:commonVar}
- If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
-\end{lem}
-\begin{proof}
- Let $X$ be generator of $F_{\mathcal{X}}$ with non vanishing constraint activity. 
- Then $R_n$ contains either a factor $[X,Y]$ or $[Y,X]$ for another generator $Y$. Assume without loss of generality the first case.
- Let further be $\Phi_\gamma(X)=\pair{X_1,X_2}(1,2)$ and $\Phi_\gamma(Y)=\pair{Y_1,Y_2}\sigma$. 
- Then $\Phi_\gamma(R_n g)$ contains a factor 
- \[ [\pair{X_1,X_2}(1,2),\pair{Y_1,Y_2}\sigma] = \begin{cases}
-                                                   \pair{X_2^{-1}Y_2^{-1}X_2Y_1,X_1^{-1}Y_1^{-1}X_1Y_2} & \textup{ if } \sigma=\id \\
-                                                   \pair{X_2^{-1}Y_1^{-1}X_1Y_2,X_1^{-1}Y_2^{-1}X_2Y_1} & \textup{ if } \sigma=(1,2) . \\
-                                                 \end{cases}
-\] So in both cases $Y_1,Y_2\in \Var(w_1)\cap \Var(w_2)$. 
-\end{proof}
-\begin{lem} \label{lem:productOfStatesIsInDerived} 
- Let $h\in G$ and $p_h\colon G\to G$ be the map $g\mapsto (g\at{2})^{h}\cdot g\at{1}$.
- 
- It holds that $p_h(G')\subset G'$ for all $h\in G$ and $p_1(G')\subset K$. 
-\end{lem}
-\begin{proof}
- Denote first by $p:=p_1$ then  each element $g\in G'$ is a word $w$ in the generators of $G'$:
- $g=w((ab)^2,(abad)^2,(bada)^2,(ad)^2)$. 
- The generators have the following form:
- \begin{align*}
- (ab)^2=&\pair{ca,ac},& (abad)^2 &= \pair{1,(ab)^2},& (bada)^2&=\pair{(ab)^2,1},& (ad)^2&=\pair{b,b}.
- \end{align*}
- since $b$ commutes with all generators of $G$ modulo $K$ it is
- \begin{align*}
-  p(g) &= w(ac,(ab)^2,1,b) \cdot w(ca,1,(ab)^2,b)\\ &\equiv w(ac,1,1,1) \cdot w(ca,1,1,1) \cdot w(1,1,1,b)^2 \equiv 1 \mod K.
- \end{align*}
- For $h\in G$ it is $p_h(g)=[h,(g\at{2})^{-1}]p(g)$ and therefore $p_h(g)\in G'$ for all $g\in G'$.
-\end{proof}
-\begin{lem} \label{lem:pIsDefinedModK'}
- The map 
- \begin{align*} 
-  \bar p_h\colon \RNK{G'}{K'} &\to \RNK{G'}{K\times K}\\
-  gK'&\mapsto \left(g\at{2})^h\cdot g\at{1}\right){K\times K}
- \end{align*}
-is well defined.
-\end{lem}
-\begin{proof}
-%  It's easy to verify by GAP that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$ using Lemma~\ref{lem:subgroupsOfG}.
-%  For check this call the function \gapinline{verifyLemmaStatesOfKPinKxK} of the attached GAP file.
-We need to show that $k\at{i} \in K\times K$ for $i=1,2$ and $k\in K'$. Remember the generators $k_1=(ab)^2$, $k_2=(abad)^2$. Then 
-\begin{align*}
- [k_1,k_2]=bb^a(db^a)^2b^ab(b^ad)^2 = \pair{1,cabab}=\pair{1,\pair{1,dabac}}=\pair{1,\pair{1,k_2^{-1}k_1}}.
-\end{align*}
-So both states of $[k_1,k_2]$ are in $K\times K$. Now take an arbitrary element $k\in K'$.
-There is $n\in\NN$, $\varepsilon \in \{1,-1\}$ and $g_i\in G$ such that 
-$k=\prod_{j=1}^n [k_1,k_2]^{\varepsilon g_j}$
-and therefore 
-\[k\at{i}=\prod_{j=1}^n\left( \left([k_1,k_2]^{\varepsilon g_j}\right)\at{i}\right)
-	 = \prod_{j=1}^n \left(([k_1,k_2])\at{i^{g_j^{-1}}}\right)^{\varepsilon g_j\at{i^{g_j^{-1}}}}\in K\times K\]
- Then for $k\in K'$ it is 
- \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in (g\at{2})^h\cdot g\at{1}K\times K.\]
-\end{proof}
-\begin{lem} \label{lem:atIsWellDefinedModK'}
- The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps \[\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}.\]
-\end{lem}
-\begin{proof}
- As before it is $k'\at{i} \in K\times K < K$.
-%  
-%  Note that $\at{i}|_{G'}$ is a group homomorphism then consider the following diagram:
-%  
-%  \hfill
-%  \begin{xy}
-%   \xymatrix{
-%       1 \ar[r]& \RNK{K}{K'} \ar[r] \ar[d]_\varphi   & \RNK{G'}{K'}   \ar[r] & \RNK{G'}{K} \ar[r]\ar[d]_=& 1  \\
-%       1 \ar[r]& \RNK{K}{K\times K} \ar[r]   & \RNK{G'}{K\times K}   \ar[r] & \RNK{G'}{K} \ar[r] &1  
-%   }
-% \end{xy}\hfill\ 
-% 
-% Where the map $\varphi$ exists because the group $\RNK{K}{K\times K}$ has order $4$ and hence is abelian. So there need to be a homomorphism 
-% $\RNK{G'}{K'}\to \RNK{G'}{K\times K}$ which makes all cells commute.
-\end{proof}
 \subsection{Product of 3 commutators}
 We will prove that every element $g\in G'$ is a product of three commutators by proving that all
 sequences $(g_k,\gamma_k)$ as defined after Proposition~\ref{pro:existsNextPair} are finite.
@@ -1169,7 +1172,7 @@ commutator width. This finishes the proof of the following proposition:
 \end{pro}
 To show that this result is rather optimal we need some facts, which have
 been established before. Since we couldn't find a original reference we will
-repeat the proofs here.
+sketch their proofs here.
 
 \begin{pro}\ 
  \begin{enumerate}
