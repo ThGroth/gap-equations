@@ -127,7 +127,7 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 		local H;
 		#How to avoid using this method when 
 		#IsomorphismFpGroup(G) gives a result?
-		if ForAll(L,G->	IsFpGroup(G) or 
+		if ForAll(L,G->	IsFpGroup(G) and IsFinitelyGeneratedGroup(G)or 
 						#IsSymmetricGroup(G) or 
 						#IsAlternatingGroup(G) or 
 						(IsFreeGroup(G) and IsFinitelyGeneratedGroup(G)) )then
