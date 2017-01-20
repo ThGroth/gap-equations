@@ -35,8 +35,6 @@
 DeclareAttribute( "IsEquationGroup", IsGeneralFreeProduct);
 DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
 
-DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
-DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
 
 #############################################################################
 ##
@@ -107,15 +105,6 @@ DeclareAttribute("EquationLetterRep",IsEquation);
 
 DeclareProperty("IsQuadraticEquation", IsEquation);
 DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
-
-DeclareRepresentation("IsDecomposedEquationRep",
- IsComponentObjectRep  and IsAttributeStoringRep,
- ["words","factors","group","free","const","activity"]
-);
-
-DeclareOperation("DecompositionEquation", [IsEquationGroup,IsEquation,IsGroupHomomorphism]);
-DeclareOperation("EquationComponent", [IsEquation,IsInt]);
-DeclareOperation("EquationComponents", [IsEquation]); 
 
 DeclareProperty("IsEquationHomomorphism",IsFreeProductHomomorphism);
 

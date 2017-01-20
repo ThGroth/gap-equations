@@ -27,7 +27,7 @@ Date := "05/01/2016",
 #ArchiveURL := Concatenation( ~.PackageWWWHome, "example-", ~.Version ),
 #ArchiveFormats := ".tar.gz",
 
-TextFiles := ["init.g","equations.gd","equations.gi","freeproducts.gd","freeproducts.gi","normalform.gd","normalform.gi"],
+TextFiles := ["init.g","equations.gd","equations.gi","freeproducts.gd","freeproducts.gi","normalform.gd","normalform.gi","decomposable.gd","decomposable.gi"],
 #BinaryFiles := ["doc/manual.dvi", ......],
 #TextBinaryFilesPatterns := [ "TGPLv3", "Texamples/*", "B*.in", ......],
 
@@ -146,13 +146,13 @@ Dependencies := rec(
   # insensitive, exact version denoted with '=' prepended to version string.
   # without these, the package will not load
   # NeededOtherPackages := [["GAPDoc", "1.5"]],
-  NeededOtherPackages := [["GAPDoc", "1.5"],["FR", "2.2"]],
+  NeededOtherPackages := [["GAPDoc", "1.5"]],
 
   # list of pairs [package name, version] as above,
   # these package are will be loaded if they are available,
   # but the current package will be loaded if they are not available
   # SuggestedOtherPackages := [],
-  SuggestedOtherPackages := [],                      
+  SuggestedOtherPackages := [["FR", "2.2"]],                      
 ),
 
 ##  Provide a test function for the availability of this package.
