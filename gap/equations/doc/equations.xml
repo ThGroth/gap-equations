@@ -83,16 +83,22 @@ denote by <M>F_X</M> the free group on the generating set <M>X</M>.
   <E>variables</E> <M>\textup{Var}(E)\subset X</M> is the set of symbols in <M>X</M>
   that occur in it; namely, <M>\textup{Var}(E)</M> is the minimal subset of <M>X</M>
   such that <M>E</M> belongs to <M>F_{\textup{Var}(E)}*G</M>.
-<P/>
+<P/> 
+  A <E>quadratic</E> equation is an equation in which each variable
+  <M>x\in\textup{Var}(E)</M> occurs exactly twice. A quadratic equation
+  is called <E>oriented</E> if for each variable <M>x\in\textup{Var(X)}</M>
+  both letters <M>x</M> and <M>x^{-1}</M> occure in the reduced word <M>E</M>.
+<Section><Heading>Construction</Heading>
+<#Include Label="EquationGroup">
+<#Include Label="Equation">
+</Section><Section><Heading>Homomorphisms</Heading>
   An <E>evaluation</E> is a <M>G</M>-homomorphism <M>e\colon F_{X} * G \to G</M>.
   A <E>solution</E> of an equation <M>E</M> is an evaluation <M>s</M>
   satisfying <M>s(E)=1</M>. If a solution exists for <M>E</M> then the
   equation <M>E</M> is called <E>solvable</E>. The set of elements
   <M>x\in X</M> with <M>s(x)\neq 1</M> is called the <E>support</E> of the solution.
-<Section><Heading>Construction</Heading>
-<#Include Label="EquationGroup">
-<#Include Label="Equation">
-  </Section>
+<#Include Label="EquationHom">
+</Section>
 </Chapter>
 
 </Body>
