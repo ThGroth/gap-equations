@@ -106,6 +106,39 @@ DeclareAttribute("EquationLetterRep",IsEquation);
 DeclareProperty("IsQuadraticEquation", IsEquation);
 DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 
+#############################################################################
+##
+#O EquationHomomorphism . . . . . . . . . . . .create an EquationHomomorphism
+#O EquationEvaluation . . . . . . . . . . . . . .create an EquationEvalutaion
+#P IsEvalutation . . . . . . . . . . . . . . . Is Homomorphism an evalutation
+#O IsSolution . . . . . . . . . . . . . . . . . . .Is an evalution a solution
+#A EquationHomomorphismImageData. . . . . . . . . . . . . . . . . . . . . . .
+##
+## <#GAPDoc Label="EquationHom">
+##<ManSection>
+## <Oper Name="EquationHomomorphism" Arg="G,vars,imgs"
+##		 Label="group,list,list"/>
+##   <Returns>A a new homomorphism from <A>G</A> to <A>G</A></Returns>
+##   <Description>
+##		If <A>G</A> is the group <M>H*F_X</M> the result of this command is
+##		a <M>H</M>-homomorphism that maps the <M>i</M>-th variable of the
+##		list <A>vars</A> to the <M>i</M>-th member of <A>imgs</A>.
+##		Therefore <A>vars</A> can be a list without duplicates of variables.
+##		The list <A>imgs</A> can contain elements of the following type:
+##		<List>
+##		<Mark>variables</Mark>
+##		<Item>It can be an element of the set <M>X</M></Item>
+##		<Mark>constants</Mark>
+##		<Item>It can be an element of the group <M>H</M></Item>
+##		<Mark>lists</Mark>
+##		<Item>It can be list of elements of <M>X</M> and <M>H</M>. 
+#		The list is then regarded as the word over this elements as element of <M>G</M></Item>
+##		<Mark>FreeProductElms</Mark>
+##		<Item>It can be elements of the group <M>G</M></Item>
+##		</List>
+##   </Description>
+##</ManSection>
+## <#/GAPDoc>
 DeclareProperty("IsEquationHomomorphism",IsFreeProductHomomorphism);
 
 DeclareOperation("EquationHomomorphism", [IsEquationGroup, IsList, IsList]);
