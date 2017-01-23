@@ -64,14 +64,24 @@
   \label{#1}
   (\theautomatonnumber)
 }
-
+\usepackage{textcomp}
+\usepackage[space=true]{accsupp}
+% requires the latest version of package accsupp
+\newcommand{\copyablespace}{
+    \BeginAccSupp{method=hex,unicode,ActualText=00A0}
+\ %
+    \EndAccSupp{}
+}
 %Quellcode Aussehen:
 \lstset {
-basicstyle=\normalsize\ttfamily,
-language=GAP,
-breaklines=true,
-showstringspaces=false,
-tabsize=2
+  upquote=true,
+  columns=fullflexible,
+  literate={*}{{\char42}}1
+         {-}{{\char45}}1,
+  basicstyle=\normalsize\ttfamily,
+  language=GAP,
+ % showstringspaces=false,
+ % tabsize=2,
 }
 %Monospace in inline code
 %\lstMakeShortInline[columns=fixed]|
