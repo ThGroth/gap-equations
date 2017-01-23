@@ -1366,8 +1366,8 @@ If the FR package is available
 the function \gapinline{GetSuccessorLookup} can be used to explore the
 successors of elements. It returns the succeeding pair. For example
  \begin{lstlisting}
-    gap> f1 := Q.1; f2 := Q.2;
-    gap> gamma:= [f1,f1,f1,f1,f1,f1];;
+    gap> f4 := Q.1;
+    gap> gamma:= [f4,f4,f4,f4,f4,f4];;
     gap> g := (a*b)^8;;
     gap> IsGoodPair(g,gamma);
 \end{lstlisting}
@@ -1385,7 +1385,7 @@ true
     gap> suc[2].constraint;
 \end{lstlisting}
 \begin{verbatim}
-[ <id>, <id>, <id>, <id>, f1*f2, <id> ]
+[ <id>, <id>, <id>, <id>, f1*f3, <id> ]
 \end{verbatim} 
 
 
