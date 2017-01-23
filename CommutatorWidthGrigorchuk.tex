@@ -208,7 +208,7 @@ GAP standard installation by running the command \gapinline{gap
   verify.g} in its main directory.
 
 For a more advanced experimentation with the code and to recompute 
-the precomputations GAP is required to be at least $4.7.6$  of version 
+the precomputations GAP is required to be at least of version $4.7.6$
 and the packages FR\cite{FR2.3.6} and 
 LPRES\cite{LPRES0.3.0} must be installed.
 
@@ -291,8 +291,8 @@ natural map $F_{\mathcal{X}}*G\to F_{\mathcal{X}}/[F_{\mathcal{X}},F_{\mathcal{X
   For $m>n\ge0$, $X_i,Y_i,Z_i \in\mathcal{X}$ and $c_i \in G$ the following two kinds of
   equations are called in \emph{normal form}:
  \begin{align}
-  \eq{O}_{n,m}:\qquad & [X_1,Y_1][X_2,Y_2]\cdots[X_n,Y_n]c_1^{Z_1}\cdots c_{m-1}^{z_{m-1}}c_m  \\
-   \eq{\eq{U}}_{n,m}:\qquad & X_1^2X_2^2\cdots X_n^2 c_1^{Z_1}\cdots c_{m-1}^{z_{m-1}}c_m\ .
+  \eq{O}_{n,m}:\qquad & [X_1,Y_1][X_2,Y_2]\cdots[X_n,Y_n]c_1^{Z_1}\cdots c_{m-1}^{Z_{m-1}}c_m  \\
+   \eq{\eq{U}}_{n,m}:\qquad & X_1^2X_2^2\cdots X_n^2 c_1^{Z_1}\cdots c_{m-1}^{Z_{m-1}}c_m\ .
  \end{align} 
  The form $\eq{O}_{n,m}$ is called the oriented case and $\eq{U}_{n,m}$ for
  $n>0$ the unoriented case.  The parameter $n$ is referred to as
@@ -760,7 +760,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  \begin{align*}
  \psi_1 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2, & \psi_2 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2\\
  Y &\mapsto Y^{g_1^{-1}}, & Y &\mapsto Y^{g_2^{X_{11}}g_1}, & &\text{ for }Y\in \Var(R_{n-m}')\\
- Z &\mapsto Z^{(g_2w_1v_1g_1)^{-1}}& Z &\mapsto Z^{g_2^{X_{11}}g_1}  & &\text{ for }Z\in \Var(R_{n-m})\\
+ Z &\mapsto Z^{(g_2w_1v_1g_1)^{-1}},& Z &\mapsto Z^{g_2^{X_{11}}g_1},  & &\text{ for }Z\in \Var(R_{n-m})\\
  X &\mapsto X & & & &\text{ for all other generators}
  \end{align*}
  have the property that $\nf_{v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1} = \psi_2\circ\nf_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and 
@@ -770,7 +770,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
   \[\Gamma_4^{q_1,q_2}(\gamma)\in \bigcup_{X_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,X_0}(\gamma).\]
  Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
  then $q_i = q\att{i}$  by Lemma~\ref{lem:atIsWellDefinedModK'}. So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and filter those 
- constraints out which doesn't fulfill the requested properties and therefore finally define
+ constraints out which don't fulfill the requested properties and therefore finally define
  \begin{align}
  \Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
   \act(\gamma')\neq 1, \gamma'({Y_{\gamma'}}) \in S^\pi \right\}. 
@@ -873,7 +873,7 @@ and therefore
 
  \begin{defi}
  For each fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(q,\gamma)$ is a good pair
- fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}(\gamma'(Y_{\gamma'}))\in S$ which exist by the previous proposition.
+ fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}(\gamma'(Y_{\gamma'}))\in S$ which exists by the previous proposition.
  
  With Lemma~\ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus Y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
  For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{succeeding pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
@@ -979,7 +979,7 @@ Analog to Proposition~\ref{pro:existsNextPair} we can formulate the following pr
 \begin{pro}\label{pro:existsNextPair4}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red^4_{act}$ the set $\Gamma^q(\gamma)$ 
  contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $g^\tau=q$ the
- pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'})}\cdot g\at{1},\gamma'\right)$ is a good pair.
+ pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
 \begin{proof}
 The proof is the same as for Proposition~\ref{pro:existsNextPair}. The corresponding formula which needs to be checked is 
