@@ -990,15 +990,15 @@ The proof is the same as for Proposition~\ref{pro:existsNextPair}. The correspon
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
-The resulting succeeding pairs are now equations of genus $3$ with an active constraint. T
-hose are already shown to be solvable 
+The resulting succeeding pairs are now equations of genus $3$ with an active constraint. 
+Those are already shown to be solvable 
 by Proposition~\ref{pro:solvableConstraintedEquations}. Hence we have the following
 corollary which improves Proposition~\ref{pro:solvableConstraintedEquations}:
 \begin{cor}\label{cor:solvableConstraintedEquations}
 If $n\geq2$ and $(g,\gamma)$ is a good pair with active constraint $\gamma$ with $\supp(\gamma)\subset\{X_1,\dotsc,X_{n}\}$
  then the constrained equation $(R_n(X_1,\dotsc,X_{2n})g,\gamma)$ is solvable. 
 \end{cor}
-So together with Lemma~\ref{lem:existsGoodGammaForRed4} this proves the first part of Theorem~\ref{thm:CWGrigorchukGroup}.
+Together with Lemma~\ref{lem:existsGoodGammaForRed4} this proves the first part of Theorem~\ref{thm:CWGrigorchukGroup}.
 \begin{cor}\label{cor:KhasCW2}
  $K$ has commutator width at most $2$. 
 \end{cor}
@@ -1047,7 +1047,7 @@ $G_n := germ_n \circ \psi_n(G)$ the $n$-th \emph{germgroup}.
 The $4$-th level \emph{germgroup} 
 a group of order $67\,108\,864$ has commutator width $2$.
 If the FR package is present this group can be constructed in GAP with 
-the command 
+the following command. 
 \begin{lstlisting}
    gap> Range(EpimorphismGermGroup(GrigorchukGroup,4))
 \end{lstlisting}
@@ -1056,7 +1056,7 @@ but in the commutator subgroup. This element is part of the
 precomputed data and can be used in gap with
 \gapinline{PCD.nonCommutatorGermGroup4}.	
 
- A corresponding image in $G$ with a minimal number of states is the automaton shown in Figure~\ref{fig:noncomm}. 
+ A corresponding pre-image in $G$ with a minimal number of states is the automaton shown in Figure~\ref{fig:noncomm}. 
 The construction of the element and a representation in the standard generators of $G$ can be found in the file
  \filename{gap/precomputeNonCommutator.g}. With the representation in standard generators it is easy to show using the 
  homomorphism $\pi$ on the generators that this element is even a member of $K$.
@@ -1089,7 +1089,8 @@ Therefore the constrained equation $(R_2(g\at{2})(g\at{1}),\gamma')$ is solvable
 by Corollary~\ref{cor:solvableConstraintedEquations}
 for each $g\in G'$ and hence the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
 
-In GAP use the function \gapinline{verifyExistGoodConjugacyConstraints} to check this.
+In GAP the function \gapinline{verifyExistGoodConjugacyConstraints} implements 
+this condition.
 \end{proof}	
 This finishes the proof of Corollary~\ref{cor:productOf6Conjugates}.
 \begin{lem}
@@ -1170,7 +1171,8 @@ commutator width. This finishes the proof of the following proposition:
 \begin{pro} \label{pro:fgsubgroupcw}
    All finitely generated subgroups $H \leq G$ are of finite commutator width.
 \end{pro}
-To show that this result is rather optimal we need some facts, which have
+To show that there can't be a bound on the commutator width of subgroups
+we need some results, which have
 been established before. Since we couldn't find a original reference we will
 sketch their proofs here.
 
@@ -1204,9 +1206,9 @@ sketch their proofs here.
   since $W_n(C_2)$ is a Sylow $2$-subgroup of $S_{2^n}$ every finite $2$-group is a subgroup of
   $W_n(C_2)$ and hence of $K$.
   \item Consider again the vertices of $T_2$ which are isomorphic to a
-  the finite tree $T_2^k$ on which a subgroup of $K$ acts like $W_n(C_2)$. Take $m$ be large
-  enough such that all this vertices are above the $m$-th level. Hence a copy of $W_n(C_2)$ can
-  be found inside $\RNK{G}{\Stab(m)}$.
+  the finite tree $T_2^k$ on which a subgroup of $K$ acts like $W_n(C_2)$. If we take $m$ be large
+  enough such that all this vertices are above the $m$-th level we can find a copy of $W_n(C_2)$
+  inside $\RNK{G}{\Stab(m)}$.
  \end{enumerate}
 \end{proof}
 In the following theorem we summarize our results for the commutator width of the Grigorchuk Group.
@@ -1322,7 +1324,7 @@ If the file \filename{verify.g} is loaded in a GAP environment with the FR packa
 the function \gapinline{ReducedConstraint} can be used as an alias to get 
 reduced constraints. For Example:
  \begin{lstlisting}
-    gap> f4 := Q.1; f2 := Q.2;
+    gap> f1 := Q.3;
     gap> gamma:= [f1,f1,f1,f1,f1,f1];
     gap> constr := ReducedConstraint(gamma);;
     gap> Print(constr.constraint);
