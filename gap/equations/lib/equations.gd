@@ -72,7 +72,7 @@ DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
 ## gap> F2 := FreeGroup(2);; SetName(F2,"F2");
 ## gap> S4 := SymmetricGroup(4);; SetName(S4,"S4");
 ## gap> G := EquationGroup(S4,F2);
-## F2*S4
+## S4*F2
 ## gap> e := Equation(G,[F2.1,F2.2,(1,2),F2.1]);
 ## Equation in [ f1, f2 ]
 ## gap> Print(e);
@@ -115,7 +115,7 @@ DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 #A EquationHomomorphismImageData. . . . . . . . . . . . . . . . . . . . . . .
 ##
 ## <#GAPDoc Label="EquationHom">
-##<ManSection>
+## <ManSection>
 ## <Oper Name="EquationHomomorphism" Arg="G,vars,imgs"
 ##		 Label="group,list,list"/>
 ##   <Returns>A a new homomorphism from <A>G</A> to <A>G</A></Returns>
@@ -126,16 +126,52 @@ DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 ##		Therefore <A>vars</A> can be a list without duplicates of variables.
 ##		The list <A>imgs</A> can contain elements of the following type:
 ##		<List>
-##		<Mark>variables</Mark>
-##		<Item>It can be an element of the set <M>X</M></Item>
-##		<Mark>constants</Mark>
-##		<Item>It can be an element of the group <M>H</M></Item>
-##		<Mark>lists</Mark>
-##		<Item>It can be list of elements of <M>X</M> and <M>H</M>. 
-#		The list is then regarded as the word over this elements as element of <M>G</M></Item>
-##		<Mark>FreeProductElms</Mark>
-##		<Item>It can be elements of the group <M>G</M></Item>
+##		<Item>Element of the group <M>F_X</M></Item>
+##		<Item>Elements of the group <M>H</M></Item>
+##		<Item>Lists of elements from the groups <M>F_X</M> and <M>H</M>. 
+##		The list is then regarded as the corresponding word in <M>G</M></Item>
+##		<Item>Elements of the group <M>G</M></Item>
 ##		</List>
+## <Example><![CDATA[
+## gap> F3 := FreeGroup(3);; SetName(F3,"F3");
+## gap> S4 := SymmetricGroup(4);; SetName(S4,"S4");
+## gap> G := EquationGroup(S4,F3);
+## S4*F3
+## gap> e := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2)]);
+## Equation in [ f1, f2, f3 ]
+## gap>  h := EquationHomomorphism(G,[F3.1,F3.2,F3.3],
+## > [F3.1*F3.2*F3.3,(F3.2*F3.3)^(F3.1*F3.2*F3.3),(F3.2^-1*F3.1^-1)^F3.3]);
+## [ f1, f2, f3 ]"->"[ f1*f2*f3, f3^-1*f2^-1*f1^-1*f2*f3*f1*f2*f3, f3^-1*f2^-1*f1^-1*f3 ]
+## gap> Print(e^h);
+## FreeProductElm([ f1^2*f2^2*f3^2, (1,2) ])
+## ]]></Example></Description>
+## </ManSection>
+## <ManSection>
+## <Oper Name="EquationEvaluation" Arg="G,vars,imgs"
+##		 Label="group,list,list"/>
+##   <Returns>A a new evaluation from <A>G</A></Returns>
+##   <Description>
+##	 Works the same as <E>EquationHomomorphism</E> but the 
+##	 target of the homomorphism is the group of constants 
+##   and all variables which are not specified in in <A>vars</A>
+##   are maped to the identity. Hence the only allowed input
+##	 for <A>imgs</A> are elements of the group of constants.
+## <Example><![CDATA[
+## gap> F3 := FreeGroup(3);; SetName(F3,"F3");
+## gap> S4 := SymmetricGroup(4);; SetName(S4,"S4");
+## gap> G := EquationGroup(S4,F3);
+## S4*F3
+## gap> e := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2,3)]);
+## Equation in [ f1, f2, f3 ]
+## gap>  h := EquationHomomorphism(G,[F3.1,F3.2,F3.3],[(),(),(1,2,3)]);
+## [ f1, f2, f3 ]"->"[ (), (), (1,3,2) ]
+## gap>  he := EquationEvaluation(G,[F3.1,F3.2,F3.3],[(),(),(1,2,3)]);
+## MappingByFunction( S4*F3, S4, function( q ) ... end )
+## gap> e^he;
+## ()
+## gap> IsSolution(he,e);
+## true
+## ]]></Example>
 ##   </Description>
 ##</ManSection>
 ## <#/GAPDoc>
