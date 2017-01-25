@@ -254,6 +254,29 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 		return rec(eq:=Equation(EqG,List(Comp,eq->eq!.word),x!.activity),hom:=Hom);
 	end);
 
+
+InstallMethod(LiftSolution, "For a Decomposed Equation, an Equation, a group hom, and a solution for Deq",
+	[IsEquation and IsDecomposedEquationRep, IsEquation, IsGroupHomomorphism, IsGroupHomomorphism],
+	function(Deq,eq,acts,sol)
+		local Comp,NFs,imgs;
+		if not DecompositionEquation(Deq!.group,eq,acts)=Deq then
+			Error("The first argument must be the decomposition of the second argumen.");
+		fi;
+		Comp := EquationComponents(DecomposedEquationDisjointForm(Deq).eq);
+		if not IsEvaluation(sol) then
+			Error("The 4-th argument need to be an evaluation.");
+		fi;
+		if not ForAll(Comp,E-> IsSolution(sol,E)) then
+			Error("The last argument must be a solution for the first argument.");
+		fi;
+		imgs := List(EquationVariables(eq),
+			x-> UnderlyingMealyElement(FRElement(
+				 [List(FreeProductInfo(Deq!.group!.free).embeddings,
+				 	e->[Equation(Deq!.group,[x^e])^sol])],
+				 [x^acts],
+				 [1] )) );
+		return EquationEvaluation(eq,EquationVariables(eq),imgs);
+	end);
 #
 # Let sol be a list of solutions [s₁,…,sₙ] such that 
 # sᵢ is a solution for the NormalForm of th iᵗʰ component
@@ -262,7 +285,7 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 # with activities `acts`.
 # 
 # Then the following method computes a solution for `eq`
-InstallMethod(LiftSolution, "For a Decomposed Equation, an Eqation, a group hom, and a list of solutions",
+InstallOtherMethod(LiftSolution, "For a Decomposed Equation, an Eqation, a group hom, and a list of solutions",
 	[IsEquation and IsDecomposedEquationRep, IsEquation, IsGroupHomomorphism, IsList],
 	function(Deq,eq,acts,sol)
 		local Comp,NFs,imgs;
@@ -284,3 +307,4 @@ InstallMethod(LiftSolution, "For a Decomposed Equation, an Eqation, a group hom,
 				 [1] )) );
 		return EquationEvaluation(eq,EquationVariables(eq),imgs);
 	end);
+
