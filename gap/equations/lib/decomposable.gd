@@ -27,7 +27,7 @@
 ##		the equation <A>E</A> needs to be a member of the EquationGroup <M>H=K*F</M>.
 ##		
 ##		<P/> The argument <A>sigma</A> needs to be a group homomorphism
-##		<M>\simga\colon F\to S_n</M>.
+##		<M>\sigma\colon F\to S_n</M>.
 ##
 ##		<P/>
 ##		The representation of the returned equation stores a list of 
