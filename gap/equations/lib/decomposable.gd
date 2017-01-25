@@ -50,6 +50,32 @@
 ## ]]></Example>
 ##   </Description>
 ##</ManSection>
+## <ManSection>
+## <Oper Name="EquationComponent" Arg="E,i"
+##		 Label="equation,int"/>
+##   <Returns>The <A>i</A>-th component of the decomposed equation <A>E</A>.</Returns>
+##   <Description>
+##		Denote by <M>p_i</M> the natural projection <M>(G*F_{X^n})^n\rtimes S_n\to G*F_{X^n}</M>
+##		to the <M>i</M>-th factor of the product. Given a decomposed Equation <A>E</A> and 
+##		an integer <M>0&lt;</M><A>i</A><M>\leq n</M> 
+##		this method returns <M>p_i(E)</M>.<P/>
+## </Description>
+## <Oper Name="EquationComponents" Arg="E"
+##		 Label="equation,int"/>
+##   <Returns>The list of all components of the decomposed equation <A>E</A>.</Returns>
+##   <Description>
+##		Denote by <M>p_i</M> the natural projection <M>p_i\colon(G*F_{X^n})^n\rtimes S_n\to G*F_{X^n}</M>
+##		to the <M>i</M>-th factor of the product. Given a decomposed Equation <A>E</A> 
+##		this method returns the list <M>[p_1(E),p_2(E),\ldots,p_n(E)]</M>.<P/>
+## </Description>
+## <Oper Name="EquationActivity" Arg="E"
+##		 Label="equation"/>
+##   <Returns>The activity of the decomposed equation <A>E</A>.</Returns>
+##   <Description>
+##		Denote by <M>act</M> the natural projection <M>(G*F_{X^n})\wr S_n\to S_n</M>.
+##		Given a decomposed Equation <A>E</A> this method returns <M>act(E)</M>.
+## </Description>
+## </ManSection>
 ## <#/GAPDoc>
 DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
 DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
@@ -61,8 +87,76 @@ DeclareRepresentation("IsDecomposedEquationRep",
 
 DeclareOperation("DecompositionEquation", [IsEquationGroup,IsEquation,IsGroupHomomorphism]);
 DeclareOperation("EquationComponent", [IsEquation,IsInt]);
+DeclareOperation("EquationActivity", [IsEquation]);
 DeclareOperation("EquationComponents", [IsEquation]); 
 
+#############################################################################
+##
+#A DecomposedEquationDisjointForm . . . . . . . . . . . . .DecomposedEquation 
+#A LiftSolution. . . . . . Lift solution from decomposed equation to equation
+##
+## <#GAPDoc Label="DecomposedEquationDisjointForm">
+## <ManSection>
+## <Oper Name="DecomposedEquationDisjointForm" Arg="E"
+##		 Label="equation"/>
+##   <Returns>A record with components <A>eq</A> 
+##	 and <A>hom</A>.</Returns>
+##   <Description>
+##		If <A>E</A> is a decomposed equation there may be an 
+##		overlap of the set of variables of some components. If <A>E</A> is a quadratic
+##		equation there is an equation homomorphism <M>\varphi</M> that 
+##		maps each component to a new quadratic equation. Hence all maped components have
+##		pairwise disjoint sets of variables. This method computes such an homomorphism
+##		<M>\varphi</M> such that the solvability of the system of components remains 
+##		unchanged. If <M>s</M> is a solution for the new system of components, then
+##		<M>s\circ\varphi</M> is a solution for the old system.<P/> 
+##		The method returns a record with two components. <A>hom</A> 
+##		is the homomorphism <M>\varphi</M> and <A>eq</A> the new decomposed equation.
+## </Description>
+## </ManSection>
+## <ManSection>
+## <Oper Name="LiftSolution" Arg="DE,E,sigma,sol"
+##		 Label="equation,equation,equationhom,equationhom"/>
+##   <Returns>An evaluation for E <A>eq</A>.</Returns>
+##   <Description>
+##		Given an equation <A>E</A> and a solution <A>sol</A> for its decomposed equation 
+##		<A>DE</A> under the decomposition with activity <A>sigma</A> this method computes a 
+##		solution for the equation <A>E</A>.<P/>
+##		Note that the solution not neccecarily maps to the group of constants of <A>E</A>
+##		but can map to the group where all elements of the group of constants can appear 
+##		as states. If the group of constants is layered, this two groups will coincide.
+## <Example><![CDATA[
+## gap> F := FreeGroup(2);; SetName(F,"F");
+## gap> Gr := GrigorchukGroup;; a:=Gr.1;; d:=Gr.4;;
+## gap> G := EquationGroup(Gr,F);;
+## gap> DG := DecompositionEquationGroup(G);;
+## gap>  sigma := GroupHomomorphismByImages(F,SymmetricGroup(2),[(1,2),()]);
+## [ f1, f2 ] -> [ (1,2), () ]
+## gap>  e := Equation(G,[Comm(F.1,F.2),Comm(d,a)]);
+## Equation in [ f1, f2 ]
+## gap>  de := DecompositionEquation(DG,e,sigma);
+## DecomposedEquation in [ f11, f21, f12, f22 ]
+## gap> dedj := DecomposedEquationDisjointForm(de);
+## rec( eq := DecomposedEquation in [ f11, f12, f22 ], 
+##   hom := [ f21 ]"->"[ FreeProductElm of length 3 ] )
+## gap> EquationComponents(dedj.eq);
+## [ Equation in [ f11, f12, f22 ], Equation in [  ] ]
+## gap> s := EquationEvaluation(DG,EquationVariables(dedj.eq),[One(Gr),One(Gr),Gr.2]);
+## MappingByFunction( GrigorchukGroup*F*F, GrigorchukGroup, function( q ) ... end )
+## gap> IsSolution(s,EquationComponent(dedj.eq,1));
+## true
+## gap> ns := dedj.hom*s;; IsEvaluation(ns);
+## true
+## gap> ForAll(EquationComponents(de),F->IsSolution(ns,F));
+## true
+## gap> ls := LiftSolution(de,e,sigma,ns);;
+## gap> IsSolution(ls,e);
+## true
+## gap> ForAll(EquationVariables(e),x->Equation(G,[x])^ls in Gr);
+## true //only good luck
+## ]]></Example>
+## </Description>
+## </ManSection>
+## <#/GAPDoc>
 DeclareAttribute("DecomposedEquationDisjointForm", IsEquation);
-
-DeclareOperation("LiftSolution",[IsEquation, IsEquation, IsGroupHomomorphism, IsList]);
+DeclareOperation("LiftSolution",[IsEquation,IsEquation, IsGroupHomomorphism, IsGroupHomomorphism]);

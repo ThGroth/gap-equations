@@ -130,6 +130,7 @@ denote by <M>F_X</M> the free group on the generating set <M>X</M>.
      <Item><M>\mapsto\psi_i(x_i)</M></Item>
       </Row></Table>
   <#Include Label="DecompositionEquation"> 
+  <#Include Label="DecomposedEquationDisjointForm">   
 </Section>
 </Chapter>
 </Body>
