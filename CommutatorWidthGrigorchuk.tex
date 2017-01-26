@@ -779,7 +779,7 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  \begin{pro}\label{pro:existsNextPair}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{act}$ the set $\Gamma^q(\gamma)$ 
  contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $g^\tau=q$ the
- pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'})}\cdot g\at{1},\gamma'\right)$ is a good pair.
+ pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
 For the proof of this proposition we need a few lemmata:
 %TODO: Check if this Lemma is now obsolet since we have Lemma \ref{lem:H'}.
@@ -806,7 +806,7 @@ For the proof of this proposition we need a few lemmata:
  The map 
  \begin{align*} 
   \bar p_h\colon \RNK{G'}{K'} &\to \RNK{G'}{K\times K}\\
-  gK'&\mapsto \left(g\at{2})^h\cdot g\at{1}\right){K\times K}
+  gK'&\mapsto \left((g\at{2})^h\cdot g\at{1}\right){K\times K}
  \end{align*}
 is well defined.
 \end{lem}
@@ -860,7 +860,7 @@ and therefore
  
   By Lemma~\ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
  and the natural homomorphism \[\rho'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
- and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(Y_{\gamma'})}(q)$ under $\rho'$ 
+ and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}(q)$ under $\rho'$ 
  form good pairs with $\gamma'$. In formulas what needs to be checked is: Let $\mathcal{G}$ be the predicate of being a good pair. 
  \[\forall q\in\RNK{G'}{K'}
       \forall \gamma\in\Red_{act} 
@@ -1124,7 +1124,7 @@ the properties of the branch structure it is true that $\pair{(cag)^\pi,(ac)^\pi
  As every element of $G'$ is a product of at most $6$ conjugates of $a$ this proofs the claim.
 %  \begin{align}
 %   T &=\{&1&,&a&,&ad=d^aa&,&ada=d^a,\\
-%     & &b&,&ba=ab^a&,&bad=ca^d&,&bada=bd^a
+%     & &b&,&ba=ab^a&,&bad=ca^d&,&bada=bd^a\}
 %  \end{align}
 
 \end{proof}
@@ -1340,7 +1340,7 @@ of $\gamma\in\Red$. (See Section~\ref{sec:good_pairs}.) So this is already a
 finite problem. 
 
 For a given constraint $\gamma$ to get all $q$ which form a good pair we can
-enumerate all possible commutators for $r_i\in\rho^{-1}(\gamma(X_i)$.
+enumerate all possible commutators for $r_i\in\rho^{-1}(\gamma(X_i))$.
 $[r_1,r_2][r_3,r_4][r_5,r_6]$. Since $\lvert\RNK{K}{K'}\rvert=64$ considering all 
 combinations at once is far from beeing efficient thus the possible values for
 $[r_1,r_2]$ are computed and in a second step products of those elements.
