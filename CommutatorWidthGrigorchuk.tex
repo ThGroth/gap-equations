@@ -48,9 +48,10 @@ answers a question of Elisabeth
 Fink~\cite[Question~3]{Fink:Conjugacy_growth}:
 \begin{cora}\label{cor:productOf6Conjugates}
   Every element of $G'$ is a product of $6$ conjugates of the
-  generator $a$.
+  generator $a$ and there are elements $g\in G'$ which are 
+  not products of $4$ conjugates of $a$.
 \end{cora}
-%TODO is something stronger possible. 4 conjugates?
+
 
 There are examples of groups of finite commutator width with subgroups
 of infinite commutator width; and even finitely presented, perfect
@@ -277,8 +278,8 @@ $\eq{E}$ is regarded as a reduced word.
 A $G$-equation $\eq{E}$ is is called \emph{oriented} if for each variable
 $X\in \Var(\eq{E})$ the number of occurrences with positive and with
 negative sign coincide, namely if $\eq{E}$ maps to the identity under the
-natural map $F_{\mathcal{X}}*G\to F_{\mathcal{X}}/[F_{\mathcal{X}},F_{\mathcal{X}}]*1$.  Otherwise $\eq{E}$ is called
-\emph{unoriented}.
+natural map $F_{\mathcal{X}}*G\to F_{\mathcal{X}}/[F_{\mathcal{X}},F_{\mathcal{X}}]*1$. 
+Otherwise $\eq{E}$ is called \emph{unoriented}.
 \begin{lem}
  Being oriented or not preserved under equivalence of equations.
 \end{lem}
@@ -409,7 +410,8 @@ Let $T_{1,n},\dotsc,T_{n,n}$ be the subtrees hanging from neighbours of the root
 Every $g\in\Aut(T_n)$ permutes the $T_{i,n}$ by a permutation $\sigma$ and simultaneously
 acts on each of them by isomorphisms $g_i\colon T_{i,n}\to T_{i^\sigma,n}$.
 
-Note that for all $i$ the tree $T_n$ is isomorphic to $T_{n,i}$; identifying each $T_{n,i}$ with $T_n$, we identify each $g_i$ with an element of $\Aut(T_n)$, and obtain in this manner an isomorphism
+Note that for all $i$ the tree $T_n$ is isomorphic to $T_{n,i}$; identifying each $T_{n,i}$ with $T_n$, 
+we identify each $g_i$ with an element of $\Aut(T_n)$, and obtain in this manner an isomorphism
 \[\psi\colon\begin{array}{r@{\;}l}
               \Aut(T_n) &\xrightarrow{\sim} \Aut(T_n)\wr S_n\\
               g &\mapsto \pair{g_1,\dotsc,g_n}\sigma.
@@ -472,9 +474,11 @@ For the proof we need a small observation:
 \begin{proof}[Proof of Proposition~\ref{pro:comwidthAutT2}]
  Given any element $g\in \Aut(T_2)'$ we consider the equation $[X,Y]g$. 
  If in it we replace the variable $X$ by $\pair{X_1,X_2}$ and $Y$ by $\pair{Y_1,Y_2}(1,2)$ 
- we obtain $\pair{X_1^{-1}Y_2^{-1}X_2Y_2g\at{1},X_2^{-1}Y_1^{-1}X_1Y_1g\at{2}}$. Therefore, $[X,Y]g$ is solvable if
- the system of equations $X_2^{-1}Y_2^{-1}X_2Y_2g\at{1}$, $X_1^{-1}Y_1^{-1}X_1Y_1g\at{2}$ is solvable.
- We apply the $\Aut(T_2)$-homomorphism $X_1\mapsto X_1,X_2\mapsto Y_1^{-1}X_1Y_1 g\at{2},Y_i\mapsto Y_i$ to eliminate one equation and one variable.
+ we obtain $\pair{X_1^{-1}Y_2^{-1}X_2Y_2g\at{1},X_2^{-1}Y_1^{-1}X_1Y_1g\at{2}}$. 
+ Therefore, $[X,Y]g$ is solvable if the system of equations
+ $X_2^{-1}Y_2^{-1}X_2Y_2g\at{1}$, $X_1^{-1}Y_1^{-1}X_1Y_1g\at{2}$ is solvable.
+ We apply the $\Aut(T_2)$-homomorphism $X_1\mapsto X_1,X_2\mapsto Y_1^{-1}X_1Y_1 g\at{2},Y_i\mapsto Y_i$ 
+ to eliminate one equation and one variable.
  
  Therefore the solvability of the constrained equation
  $\left([X,Y]g, (X\mapsto 1,Y\mapsto (1,2)) \right)$ follows from the solvability of
@@ -550,16 +554,15 @@ By Lemma~\ref{lem:finitelyManyConstraints} every element $\gamma\in Q^n$ has a r
  %can be used. 
  For more details see Section~\ref{sec:gap_details}.
 \end{proof}
-%\begin{defi}
-%TODO couldn't read remark what there should be instead of definition.
  Fix some representative system $\Red$ of the above $90$ orbits and for 
- $\gamma \colon F_{\mathcal{X}} \to Q$ with finite support denote by $\varphi_\gamma$ the $G$-homomorphism in $\Stab(R_\NN)$ such that $\gamma\circ \varphi_\gamma \in \Red$.
+ $\gamma \colon F_{\mathcal{X}} \to Q$ with finite support denote by $\varphi_\gamma$ the $G$-homomorphism 
+ in $\Stab(R_\NN)$ such that $\gamma\circ \varphi_\gamma \in \Red$.
  
  The element $\gamma \circ \varphi_\gamma$ will be called a \emph{reduced constraint}.
-%\end{defi}
 
 \begin{lem} \label{lem:solvabilityWithReducedConstraint}
- The solvability of a constrained equation $(R_n g,\gamma)$ is equivalent to the solvability of $(R_n g,\gamma\circ \varphi_\gamma)$.
+ The solvability of a constrained equation $(R_n g,\gamma)$ is equivalent to the 
+ solvability of $(R_n g,\gamma\circ \varphi_\gamma)$.
 \end{lem}
  \begin{proof}
  If $s$ is a solution for $(R_n g,\gamma)$ then $s\circ \varphi_\gamma$ is
@@ -572,8 +575,10 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr S_n$ consists of
 \begin{enumerate}
  \item a branching subgroup $K\normal G$ of finite index;
  \item the corresponding quotient $Q=\RNK{G}{K}$ and the factor homomorphism $\pi\colon G \to Q$;
- \item a group $Q_1 \subset Q \wr P$ such that $\pair{q_1,q_2}\sigma\in Q_1$ if and only if $\pair{g_1,g_2}\sigma \in G$ for all $g_i \in \pi^{-1}(q_i)$;
- \item a map $\omega\colon Q_1 \to Q$ with the following property. If $g=\pair{g_1,g_2}\sigma \in G$ then $\omega(\pair{\pi(g_1),\pi(g_2)}\sigma) = \pi(g)$.
+ \item a group $Q_1 \subset Q \wr P$ such that $\pair{q_1,q_2}\sigma\in Q_1$ if
+	and only if $\pair{g_1,g_2}\sigma \in G$ for all $g_i \in \pi^{-1}(q_i)$;
+ \item a map $\omega\colon Q_1 \to Q$ with the following property. If 
+      $g=\pair{g_1,g_2}\sigma \in G$ then $\omega(\pair{\pi(g_1),\pi(g_2)}\sigma) = \pi(g)$.
 \end{enumerate}
 \end{defi}
 All regular branched groups have a branch structure
@@ -609,18 +614,23 @@ $(R_ng,\gamma)$ is solvable for some $n\in\NN$.
  \[\tau\colon G\to\RNK{G}{K'}\quad\text{ and }\quad\rho\colon \RNK{G}{K'} \to \RNK{(\RNK{G}{K'})}{(\RNK{K}{K'})}\simeq \RNK{G}{K}\]
  the natural projections.
  
- The pair $(g,\gamma)$ is a good pair if and only if there is a solution $s\colon F_{\mathcal{X}} \to \RNK{G}{K'}$ for $R_3g^\tau$ with $s(X_i) \in \rho^{-1}(\gamma(X_i))$. 
+ The pair $(g,\gamma)$ is a good pair if and only if there is a solution $s\colon F_{\mathcal{X}} \to \RNK{G}{K'}$
+ for $R_3g^\tau$ with $s(X_i) \in \rho^{-1}(\gamma(X_i))$. 
 \end{lem}
 \begin{proof}
  If $(g,\gamma)$ is a good pair and $s$ a solution for $(R_ng,\gamma)$ 
  then $s(X_i)\in K$ for $i\geq6$, so $s(R_n) = s(R_3) \cdot k'$ for some $k'\in K'$. 
  Therefore there is a solution $\tau\circ s$ for $R_3g^\tau$ with $s(X_i) = \gamma(X_i)$.
  
- On the other hand if there is a solution $s\colon F_{\mathcal{X}} \to \RNK{G}{K'}$ for $R_3g^\tau$ with for each $s(X_i) \in \rho^{-1}(\gamma(X_i))$ then
- for $g_i \in \tau^{-1}(s(X_i))$ there is some $k'\in K'$ such that $R_3(g_1,\dotsc,g_6)k'g=1$ and so $(g,\gamma)$ is a good pair.
+ On the other hand if there is a solution $s\colon F_{\mathcal{X}} \to \RNK{G}{K'}$ 
+ for $R_3g^\tau$ with for each $s(X_i) \in \rho^{-1}(\gamma(X_i))$ then
+ for $g_i \in \tau^{-1}(s(X_i))$ there is some $k'\in K'$ such that
+ $R_3(g_1,\dotsc,g_6)k'g=1$ and so $(g,\gamma)$ is a good pair.
 \end{proof}
-The previous lemma shows that the question whether $(g,\gamma)$ is a good pair depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. Therefore
-$(q,\gamma)$ will be called a good pair if $(g,\gamma)$ is a good pair for one (and hence all) preimages of $q$ under $\tau$.
+The previous lemma shows that the question whether $(g,\gamma)$ is a good pair 
+depends only on the image $q=g^\tau$ in $\RNK{G}{K'}$. Therefore
+$(q,\gamma)$ will be called a good pair if $(g,\gamma)$ is a good pair for 
+one (and hence all) preimages of $q$ under $\tau$.
 \begin{cor}\label{cor:finiteCommutatorWidthKimpliesBoundedConstraintedCommutators}
 The following are equivalent:
 \begin{enumerate}[(a)]
@@ -636,7 +646,8 @@ The following are equivalent:
  Therefore the commutator width of $K$ is at most $N$.
  
  (\ref{Cor:EqStatement1})$\Rightarrow$(\ref{Cor:EqStatement2}): if $(g,\gamma)$ is a good pair 
- there is an $m\in \NN$ and a solution $s$ for $(R_mg,\gamma)$. As $s(X_i)^\pi =1$ for all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
+ there is an $m\in \NN$ and a solution $s$ for $(R_mg,\gamma)$. As $s(X_i)^\pi =1$ for 
+ all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
  a solution for $(R_3kg,\gamma)$. By (\ref{Cor:EqStatement1}) there is 
  an $N$ such that all $k$ can be written as product of $N$ commutators of elements of $K$ and
  therefore there is a solution for $(R_{N+3}g,\gamma)$.
@@ -659,7 +670,8 @@ Furthermore these groups form a tower with indices
 \end{align*}
 \end{lem}
 \begin{proof}
- The chain of indices is shown for example in \cite{Bartholdi:BranchGroups} and the generating sets can be verified using the GAP standard methods
+ The chain of indices is shown for example in \cite{Bartholdi:BranchGroups} 
+ and the generating sets can be verified using the GAP standard methods
  \gapinline{NormalClosure} and \gapinline{Index}. 
 \end{proof}
 
@@ -695,12 +707,14 @@ with the following properties:
   the solvability of $(R_ng,\gamma)$.
  \end{itemize}
 
- We will define this map in several steps and afterwards show that for all good pairs $(q,\gamma)$ and all $g$ such that $g^\tau=q$ 
- there is some constraint $\gamma' \in \Gamma^q(\gamma)$ such that $((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
+ We will define this map in several steps and afterwards show that for all good 
+ pairs $(q,\gamma)$ and all $g$ such that $g^\tau=q$ there is some constraint 
+ $\gamma' \in \Gamma^q(\gamma)$ such that $((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
  
- For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the Grigorchuk group as before and 
- complement the set $S$ to a transversal $S'$ of $\RNK{G}{K}$ and denote by $\textup{rep}\colon Q\to S'$ 
- the map such that $\textup{rep}(q)^\pi = q$.
+ For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the 
+ Grigorchuk group as before and complement the set $S$ to a transversal $S'$ 
+ of $\RNK{G}{K}$ and denote by $\textup{rep}\colon Q\to S'$  the map such that 
+ $\textup{rep}(q)^\pi = q$.
  
  Denote generators $X_i\in\mathcal{X}$ such that $\supp(\gamma) \subset \left<X_1,\dotsc,X_{2n}\right>$ and choose some 
  other $Y_1,\dotsc,Y_{4n} \in\mathcal{X} \setminus \{X_1,\dotsc,X_{2n}\}$. 
@@ -712,12 +726,14 @@ with the following properties:
   \Phi_{\gamma}\colon F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{Y_{2i-1},Y_{2i}}\act(\gamma(X_i)).
  \end{align*}
 \begin{lem} \label{lem:commonVar}
- If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
+ If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ 
+ then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
 \end{lem}
 \begin{proof}
  Let $X$ be generator of $F_{\mathcal{X}}$ with non vanishing constraint activity. 
- Then $R_n$ contains either a factor $[X,Y]$ or $[Y,X]$ for another generator $Y$. Assume without loss of generality the first case.
- Let further be $\Phi_\gamma(X)=\pair{X_1,X_2}(1,2)$ and $\Phi_\gamma(Y)=\pair{Y_1,Y_2}\sigma$. 
+ Then $R_n$ contains either a factor $[X,Y]$ or $[Y,X]$ for another generator $Y$. 
+ Assume without loss of generality the first case. Let further be 
+ $\Phi_\gamma(X)=\pair{X_1,X_2}(1,2)$ and $\Phi_\gamma(Y)=\pair{Y_1,Y_2}\sigma$. 
  Then $\Phi_\gamma(R_n g)$ contains a factor 
  \[ [\pair{X_1,X_2}(1,2),\pair{Y_1,Y_2}\sigma] = \begin{cases}
                                                    \pair{X_2^{-1}Y_2^{-1}X_2Y_1,X_1^{-1}Y_1^{-1}X_1Y_2} & \textup{ if } \sigma=\id \\
@@ -737,7 +753,8 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
 						w_2g_2w_1 &\text{ if }X_i= {X_0} 
                                              \end{cases}\]
  maps $vg_1 \mapsto v_1w_2g_2w_1v_1g_1$ and $wg_2\mapsto 1$. 
- For $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ it is $(\gamma'*\pi)(X_0)=({\gamma'*\pi})(w_2g_2w_1)$ so with $X'=X\setminus X_0$ there is no loss of information if 
+ For $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ it is $(\gamma'*\pi)(X_0)=({\gamma'*\pi})(w_2g_2w_1)$ 
+ so with $X'=X\setminus X_0$ there is no loss of information if 
  we consider $\gamma'|_{F_{X'}}$ instead of $\gamma'$.
  From section~\ref{sec:normal_form} remember the normalization 
  automorphism $\nf_{\gamma,n,X_0}:=\nf_{v_1w_2g_2w_1v_1g_1}\colon F_{X'}*F_2 \to F_{X'}*F_2$
@@ -752,7 +769,8 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  of the equation $(R_{2n-1} (g\at{2})^{{Y_{\gamma'}}} g\at{1},\gamma'')$. The map $s'\circ \nf_{\gamma,n,X_0}^{-1}$ 
  is a solution for the constrained equation $(v_1w_2g_2w_1v_1g_1,\gamma'|_{X'}:=\gamma'' \circ \nf_{\gamma,n,X_0}^{-1})$.
  This can be extended by the mapping $X_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of $(\Phi_\gamma(R_n g),\gamma')$.
- By definition of $\omega$ the element $t_i:=\pair{s(Y_{2i-1}),s(Y_{2i})}\act(\gamma(X_i))$ belongs to  $G$ for all $i$. So the mapping $X_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
+ By definition of $\omega$ the element $t_i:=\pair{s(Y_{2i-1}),s(Y_{2i})}\act(\gamma(X_i))$ belongs to 
+ $G$ for all $i$. So the mapping $X_i\mapsto t_i$ is a solution for $(R_ng,\gamma)$.
  
  The map $\Gamma_3^{q_1,q_2,n,X_0}$ doesn't depend on %the value of 
  $n$: Assume $m<n$ then choose  
@@ -770,9 +788,11 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  
  The map $\Gamma_3^{q_1,q_2,n,X_0}$ does depend on $X_0$, therefore we take the union of all of them and define
   \[\Gamma_4^{q_1,q_2}(\gamma)\in \bigcup_{X_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,X_0}(\gamma).\]
- Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
- then $q_i = q\att{i}$  by Lemma~\ref{lem:atIsWellDefinedModK'}. So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and filter those 
- constraints out which don't fulfill the requested properties and therefore finally define
+ Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the sense that there is a map
+ $\att{i}\colon \RNK{G'}{K'}\to Q$ such that if $g^\tau = q$ and $g_i=g\at{i}$ 
+ then $q_i = q\att{i}$  by Lemma~\ref{lem:atIsWellDefinedModK'}. 
+ So we can write $\Gamma_4^{q_1,q_2}$ as $\Gamma_4^q$ instead and filter 
+ those constraints out which don't fulfill the requested properties and therefore finally define
  \begin{align}
  \Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
   \act(\gamma')\neq 1, \gamma'({Y_{\gamma'}}) \in S^\pi \right\}. 
@@ -784,8 +804,9 @@ Take $q_1,q_2 \in Q,n\geq3\in \NN$ arbitrary and define
  pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
 For the proof of this proposition we need a few lemmata:
-%TODO: Check if this Lemma is now obsolet since we have Lemma \ref{lem:H'}.
-%Update: It is, also the fact that p_1(G) \subset K is only needed implicetely in the proof that cw(K)>1
+% This Lemma is now obsolet since we have Lemma \ref{lem:H'}.
+% Also the fact that p_1(G) \subset K is only needed implicetely in the proof that cw(K)>1
+%
 % \begin{lem} \label{lem:productOfStatesIsInDerived} 
 %  Let $h\in G$ and $p_h\colon G\to G$ be the map $g\mapsto (g\at{2})^{h}\cdot g\at{1}$.
 %  
@@ -848,17 +869,21 @@ and therefore
 % $\RNK{G'}{K'}\to \RNK{G'}{K\times K}$ which makes all cells commute.
 \end{proof}
 \begin{proof}[Proof of Proposition~\ref{pro:existsNextPair}]
- In the construction before it is clear that the sets $\Gamma_3^{q,X_0}$ are nonempty and for the finitely many $\gamma\in \Red_{act}$ it is
- easy to check whether some of the finitely many $\gamma'\in\bigcup_{X_0}\Gamma_3^{q,X_0}(\gamma)$ fulfill $\gamma'(y_\gamma) \in S^\pi$ and $\act(\gamma')\neq 1$.
+ In the construction before it is clear that the sets $\Gamma_3^{q,X_0}$ 
+ are nonempty and for the finitely many $\gamma\in \Red_{act}$ it is
+ easy to check whether some of the finitely many 
+ $\gamma'\in\bigcup_{X_0}\Gamma_3^{q,X_0}(\gamma)$ fulfill 
+ $\gamma'(y_\gamma) \in S^\pi$ and $\act(\gamma')\neq 1$.
  
  %As a next step we want to make sure that for all preimages $g$ of $q$ under $\tau$ there are good pairs among the
  %resulting pairs $\left((g\at{2})^{\textup{rep}(y)}\cdot g\at{1},\gamma'''\right)$.
  
-  Define for $h\in G$ maps $p_h\colon G\to G$ by $g\mapsto (g\at{2})^{h}\cdot g\at{1}$ this maps are in general not homomorphisms but 
+  Define for $h\in G$ maps $p_h\colon G\to G$ by $g\mapsto (g\at{2})^{h}\cdot g\at{1}$ 
+  this maps are in general not homomorphisms but 
   %by Lemma~\ref{lem:productOfStatesIsInDerived}
   by Lemma~\ref{lem:H'} 
-  we see that for $g\in G'$ that $p_h(g)\in G'$ for all $h\in G$ thus there is a chance that these elements form good pairs with
-  the correct choices of $\gamma' \in \Gamma^q(\gamma)$. 
+  we see that for $g\in G'$ that $p_h(g)\in G'$ for all $h\in G$ thus there is a chance 
+  that these elements form good pairs with the correct choices of $\gamma' \in \Gamma^q(\gamma)$. 
  
   By Lemma~\ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
  and the natural homomorphism \[\rho'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
@@ -870,12 +895,14 @@ and therefore
 	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}(q)):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  
- This last formula quantifies only over finite sets and is implemented in GAP and can be verified there by calling \gapinline{verifyPropExistsSuccessor}. 
+ This last formula quantifies only over finite sets and is implemented in GAP 
+ and can be verified there by calling \gapinline{verifyPropExistsSuccessor}. 
  \end{proof}
 
  \begin{defi}
  For each fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{act}$ such that $(q,\gamma)$ is a good pair
- fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element $x=\textup{rep}(\gamma'(Y_{\gamma'}))\in S$ which exists by the previous proposition.
+ fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element 
+ $x=\textup{rep}(\gamma'(Y_{\gamma'}))\in S$ which exists by the previous proposition.
  
  With Lemma~\ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus Y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
  For a good pair $(g,\gamma)\in G'\times\Red_{act}$ the \emph{succeeding pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
@@ -1227,7 +1254,7 @@ In the following theorem we summarize our results for the commutator width of th
  %Since $G$ contains every finite $2$ group as a subgroup there are subgroups of arbitrary large commutator width. 
  %The restricted product
  %of these groups is a subgroup of the restricted product of infinite copies of $K$ and since $K^n\leq K$ for all $n$ this inverse limit is a subgroup of $G$.
- %TODO: There seems to be a gap between \prod' K and lim<- K(n). Write the inverse limit in detail? 
+ %TODO: this inverse limit is a subgroup of $G$. No it isn't ?!?
  For every $n\in\NN$ we can find two groups $H_1,H_2$ of finite index in $G$ such that $\RNK{H_1}{H_2}$ has commutator
  width at least $n$. Then $H_1$ has commutator width at least $n$ as well and thus the commutator width of finite index subgroups can not be bounded.
 \end{proof}
@@ -1236,8 +1263,6 @@ In the following theorem we summarize our results for the commutator width of th
 In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
 you will get as output a list of functions with their return value. All the functions should
 return \gapinline{true}. 
-%Each function has the name schema \gapinline{verifi*} and checks
-%if the corresponding statement is true.
 
 This approach uses precomputed data which are also in the archive. This saves you a lot of
 computation time.
