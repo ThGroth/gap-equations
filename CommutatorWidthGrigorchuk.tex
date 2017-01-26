@@ -865,7 +865,7 @@ and therefore
  \[\forall q\in\RNK{G'}{K'}
       \forall \gamma\in\Red_{act} 
 	 \exists \gamma'\in \Gamma^q(\gamma)
-	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}):
+	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}(q)):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  
  This last formula quantifies only over finite sets and is implemented in GAP and can be verified there by calling \gapinline{verifyPropExistsSuccessor}. 
@@ -986,7 +986,7 @@ The proof is the same as for Proposition~\ref{pro:existsNextPair}. The correspon
 \[\forall q\in\RNK{G'}{K'}
       \forall \gamma\in\Red^4_{act} 
 	 \exists \gamma'\in \Gamma^q(\gamma)
-	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}):
+	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}(q)):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
@@ -1068,7 +1068,7 @@ This finishes the proof of Theorem~\ref{thm:CWGrigorchukGroup}.
 \subsection{Bounded conjugacy width}
 In \cite{Fink:Conjugacy_growth} it is proven that $G$ has finite bounded conjugacy width. Here we give an explicit bound 
 on this width.
-\begin{pro}
+\begin{pro}\label{pro:productOf6Conjugates}
  Let $g$ be in $G'$. Then the equation 
  \begin{align*}
   a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag=1
@@ -1233,22 +1233,56 @@ In the following theorem we summarize our results for the commutator width of th
 \subsection{Usage of the attached files}
 In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
 you will get as output a list of functions with their return value. All the functions should
-return \gapinline{true}. Each function has the name schema \gapinline{verifi*} and checks
-if the corresponding statement is true.
+return \gapinline{true}. 
+%Each function has the name schema \gapinline{verifi*} and checks
+%if the corresponding statement is true.
 
-This approach uses precomputed data which is also in the archive. This saves you a lot of
+This approach uses precomputed data which are also in the archive. This saves you a lot of
 computation time.
 
 However you can recompute this data yourself if a sufficiently new version of GAP and
-some packages are present. Inside the interactive gap shell after calling \gapinline{gap verify.g}
+some packages are present. For details see Section \ref{sec:precomputation}.
+
+This is what the functions check:
+\begin{description}
+\item[\texttt{verifyLemma90orbits}] This function verifies that there are
+  indeed $90$ orbits of $\RNK{Q^6}{\Stab(R_3}$ as claimed in Lemma~\ref{lem:90Constraints}. 
+\item[\texttt{verifyLemma86orbits}] Analogously to the previous function 
+  this one verifies that there are $86$ orbits of $\RNK{Q^4}{\Stab(R_2}$. 
+\item[\texttt{verifyLemmaExistGoodConstraints}] This verifies that for each 
+  $q\in\RNK{G'}{K'}$ there is some $\gamma\in\Red_{act}$ such that $(q,\gamma)$ 
+  forms a good pair. This is claimed in Lemma~\ref{lem:existsGoodGamma}.
+\item[\texttt{verifyLemmaExistGoodConstraints4}] This is the sharper version
+  of the function before. It checks that the above statement is already true 
+  if one replaces $\Red_{act}$ by $\Red_{act}^4$ as claimed in 
+  Lemma~\ref{lem:existsGoodGammaForRed4}.
+\item[\texttt{verifyPropExistsSuccessor}] This verifies that for
+  each good pair $(q,\gamma) \in\RNK{G'}{K'}\times(\Red_{act}\cup \Red_{act}^4)$ there exists 
+  a $\gamma'\in\Gamma^q(\gamma)$ such that all pre-images of 
+  $\bar p_{\textup{rep}(Y_{\gamma'})}(q)$ under the map $\rho'$ form
+  good pairs with the constraint $\gamma'$. This is needed in the proof of
+  Proposition~\ref{pro:existsNextPair} and Proposition~\ref{pro:existsNextPair4}.
+\item[\texttt{verifyCorollaryFiniteCWK}] Corollary~\ref{cor:KhasCW2} needs the
+  existence of succeeding good pairs of the pair $(1,\id)\in\RNK{K'}{K'}\times\Red^4$.
+  This function verifies this existence. 
+\item[\texttt{verifyExistGoodConjugacyConstraints}] This verifies that for the equation
+  $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}a$ there are constraints $\gamma$ 
+  that inherit good succeeding pairs. This is needed in the proof of
+  Proposition~\ref{pro:productOf6Conjugates}.
+\item[\texttt{verifyGermGroup4hasCW}] This function verifies the existence of 
+  an element in the derived subgroup of the $4$-th level germgroup that is not a commutator.
+\end{description}
+
+\subsection{Precomputed data}\label{sec:precomputation}
+Inside the interactive gap shell after calling \gapinline{gap verify.g}
 you can use the function \gapinline{RedoPrecomputation} with one argument. In each case
 the result is written to a file and will override the original precomputed data. The 
 argument is a string and can be one of the following:
-\begin{itemize}
-    \item [\texttt{``orbits''}:] This will compute the $90$ orbits of $\RNK{\Aut(F_6)}{\Stab(R_3)}$ and the
+\begin{description}
+    \item [\texttt{``orbits''}] This will compute the $90$ orbits of $\RNK{\Aut(F_6)}{\Stab(R_3)}$ and the
 		       $86$ orbits of $\RNK{\Aut(F_4)}{\Stab(R_2)}$. This computation will take
 		       about $12$ hours on an ordinary machine and has no progress bar.
-   \item [\texttt{``goodpairs''}:] First this will compute for each constraint $\gamma\in\Red\cup\Red^4$ 
+   \item [\texttt{``goodpairs''}] First this will compute for each constraint $\gamma\in\Red\cup\Red^4$ 
 		      the set of all $q\in\RNK{G'}{K'}$ such that $(q,\gamma)$ is a good pair.
 		      
 		      Then it computes for each good pair $(q,\gamma)$ one $\gamma'\in\Gamma_q(\gamma)$
@@ -1260,7 +1294,7 @@ argument is a string and can be one of the following:
 		      
 		      Afterwards the successor of $(q,\id)$ is computed which is needed for 
 		      Corollary~\ref{cor:KhasCW2}. 
-   \item [\texttt{``conjugacywidth''}:] Denote by $\eq{E}_g$ the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
+   \item [\texttt{``conjugacywidth''}] Denote by $\eq{E}_g$ the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
 		      For each $g^\tau=q\in\RNK{G'}{K'}$ this will compute a constraint 
 		      $\gamma\colon F_5 \to Q$ for the equations $\eq{E}_g$
 		      and a constraint $\gamma'\colon F_4\to Q$ such that
@@ -1269,11 +1303,11 @@ argument is a string and can be one of the following:
 		      $(\eq{E}'_g,\gamma')$ is a good pair for all $g$ with $g^\tau=q$.
 		      
 		      The computation will take about one hour and is equipped with a progress bar.
-   \item [\texttt{``charactertable''}:] This will compute the character table of the $4$-th level germgroup
+   \item [\texttt{``charactertable''}] This will compute the character table of the $4$-th level germgroup
 		      and the set of irreducible characters. 
 		      As the germgroup is quite large, this
 		      will take about $3$ hours. There is no kind of progress bar.
-   \item [\texttt{``noncommutator''}:] Inside the $4$-th level germgroup there is an element which is not
+   \item [\texttt{``noncommutator''}] Inside the $4$-th level germgroup there is an element which is not
 		      a commutator but in the commutator subgroup. This command will find this 
 		      element using the character table of the germgroup. The search will be 
 		      almost immediately give a result. Most of the computation time is used
@@ -1284,9 +1318,10 @@ argument is a string and can be one of the following:
 
 		      Checking the assertion will take approximately $3$ hours and is equipped 
 		      with a progress bar. 
-  \item [\texttt{``all''}:] This will do all of the above one after another.		      
-   \end{itemize}
-If you are going to recompute the orbits GAP should be started with the \gapinline{-o} flag
+  \item [\texttt{``all''}] This will do all of the above one after another.		      
+   \end{description}
+If you are going to recompute the orbits or the charactertable GAP should be 
+started with the \gapinline{-o} flag
 to provide enough memory for the computation. For example start GAP by 
 \gapinline{gap -o 8G verify.g}
 
