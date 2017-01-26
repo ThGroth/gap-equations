@@ -165,9 +165,6 @@ long-enough iterated commutator~\cite{Bartholdi:Engel}. It is a group
 of intermediate word growth, and answered in this manner a celebrated
 question of Milnor.
 
-%!!! maybe shorten what is below? It does not seem so fundamental to the present text???
-%I'm fine with dropping it. You sumerized it somwhere previous.
-
 %Many decision problems which are solvable in large subclasses of 
 %self similar groups where first studied in the group $G$. The group
 %is known to have solvable word problem and solvable conjugacy problem
@@ -179,13 +176,16 @@ question of Milnor.
 %conjugacy problem.
 
 \subsection{Sketch of proofs}
-%!!! say a bit more about the strategy: construct a graph, good pairs, etc.???
 The general idea for the proof of Theorem~\ref{thm:CWGrigorchukGroup} is
-the decomposition of group elements into states. We consider the equation
-$\eq{E}=[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g$. By fixing the activity
-of a possible solution of $\eq{E}$ the equation inherits
-some new equation which is after some normalization process of the same 
-form but of higher genus and hence easier to solve.
+the decomposition of group elements into states. We show that each element
+$g\in G'$ is a product of two commutators by solving the equation 
+$\eq{E}=[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g$ for all $n\geq 2$.
+
+If there is a solution then the images of the variables $X_i$ have some 
+activities $\sigma_i$. If we fix a possible activity
+of the variables of $E$ then by passing to the states it inherits two new
+equations which are under mild assumptions after some normalization process
+of the same form but of higher genus. 
 
 Not all solutions for the new equations compose back to solutions 
 of the original equation. Thus instead of pure equations we consider
@@ -198,7 +198,9 @@ quotient $\RNK{G}{K'}$.
 Then by direct computations we show that every good pair inherits
 another good pair where the genus of the equation increases.
 This is used to build a graph of good pairs which turns out 
-to be finite. 
+to be finite since the constants of the new equation are states
+of the old equation and we can use the strong contracting property
+of $G$. 
 
 The computations are done
  using the computer algebra system GAP \cite{GAP4}. The source
@@ -232,7 +234,7 @@ denote by $F_{\mathcal{X}}$ the free group on the generating set $\mathcal{X}$.
   regarded as a reduced word. For $\eq{E}$ a $G$-equation, its set of
   \emph{variables} $\Var(\eq{E})\subset \mathcal{X}$ is the set of symbols in $\mathcal{X}$
   that occur in it; namely, $\Var(\eq{E})$ is the minimal subset of $\mathcal{X}$
-  such that $\eq{E}$ belongs to $F_{\Var(\eq{E})}*G$.
+  such that $\eq{E}$ belongs to $F_{\Var(\eq{E})}*G$. 
 
   An \emph{evaluation} is a $G$-homomorphism $e\colon F_{\mathcal{X}} * G \to G$.
   A \emph{solution} of an equation $\eq{E}$ is an evaluation $s$
