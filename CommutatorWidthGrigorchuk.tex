@@ -4,11 +4,7 @@
 
 \input{latex/header.tex}
 
-%\bibliographystyle{THdeutsch}
-%\bibliographystyle{alphaTH}
-%\bibliographystyle{dinat}
-%\bibliographystyle{TH}
-\bibliographystyle{latex/hamsalpha}
+\bibliographystyle{amsalpha}
 
 \begin{document}
 \title{Commutator width in the first Grigorchuk group}
@@ -41,7 +37,7 @@ decision and algebraic problems in group theory. We prove:
   The first Grigorchuk group and its branching subgroup have
   commutator width $2$.
 \end{thma}
-It was already proven in~\cite{Lysenok:QudraticEquationsInGrig} that
+It was already proven in~\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig} that
 the commutator width of $G$ is finite, with an inherently inexplicit
 method. Our proof does not rely on that previous work. Our result also
 answers a question of Elisabeth
@@ -93,7 +89,7 @@ $\le n$ if and only if the equation
 $[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g=1$ is solvable for all
 $g\in\Gamma$. Needless to say, there are groups in which solvability
 of equations is undecidable. It was proven
-in~\cite{Lysenok:QudraticEquationsInGrig} that quadratic equations are
+in~\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig} that quadratic equations are
 solvable in the first Grigorchuk group $G$, and the mere existence of
 an algorithm solving quadratic equations implies that $G$ has finite
 commutator width, without giving an explicit bound.
@@ -306,7 +302,7 @@ Otherwise $\eq{E}$ is called \emph{unoriented}.
 
 We recall the following result, and 
 give the details of the proof in an algorithmic manner, because we will need them in our algorithm:
-\begin{thm}[\cite{ComerfordEquationsFreeGroups}] \label{Thm:equationNormalForm}
+\begin{thm}[\cite{Comerford-Edmunds:EquationsFreeGroups}] \label{Thm:equationNormalForm}
   Every quadratic equation $\eq{E} \in F_{\mathcal{X}}*G$ is equivalent to an equation
   in normal form, and the isomorphism can be effectively computed.
 \end{thm}
@@ -393,7 +389,7 @@ and often write $R_n=R_n(X_1,\dotsc,X_{2n})$ if the $X_i$ are the
 first generators of $F_{\mathcal{X}}$.
 
 \subsection{Constrained equations}
-\begin{defi}[\cite{Lysenok:QudraticEquationsInGrig}]
+\begin{defi}[\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig}]
   Given an equation $\eq{E} \in F_{\mathcal{X}}*G$, a group $H$, a homomorphism
   $\pi\colon G \to H$ and a homomorphism $\gamma\colon F_{\mathcal{X}} \to H$, the
   pair $(\eq{E},\gamma)$ is called a \emph{constrained} equation and
@@ -528,7 +524,7 @@ The Grigorchuk group is regular branched with branching subgroup
  The quotient $Q := \RNK{G}{K}$ is of order $16$.
 \end{lem}
 
-\begin{lem}[\cite{Lysenok:QudraticEquationsInGrig}]\label{lem:finitelyManyConstraints}
+\begin{lem}[\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig}]\label{lem:finitelyManyConstraints}
  Given $n\in \NN$ and any homomorphism $\gamma\colon F_{\mathcal{X}} \to Q$ with $\supp(\gamma) \subset \left<X_1,\ldots ,X_{2n}\right>$
  there is an element $\varphi \in \Stab(R_n)<\Aut(F_{\mathcal{X}})$ such that $\supp(\gamma\circ\varphi) \in \left<X_1,\dotsc,X_5\right>$.
 \end{lem}
@@ -665,7 +661,7 @@ Furthermore these groups form a tower with indices
 \end{align*}
 \end{lem}
 \begin{proof}
- The chain of indices is shown for example in \cite{Bartholdi:BranchGroups} 
+ The chain of indices is shown for example in \cite{Bartholdi-Grigorchuk-Sunik:BranchGroups} 
  and the generating sets can be verified using the GAP standard methods
  \gapinline{NormalClosure} and \gapinline{Index}. 
 \end{proof}
@@ -1169,9 +1165,9 @@ We will proof the statement first for finite index subgroups.
  $K^{\times n}$ have commutator width $2$. 
  
  Let $H$ be a subgroup of finite index. Since $G$ has the congruence subgroup property
- (\cite{Bartholdi:parabolicSubgroups}) we can find a nontrivial normal subgroup $N=\Stab_G(m)<H$
+ (\cite{Bartholdi-Grigorchuk:parabolicSubgroups}) we can find a nontrivial normal subgroup $N=\Stab_G(m)<H$
  for some $m\in\NN$. Furthermore from the discussion of the top of the lattice of normal subgroups
- in $G$ done in \cite{Bartholdi:parabolicSubgroups} we can see that 
+ in $G$ done in \cite{Bartholdi-Grigorchuk:parabolicSubgroups} we can see that 
  \begin{align*}
   K&<\Stab_G(1), & K\times K&<\Stab_G(2), & K^{\times 4}&<\Stab_G(3).
  \end{align*}
@@ -1351,7 +1347,7 @@ to provide enough memory for the computation. For example start GAP by
 \subsection{Implementation details}
 \label{sec:gap_details}
 \subsubsection{Reduced Constraints}
-The proof of Lemma~\ref{lem:finitelyManyConstraints} in \cite{Lysenok:QudraticEquationsInGrig} 
+The proof of Lemma~\ref{lem:finitelyManyConstraints} in \cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig} 
 provides a constructive method to reduce any constraint to one with support
 only in the first five variables. 
 We have implemented this in the function \gapinline{ReducedConstraintAllModes} in the file
