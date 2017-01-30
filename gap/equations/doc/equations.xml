@@ -37,6 +37,31 @@
 
 <#Include SYSTEM "install.xml">
 
+<Chapter><Heading>Example Session</Heading>
+For example if one is interested how the decomposition
+of a single commutator <M>g=[f,h]</M> into <M>g@2\cdot g@1</M> with 
+<M>f=\langle\langle f_1,f_2\rangle\rangle\sigma_f</M> and
+<M>h=\langle\langle h_1,h_2\rangle\rangle\sigma_h</M> looks like 
+for all combinations of <M>\sigma_f,\sigma_h</M> one can find out by:
+<Example><![CDATA[
+gap> F := FreeGroup("f","h");; 
+gap> S2 := SymmetricGroup(2);;
+gap> acts := Cartesian([S2,S2]);;
+gap> acts := List(acts,g->GroupHomomorphismByImages(F,S2,g));;
+gap> eg := EquationGroup(GrigorchukGroup,F);;
+gap> eq := Equation(eg,[Comm(F.1,F.2)]);;
+gap> deg := DecompositionEquationGroup(eg);;
+gap> for act in acts do
+>       new := DecompositionEquation(deg,eq,act);
+>       Print(Product(Reversed(EquationComponents(new))),"\n");
+> od;
+FreeProductElm([ f2^-1*h2^-1*f2*h2*f1^-1*h1^-1*f1*h1 ])
+FreeProductElm([ f2^-1*h1^-1*f1*h1*f1^-1*h2^-1*f2*h2 ])
+FreeProductElm([ f1^-1*h1^-1*f1*h2*f2^-1*h2^-1*f2*h1 ])
+FreeProductElm([ f1^-1*h2^-1*f2*h1*f2^-1*h1^-1*f1*h2 ])
+ ]]></Example>
+</Chapter>
+
 <Chapter><Heading>FreeProducts</Heading>
 <Section><Heading>Construction</Heading>
 This package installs some new method for the command 
