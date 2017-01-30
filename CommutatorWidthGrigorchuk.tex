@@ -1251,14 +1251,14 @@ In the following theorem we summarize our results for the commutator width of th
 \end{proof}
 \section{Implementation in GAP}
 \subsection{Usage of the attached files}
-In the main directory of the archive you can type the command \gapinline{gap verify.g} and 
-you will get as output a list of functions with their return value. All the functions should
+In the main directory of the archive one can type the command \gapinline{gap verify.g} and 
+will get as output a list of functions with their return value. All these functions should
 return \gapinline{true}. 
 
-This approach uses precomputed data which are also in the archive. This saves you a lot of
+This approach uses precomputed data which are also in the archive. This saves a lot of
 computation time.
 
-However you can recompute this data yourself if a sufficiently new version of GAP and
+However this data can be recomputed if a sufficiently new version of GAP and
 some packages are present. For details see Section \ref{sec:precomputation}.
 
 This is what the functions check:
@@ -1266,7 +1266,7 @@ This is what the functions check:
 \item[\texttt{verifyLemma90orbits}] This function verifies that there are
   indeed $90$ orbits of $\RNK{Q^6}{\Stab(R_3}$ as claimed in Lemma~\ref{lem:90Constraints}. 
 \item[\texttt{verifyLemma86orbits}] Analogously to the previous function 
-  this one verifies that there are $86$ orbits of $\RNK{Q^4}{\Stab(R_2}$. 
+  this one verifies that there are $86$ orbits of $\RNK{Q^4}{\Stab(R_2)}$. 
 \item[\texttt{verifyLemmaExistGoodConstraints}] This verifies that for each 
   $q\in\RNK{G'}{K'}$ there is some $\gamma\in\Red_{act}$ such that $(q,\gamma)$ 
   forms a good pair. This is claimed in Lemma~\ref{lem:existsGoodGamma}.
@@ -1276,7 +1276,7 @@ This is what the functions check:
   Lemma~\ref{lem:existsGoodGammaForRed4}.
 \item[\texttt{verifyPropExistsSuccessor}] This verifies that for
   each good pair $(q,\gamma) \in\RNK{G'}{K'}\times(\Red_{act}\cup \Red_{act}^4)$ there exists 
-  a $\gamma'\in\Gamma^q(\gamma)$ such that all pre-images of 
+  a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of 
   $\bar p_{\textup{rep}(Y_{\gamma'})}(q)$ under the map $\rho'$ form
   good pairs with the constraint $\gamma'$. This is needed in the proof of
   Proposition~\ref{pro:existsNextPair} and Proposition~\ref{pro:existsNextPair4}.
@@ -1292,10 +1292,13 @@ This is what the functions check:
 \end{description}
 
 \subsection{Precomputed data}\label{sec:precomputation}
-In the interactive gap shell after calling \gapinline{gap verify.g}
-you can use the function \gapinline{RedoPrecomputation} with one argument. In each case
-the result is written to a file and will override the original precomputed data. The 
-argument is a string and can be one of the following:
+In the interactive gap shell started by \gapinline{gap verify.g}
+the precomputed data is read from some files in \filename{gap/PCD/} and stored in 
+a record \gapinline{PCD}. 
+
+One can use the function \gapinline{RedoPrecomputation} with one argument. In each case
+the result is written to one ore multiple files and will override the original precomputed data. 
+The argument is a string and can be one of the following:
 \begin{description}
     \item [\texttt{``orbits''}] This will compute the $90$ orbits of $\RNK{\Aut(F_6)}{\Stab(R_3)}$ and the
 		       $86$ orbits of $\RNK{\Aut(F_4)}{\Stab(R_2)}$. This computation will take
@@ -1310,14 +1313,14 @@ argument is a string and can be one of the following:
 		      This computation will take about $2$ hours on ordinary machines and is equipped 
 		      with a progress bar. 
 		      
-		      Afterwards the successor of $(q,\id)$ is computed which is needed for 
+		      Afterwards the succeeding pairs of $(1,\id)$ are computed which are needed for 
 		      Corollary~\ref{cor:KhasCW2}. 
    \item [\texttt{``conjugacywidth''}] Denote by $\eq{E}_g$ the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
 		      For each $g^\tau=q\in\RNK{G'}{K'}$ this will compute a constraint 
 		      $\gamma\colon F_5 \to Q$ for the equations $\eq{E}_g$
 		      and a constraint $\gamma'\colon F_4\to Q$ such that
-		      $(\gamma * \pi)(\eq{E}_g) = 1$ and 
-		      \[\eq{E}'_g := \nf(\Phi_\gamma(\eq{E}_g))=[X_1,X_2][X_3,X_4](g\at{2})(g\at{1}).\] and
+		      $(\gamma * \pi)(\eq{E}_g) = 1$,
+		      \[\eq{E}'_g := \nf(\Phi_\gamma(\eq{E}_g))=[X_1,X_2][X_3,X_4](g\at{2})(g\at{1}),\] and
 		      $(\eq{E}'_g,\gamma')$ is a good pair for all $g$ with $g^\tau=q$.
 		      
 		      The computation will take about one hour and is equipped with a progress bar.
@@ -1338,7 +1341,7 @@ argument is a string and can be one of the following:
 		      with a progress bar. 
   \item [\texttt{``all''}] This will do all of the above one after another.		      
    \end{description}
-If you are going to recompute the orbits or the charactertable GAP should be 
+To recompute the orbits or the charactertable GAP should be 
 started with the \gapinline{-o} flag
 to provide enough memory for the computation. For example start GAP by 
 \gapinline{gap -o 8G verify.g}
@@ -1412,7 +1415,7 @@ with $\gamma\in\Red$ and $X$ the decorated element $Y_\gamma'$.
 
 Given an inactive constraint $\gamma$ it returns a pair of constraints
 $\gamma_1,\gamma_2$ such that both have nontrivial activity and with
-$\omega$ the map from the branch structure it hold:
+$\omega$ the map from the branch structure it holds:
 $\omega(\pair{\gamma_1(X_i),\gamma_2(X_i)})=\gamma(X_i)$. 
 
 If the FR package is available
