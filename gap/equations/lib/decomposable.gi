@@ -1,4 +1,4 @@
-InstallMethod( DecompositionEquationGroup, "for an EquationGroup",
+InstallMethod( DecompositionEquationGroup, "for an EquationGroup with fr const group",
 	[IsEquationGroup],
 	function(eqG)
 		local DG,alph,DEqG;
@@ -17,6 +17,52 @@ InstallMethod( DecompositionEquationGroup, "for an EquationGroup",
 		fi;
 		DEqG := EquationGroup(DG,FreeProduct(ListWithIdenticalEntries(Size(alph),eqG!.free)));
 		DEqG!.alph := alph;
+		DEqG!.statefunc := State;
+		DEqG!.activityfunc := Activity;
+		SetIsDecompositionEquationGroup(DEqG,true);
+		return DEqG;
+	end);
+
+InstallOtherMethod( DecompositionEquationGroup, "for an EquationGroup with free const group, size of alphabet and activities of generators",
+	[IsEquationGroup,IsInt,IsList],
+	function(eqG,alphsize,acts)
+		local DG,DEqG;
+		if not IsFreeGroup(eqG!.const) then
+			TryNextMethod();
+		fi; 
+		if not IsFinitelyGeneratedGroup(eqG!.const) then
+			TryNextMethod();
+		fi; 
+		if not ForAll(acts,s->s in SymmetricGroup(alphsize)) then
+			Error("All activities have to be in S_",alphsize,"!");
+		fi; 
+		DG := FreeProduct(ListWithIdenticalEntries(alphsize,eqG!.const));
+		DEqG := EquationGroup(DG,FreeProduct(ListWithIdenticalEntries(alphsize,eqG!.free)));
+		DEqG!.alph := [1..alphsize];
+		DEqG!.activityfunc := function(elm)
+			if not elm in eqG!.const then
+				Error("Not in correct group!");
+			fi;
+			return Product(LetterRepAssocWord(elm),i->acts[AbsInt(i)]^SignInt(i));
+		end;
+		DEqG!.statefunc := function(elm,state)
+			local newelm,act,i;
+			if not elm in eqG!.const then
+				Error("Not in correct group!");
+			fi;
+			newelm := One(DG);
+			act := ();
+			for i in LetterRepAssocWord(elm) do
+				if i<0 then
+					newelm := newelm*AssocWordByLetterRep(FamilyObj(elm),[i])^FreeProductInfo(DG).embeddings[state^(acts[AbsInt(i)]^-1*act)];
+				else 
+					newelm := newelm*AssocWordByLetterRep(FamilyObj(elm),[i])^FreeProductInfo(DG).embeddings[state^act];
+				fi;
+				act := act*acts[AbsInt(i)]^SignInt(i);
+			od;
+			return newelm;
+		end;
+
 		SetIsDecompositionEquationGroup(DEqG,true);
 		return DEqG;
 	end);
@@ -51,7 +97,16 @@ InstallOtherMethod( Equation, "(Equation) for a list of lists, a DecompositionEq
 		SetIsEquation(Ob,true);
 		return Ob;
 	end);
-
+InstallOtherMethod( DecompositionEquation, "for an Equation a list and an DecompositionEquationGroup",
+		[IsEquationGroup,IsEquation,IsList],
+		function(DEqG,eq,acts)
+			return DecompositionEquation(DEqG,
+										 eq,
+										 GroupHomomorphismByImages(
+										 	Group(EquationVariables(eq)),
+										 	SymmetricGroup(DEqG!.alph),
+										 	acts));
+		end);
 InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
 		[IsEquationGroup,IsEquation,IsGroupHomomorphism],
 		function(DEqG,eq,acts)
@@ -59,10 +114,7 @@ InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and 
 			if not IsDecompositionEquationGroup(DEqG)then
 				TryNextMethod();
 			fi;
-			if not IsFRGroup(eq!.const) then
-				TryNextMethod();
-			fi;
-			alph := AlphabetOfFRSemigroup(eq!.const);
+			alph := DEqG!.alph;
 			if not ForAll([1..Size(alph)],i->Source(Embedding(DEqG!.free,i))=eq!.free) then
 				Error("DecompositionEquationGroup doesn't correspond to EquationGroup.");
 			fi;
@@ -82,9 +134,9 @@ InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and 
 			for x in eq!.word do
 				if x in eq!.const then
 					for i in [1..Size(alph)] do
-						Add(DecompEq[i^lastperm],State(x,alph[i]));
+						Add(DecompEq[i^lastperm],DEqG!.statefunc(x,alph[i]));
 					od;
-					lastperm := lastperm*Activity(x);
+					lastperm := lastperm*DEqG!.activityfunc(x);
 				else
 					if LetterRepAssocWord(x)[1]<0 then
 						#eq is in LetterRep so this is the inverse of a gen.

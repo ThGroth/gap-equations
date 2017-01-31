@@ -11,10 +11,25 @@
 ##		 Label="group"/>
 ##   <Returns>A new <A>EquationGroup</A>.</Returns>
 ##   <Description>
+##		This method needs <A>G</A> to be an equation group where the
+##		group of constants is an fr-group. For <A>G</A> a group with
+##		free constant group see 
+##		<Ref Oper="DecompositionEquationGroup" Label="group,int,list" Style="Text"/>.
 ##		If <M>F</M> is the free group on the generating set <M>X</M> then
 ##		the free group on the gerating set <M>X^n</M> is isomorphic to <M>F^{*n}</M> the
 ##		<M>n</M>-fold free product of <M>F</M> . 
-##		<P/> This method returns the <A>EquationGroup</A> <M>G*F^{*n}</M>.
+##		<P/> This method returns the <A>EquationGroup</A> <M>G*F^{*n}</M>.<P/>
+## </Description>
+## <Oper Name="DecompositionEquationGroup" Arg="G,deg,acts"
+##		 Label="group,int,list"/>
+##   <Returns>A new <A>EquationGroup</A>.</Returns>
+##   <Description>
+##		This method needs <A>G</A> to be an equation group where the
+##		group of constants is a free group on <M>n&lt;\infty</M> generators.
+##		The integer <A>deg</A> is the number of states each element will have.
+##		The list <A>acts</A> should be of length <M>n</M> and all elements should
+##		be permutation of <A>deg</A> elements. These will represent the activity
+##		of the generators of the free group.
 ## </Description>
 ## </ManSection>
 ## <ManSection>
@@ -27,7 +42,10 @@
 ##		the equation <A>E</A> needs to be a member of the EquationGroup <M>H=K*F</M>.
 ##		
 ##		<P/> The argument <A>sigma</A> needs to be a group homomorphism
-##		<M>\sigma\colon F\to S_n</M>.
+##		<M>\sigma\colon F\to S_n</M>. Alternatively it can be a list of 
+##		elements of <M>S_n</M> it is then regarded as the group homomorphism
+##		that maps the <M>i</M>-th variable of <A>eq</A> to the <M>i</M>-th
+##		element of the list.
 ##
 ##		<P/>
 ##		The representation of the returned equation stores a list of 
@@ -47,6 +65,19 @@
 ## DecomposedEquation in [ f11, f12 ]
 ## gap> Print(de);
 ## Equation([ FreeProductElm([ f11*f12,a ]), FreeProductElm([ f12*f11,c ]) ])
+## ]]></Example>
+## <Example><![CDATA[
+## gap> F := FreeGroup("x1","x2");; SetName(F,"F");
+## gap> G := FreeGroup("g");; SetName(G,"G");
+## gap> eG := EquationGroup(G,F);
+## G*F
+## gap> DeG := DecompositionEquationGroup(eG,2,[(1,2)]);
+## G*G*F*F
+## gap>  e := Equation(eG,[Comm(F.1,F.2),G.1^2]);
+## Equation in [ x1, x2 ]
+## gap>  Print(DecompositionEquation(DeG,e,[(),()]));
+## Equation([ FreeProductElm([ x11^-1*x21^-1*x11*x21, g1*g2 ]), 
+##  FreeProductElm([ x12^-1*x22^-1*x12*x22, g2*g1 ]) ])
 ## ]]></Example>
 ##   </Description>
 ##</ManSection>
