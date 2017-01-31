@@ -438,14 +438,13 @@ will call the $g_i\in G$ \emph{states} of the element $g$, will write
 $g\at{i}:=g_i$ to address the states, will call $\sigma \in S_n$ the
 \emph{activity} of the element $g$, and will write $\act(g):= \sigma$.
 
-
 \subsection{Commutator width of \texorpdfstring{$\mathbf{\textup{Aut}(T_2)}$}{Aut(T2)} }
-To give an idea of how the commutator width of Grigorchuk's group is computed,
-we consider as an easier example the group $\Aut(T_2)$. In this group
-we have the following useful property: For every two elements $g,h\in \Aut(T_n)$ the %Capital For since complete sentence
-element $\pair{g,h}$ is also a member of the group.
-This is only true up to finite index in the Grigorchuk group
-and will produce extra complications there.
+To give an idea of how the commutator width of Grigorchuk's group is
+computed, we consider as an easier example the group $\Aut(T_2)$. In
+this group we have the following useful property: For every two
+elements $g,h\in \Aut(T_n)$ the element $\pair{g,h}$ is also a member
+of the group.  This is only true up to finite index in the Grigorchuk
+group and will produce extra complications there.
 
 \begin{pro}\label{pro:comwidthAutT2}
  The commutator width of $\Aut(T_2)$ is $1$.
@@ -715,8 +714,8 @@ with the following properties:
  
  For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the 
  Grigorchuk group as before and complete the set $S$ to a transversal $S'$ 
- of $\RNK{G}{K}$ and denote by $\textup{rep}\colon Q\to S'$  the map such that 
- $\pi(\textup{rep}(q)) = q$.
+ of $\RNK{G}{K}$ and denote by $\rep\colon Q\to S'$  the map such that 
+ $\pi(\rep(q)) = q$.
  
  Denote generators $X_i\in\mathcal{X}$ such that $\supp(\gamma) \subset \left<X_1,\dotsc,X_{2n}\right>$ and choose some 
  other $Y_1,\dotsc,Y_{4n} \in\mathcal{X} \setminus \{X_1,\dotsc,X_{2n}\}$. 
@@ -768,10 +767,10 @@ For $q_1,q_2 \in Q$ and $n\geq3\in \NN$ define
  following definition.
  \[\Gamma_3^{q_1,q_2,n,X_0}(\gamma) = \left\{\gamma'|_{\mathcal X'} \circ \nf_{\gamma,n,X_0} \bigmid \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
  A solution for the the constrained equation
- \[(R_{2n-1}(g\at2)^{\textup{rep}(\gamma''({Y_{\gamma''}}))}(g\at1),\gamma'')\textup{
+ \[(R_{2n-1}(g\at2)^{\rep(\gamma''({Y_{\gamma''}}))}(g\at1),\gamma'')\textup{
      for }\gamma'' \in \Gamma_3^{\pi(g\at{1}),\pi(g\at{2}),n,X_0}\]
  can be extended by the map
- ${Y_{\gamma''}}\mapsto \textup{rep}(\gamma''({Y_{\gamma''}}))$ to a
+ ${Y_{\gamma''}}\mapsto \rep(\gamma''({Y_{\gamma''}}))$ to a
  solution $s'$ of the equation
  $(R_{2n-1} (g\at{2})^{{Y_{\gamma'}}} g\at{1},\gamma'')$. The map
  $s'\circ \nf_{\gamma,n,X_0}^{-1}$ is a solution for the constrained
@@ -818,7 +817,7 @@ For $q_1,q_2 \in Q$ and $n\geq3\in \NN$ define
  \begin{pro}\label{pro:existsNextPair}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{\act}$ the set $\Gamma^q(\gamma)$ 
  contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $\tau(g)=q$ the
- pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
+ pair $\left((g\at{2})^{\rep(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
 For the proof of this proposition we need a few lemmata:
 % This Lemma is now obsolet since we have Lemma \ref{lem:H'}.
@@ -893,7 +892,7 @@ and therefore
  $\gamma'(y_\gamma) \in \pi(S)$ and $\act(\gamma')\neq\id$.
  
  %As a next step we want to make sure that for all preimages $g$ of $q$ under $\tau$ there are good pairs among the
- %resulting pairs $\left((g\at{2})^{\textup{rep}(y)}\cdot g\at{1},\gamma'''\right)$.
+ %resulting pairs $\left((g\at{2})^{\rep(y)}\cdot g\at{1},\gamma'''\right)$.
  
   Define for $h\in G$ maps $p_h\colon G\to G$ by $g\mapsto (g\at{2})^{h}\cdot g\at{1}$ 
   this maps are in general not homomorphisms but 
@@ -904,12 +903,12 @@ and therefore
  
   By Lemma~\ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
  and the natural homomorphism \[\rho'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
- and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}(q)$ under $\rho'$ 
+ and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)$ under $\rho'$ 
  form good pairs with $\gamma'$. In formulas with $\mathcal{G}$ the predicate of being a good pair what needs to be checked is: 
  \[\forall q\in\RNK{G'}{K'}\;
       \forall \gamma\in\Red_{\act} \;
 	 \exists \gamma'\in \Gamma^q(\gamma)\;
-	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}(q)):
+	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  
  This last formula quantifies only over finite sets and is implemented in GAP 
@@ -919,7 +918,7 @@ and therefore
  \begin{defi}
  For each fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{\act}$ such that $(q,\gamma)$ is a good pair
  fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element 
- $x=\textup{rep}(\gamma'(Y_{\gamma'}))\in S$ which exists by the previous proposition.
+ $x=\rep(\gamma'(Y_{\gamma'}))\in S$ which exists by the previous proposition.
  
  With Lemma~\ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus Y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
  For a good pair $(g,\gamma)\in G'\times\Red_{\act}$ the \emph{succeeding pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
@@ -1025,14 +1024,14 @@ Analog to Proposition~\ref{pro:existsNextPair} we can formulate the following pr
 \begin{pro}\label{pro:existsNextPair4}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red^4_{\act}$ the set $\Gamma^q(\gamma)$ 
  contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $\tau(g)=q$ the
- pair $\left((g\at{2})^{\textup{rep}(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
+ pair $\left((g\at{2})^{\rep(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
 \begin{proof}
 The proof is the same as for Proposition~\ref{pro:existsNextPair}. The corresponding formula which needs to be checked is 
 \[\forall q\in\RNK{G'}{K'}\;
       \forall \gamma\in\Red^4_{\act}\;
 	 \exists \gamma'\in \Gamma^q(\gamma)\;
-	    \forall r\in \rho'^{-1}(\bar p_{\textup{rep}(\gamma'(Y_{\gamma'}))}(q)):
+	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)):
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
@@ -1082,13 +1081,13 @@ and the activity on th $n$-th level of the tree.
 
 Consider the following epimorphism:
 \begin{align*}
-germ\colon G&\to\left<b,c,d\right>\simeq C_2\times C_2, \\
+\germ\colon G&\to\left<b,c,d\right>\simeq C_2\times C_2, \\
 a&\mapsto\id,\\
 b,c,d&\mapsto b,c,d.
 \end{align*} It extends to 
-an epimorphism $germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to G_0\wr_{2^n} \RNK{G}{\Stab_G(n)}$.
-We will call the image $germ(G)=:G_0$ the $0$-th \emph{germgroup} and furthermore
-$G_n := germ_n \circ \psi_n(G)$ the $n$-th \emph{germgroup}.
+an epimorphism $\germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to G_0\wr_{2^n} \RNK{G}{\Stab_G(n)}$.
+We will call the image $\germ(G)=:G_0$ the $0$-th \emph{germgroup} and furthermore
+$G_n := \germ_n \circ \psi_n(G)$ the $n$-th \emph{germgroup}.
 
 The $4$-th level \emph{germgroup} 
 a group of order $67\,108\,864$ has commutator width $2$.
@@ -1289,7 +1288,7 @@ some packages are present. For details see Section \ref{sec:precomputation}.
 This is what the functions check:
 \begin{description}
 \item[\texttt{verifyLemma90orbits}] This function verifies that there are
-  indeed $90$ orbits of $\RNK{Q^6}{\Stab(R_3}$ as claimed in Lemma~\ref{lem:90Constraints}. 
+  indeed $90$ orbits of $\RNK{Q^6}{\Stab(R_3)}$ as claimed in Lemma~\ref{lem:90Constraints}. 
 \item[\texttt{verifyLemma86orbits}] Analogously to the previous function 
   this one verifies that there are $86$ orbits of $\RNK{Q^4}{\Stab(R_2)}$. 
 \item[\texttt{verifyLemmaExistGoodConstraints}] This verifies that for each 
@@ -1302,7 +1301,7 @@ This is what the functions check:
 \item[\texttt{verifyPropExistsSuccessor}] This verifies that for
   each good pair $(q,\gamma) \in\RNK{G'}{K'}\times(\Red_{\act}\cup \Red_{\act}^4)$ there exists 
   a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of 
-  $\bar p_{\textup{rep}(Y_{\gamma'})}(q)$ under the map $\rho'$ form
+  $\bar p_{\rep(Y_{\gamma'})}(q)$ under the map $\rho'$ form
   good pairs with the constraint $\gamma'$. This is needed in the proof of
   Proposition~\ref{pro:existsNextPair} and Proposition~\ref{pro:existsNextPair4}.
 \item[\texttt{verifyCorollaryFiniteCWK}] Corollary~\ref{cor:KhasCW2} needs the
