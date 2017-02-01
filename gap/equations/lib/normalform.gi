@@ -114,7 +114,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				# w₂ Equation, x∈F
 				local N,N2,Hom,HomIn,y,z;
 				N := NormalForm(w2);
-				N[1]:=FreeProductElmLetterRep(N[1]);
+				N[1]:=FreeProductElmLetterRep(N[1],2);
 				#Check if N[1] is now still unoriented by checking if it starts with [y,z].
 				if Length(N[1])<4 or not N[1]!.word[2] in F or N[1]!.word[1]=N[1]!.word[2] then
 					#Already in required form
@@ -136,7 +136,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 					#return [x^2*y^2*N2[1],Hom*N2[2]*N[2],N[3]*N2[3]*HomIn];
 				fi;
 			end;
-			eq := Equation(FreeProductElmLetterRep(eq));
+			eq := Equation(FreeProductElmLetterRep(eq,2));
 			
 			if Length(eq)<3 then
 				return [eq,EquationHomomorphism(EqG,[],[]),EquationHomomorphism(EqG,[],[])];
@@ -173,9 +173,9 @@ InstallMethod(EquationNormalForm, "for an Equation",
 					Hom := EquationHomomorphism(EqG,[],[]);
 					HomIn := EquationHomomorphism(EqG,[],[]);
 				fi;
-				w1 := FreeProductElmLetterRep(eq{[1..i-1]});
-				v := FreeProductElmLetterRep(eq{[i+1..j-1]});
-				w2 := FreeProductElmLetterRep(eq{[j+1..Length(eq)]});
+				w1 := FreeProductElmLetterRep(eq{[1..i-1]},2);
+				v := FreeProductElmLetterRep(eq{[i+1..j-1]},2);
+				w2 := FreeProductElmLetterRep(eq{[j+1..Length(eq)]},2);
 				
 				#Decomposition done
 				if Length(v)=1 then #Case 1
@@ -270,7 +270,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 		end;
 		NormalVars := function(eq)
 			local gens,imgs,count,found,x;
-			eq := FreeProductElmLetterRep(eq);
+			eq := FreeProductElmLetterRep(eq,2);
 			gens := [];
 			imgs := [];
 			found := [];
