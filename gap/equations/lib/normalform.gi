@@ -295,7 +295,24 @@ InstallMethod(EquationNormalForm, "for an Equation",
 		return rec(nf := Equation(N[1]^H[1]), hom := N[2]*H[1], homInv:=H[2]*N[3]);
 	end);
 
-			
+InstallMethod(EquationSignature, "for an Equation",
+	[IsEquation and IsFreeProductElmRep],
+	function(x)
+		if not IsQuadraticEquation(x) then
+			TryNextMethod();
+		fi;			
+		x := EquationNormalForm(x).nf;
+		if IsOrientedEquation(x) then
+			return [Int(Length(eq!.word[1])/4),Length(eq!.word)-1];
+		else
+			return [Int(Length(eq!.word[1])/2),Length(eq!.word)-1];
+		fi;
+	end);
 
+InstallMethod(Genus, "for an Equation",
+	[IsEquation and IsFreeProductElmRep],
+	function(x)
+		return EquationSignature(x)[1];
+	end);
 
 
