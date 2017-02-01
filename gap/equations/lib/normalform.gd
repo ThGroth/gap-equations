@@ -1,6 +1,7 @@
 #############################################################################
 ##
 #O EquationNormalForm . . . . . . . . .Compute the normal form of an equation
+#O Genus . . . . . . . . . . . . . Compute the genus of a quadratic equation
 ##
 ## <#GAPDoc Label="EquationNormalForm">
 ## <ManSection>
@@ -17,6 +18,8 @@
 ##   		<Item><M>U_{n,m}:</M></Item>
 ##			<Item><M>X_1^2X_2^2\cdots X_n^2 c_1^{Z_1}\cdots c_{m-1}^{Z_{m-1}}c_m\ .</M></Item>
 ##			</Row></Table>
+##		The parameter <M>n</M> is refered to as <E>genus</E> and 
+##		the tuple <M>(n,m)</M> as signature of the quadratic equation.<P/>
 ##		The component <A>nf</A> is an equation in one of the forms
 ##		<M>O_{n,m},U_{n,m}</M> equivalent to the equation <A>E</A>. 
 ##		The component <A>hom</A> is an equation homomorphism which maps
@@ -38,5 +41,18 @@
 ## true
 ## ]]></Example></Description>
 ##</ManSection>
+## <ManSection>
+## <Oper Name="Genus" Arg="E"
+##		 Label="equation"/>
+##   <Returns>The integer that is the genus of the equation</Returns>
+##</ManSection>
+## <ManSection>
+## <Oper Name="EquationSignature" Arg="E"
+##		 Label="equation"/>
+##   <Returns>The list <A>[n,m]</A> of integers that is the signature of the equation</Returns>
+##</ManSection>
 ## <#/GAPDoc>
 DeclareAttribute("EquationNormalForm", IsEquation);
+
+DeclareAttribute("Genus", IsEquation);
+DeclareAttribute("EquationSignature", IsEquation);
