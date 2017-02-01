@@ -303,9 +303,9 @@ InstallMethod(EquationSignature, "for an Equation",
 		fi;			
 		x := EquationNormalForm(x).nf;
 		if IsOrientedEquation(x) then
-			return [Int(Length(eq!.word[1])/4),Length(eq!.word)-1];
+			return [Int(Length(x!.word[1])/4),Int(Length(x!.word)/2)];
 		else
-			return [Int(Length(eq!.word[1])/2),Length(eq!.word)-1];
+			return [Int(Length(x!.word[1])/2),Int(Length(x!.word)/2)];
 		fi;
 	end);
 
