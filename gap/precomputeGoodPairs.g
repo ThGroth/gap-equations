@@ -34,7 +34,7 @@ p := function(q)
 	g := PreImagesRepresentative(tauLP,q)^isoGLPtoG;
 	return ((State(g,2)*State(g,1))^isoGtoGLP)^homGtoGmodKxK;
 end;
-#the maps @i: G'/K' → G'/K, gK' ↦ g@i K are well defined
+#the maps @i: G'/K' → G/K, gK' ↦ g@i K are well defined
 StateLP := function(q,i)
 	if not q in GmodKP then
 		Error("State: q needs to be in G/K'");
