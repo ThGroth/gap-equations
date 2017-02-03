@@ -33,8 +33,7 @@
 ## </ManSection>
 ## <#/GAPDoc>
 DeclareAttribute( "IsEquationGroup", IsGeneralFreeProduct);
-DeclareOperation("EquationGroup", [IsGroup,IsGroup]);
-
+DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
 
 #############################################################################
 ##
