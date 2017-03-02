@@ -449,12 +449,34 @@ InstallMethod(FreeProductHomomorphism ,"For a GeneralFreeProduct and a list of g
 		if not Length(G!.groups) = Length(homs) then
 			Error("There need to be as many homomorphisms as free factors in the source.");
 		elif not Length(H!.groups) = Length(homs) then
-			Error("There need to be as many homomorphisms as free factors in the image.");
+			TryNextMethod();
+			#Error("There need to be as many homomorphisms as free factors in the image.");
 		elif not ForAll([1..Length(G!.groups)],i->Source(homs[i])=G!.groups[i]) then
-			Error("Sources does not match.");
+			Error("Sources do not match.");
 		elif not ForAll([1..Length(G!.groups)],i->Range(homs[i])=H!.groups[i]) then
-			Error("Ranges does not match.");
+			TryNextMethod();
+			#Error("Ranges do not match.");
 		fi;
+		fam := GeneralMappingsFamily(ElementsFamily(FamilyObj(G)),
+									 ElementsFamily(FamilyObj(H)) );
+		return Objectify(NewType(fam,IsFreeProductHomomorphism and IsFreeProductHomomorphismFactorwiseRep),
+							rec(	homs := homs,
+									Source := G,
+									Range := H));
+	end);
+
+InstallMethod(FreeProductHomomorphism ,"For a GeneralFreeProduct and a list of group homomorphisms",
+	[IsGeneralFreeProduct, IsGroup, IsList],
+	function(G,H,homs)
+		local fam;
+		if not Length(G!.groups) = Length(homs) then
+			Error("There need to be as many homomorphisms as free factors in the source.");
+		elif not ForAll([1..Length(G!.groups)],i->Source(homs[i])=G!.groups[i]) then
+			Error("Sources do not match.");
+		elif not ForAll([1..Length(G!.groups)],i->Range(homs[i])=H) then
+			TryNextMethod();
+		fi;
+
 		fam := GeneralMappingsFamily(ElementsFamily(FamilyObj(G)),
 									 ElementsFamily(FamilyObj(H)) );
 		return Objectify(NewType(fam,IsFreeProductHomomorphism and IsFreeProductHomomorphismRep),
@@ -492,10 +514,17 @@ InstallMethod( CompositionMapping2, "For two FreeProductHomomorphisms",
 #    end );
 
 InstallMethod(ImageElm ,"For a FreeProductHomomorphism and a GeneralFreeProduct",
-	[IsFreeProductHomomorphism,IsFreeProductElm and IsFreeProductElmRep],
+	[IsFreeProductHomomorphism and IsFreeProductHomomorphismFactorwiseRep,IsFreeProductElm and IsFreeProductElmRep],
 	function(hom,elm)
 		local img;
 		img := List([1..Length(elm!.word)],i->
 				Image(hom!.homs[elm!.factors[i]],elm!.word[i]));
 		return FreeProductElm(Range(hom),img,elm!.factors);
+	end);
+
+InstallMethod(ImageElm ,"For a FreeProductHomomorphism and a GeneralFreeProduct",
+	[IsFreeProductHomomorphism and IsFreeProductHomomorphismRep,IsFreeProductElm and IsFreeProductElmRep],
+	function(hom,elm)
+		return Product([1..Length(elm!.word)],i->
+				Image(hom!.homs[elm!.factors[i]],elm!.word[i]));
 	end);

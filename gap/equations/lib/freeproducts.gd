@@ -208,6 +208,10 @@ DeclareRepresentation("IsFreeProductHomomorphismRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
  ["homs","Source","Range"]
 );
+DeclareRepresentation("IsFreeProductHomomorphismFactorwiseRep",
+ IsComponentObjectRep  and IsAttributeStoringRep,
+ ["homs","Source","Range"]
+);
 #############################################################################
 ##
 #O Abs. . . . . . . . . . . . . . . . . Ignores the inverses in an assocword
