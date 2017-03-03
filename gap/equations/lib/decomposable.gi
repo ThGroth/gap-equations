@@ -140,7 +140,7 @@ InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and 
 				else
 					if LetterRepAssocWord(x)[1]<0 then
 						#eq is in LetterRep so this is the inverse of a gen.
-						lastperm := lastperm*x^acts;
+						lastperm := lastperm*(x^acts)^-1;
 					fi;
 					for i in [1..Size(alph)] do
 						Add(DecompEq[i^lastperm],x^Embedding(DEqG!.free,i));
