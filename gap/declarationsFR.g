@@ -1,5 +1,9 @@
-SetPackagePath("equations",Filename(dir,"equations/"));
-LoadPackage("equations");
+if TestPackageAvailability("equations","0.1.1") then
+	LoadPackage("equations");
+else
+	SetPackagePath("equations",Filename(dir,"equations/"));
+	LoadPackage("equations");
+fi;
 
 #Set up all Branchstructure, quotients etc.
 #Working with L presentation
