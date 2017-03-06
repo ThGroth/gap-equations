@@ -44,8 +44,8 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
 		embeddings :=[];
 		names := Concatenation(List([1..Length(L)],
 				i->List([1..genInList[i]],
-				j->Concatenation(String(L[i].(j)),String(i)) )));
-		#FP := FreeGroup(Sum(genInList));
+					j->Concatenation(String(L[i].(j)),String(i)) )));
+		Sort(names);
 		FP:=FreeGroup(names);
 		if ForAll(L,HasName) then
 			SetName(FP,Concatenation(Concatenation(
