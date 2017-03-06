@@ -33,7 +33,7 @@ InstallMethod( \in, "for infinite list of generators",
 InstallMethod(FreeProductOp, "for f.g. free groups",
 	[IsList,IsFreeGroup],
 	function(L,G)
-		local embeddings,names,genInList,FP,last,i;
+		local embeddings,names,genInList,FP,last,i,sorter;
 		if not ForAll(L,IsFreeGroup) then 
 			TryNextMethod();
 		fi;
@@ -45,7 +45,7 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
 		names := Concatenation(List([1..Length(L)],
 				i->List([1..genInList[i]],
 					j->Concatenation(String(L[i].(j)),String(i)) )));
-		Sort(names);
+		sorter:=Sortex(names); #want to collect all states of one element
 		FP:=FreeGroup(names);
 		if ForAll(L,HasName) then
 			SetName(FP,Concatenation(Concatenation(
@@ -58,7 +58,8 @@ InstallMethod(FreeProductOp, "for f.g. free groups",
     		Add(embeddings,GroupHomomorphismByImages(
     				L[i],
     				FP,
-    				GeneratorsOfGroup(FP){[last+1..last+genInList[i]]}));
+    				GeneratorsOfGroup(FP){List([last+1..last+genInList[i]],i->i^sorter)}));
+    				#GeneratorsOfGroup(FP){[last+1..last+genInList[i]]}));
     		last := last+genInList[i];
     	od;
         SetFreeProductInfo( FP, 
