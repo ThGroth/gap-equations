@@ -134,7 +134,7 @@ InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and 
 			for x in eq!.word do
 				if x in eq!.const then
 					for i in [1..Size(alph)] do
-						Add(DecompEq[i^lastperm],DEqG!.statefunc(x,alph[i]));
+						Add(DecompEq[i^(lastperm^-1)],DEqG!.statefunc(x,alph[i]));
 					od;
 					lastperm := lastperm*DEqG!.activityfunc(x);
 				else
