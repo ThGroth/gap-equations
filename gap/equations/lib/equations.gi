@@ -148,6 +148,40 @@ InstallMethod( IsOrientedEquation, "for a square Equation",
 );
 #################################################################################
 ####                                                                         ####
+####	                     Constrained Equation                            ####
+####                                                                         ####
+#################################################################################
+InstallMethod( SetEquationConstraint, "for an equation and a list of images",
+	[IsEquation,IsList,IsGroupHomomorphism],
+	function(eq,const,hom)
+		if not Length(const) = Length(EquationVariables(eq)) then 
+			Error("There need to be as many images as equation variables.");
+		fi;
+		if not ForAll(const,x->x in Range(hom)) then
+			Error("All constraint components need to be in the image of hom");
+		fi;
+		eq!.constraint := const;
+		eq!.constrainthom := hom;
+		SetIsConstrainedEquation(eq,true);
+	end
+);
+InstallOtherMethod( Equation, "for an equation Group, a list of group elements, a constraint and a corresponding homomorphism.",
+	[IsEquationGroup, IsList, IsList, IsGroupHomomorphism],
+	function(eqG,word,const,hom)
+		local eq;
+		eq := Equation(eqG,word);
+		SetEquationConstraint(eq,const,hom);
+		return eq;
+	end
+);
+InstallMethod( IsConstrainedEquation, "for an equation",
+	[IsEquation],
+	function(eq)
+		return IsBound(eq!.constraint) and IsBound(eq!.constrainthom);
+	end
+);
+#################################################################################
+####                                                                         ####
 ####	                     EquationsHomomorphism                           ####
 ####                                                                         ####
 #################################################################################
