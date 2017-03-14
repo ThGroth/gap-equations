@@ -104,6 +104,19 @@ DeclareAttribute("EquationLetterRep",IsEquation);
 
 DeclareProperty("IsQuadraticEquation", IsEquation);
 DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
+#############################################################################
+##
+#P IsConstrainedEquation . . . . . . . . . . . . . . . . . 
+##
+## <#GAPDoc Label="ConstrainedEquation">
+## <Prop Name="IsConstrainedEquation" Arg="E"
+##		 Label="equation"/>
+##   <Returns>True if <A>E</A> is a constrained equation.</Returns>
+##</ManSection>
+## <#/GAPDoc>
+DeclareProperty("IsConstrainedEquation", IsEquation);
+
+DeclareOperation("SetEquationConstraint", [IsEquation, IsList, IsGroupHomomorphism]);
 
 #############################################################################
 ##
