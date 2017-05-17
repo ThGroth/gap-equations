@@ -148,6 +148,46 @@ InstallMethod( IsOrientedEquation, "for a square Equation",
 );
 #################################################################################
 ####                                                                         ####
+####	                     Constrained Equation                            ####
+####                                                                         ####
+#################################################################################
+InstallMethod( SetEquationConstraint, "for an equation and a list of images",
+	[IsEquation,IsList,IsGroupHomomorphism],
+	function(eq,const,hom)
+		if not Length(const) = Length(EquationVariables(eq)) then 
+			Error("There need to be as many images as equation variables.");
+		fi;
+		if not ForAll(const,x->x in Range(hom)) then
+			Error("All constraint components need to be in the image of hom");
+		fi;
+		eq!.constraint := const;
+		eq!.constrainthom := hom;
+		SetIsConstrainedEquation(eq,true);
+	end
+);
+InstallOtherMethod( Equation, "for an equation Group, a list of group elements, a constraint and a corresponding homomorphism.",
+	[IsEquationGroup, IsList, IsList, IsGroupHomomorphism],
+	function(eqG,word,const,hom)
+		local eq;
+		eq := Equation(eqG,word);
+		SetEquationConstraint(eq,const,hom);
+		return eq;
+	end
+);
+InstallMethod( IsConstrainedEquation, "for an equation",
+	[IsEquation],
+	function(eq)
+		return IsBound(eq!.constraint) and IsBound(eq!.constrainthom);
+	end
+);
+InstallMethod( ViewObj,   "for constrained equations)",
+   [ IsConstrainedEquation and IsFreeProductElmRep ],
+    function( x )
+		local s;
+		Print("Constrained equation in ",EquationVariables(x));
+	end);
+#################################################################################
+####                                                                         ####
 ####	                     EquationsHomomorphism                           ####
 ####                                                                         ####
 #################################################################################
@@ -263,6 +303,7 @@ InstallMethod( EquationEvaluation, "For an Equation, the list of variables and a
 		hom := EquationHomomorphism(eq!.group,gens,imgs);
 		hom2 := GroupHomomorphismByFunction(eq!.group,eq!.const,q->Product(Image(hom,q)!.word),One(eq!.const));
 		SetIsEquationHomomorphism(hom2,true);
+		SetEquationHomomorphismImageData(hom2,rec(imgs:=imgs,gens:=gens));
 		SetIsEvaluation(hom2,true);
 		return hom2;
 	end);
@@ -280,6 +321,7 @@ InstallOtherMethod( EquationEvaluation, "For an Equation, the list of variables 
 		hom := EquationHomomorphism(eqG,gens,imgs);
 		hom2 := GroupHomomorphismByFunction(eqG,eqG!.const,q->Product(Image(hom,q)!.word,One(eqG!.const)));
 		SetIsEquationHomomorphism(hom2,true);
+		SetEquationHomomorphismImageData(hom2,rec(imgs:=imgs,gens:=gens));
 		SetIsEvaluation(hom2,true);
 		return hom2;
 	end);
@@ -291,6 +333,17 @@ InstallMethod( IsEvaluation, "For a group homomorphism",
 InstallMethod( IsSolution, "For an EquationsHomomorphism and an Equation",
 	[IsEvaluation, IsEquation],
 	function(hom,eq)
+		if IsConstrainedEquation(eq) then
+			TryNextMethod();
+		fi;
 		return IsOne(eq^hom); 
 	end);
 
+InstallMethod( IsSolution, "For an EquationsHomomorphism and an Equation",
+	[IsEvaluation, IsConstrainedEquation],
+	function(hom,eq)
+		local data;
+		data := EquationHomomorphismImageData(hom);
+		return IsOne(eq^hom) and ForAll([1..Size(EquationVariables(eq))],
+			i->data.imgs[Position(data.gens,EquationVariables(eq)[i])]^eq!.constrainthom = eq!.constraint[i]) ; 
+	end);

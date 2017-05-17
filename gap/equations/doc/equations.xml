@@ -48,9 +48,9 @@ gap> F := FreeGroup("f","h");;
 gap> S2 := SymmetricGroup(2);;
 gap> acts := Cartesian([S2,S2]);;
 gap> acts := List(acts,g->GroupHomomorphismByImages(F,S2,g));;
-gap> eg := EquationGroup(GrigorchukGroup,F);;
+gap> eg := EquationGroup(FreeGroup([]),F);;
 gap> eq := Equation(eg,[Comm(F.1,F.2)]);;
-gap> deg := DecompositionEquationGroup(eg);;
+gap> deg := DecompositionEquationGroup(eg,2,[]);;
 gap> for act in acts do
 >       new := DecompositionEquation(deg,eq,act);
 >       Print(Product(Reversed(EquationComponents(new))),"\n");
