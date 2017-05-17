@@ -14,12 +14,12 @@ PackageName := "Equations",
 
 Subtitle := "Equations in groups",
 
-Version := "0.1.0",
+Version := "0.1.2",
 
-Date := "05/01/2016",
+Date := "15/03/2017",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
-##  <!ENTITY VERSION "0.1.0">
-##  <!ENTITY RELEASEDATE "05 January 2016">
+##  <!ENTITY VERSION "0.1.2">
+##  <!ENTITY RELEASEDATE "15 March 2017">
 ##  <#/GAPDoc>
 
 #PackageWWWHome := "http://",
