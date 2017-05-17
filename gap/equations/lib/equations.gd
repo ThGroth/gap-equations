@@ -116,7 +116,7 @@ DeclareProperty("IsOrientedEquation", IsQuadraticEquation);
 ## <#/GAPDoc>
 DeclareProperty("IsConstrainedEquation", IsEquation);
 
-DeclareOperation("SetEquationConstraint", [IsEquation, IsList, IsGroupHomomorphism]);
+DeclareOperation("SetEquationConstraint", [IsEquation, IsList, IsGroupHomomorphism	]);
 
 #############################################################################
 ##
