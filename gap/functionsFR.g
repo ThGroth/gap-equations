@@ -309,7 +309,7 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
         fi;
     end;
     NormalizeAllBlocks := function(offset,gamma,Mod)
-        local Phi;
+        local Phi,i;
         if IsEvenInt(offset) then
             Error("NormalizeAllBlocks offset i must be odd");
         fi; 
@@ -471,7 +471,157 @@ ReducedConstraint := function(gamma)
     fi;
     return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable,0);
 end;
-    
+
+# Special case implementation. 
+# 
+# ReducedConstraintAllModes turned out to be too slow especially
+# if the mode 2 is not needed. This one is notably faster.
+#
+# TODO join these two implementations.
+#
+#
+ReducedConstraint8 := function(gamma)
+    local phi,psi,swi,
+        NormalizeBlock,NormalizeAllBlocks,KillBlock,KillAllBlocks,
+         RepresentativeInOrbitReps;
+
+    phi := function(L,i)
+        L := ShallowCopy(L);
+        if IsEvenInt(i) then
+            L[i] := L[i-1]*L[i];
+            return L;
+        else
+            L[i] := L[i+1]*L[i];
+            return L;
+        fi;
+    end;
+
+    psi := function(L,i)
+        local x;
+        L := ShallowCopy(L);
+        x := L[i+1]/L[i+2];
+        L[i] := x*L[i];
+        L[i+1] := x*L[i+1]/x;
+        L[i+2] := x*L[i+2]/x;
+        L[i+3] := x*L[i+3];
+        return L;
+    end;
+    swi := function(L,i)
+        local K,x;
+        K := ShallowCopy(L);
+        x := Comm(L[i+2],L[i+3]);
+        K[i+2] := L[i]^x;
+        K[i+3] := L[i+1]^x;
+        K[i] := L[i+2];
+        K[i+1] := L[i+3];
+        return K;
+    end;
+
+    #
+    # NormalizeBlock sends block of the form (G,G) to (G,Mod)
+    # 
+    NormalizeBlock := function(i,gamma,Mod)
+        local Phi;
+
+        if not IsTrivial(Mod) then #So we are in the cyclic two case
+            if gamma[i+1] in Mod then
+                return gamma;
+            fi;
+            if gamma[i] in Mod then
+                return phi(phi(gamma,i),i+1);
+            fi;
+            return phi(gamma,i+1);
+        else # So we are in the cyclic four case
+            #rule out the cases (1,*) and (x²,x),(x²,x³)
+            if gamma[i] in Mod  or 
+                    (gamma{[i,i+1]} = phi(phi(gamma{[i,i+1]},2),2)
+                    and not phi(gamma{[i,i+1]},2)[2] in Mod)
+                    then 
+                gamma := phi(gamma,i);
+                #so now gamma[i] ≠ 1 and not other problematic one.
+            fi;
+            while not gamma[i+1] in Mod do
+                
+                gamma := phi(gamma,i+1);
+            od;
+            # rule out one additional case: 
+            # A representative system for the action of MCG on C₂² 
+            # is (1,1), (ad³,1) (ad²,1) as (ad³,1)~(ad,1)
+            if gamma[i] = GeneratorsOfGroup(C2)[1] then
+                return phi(phi(phi(phi(gamma,i+1),i),i),i+1);
+            fi;
+            return gamma;
+        fi;
+    end;
+    NormalizeAllBlocks := function(offset,gamma,Mod)
+        local Phi,i;
+        for i in [offset,offset+2..Size(gamma)-1] do
+            gamma := NormalizeBlock(i,gamma,Mod);
+        od;
+        return gamma;
+    end;
+
+       #
+    # killblock sends blocks of the form (Mod,1,Mod,1) to (Mod,1,1,1)
+    #
+    KillBlock := function(i,gamma,Mod)
+        if gamma[i] in Mod then
+            return swi(gamma,i);
+        fi;
+        if gamma[i+2] in Mod then
+            return gamma;
+        fi;
+        if not IsTrivial(Mod) then
+            #So we are in the cyclic two case
+            return swi(phi(psi(gamma,i),i+3),i);
+        fi;
+        #So we are in cyclic 4
+        if gamma[i]=gamma[i+2] then
+            return swi(phi(psi(gamma,i),i+3),i);
+        fi;
+        if ForAll(psi(psi(gamma,i),i){[i,i+1]},x-> x in Mod) then
+            gamma := swi(psi(psi(gamma,i),i),i);
+        else
+            gamma := swi(psi(psi(swi(gamma,i),i),i),i);
+        fi;
+        return NormalizeBlock(i,gamma,Mod);
+    end;
+    #
+    # killallblocks sends gamma of the form (Mod, 1,Mod,1,Mod…) to (Mod,1,1,1,1…)
+    # 
+    KillAllBlocks := function(offset,gamma,Mod)
+        local i,phi;
+        for i in [Size(gamma)-3,Size(gamma)-5..offset] do
+            gamma := KillBlock(i,gamma,Mod);
+        od;
+        return gamma;
+    end;
+    # given γ:F₅→Q
+    # Returns the index of the element γᵣ in ReducedConstraints such that 
+    # γ and γᵣ are in the same orbit under the mcg
+    # 
+    #
+    RepresentativeInOrbitReps := function(gamma) 
+        return NestedListElm(PCD.orbitTable,List(gamma,hashInQ));
+    end;
+
+    #Now do the real work...
+    gamma := NormalizeAllBlocks(1,gamma,C1);# (Q,C1,Q,C1,Q,C1,Q,C1…)
+    Assert(2,ForAll(gamma{[2,4..Size(gamma)]},x->x in C1));
+    gamma := KillAllBlocks(1,gamma,C1); # (Q,C1,C1,C1,C1,C1,C1,C1…)
+    Assert(2,ForAll(gamma{[2..Size(gamma)]},x->x in C1));
+    gamma := NormalizeAllBlocks(3,gamma,C2); # (Q,C1,C1,C2,C1,C2,C1,C2,C1,C2…)
+    Assert(2,ForAll(gamma{[4,6..Size(gamma)]},x->x in C2));
+    gamma := KillAllBlocks(3,gamma,C2); # (Q,C1,C1,C2,C2,C2,C2,C2,C2,C2…)
+    Assert(2,ForAll(gamma{[4..Size(gamma)]},x->x in C2));
+    gamma := NormalizeAllBlocks(5,gamma,Group(One(C1))); # (Q,C1,C1,C2,C2,1,C2,1,C2,1…)
+    Assert(2,ForAll(gamma{[6,8..Size(gamma)]},IsOne));
+    gamma := KillAllBlocks(5,gamma,Group(One(C1)));; # (Q,C1,C1,C2,C2,1,1,1,1,1…)
+    Assert(2,ForAll(gamma{[6..Size(gamma)]},IsOne));
+    #return gamma;
+    return PCD.ReducedConstraints[RepresentativeInOrbitReps(gamma{[1..Minimum(6,Size(gamma))]})];
+end;
+
 # IsGoodPair(g,γ)
 # Test whether a given pair is a good pair.
 # Input:
