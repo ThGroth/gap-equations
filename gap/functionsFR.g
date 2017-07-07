@@ -132,9 +132,9 @@ ReducedConstraintAllModes := function(gamma,mode,arg...)
 
     
     if mode = 0 then
-        if Size(arg)<3 then
-            Error("To use lookup mode the orbitTable, the ReducedConstraints and the offset must be present. Try using mode 1");
-        fi;
+        #if Size(arg)<3 then
+        #    Error("To use lookup mode the orbitTable, the ReducedConstraints and the offset must be present. Try using mode 1");
+        #fi;
         TempOrbitTable := arg[2];
         ReducedConstraints := arg[1];
         offset := arg[3];
