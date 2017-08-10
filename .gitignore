@@ -4,6 +4,9 @@
 *.blg
 *.toc
 *.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
 CommutatorWidthGrigorchuk.pdf
 *~
 #Exclude the documentation help files.
