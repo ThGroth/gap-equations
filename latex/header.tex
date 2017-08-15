@@ -13,6 +13,10 @@
 \usepackage{enumerate}
 \usepackage{mathtools}
 
+%Für Verlinkungen im Dokument
+\usepackage[x11names]{xcolor}
+%\definecolor{white}{rgb}{1,1,1}
+
 %For include without pagebreak
 \usepackage{newclude}
 
@@ -28,14 +32,9 @@
 % Bibliographi
 %\usepackage{natbib}
 
-%For multiline captions
-\usepackage[skip=2pt]{caption}
 %Für Quellcode
 \usepackage{listings}
 
-%Für Verlinkungen im Dokument
-\usepackage{xcolor}
-\definecolor{white}{rgb}{1,1,1}
 \usepackage[linkbordercolor=white,urlbordercolor=white ,citebordercolor=white, plainpages=false]{hyperref}
 
 %Zum Erstellen von Graphen für Automaten
@@ -216,6 +215,10 @@
 \DeclareMathOperator{\suc}{{suc}}
 \DeclareMathOperator{\lcm}{lcm}
 \DeclareMathOperator{\operp}{{ \bigcirc\!\!\!\!\!\!\!\perp}}
+
+\DeclareMathOperator{\cut}{cut}
+\DeclareMathOperator{\Mod}{Mod}
+
 
 \newcommand{\BIGOP}[1]{\mathop{\mathchoice%
 {\raise-0.22em\hbox{\huge $#1$}}%
