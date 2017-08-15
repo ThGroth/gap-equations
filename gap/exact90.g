@@ -41,14 +41,16 @@ Firstpa := PCD.orbitReps2;;
 Secondpa:= Cartesian(ListWithIdenticalEntries(4,BS.group));;
 
 size := Size(Firstpa)*Size(Secondpa);
+# Storing the results in a lookup dictionary doesn't help. 
+# The lookup of all elements is not much faster.
 TheTest := function()
-    local gamma,gamma1,gamma2,theta,count;
+    local gamma,gamma1,gamma2,theta,count,ind1,ind2;
     count := 1;
     for gamma1 in Secondpa do
         for gamma2 in Firstpa do
             gamma := Concatenation(gamma1,gamma2);
             for theta in gens do
-                if not ReducedConstraint8(OnImages(gamma,theta)).constraint=ReducedConstraint8(gamma).constraint then
+                if not ReducedConstraint8(OnImages(gamma,theta)).index=ind2:=ReducedConstraint8(gamma).index then
                     Print("Claim not true for gamma:",gamma," and theta:",theta,"\n\n");
                     return [gamma,theta];
                 fi;
@@ -56,8 +58,11 @@ TheTest := function()
             Print(count," that are ",Int(100*count/size),"% done\r");
             count := count +1;
     od;od;
-    Print("Claim true\n");
+    Print("\nClaim true\n");
     return [];
 end;
 res:=TheTest();
+tt := time;
+Int(tt/(60*60*1000));
+
 
