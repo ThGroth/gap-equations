@@ -16,7 +16,7 @@
   width of $G$ is $2$: every element $g\in [G,G]$ is a product of two
   commutators. Furthermore, we show that every finitely generated
   subgroup $H\leq G$ has finite commutator width, which however can be
-  arbitrarily large. The proofs were assisted by the computer algebra
+  arbitrarily large, and that $G$ contains a subgroup of infinite commutator width. The proofs were assisted by the computer algebra
   system GAP.
 \end{abstract}
 \maketitle
@@ -30,7 +30,8 @@ $n\in \NN\cup \infty$ such that every element of $\Gamma'$ is a
 product of $n$ commutators.
 
 We compute, in this article, the commutator width of the \emph{first
-  Grigorchuk group} $G$. This is a prominent example from the class of
+  Grigorchuk group} $G$, see~\S\ref{ss:bg} for a brief
+introduction. This is a prominent example from the class of
 \emph{branched groups}, and as such is a good testing ground for
 decision and algebraic problems in group theory. We prove:
 \begin{thma}\label{thm:CWGrigorchukGroup}
@@ -51,12 +52,12 @@ Fink~\cite[Question~3]{Fink:Conjugacy_growth}:
 
 There are examples of groups of finite commutator width with subgroups
 of infinite commutator width; and even finitely presented, perfect
-examples in which the subgroup has finite index. However, we can
-prove:
+examples in which the subgroup has finite index, see
+Example~\ref{ex:commwidthsubgroup}. However, we can prove:
 \begin{thma}\label{thm:subgroups}
   Every finitely generated subgroup of $G$ has finite commutator
   width; however, their commutator width cannot be bounded, even among
-  finite-index subgroups.
+  finite-index subgroups. Furthermore, there is a subgroup of $G$ of infinite commutator width.
 \end{thma}
 
 \subsection{Commutator width}
@@ -64,7 +65,7 @@ Let $\Gamma$ be a group. It is well-known that sometimes elements of
 $\Gamma'$ are not commutators---for example,
 $[X_1,X_2]\cdots[X_{2n-1},X_{2n}]$ is not a commutator in the free
 group $F_{2n}$. In fact, every non-abelian free group has infinite
-commutator width, because it contains $F_{2n}$ for all $n$.
+commutator width, because!!!NOT ``BECAUSE'': COMM WIDTH OF GP CAN BE SMALLER THAN THAT OF SUBGROUP. THIS IS SURPRISINGLY DIFFICULT TO PROVE...I DON'T KNOW ANY WAY OTHER THAN BAVARD DUALITY!!! it contains $F_{2n}$ for all $n$.
 
 Finite groups, and more generally virtually abelian groups, clearly have
 finite commutator width.  There are finite groups in which some
@@ -113,8 +114,8 @@ $\Gamma/\operatorname{core}(\Delta)'$ is virtually abelian, and every
 commutator in $\Gamma$ can be written as a product of a commutator in
 $\Delta$ with the lift of one in
 $\Gamma/\operatorname{core}(\Delta)'$, but that seems to be all that
-can be said. Danny Calegari pointed us to the following example:
-\begin{ex}
+can be said. Danny Calegari pointed to us the following example:
+\begin{ex}\label{ex:commwidthsubgroup}
   Consider the group $\Delta$ of orientation-preserving
   self-homeomorphisms of $\RR$ that commute with integer translations,
   and let $\Gamma$ be the extension of $\Delta$ by the involution
@@ -129,7 +130,7 @@ can be said. Danny Calegari pointed us to the following example:
   that are piecewise-affine with dyadic slopes and breakpoints.
 \end{ex}
 
-\subsection{Branched groups}
+\subsection{Branched groups}\label{ss:bg}
 We briefly introduce the first Grigorchuk
 group~\cite{Grigorchuk:Burnside} and some of its properties. For a more
 detailed introduction into the topic of self-similar groups we refer
@@ -187,7 +188,7 @@ $n\geq 2$.
 
 If there is a solution then the images of the variables $X_i$ have some 
 activities $\sigma_i$. If we fix a possible activity
-of the variables of $E$ then by passing to the states it leads to two new
+of the variables of $\eq E$ then by passing to the states we are lead to two new
 equations which are under mild assumptions after some normalization process
 of the same form but of higher genus. 
 
@@ -256,7 +257,7 @@ is equivalent to a map $\Var(\eq{E}) \to G$.  The question of whether an
 equation $\eq{E}$ is solvable will be referred to as the \emph{Diophantine
 problem} of $\eq{E}$.
 
-For every homomorphism $\varphi \colon G \to H$ there is an unique extension to an
+Every homomorphism $\varphi \colon G \to H$ extends uniquely to an
 $F_{\mathcal{X}}$-ho\-mo\-morphism $\varphi_* \colon F_{\mathcal{X}}*G \to F_{\mathcal{X}}*H$.
 % Every homomorphism $\varphi \colon G \to H$ extends uniquely to an
 % $F_{\mathcal{X}}$-ho\-mo\-morphism $\varphi_* \colon F_{\mathcal{X}}*G \to F_{\mathcal{X}}*H$.
@@ -487,7 +488,7 @@ For the proof we need a small observation:
  
  Therefore the solvability of the constrained equation
  $\left([X,Y]g, (X\mapsto\id,Y\mapsto (1,2)) \right)$ follows from the solvability of
- $X_1^{-1}Y_2^{-1}Y_1^{-1}X_1Y_1(g\at{2}) Y_2 g\at{1}$ which is under the 
+ $X_1^{-1}Y_2^{-1}Y_1^{-1}X_1Y_1(g\at{2}) Y_2 (g\at{1})$ which is under the 
  normal form $\Aut(T_2)$-isomorphism $Y_1\mapsto Y_1Y_2^{-1}$ equivalent to the 
  solvability of $[X_1,Y_1](g\at{2})^{Y_2} g\at{1}$. After choosing $Y_2=\id$ we are 
  again in the original situation since $g\at{2} g\at{1}\in H'$. 
@@ -546,12 +547,14 @@ $\Stab(\eq E)$ denotes group of $G$-automorphisms of $\eq E$.
 By Lemma~\ref{lem:finitelyManyConstraints} every element $\gamma\in Q^n$ has a representative in $Q^6$.
 
  The group $\Stab(R_n)$ can be generated by the 
- following automorphisms of $F_{2n}$:
+ following automorphisms of $F_{2n}$: !!!REFERENCE FOR GENERATORS OF SYMPLECTIC GP?!!!
  \begin{align*}
   \varphi_i&\colon& X_i&\mapsto X_{i-1}X_i, \textup{ others fixed} & \textup{for }&i=2,4,\dotsc,2n , \\
   \varphi_i&\colon&X_i&\mapsto X_{i+1}X_i, \textup{ others fixed} & \textup{for }&i=1,3,\dotsc,2n-1 ,\\
-  \psi_i&\colon&X_i&\mapsto X_{i+1}X_{i+2}^{-1}X_i, &X_{i+1}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+1}X_{i+2}X_{i+1}^{-1},\\  
-  &&X_{i+2}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+2}X_{i+2}X_{i+1}^{-1}, &X_{i+3}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+3},\\
+  \psi_i&\colon&X_i&\mapsto X_{i+1}X_{i+2}^{-1}X_i,\\
+           &&X_{i+1}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+1}X_{i+2}X_{i+1}^{-1},\\  
+           &&X_{i+2}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+2}X_{i+2}X_{i+1}^{-1},\\
+           &&&X_{i+3}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+3},\\
            &&&\textup{others fixed} & \textup{for }&i=1,3,\dotsc,2n-3 .  
  \end{align*}
  The GAP orbit enumeration method \gapinline{OrbitsDomain} can be used to 
@@ -1085,12 +1088,11 @@ Consider the following epimorphism:
 a&\mapsto\id,\\
 b,c,d&\mapsto b,c,d.
 \end{align*} It extends to 
-an epimorphism $\germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to G_0\wr_{2^n} \RNK{G}{\Stab_G(n)}$.
+an epimorphism $\germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to G_0\wr_{2^n} \RNK{G}{\Stab_G(n)}$. !!!$G_0$ IS USED BEFORE IT IS DEFINED!!!
 We will call the image $\germ(G)=:G_0$ the $0$-th \emph{germgroup} and furthermore
 $G_n := \germ_n \circ \psi_n(G)$ the $n$-th \emph{germgroup}.
 
-The $4$-th level \emph{germgroup} 
-a group of order $67\,108\,864$ has commutator width $2$.
+The $4$-th germgroup of the Grigorchuk group has order $2^{26}$ and has commutator width $2$.
 If the FR package is present this group can be constructed in GAP with 
 the following command. 
 \begin{lstlisting}
@@ -1206,11 +1208,11 @@ We will proof the statement first for finite-index subgroups.
  \begin{align*}
   K&<\Stab_G(1), & K\times K&<\Stab_G(2), & K^{\times 4}&<\Stab_G(3).
  \end{align*}
- Furthermore it is $\Stab_G(n)=\Stab_G(3)^{\times 2^{n-3}}$ for $n\geq 4$ and hence for every 
+ Furthermore we have $\Stab_G(n)=\Stab_G(3)^{\times 2^{n-3}}$ for $n\geq 4$ and hence for every 
  subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}\leq H$.
   
   Since $G$ is just infinite, $[K^{\times2^n},K^{\times2^n}]$ has finite index in $[H,H]$.
-  Taken a transversal $T$ of $\RNK{[H,H]}{[K^{\times2^n},K^{\times2^n}]}$ we can find 
+  Taking a transversal $T$ of $\RNK{[H,H]}{[K^{\times2^n},K^{\times2^n}]}$ we can find 
   $m\in \NN$ such that every element in $T$ is a product of at most $m$ commutators in $H$.
   We can thus write each element $h\in [H,H]$ as product $kt$ with $k\in K^{\times 2^n}$, 
   $t\in T$ and thus as a product of at most $2+m$ commutators.  
@@ -1226,8 +1228,7 @@ commutator width. This finishes the proof of the following proposition:
    All finitely generated subgroups $H \leq G$ are of finite commutator width.
 \end{pro}
 To show that there cannot be a bound on the commutator width of subgroups
-we need some results, which have
-been established before. Since we could not find an original reference we will
+we need some auxiliary results. They are well-known, but since we could not find an original reference we will
 sketch their proofs here.
 
 \begin{pro}\ 
@@ -1262,7 +1263,7 @@ sketch their proofs here.
   \item Consider again the vertices of $T_2$ which are isomorphic to a
   the finite tree $T_2^k$ on which a subgroup of $K$ acts like $W_n(C_2)$. If we take $m$ large
   enough such that all this vertices are above the $m$-th level we can find a copy of $W_n(C_2)$
-  inside $\RNK{G}{\Stab_G(m)}$.
+  inside $\RNK{G}{\Stab_G(m)}$.\qedhere
  \end{enumerate}
 \end{proof}
 In the following theorem we summarize our results for the commutator width of the Grigorchuk Group.
@@ -1272,6 +1273,7 @@ In the following theorem we summarize our results for the commutator width of th
   \item All finitely generated subgroups $H\leq G$ have finite commutator width.\label{thm:summeryStat2}
   \item \label{thm:summeryStat3} The commutator width of subgroups is unbounded even among finite-index subgroups.
   %\item There exists subgroups with infinite commutator width.\label{thm:summeryStat4}
+\item \label{thm:summeryStat4} There is a subgroup of $G$ with infinite commutator width.
  \end{enumerate}
 \end{thm}
 \begin{proof}
@@ -1282,6 +1284,8 @@ In the following theorem we summarize our results for the commutator width of th
  %TODO: this inverse limit is a subgroup of $G$. No it isn't ?!?
  For every $n\in\NN$ we can find two groups $H_1,H_2$ of finite index in $G$ such that $\RNK{H_1}{H_2}$ has commutator
  width at least $n$. Then $H_1$ has commutator width at least $n$ as well and thus the commutator width of finite-index subgroups can not be bounded.
+
+ For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that $H_i$ has commutator width at least $i$, and consider the subgroup $\langle 0^i1*H_i: i\in\NN\rangle$ of $G$.
 \end{proof}
 \section{Implementation in GAP}
 \subsection{Usage of the attached files} \label{sec:gap_verify}
