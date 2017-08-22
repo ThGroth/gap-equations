@@ -696,10 +696,10 @@ A \emph{branch structure} of a group $G\hookrightarrow G \wr S_n$ consists of
 \begin{enumerate}
  \item a branching subgroup $K\normal G$ of finite index;
  \item the corresponding quotient $Q=\RNK{G}{K}$ and the factor homomorphism $\pi\colon G \to Q$;
- \item a group $Q_1 \subset Q \wr S_n$ such that $\pair{q_1,q_2}\sigma\in Q_1$ if
-	and only if $\pair{g_1,g_2}\sigma \in G$ for all $g_i \in \pi^{-1}(q_i)$;
+ \item a group $Q_1 \subset Q \wr S_n$ such that $\pair{q_1,\ldots,q_n}\sigma\in Q_1$ if
+  and only if $\pair{g_1,\ldots,g_n}\sigma \in G$ for all $g_i \in \pi^{-1}(q_i)$;
  \item a map $\omega\colon Q_1 \to Q$ with the following property: if 
-      $g=\pair{g_1,g_2}\sigma \in G$ then $\omega(\pair{\pi(g_1),\pi(g_2)}\sigma) = \pi(g)$.
+      $g=\pair{g_1,\ldots,g_n}\sigma \in G$ then $\omega(\pair{\pi(g_1),\ldots,\pi(g_n)}\sigma) = \pi(g)$.
 \end{enumerate}
 \end{defi}
 All regular branched groups have a branch structure
@@ -1264,8 +1264,18 @@ The construction of the element and a representation in the standard generators 
  \filename{gap/precomputeNonCommutator.g}. With the representation in standard generators it is easy to show using the 
  homomorphism $\pi$ on the generators that this element is even a member of $K$.
 \begin{figure}
-%\includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
- \caption{Element of the derived subgroup of the Grigorchuk group which is not a commutator.}\label{fig:noncomm}
+\includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
+ %\captionsetup{parskip=5pt,singlelinecheck=off}
+ \caption[Noncommutator]{Element of the derived subgroup of the Grigorchuk group which is not a commutator.
+ In standard generators:
+
+ $(acabacad)^3\allowbreak acab(ac)^2\allowbreak (acabacad)^2\allowbreak 
+ (acab)^3\allowbreak acadacab(ac)^2\allowbreak (acabacad)^2\allowbreak (acabacadacab(ac)^3\allowbreak
+ abacad(acab)^2)^5\allowbreak acabacadacab(ac)^2\allowbreak (acabacad)^2\allowbreak (acabacadac)^2\allowbreak
+ (abac)^3\allowbreak adacab(ac)^2\allowbreak (acabacad)^3\allowbreak acab(ac)^2\allowbreak 
+ (acab(ac)^3\allowbreak abacad)^2\allowbreak acabacad((acabacadacab(ac)^2)^2\allowbreak 
+ acabacad(acab)^3\allowbreak acadacab(ac)^2)^2\allowbreak ((acabacad)^3acab)^2\allowbreak 
+ acab(acabacad)^2acab(ac)^2(acabacad)^3acab(ac)^3aba$}\label{fig:noncomm}
 \end{figure}
 This finishes the proof of Theorem~\ref{thm:CWGrigorchukGroup}.
 \subsection{Bounded conjugacy width}
