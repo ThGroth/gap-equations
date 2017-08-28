@@ -593,7 +593,6 @@ Since $U_n \subset U_{n+1}$ we can assume that $\Red_{n+1} \subset \Red_n$ for $
 
 
 Direct computation shows that $|\Red_3| = 90$,
- \marginnote{\color{blue} Remark 2}
 see Section~\ref{sec:gap_details}.
 }
 \end{proof}
@@ -840,8 +839,7 @@ For $q_1,q_2 \in Q$ and $n\geq3\in \NN$ define
  to $G$ for all $i$. So the mapping $X_i\mapsto t_i$ is a solution for
  $(R_ng,\gamma)$.
  
- \hl{The map $\Gamma_3^{q_1,q_2,n,X_0}$ does not depend on $n$}: assume 
-  \marginnote{\color{blue} Remark 3}
+ The map $\Gamma_3^{q_1,q_2,n,X_0}$ does not depend on $n$: assume 
  $m<n$ and choose fitting $v,w$ such that
  $\Phi_\gamma(R_mg)=\pair{v,w}\pair{g_1,g_2}$; then
  $\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-m}g_1,R_{n-m}'g_2}$, so after
@@ -865,7 +863,10 @@ and define
   in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$
   such that if $\tau(g) = q$ and $g_i=g\at{i}$ then $q_i = q\att{i}$
   by \hl{{Lemma~\ref{lem:atIsWellDefinedModK'}}}.  Thus we can write 
-\marginnote{\color{blue} forward reference}
+\marginnote{{\color{blue} forward reference}\color{pink} I think it
+  improves the readability to prove this lemma later because the
+  motivation for that lemma and Lemma~\ref{lem:pIsDefinedModK'} is given
+   by Proposition~\ref{pro:existsNextPair}.}
   $\Gamma_3^{q_1,q_2,n,X_0}(\gamma)$ as $\Gamma_3^{q,X_0}(\gamma)$ and
   $\Gamma_4^{q_1,q_2}(\gamma)$ as $\Gamma_4^q(\gamma)$, and filter out
   those constraints that do not fulfill the requested properties; we
@@ -1100,7 +1101,6 @@ It turns out that there are $86$ orbits and we can check that there are again en
  This can be checked in GAP with the function\newline \gapinline{verifyLemmaExistGoodGammasForRed4}.
 \end{proof}
 
-\marginnote{\color{blue} Remark 4}
   To formulate an analog of Proposition~\ref{pro:existsNextPair} we literally transfer the definition 
   of the function $\Gamma^{q}$ to the case $n=2$. Denote the new function $\Gamma^{q,2}$.
   For a constraint $\gamma\colon F_{4} \to Q$ with nontrivial activity it produces
