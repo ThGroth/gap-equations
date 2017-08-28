@@ -80,7 +80,7 @@ $[X_1,X_2]\cdots[X_{2n-1},X_{2n}]$ is not a commutator in the free
 group $F_{2n}$. In fact, every non-abelian free group has infinite
 commutator width, 
 \replace{because it contains $F_{2n}$ for all $n$.}
-{as it follows, for example, from \cite{Culler:Surfaces}.}%Rhemtulla 68 A problem of bounded expressibility- TODO
+{as it follows, for example, from \cite{Rhemtulla:CommutatorsF2} or \cite{Culler:Surfaces}.}%Rhemtulla 68 A problem of bounded expressibility- TODO
  \replace{}{%
 On the other hand, some classes of groups have finite commutator width: finitely generated virtually abelian-by-nilpotent groups 
 (see~\cite{Segal:Words}) and finitely generated solvable groups of class $3$ (see~\cite{Rhemtulla:Commutators}).
@@ -1243,7 +1243,7 @@ Consider the following epimorphism:
 a&\mapsto\id,\\
 b,c,d&\mapsto b,c,d.
 \end{align*} It extends to 
-an epimorphism $\germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to G_0\wr_{2^n} \RNK{G}{\Stab_G(n)}$. !!!$G_0$ IS USED BEFORE IT IS DEFINED!!!
+an epimorphism $\germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to \germ(G)\wr_{2^n} \RNK{G}{\Stab_G(n)}$. 
 We will call the image $\germ(G)=:G_0$ the $0$-th \emph{germgroup} and furthermore
 $G_n := \germ_n \circ \psi_n(G)$ the $n$-th \emph{germgroup}.
 
@@ -1440,7 +1440,8 @@ In the following theorem we summarize our results for the commutator width of th
  For every $n\in\NN$ we can find two groups $H_1,H_2$ of finite index in $G$ such that $\RNK{H_1}{H_2}$ has commutator
  width at least $n$. Then $H_1$ has commutator width at least $n$ as well and thus the commutator width of finite-index subgroups can not be bounded.
 
- For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that $H_i$ has commutator width at least $i$, and consider the subgroup $\langle 0^i1*H_i: i\in\NN\rangle$ of $G$.
+ For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that $H_i$ has commutator width at least $i$, and consider the subgroup $\langle 0^i1*H_i\mid i\in\NN\rangle$ of $G$.
+ \marginnote{\color{pink}This notation seems to be not defined in the text. It's the bounded product of the $H_i$}
 \end{proof}
 \section{Implementation in GAP}
 \subsection{Usage of the attached files} \label{sec:gap_verify}
