@@ -96,7 +96,9 @@ end;
 ##################################################################################
 ##################################################################################
 
-
+verifyexact90orbits := function()
+	Read(Filename(dir,"exact90.g"));
+end;
 verifyLemma90orbits := function()
 	return Size(PCD.orbitReps)=90;
 end;
