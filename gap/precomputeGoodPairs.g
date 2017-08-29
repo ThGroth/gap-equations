@@ -328,11 +328,11 @@ ComputeAllSuccessors := function(Constraints)
     return [RealGoodPairs,BadPairs];
 end;
 # The following takes about 30 min.
-Info(InfoCW,1,"Compute the successor of each good pair with activity Constraint\nWill take about half an hour.\n");
+Info(InfoCW,1,"Compute the successor of each good pair with active constraint\nWill take about half an hour.\n");
 T := ComputeAllSuccessors(ReducedConstraintsActive);;
 RealGoodPairs := T[1];;
 BadPairs := T[2];
-Info(InfoCW,1,"Done. There should be no bad pairs. ",Size(BadPairs),"bad one found.\n");
+Info(InfoCW,1,"Done. There should be no bad BadPairs. ",Size(BadPairs),"bad one found.\n");
 
 #Save RealGoodPairs to a file
 #Just store the index of the constraint and forget the successing qᵢs
