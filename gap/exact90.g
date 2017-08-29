@@ -1,3 +1,11 @@
+if not IsBound(dir) then
+    dir := Directory("gap");
+fi;
+if not IsBound(DeclarationsLoadedFR)  then
+    LoadPackage("fr");
+    Read(Filename(dir,"declarationsFR.g"));
+    Read(Filename(dir,"functionsFR.g"));
+fi;
 #For checking that Red₃=Red₄ it's enough to check that 
 # forall γ∈Q⁸ and θ ∈ U₄ we have rep(y)=rep(θ(γ)) 
 # Furthermore we can reduce this to γ∈Red₂×Q⁴, and θ a generator of U₄
