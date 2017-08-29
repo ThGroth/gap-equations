@@ -13,3 +13,6 @@ CommutatorWidthGrigorchuk.pdf
 #Exclude the documentation help files.
 gap/equations/doc/*
 !gap/equations/doc/*.xml
+#Exclude some aux files
+gap/tempstuff.g
+paranth.py
