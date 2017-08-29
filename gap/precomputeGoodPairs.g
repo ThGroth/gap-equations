@@ -92,9 +92,11 @@ ReducedConstraintsActive := Filtered(ReducedConstraints,E->HasNontrivialActivity
 
 ReducedConstraint := function(gamma)
     if IsList(gamma) and Size(gamma) = 4 then
-        return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
+        #return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
+        return FastReducedConstraint(gamma,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
     fi;
-    return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable,0);
+    #return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable,0);
+    return FastReducedConstraint(gamma,PCD.ReducedConstraints,PCD.orbitTable,0);
 end;
 
 #For q in G'/K'
@@ -326,7 +328,7 @@ ComputeAllSuccessors := function(Constraints)
     return [RealGoodPairs,BadPairs];
 end;
 # The following takes about 30 min.
-Info(InfoCW,1,"Compute the successor of each good pair with activity Constraint\nWill take about 2hours.\n");
+Info(InfoCW,1,"Compute the successor of each good pair with activity Constraint\nWill take about half an hour.\n");
 T := ComputeAllSuccessors(ReducedConstraintsActive);;
 RealGoodPairs := T[1];;
 BadPairs := T[2];
