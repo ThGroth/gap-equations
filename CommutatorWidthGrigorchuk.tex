@@ -1351,18 +1351,24 @@ In the following theorem we summarize our results for the commutator width of th
  For every $n\in\NN$ we can find two groups $H_1,H_2$ of finite index in $G$ such that $\RNK{H_1}{H_2}$ has commutator
  width at least $n$. Then $H_1$ has commutator width at least $n$ as well and thus the commutator width of finite-index subgroups can not be bounded.
 
- For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that $H_i$ has commutator width at least $i$. %and consider the subgroup $\langle 0^i1*H_i\mid i\in\NN\rangle$ of $G$.
+ %For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that $H_i$ has commutator width at least $i$. %and consider the subgroup $\langle 0^i1*H_i\mid i\in\NN\rangle$ of $G$.
  %\marginnote{\color{pink}This notation seems to be not defined in the text.}
- Since $K$ contains a copy of $K\times K$ we can embed the bounded product of the 
- $H_i$ diagonally in $G$. 
- \marginnote{\color{red}This version or the longer version? (See comment in \TeX Source.)}
  % More Details: Denote by $\psi_i$ the embedding of $K\times H_i$ into $K$ and by 
  % $\varphi_i=\psi_{i}\times \id_{H_{i-1}\times \cdots H_1}$ the embedding of 
  % $K\times H_i\times \cdots \times H_1$ into 
- % $K\times H_{i-1}\times \cdots \times H_1$. If we denote by $H_\infty$ the 
- % projected limit of this system its commutator width 
- % has to be infinite.
- 
+ % $K\times H_{i-1}\times \cdots \times H_1$. The inverse limit of this system
+ % contains every a copy of every element of the bounded product of the $H_i$'s
+ % and therefore has infinite commutator width 
+ %Still more Details:
+ For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that
+ $H_i$ has commutator width at least $i$ and groups $G_0=\id$,
+ $G_{i}:=\langle \pair{\ell,h}\mid h\in H_i,\ \ell\in G_{i-1} \rangle$. The 
+ infinitely generated group $H_\infty = \langle G_i \mid i \in \NN\rangle$
+ contains the bounded product of the $H_i$'s and therefore has infinite
+ commutator width. 
+ Since we have $K\times K < K$ the groups $G_i$ define a subgroup of $K$ and 
+ hence $H_\infty<K$.
+  
 \end{proof}
 \section{Implementation in GAP}
 \subsection{Usage of the attached files} \label{sec:gap_verify}
