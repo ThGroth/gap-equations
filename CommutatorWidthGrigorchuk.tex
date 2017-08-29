@@ -861,12 +861,8 @@ and define
   \[\Gamma_4^{q_1,q_2}(\gamma)=  \bigcup_{X_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,X_0}(\gamma).\]
   Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$
   in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$
-  such that if $\tau(g) = q$ and $g_i=g\at{i}$ then $q_i = q\att{i}$
-  by \hl{{Lemma~\ref{lem:atIsWellDefinedModK'}}}.  Thus we can write 
-\marginnote{{\color{blue} forward reference}\color{red} I think it
-  improves the readability to prove this lemma later because the
-  motivation for that lemma and Lemma~\ref{lem:pIsDefinedModK'} is given
-   by Proposition~\ref{pro:existsNextPair}.}
+  such that if $\tau(g) = q$ and $q_i=\tau(g\at{i})$ then $q_i = q\att{i}$.
+  This map $\att{i}$ is well defined since $k'\at{i}\in K$ for all $k'\in K'$.  Thus we can write 
   $\Gamma_3^{q_1,q_2,n,X_0}(\gamma)$ as $\Gamma_3^{q,X_0}(\gamma)$ and
   $\Gamma_4^{q_1,q_2}(\gamma)$ as $\Gamma_4^q(\gamma)$, and filter out
   those constraints that do not fulfill the requested properties; we
@@ -883,7 +879,7 @@ Note that (*) holds automatically by construction.
  contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $\tau(g)=q$ the
  pair $\left((g\at{2})^{\rep(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
-For the proof of this proposition we need a few lemmata:
+For the proof of this proposition we need an auxiliary lemma:
 % This Lemma is now obsolet since we have Lemma \ref{lem:H'}.
 % Also the fact that p_1(G) \subset K is only needed implicetely in the proof that cw(K)>1
 %
@@ -929,25 +925,12 @@ and therefore
  Then for $k\in K'$ we have
  \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in ((g\at{2})^h\cdot g\at{1})K\times K.\]
 \end{proof}
-\begin{lem} \label{lem:atIsWellDefinedModK'}
- The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps \[\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}.\]
-\end{lem}
-\begin{proof}
- As before we have $k'\at{i} \in K\times K < K$.
-%  
-%  Note that $\at{i}|_{G'}$ is a group homomorphism then consider the following diagram:
-%  
-%  \hfill
-%  \begin{xy}
-%   \xymatrix{
-%       1 \ar[r]& \RNK{K}{K'} \ar[r] \ar[d]_\varphi   & \RNK{G'}{K'}   \ar[r] & \RNK{G'}{K} \ar[r]\ar[d]_=& 1  \\
-%       1 \ar[r]& \RNK{K}{K\times K} \ar[r]   & \RNK{G'}{K\times K}   \ar[r] & \RNK{G'}{K} \ar[r] &1  
-%   }
-% \end{xy}\hfill\ 
-% 
-% Where the map $\varphi$ exists because the group $\RNK{K}{K\times K}$ has order $4$ and hence is abelian. So there need to be a homomorphism 
-% $\RNK{G'}{K'}\to \RNK{G'}{K\times K}$ which makes all cells commute.
-\end{proof}
+% \begin{lem} \label{lem:atIsWellDefinedModK'}
+%  The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps \[\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}.\]
+% \end{lem}
+% \begin{proof}
+%  As before we have $k'\at{i} \in K\times K < K$.
+% \end{proof}
 \begin{proof}[Proof of Proposition~\ref{pro:existsNextPair}]
  In the construction before it is clear that the sets $\Gamma_3^{q,X_0}$ and hence $\Gamma_4^{q,X_0}$,
  are nonempty. For the finitely many $\gamma\in \Red_{\act}$ checking whether some of the finitely many 
