@@ -24,7 +24,8 @@
   width of $G$ is $2$: every element $g\in [G,G]$ is a product of two
   commutators. Furthermore, we show that every finitely generated
   subgroup $H\leq G$ has finite commutator width, which however can be
-  arbitrarily large, and that $G$ contains a subgroup of infinite commutator width. The proofs were assisted by the computer algebra
+  arbitrarily large, and that $G$ contains a subgroup of infinite
+  commutator width. The proofs were assisted by the computer algebra
   system GAP.
 \end{abstract}
 \maketitle
@@ -73,20 +74,20 @@ Example~\ref{ex:commwidthsubgroup}. However, we can prove:
 Let $\Gamma$ be a group. It is well-known that usually elements of
 $\Gamma'$ are not commutators---for example,
 $[X_1,X_2]\cdots[X_{2n-1},X_{2n}]$ is not a commutator in the free
-group $F_{2n}$. In fact, every non-abelian free group has infinite
-commutator width, 
-as it follows, for example, from \cite{Rhemtulla:CommutatorsF2} or \cite{Culler:Surfaces}.
+group $F_{2n}$ when $n>1$. In fact, every non-abelian free group has
+infinite commutator width, see~\cite{Rhemtulla:CommutatorsF2}.
 
-On the other hand, some classes of groups have finite commutator width: finitely generated virtually abelian-by-nilpotent groups 
-(see~\cite{Segal:Words}) and finitely generated solvable groups of class $3$ (see~\cite{Rhemtulla:Commutators}).
+On the other hand, some classes of groups have finite commutator
+width: finitely generated virtually abelian-by-nilpotent
+groups~\cite{Segal:Words}, and finitely generated solvable groups of
+class $3$, see~\cite{Rhemtulla:Commutators}.
 
-
-Finite groups are trivial examples of groups of
-finite commutator width.  There are finite groups in which some
-elements are not commutators, the smallest having order $96$,
+Finite groups are trivial examples of groups of finite commutator
+width.  There are finite groups in which some elements are not
+commutators, the smallest having order $96$,
 see~\cite{Guralnick:Group96}. On the other hand, non-abelian finite
-simple groups have commutator width $1$, as conjectured by
-Ore~\cite{Ore:Commutators} in~1951 and proven in~2010,
+simple groups have commutator width $1$, as was conjectured by Ore
+in~1951, see~\cite{Ore:Commutators}, and proven in~2010,
 see~\cite{Liebeck:OreConjecture}. The commutator width cannot be
 bounded among finite groups; for example,
 $\Gamma_n=\langle x_1,\dots,x_{2n}\mid
@@ -154,7 +155,7 @@ injective homomorphism $\psi\colon\Gamma\to\Gamma\wr S_n$ for some
 symmetric group $S_n$. It is \emph{regular branched} if there exists a
 finite-index subgroup $K\le\Gamma$ such that $\psi(K)\ge K^n$. It is
 convenient to write $\pair{g_1,\dots,g_n}\pi$ for an element
-$g\in\Gamma\wr S_n$. We call the $g_i$ \emph{states} of $g$ and $\pi$
+$g\in\Gamma\wr S_n$. We call $g_i$ the \emph{states} of $g$ and $\pi$
 its \emph{activity}. It is also convenient to identify, in a
 self-similar group, elements with their image under $\psi$.
 
@@ -198,26 +199,27 @@ that each element $g\in G'$ is a product of two commutators by solving
 the equation $\eq{E}=[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g$ for all
 $n\geq 2$.
 
-If there is a solution then the images of the variables $X_i$ have some 
-activities $\sigma_i$. If we fix a possible activity
-of the variables of $\eq E$ then by passing to the states we are lead to two new
-equations which are under mild assumptions after some normalization process
-of the same form but of higher genus. 
+If there is a solution then the values of the variables $X_i$ have
+some activities $\sigma_i$. If we fix a possible activity of the
+variables of $\eq E$ then by passing to the states of the $X_i$ we are
+led to two new equations which are (under mild assumptions and after
+some normalization process) of the same form but of higher genus.
 
-Not all solutions for the new equations lead back to solutions 
-of the original equation. Thus instead of pure equations we consider
-\emph{constrained} equations: we require the variables to lie in specified cosets of the finite-index subgroup $K$. The pair of a constraint and an element $g\in G$ 
-will be a \emph{good pair} if there is some $n$ such that the 
-constrained equation $[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g$ is solvable.
-It turns out that this only depends on the image of $g$ in a finite
-quotient $\RNK{G}{K'}$. 
+Not all solutions for the new equations lead back to solutions of the
+original equation. Thus instead of pure equations we consider
+\emph{constrained} equations: we require the variables to lie in
+specified cosets of the finite-index subgroup $K$. The pair composed
+of a constraint and an element $g\in G$ will be a \emph{good pair} if
+there is some $n$ such that the constrained equation
+$[X_1,X_2]\cdots[X_{2n-1},X_{2n}]g$ is solvable.  It turns out that
+this only depends on the image of $g$ in the finite quotient
+$\RNK{G}{K'}$.
 
-Then by direct computations we show that every good pair inherits
-another good pair where the genus of the equation increases.
-This is used to build a graph of good pairs which turns out 
-to be finite since the constants of the new equation are states
-of the old equation and we can use the strong contracting property
-of $G$. 
+Then by direct computation we show that every good pair leads to
+another good pair in which the genus of the equation increases.  We
+build a graph of good pairs which turns out to be finite since the
+constants of the new equation are states of the old equation and we
+can use the strong contracting property of $G$.
 
 The computations are done
  using the computer algebra system GAP~\cite{GAP4}. The source
@@ -270,11 +272,10 @@ equation $\eq{E}$ is solvable will be referred to as the \emph{Diophantine
 problem} of $\eq{E}$.
 
 Every homomorphism $\varphi \colon G \to H$ extends uniquely to an
-$F_{\mathcal{X}}$-ho\-mo\-morphism $\varphi_* \colon F_{\mathcal{X}}*G \to F_{\mathcal{X}}*H$.
-% Every homomorphism $\varphi \colon G \to H$ extends uniquely to an
-% $F_{\mathcal{X}}$-ho\-mo\-morphism $\varphi_* \colon F_{\mathcal{X}}*G \to F_{\mathcal{X}}*H$.
-In this manner, every $G$-equation $\eq{E}$ gives rise to an $H$-equation $\varphi_*(\eq{E})$,
-which is solvable whenever $\eq{E}$ is solvable.
+$F_{\mathcal{X}}$-homomorphism
+$\varphi_* \colon F_{\mathcal{X}}*G \to F_{\mathcal{X}}*H$.  In this
+manner, every $G$-equation $\eq{E}$ gives rise to an $H$-equation
+$\varphi_*(\eq{E})$, which is solvable whenever $\eq{E}$ is solvable.
 
 \begin{defi}
   Let $\eq{E},\eq{F}\in F_{\mathcal{X}}* G$ be two $G$-equations. We
@@ -424,11 +425,11 @@ first generators of $F_{\mathcal{X}}$.
   A \emph{solution} for $(\eq{E},\gamma)$ is a solution $s$ for
   $\eq{E}$ with the additional property that $\pi\circ s=\gamma$.
 \end{defi}
-We note that the constraint $\gamma$ need only be specified on $\Var(\eq E)$.
+We note that the constraint $\gamma$ needs only to be specified on $\Var(\eq E)$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Self-similar groups}\label{sec:SelfSimilarGroups}
-Let $T_n$ be the infinite regular rooted $n$-ary tree and let $S_n$ be the symmetric group on $n$ symbols.
+Let $T_n$ be the regular rooted $n$-ary tree and let $S_n$ be the symmetric group on $n$ symbols.
 The group $\Aut(T_n)$ consists of all root-preserving graph automorphisms of the tree $T_n$. 
 
 Let $T_{1,n},\dotsc,T_{n,n}$ be the subtrees hanging from neighbors of the root. 
@@ -447,7 +448,7 @@ A \emph{self-similar group} is a subgroup $G$ of $\Aut(T_n)$
 satisfying $G\leq \psi(G)$.  For the sake of notation we will identify
 elements with their image under this embedding and will write
 $g=\pair{g_1,\dotsc,g_n}\sigma$ for elements $g\in G$.  Furthermore we
-will call the $g_i\in G$ \emph{states} of the element $g$, will write
+will call $g_i\in G$ the \emph{states} of the element $g$, will write
 $g\at{i}:=g_i$ to address the states, will call $\sigma \in S_n$ the
 \emph{activity} of the element $g$, and will write $\act(g):= \sigma$.
 
@@ -568,9 +569,9 @@ $\Stab(\eq E)$ denotes the group of $G$-automorphisms of $\eq E$.
 \begin{re}
 In fact, we have $U_n = \Stab(R_n)$ though formally we do not need the equality. 
 Due to classical results of Dehn--Nielsen, $\Stab(R_n)$ is isomorphic to 
-the mapping class groups $M(g,0)$ of the closed orientable surface of genus $n$. It can be checked that
-the automorphisms $\varphi_i$ and $\psi_i$ represent the Humphries generators of $M(g,0)$.
-For details on mapping class groups, see for example \cite{Farb-Margalit:MCG}.
+the mapping class groups $M(n,0)$ of the closed orientable surface of genus $n$. It can be checked that
+the automorphisms $\varphi_i$ and $\psi_i$ represent the Humphries generators of $M(n,0)$.
+For details on mapping class groups, see for example~\cite{Farb-Margalit:MCG}.
 \end{re}
 
 \begin{lem}[\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig}]\label{lem:finitelyManyConstraints}
@@ -583,9 +584,6 @@ For details on mapping class groups, see for example \cite{Farb-Margalit:MCG}.
  \[\left|\RNK{Q^{2n}}{U_n}\right|\leq 90 \text{ for all } n.\]
 \end{lem}
 \begin{proof}
-{\let\al\alpha
-\let\ga\gamma
-\let\th\theta
 Note that according to our identification we have $Q^m \subset Q^n$ for $m < n$.
 By Lemma~\ref{lem:finitelyManyConstraints} every orbit $Q^{2n} / U_n$ has a representative in $Q^5$.
 Let $\Red_n$ denote a set of representatives of $Q^{2n}/ U_n$ in $Q^5$. 
@@ -594,24 +592,24 @@ Since $U_n \subset U_{n+1}$ we can assume that $\Red_{n+1} \subset \Red_n$ for $
 
 Direct computation shows that $|\Red_3| = 90$,
 see Section~\ref{sec:gap_details}.
-}
 \end{proof}
 \begin{re}
  In fact we have $\left|\RNK{Q^{2n}}{U_n}\right|= 90$ for all $n\geq3$.
   To prove this one can show by direct computation that
    $\Red_3=\Red_4=\Red_5$ and then show for all $\theta\in U_n$,
     $n\geq6$ and $\gamma,\gamma'\in\Red_3,\gamma\neq\gamma'$
- tah $\gamma\circ \theta\neq\gamma'$.
-\end{re}\marginnote{\color{pink}Is this too short?}
-  Lemmas ~\ref{lem:finitelyManyConstraints} and ~\ref{lem:90Constraints} imply that 
-  there is a set of $90$ homomorphisms $\gamma : F_{\mathcal{X}} \to Q$
-  with $\supp(\gamma) \subset \left<X_1,\ldots, X_5\right>$ that is a representative system of
-  the orbits $Q^{2n} / U_n$ for each $n \ge 3$.
-  Fix such a set $\Red$
-and for
-$\gamma \colon F_{\mathcal{X}} \to Q$ with finite support (say
-$X_1,\dots,X_{2n}$) denote by $\varphi_\gamma$ the $G$-homomorphism in
-$U_n$ such that $\gamma\circ \varphi_\gamma \in \Red$.
+ that $\gamma\circ \theta\neq\gamma'$.
+\end{re}
+
+Lemmas~\ref{lem:finitelyManyConstraints} and~\ref{lem:90Constraints}
+imply that there is a set of $90$ homomorphisms
+$\gamma\colon F_{\mathcal{X}} \to Q$ with
+$\supp(\gamma) \subset \left<X_1,\ldots, X_5\right>$ that is a
+representative system of the orbits $Q^{2n} / U_n$ for each $n \ge 3$.
+Fix such a set $\Red$ and for $\gamma \colon F_{\mathcal{X}} \to Q$
+with finite support (say $X_1,\dots,X_{2n}$) denote by
+$\varphi_\gamma$ the $G$-homomorphism in $U_n$ such that
+$\gamma\circ \varphi_\gamma \in \Red$.
  
  The element $\gamma \circ \varphi_\gamma$ will be called a \emph{reduced constraint}.
 
@@ -626,7 +624,7 @@ $U_n$ such that $\gamma\circ \varphi_\gamma \in \Red$.
 
 
 \begin{defi}[\cite{Bartholdi:RepresentationZetaFunctions}] 
-A \emph{branch structure} of a group $G\hookrightarrow G \wr S_n$ consists of  
+A \emph{branch structure} for a group $G\hookrightarrow G \wr S_n$ consists of  
 \begin{enumerate}
  \item a branching subgroup $K\normal G$ of finite index;
  \item the corresponding quotient $Q=\RNK{G}{K}$ and the factor homomorphism $\pi\colon G \to Q$;
@@ -642,8 +640,10 @@ We will from now on fix such a structure for $G$ and take
 the group $K$ defined in Lemma~\ref{lem:subgroupK} as branching subgroup and 
 denote by $Q$ the factor group with natural homomorphism $\pi\colon G \to \RNK{G}{K}=Q$.
 
- The branch structure of $G$ is included in the FR package and can be computed by the method
-  \gapinline{BranchStructure(GrigorchukGroup)}.
+\begin{re}
+  The branch structure of $G$ is included in the FR package and can be
+  computed by the method \gapinline{BranchStructure(GrigorchukGroup)}.
+\end{re}
 
 \subsection{Good Pairs}\label{sec:good_pairs}
 It is not true that for every $g\in G'$ and every constraint $\gamma$
@@ -706,9 +706,9 @@ Let us write $k_1 := (ab)^2, k_2:=\pair{\id,k_1} = (abad)^2$ and $k_3:=\pair{k_1
  \begin{align*}
   G' &= \left< k_1,k_2,k_3,(ad)^2\right>, \\
   K &= \left< k_1,k_2,k_3\right>, \\
-  K\times K &= \{\pair{k,k'} \mid k,k'\in K\} \\&= \left< k_2,k_3,k_2k_1^{-1}k_2^{-1}k_1,(k_2k_1^{-1}k_2^{-1}k_1)^a,k_2k_1k_2k_1^{-1},(k_2k_1k_2k_1^{-1})^a  \right>,\\
+  K\times K &= \{\pair{k,k'} \mid k,k'\in K\} \\&= \left< k_2,k_3,[k_1,k_2],[k_1,k_3],[k_1^{-1},k_2],[k_1^{-1},k_3] \right>,\\
   K' &= \left< [k_1,k_2] \right>^G \\ 
-  &= \left<[k_2,k_1],[k_1,k_2^{-1}],[k_2,k_1]^{k_2},[k_1^{-1},k_2], [k_2,k_1]^{k_1},[k_2^{-1},k_1^{-1}]\right>^{1,a} 
+  &= \left<[k_2,k_1],[k_1,k_2^{-1}],[k_2,k_1]^{k_2},[k_1^{-1},k_2], [k_2,k_1]^{k_1},[k_2^{-1},k_1^{-1}]\right>^{\{1,a\}} 
  % &= \left<(dacabaca)^2(baca)^4,((ca)^2baca)^2,(dacabaca)^2c(acab)^3acad,\right.\\
  % &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{1,a}\ .
  \end{align*}
@@ -733,7 +733,7 @@ Furthermore these groups form a tower with indices
   $\act(\gamma)\colon F_{\mathcal{X}}\to C_2$ by
   $X \mapsto \act(\gamma(X))$.
  
-  Denote by $\Red_{\act}$ the reduced constraints which have a
+  Denote by $\Red_{\act}$ the reduced constraints in $\Red$ that have a
   nontrivial activity.
 \end{defi}
 
@@ -746,15 +746,15 @@ Furthermore these groups form a tower with indices
  For more details see Section~\ref{sec:gap_verify}.
 \end{proof}
 
-Denote by $S$ the set $\{\id,a,b,c,d,ab,ad,ba\}\subset G$.
-For a constraint $\gamma$ we use the notation $\gamma: H \to Q$ if $\supp(\gamma) \subset H$.
-We will define for all $q\in \RNK{G'}{K'}$ a map $\Gamma^q$ which for any $n \ge 3$maps a constraint
-$\gamma\colon F_{2n} \to Q$ ,$\gamma\in \Red$ with nontrivial activity to a set of constraints $\gamma'\colon F_{4n-1}\to Q$
-with the following property:
+Denote by $S$ the set $\{\id,a,b,c,d,ab,ad,ba\}\subset G$.  For a
+constraint $\gamma$ we use the notation $\gamma\colon H \to Q$ if
+$\supp(\gamma) \subset H$.  We will define for all $q\in \RNK{G'}{K'}$
+a map $\Gamma^q$ which for any $n \ge 3$ maps a reduced constraint
+$\gamma\in\Red_{\act}$, say $\gamma\colon F_{2n} \to Q$, to a set of
+constraints $\gamma'\colon F_{4n-1}\to Q$ with the following property:
 \begin{itemize}
-   %y was once x_{4n-1}
   \item[(*)]
-  $F_{4n-1}$ factorizes as $F_{4n-2} * \langle Y_{\gamma'} \rangle$ where $\gamma'(Y_{\gamma'})=\pi(x)$;
+  $F_{4n-1}$ factorizes as $F_{4n-2} * \langle Y_{\gamma'} \rangle$ where $\gamma'(Y_{\gamma'})=\pi(x)$; !!!!WHAT IS $x$? !!!!
   the solvability of the constrained equation $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma'|_{F_{4n-2}})$
   implies the solvability of $(R_ng,\gamma)$.
  \end{itemize}
@@ -765,11 +765,13 @@ with the following property:
  
  For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the 
  Grigorchuk group as before and complete the set $S$ to a transversal $S'$ 
- of $\RNK{G}{K}$ and denote by $\rep\colon Q\to S'$  the map such that 
+ of $\RNK{G}{K}$. Denote by $\rep\colon Q\to S'$  the map such that 
  $\pi(\rep(q)) = q$.
  
- Denote generators $X_i\in\mathcal{X}$ such that $\supp(\gamma) \subset \left<X_1,\dotsc,X_{2n}\right>$ and choose some 
- other $Y_1,\dotsc,Y_{4n} \in\mathcal{X} \setminus \{X_1,\dotsc,X_{2n}\}$. 
+ Let $X_i\in\mathcal{X}$ be the generators such that
+ $\supp(\gamma) \subset \left<X_1,\dotsc,X_{2n}\right>$ and choose
+ some other
+ $Y_1,\dotsc,Y_{4n} \in\mathcal{X} \setminus \{X_1,\dotsc,X_{2n}\}$.
  Now define
   \[\Gamma_1^n(\gamma) = \left \{\gamma' 
   \colon \left< Y_1,\ldots ,Y_{4n}\right> \to Q \bigmid
@@ -779,9 +781,8 @@ with the following property:
     \end{array} \right\}.\]
  Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
  Now define a homomorphism  
- \begin{align*}
-  \Phi_{\gamma}\colon F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2 \\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{Y_{2i-1},Y_{2i}}\act(\gamma(X_i)).
- \end{align*}
+ \[\Phi_{\gamma}\colon\begin{array}{rl} F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2,\\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{Y_{2i-1},Y_{2i}}\act(\gamma(X_i)).
+ \end{array}\]
 \begin{lem} \label{lem:commonVar}
  If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ 
  then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
@@ -796,77 +797,85 @@ with the following property:
                                                    \pair{X_2^{-1}Y_2^{-1}X_2Y_1,X_1^{-1}Y_1^{-1}X_1Y_2} & \textup{ if } \sigma=\id \\
                                                    \pair{X_2^{-1}Y_1^{-1}X_1Y_2,X_1^{-1}Y_2^{-1}X_2Y_1} & \textup{ if } \sigma=(1,2) . \\
                                                  \end{cases}
-\] So in both cases $Y_1,Y_2\in \Var(w_1)\cap \Var(w_2)$. 
+\] In both cases $Y_1,Y_2\in \Var(w_1)\cap \Var(w_2)$. 
 \end{proof}
 For $q_1,q_2 \in Q$ and $n\geq3\in \NN$ define
- \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1^n(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
-										g_1\mapsto q_1 \\
-										g_2\mapsto q_2 }, (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{\id,\id}\right\}.\] 
- Denote by $v,w=v(n),w(n)$ the elements of $F_{\mathcal X}$ such that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$.
- By Lemma~\ref{lem:commonVar} there is 
- $X_0 \in \mathcal{X}\cup \mathcal{X}^{-1}$ such that $v=v_1X_0v_2$ and $w=w_1X_0^{-1}w_2$. Then the homomorphism
- \[\ell_{X_0}\colon F_{\mathcal{X}}*F_2\to F_{\mathcal{X}}*F_2, X_i \mapsto \begin{cases}
-     X_i &\text{ if } X_i\neq {X_0} \\
-     w_2g_2w_1 &\text{ if }X_i= {X_0} 
-   \end{cases}
- \]
- maps $vg_1$ to $v_1w_2g_2w_1v_1g_1$ and $wg_2$ to $\id$.  For
- $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ we have
- $(\gamma'*\pi)(X_0)=({\gamma'*\pi})(w_2g_2w_1)$ so with
- $\mathcal X'=\mathcal X\setminus\{X_0\}$ there is no loss of information if we consider
- $\gamma'|_{F_{\mathcal X'}}$ instead of $\gamma'$.  From
- section~\ref{sec:normal_form} remember the normalization automorphism
- $\nf_{\gamma,n,X_0}:=\nf_{v_1w_2g_2w_1v_1g_1}\colon F_{\mathcal X'}*F_2 \to
- F_{\mathcal X'}*F_2$ and note that
- $\nf_{\gamma,n,X_0}(\ell_{X_0}(v))=R_{2n-1}g_2^{{Y_{\gamma'}}}g_1$
- for some generator ${Y_{\gamma'}}\in\mathcal{X}$.  This leads to the
- following definition.
- \[\Gamma_3^{q_1,q_2,n,X_0}(\gamma) = \left\{\gamma'|_{\mathcal X'} \circ \nf_{\gamma,n,X_0} \bigmid \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
- A solution for the the constrained equation
- \[(R_{2n-1}(g\at2)^{\rep(\gamma''({Y_{\gamma''}}))}(g\at1),\gamma'')\textup{
-     for }\gamma'' \in \Gamma_3^{\pi(g\at{1}),\pi(g\at{2}),n,X_0}(\gamma)\]
- can be extended by the map
- ${Y_{\gamma''}}\mapsto \rep(\gamma''({Y_{\gamma''}}))$ to a
- solution $s'$ of the equation
- $(R_{2n-1} (g\at{2})^{{Y_{\gamma'}}} g\at{1},\gamma'')$. The map
- $s'\circ \nf_{\gamma,n,X_0}^{-1}$ is a solution for the constrained
- equation
- $(v_1w_2g_2w_1v_1g_1,\gamma'|_{\mathcal X'}:=\gamma'' \circ
- \nf_{\gamma,n,X_0}^{-1})$.  This can be extended by the mapping
- $X_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of
- $(\Phi_\gamma(R_n g),\gamma')$.  By definition of $\omega$ the
- element $t_i:=\pair{s(Y_{2i-1}),s(Y_{2i})}\act(\gamma(X_i))$ belongs
- to $G$ for all $i$. So the mapping $X_i\mapsto t_i$ is a solution for
- $(R_ng,\gamma)$.
+\[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1^n(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
+      g_1\mapsto q_1 \\
+      g_2\mapsto q_2 },
+    (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{\id,\id}\right\}.\]
+Denote by $v=v(n)$ and $w=w(n)$ the elements of $F_{\mathcal X}$ such
+that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$.  By
+Lemma~\ref{lem:commonVar} there is
+$X_0 \in \mathcal{X}\cup \mathcal{X}^{-1}$ such that $v=v_1X_0v_2$ and
+$w=w_1X_0^{-1}w_2$. Then the homomorphism
+\[\ell_{X_0}\colon F_{\mathcal{X}}*F_2\to F_{\mathcal{X}}*F_2, X_i \mapsto \begin{cases}
+    X_i &\text{ if } X_i\neq {X_0} \\
+    w_2g_2w_1 &\text{ if }X_i= {X_0} 
+  \end{cases}
+\]
+maps $vg_1$ to $v_1w_2g_2w_1v_1g_1$ and $wg_2$ to $\id$.  For
+$\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ we have
+$(\gamma'*\pi)(X_0)=({\gamma'*\pi})(w_2g_2w_1)$ so with
+$\mathcal X'=\mathcal X\setminus\{X_0\}$ there is no loss of
+information if we consider $\gamma'|_{F_{\mathcal X'}}$ instead of
+$\gamma'$.  From Section~\ref{sec:normal_form} remember the
+normalization automorphism
+$\nf_{\gamma,n,X_0}:=\nf_{v_1w_2g_2w_1v_1g_1}\colon F_{\mathcal
+  X'}*F_2 \to F_{\mathcal X'}*F_2$ and note that
+$\nf_{\gamma,n,X_0}(\ell_{X_0}(v))=R_{2n-1}g_2^{{Y_{\gamma'}}}g_1$ for
+some generator ${Y_{\gamma'}}\in\mathcal{X}$.  This leads to the
+following definition.
+\[\Gamma_3^{q_1,q_2,n,X_0}(\gamma) = \left\{\gamma'|_{\mathcal X'} \circ \nf_{\gamma,n,X_0} \bigmid \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
+A solution for the the constrained equation
+\[(R_{2n-1}(g\at2)^{\rep(\gamma''({Y_{\gamma''}}))}(g\at1),\gamma'')\textup{
+    for }\gamma'' \in
+  \Gamma_3^{\pi(g\at{1}),\pi(g\at{2}),n,X_0}(\gamma)\]
+can be extended by the map
+${Y_{\gamma''}}\mapsto \rep(\gamma''({Y_{\gamma''}}))$ to a solution
+$s'$ of the equation
+$(R_{2n-1} (g\at{2})^{{Y_{\gamma'}}} g\at{1},\gamma'')$. The map
+$s'\circ \nf_{\gamma,n,X_0}^{-1}$ is a solution for the constrained
+equation
+$(v_1w_2g_2w_1v_1g_1,\gamma'|_{\mathcal X'}:=\gamma'' \circ
+\nf_{\gamma,n,X_0}^{-1})$.  This can be extended by the mapping
+$X_0\mapsto w_2(g\at{2})w_1$ to a solution $s$ of
+$(\Phi_\gamma(R_n g),\gamma')$.  By definition of $\omega$ the element
+$t_i:=\pair{s(Y_{2i-1}),s(Y_{2i})}\act(\gamma(X_i))$ belongs to $G$
+for all $i$. So the mapping $X_i\mapsto t_i$ is a solution for
+$(R_ng,\gamma)$.
  
- The map $\Gamma_3^{q_1,q_2,n,X_0}$ does not depend on $n$: assume 
- $m<n$ and choose fitting $v,w$ such that
- $\Phi_\gamma(R_mg)=\pair{v,w}\pair{g_1,g_2}$; then
- $\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-m}g_1,R_{n-m}'g_2}$, so after
- applying the homomorphism $\ell_{X_0}$ the word which needs to be
- normalized is $v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1$. The automorphisms
- \begin{align*}
- \psi_1 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2, & \psi_2 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2\\
+The map $\Gamma_3^{q_1,q_2,n,X_0}$ does not depend on $n$: assume
+$m<n$ and choose fitting $v,w$ such that
+$\Phi_\gamma(R_mg)=\pair{v,w}\pair{g_1,g_2}$; then
+$\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-m}g_1,R_{n-m}'g_2}$, so after
+applying the homomorphism $\ell_{X_0}$ the word which needs to be
+normalized is $v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1$. The automorphisms
+\begin{align*}
+  \psi_1 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2, & \psi_2 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2\\
  Y &\mapsto Y^{g_1^{-1}}, & Y &\mapsto Y^{g_2^{X_{11}}g_1}, & &\text{ for }Y\in \Var(R_{n-m}')\\
  Z &\mapsto Z^{(g_2w_1v_1g_1)^{-1}},& Z &\mapsto Z^{g_2^{X_{11}}g_1},  & &\text{ for }Z\in \Var(R_{n-m})\\
- X &\mapsto X & & & &\text{ for all other generators}
- \end{align*}
- have the property that $\nf_{v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1} = \psi_2\circ\nf_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and 
- $\gamma' \circ \psi_i = \gamma'$. Hence $\Gamma_3^{q_1,q_2,n,X_0}$ is independent of $n$.
+  X &\mapsto X & & & &\text{ for all other generators}
+\end{align*}
+have the property that
+$\nf_{v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1} =
+\psi_2\circ\nf_{v_1w_2g_2w_1v_1g_1}\circ \psi_1$ and
+$\gamma' \circ \psi_i = \gamma'$. Hence $\Gamma_3^{q_1,q_2,n,X_0}$ is
+independent of $n$.
  
- The map $\Gamma_3^{q_1,q_2,n,X_0}$ does depend on the choice of the variable $X_0$.
- To remove this dependency we observe that the set of all variables 
- $X_0 \in \Var(v)\cap \Var(w)$ does not depend on $n$
-and define
-  \[\Gamma_4^{q_1,q_2}(\gamma)=  \bigcup_{X_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,X_0}(\gamma).\]
-  Note now that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$
-  in the sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$
-  such that if $\tau(g) = q$ and $q_i=\tau(g\at{i})$ then $q_i = q\att{i}$.
-  This map $\att{i}$ is well defined since $k'\at{i}\in K$ for all $k'\in K'$.  Thus we can write 
-  $\Gamma_3^{q_1,q_2,n,X_0}(\gamma)$ as $\Gamma_3^{q,X_0}(\gamma)$ and
-  $\Gamma_4^{q_1,q_2}(\gamma)$ as $\Gamma_4^q(\gamma)$, and filter out
-  those constraints that do not fulfill the requested properties; we
-  finally define
+The map $\Gamma_3^{q_1,q_2,n,X_0}$ does depend on the choice of the
+variable $X_0$.  To remove this dependency we observe that the set of
+all variables $X_0 \in \Var(v)\cap \Var(w)$ does not depend on $n$ and
+define
+\[\Gamma_4^{q_1,q_2}(\gamma)=  \bigcup_{X_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,X_0}(\gamma).\]
+
+Note that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the
+sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that
+if $\tau(g) = q$ and $g_i=g\at{i}$ then $q_i = q\att{i}$. This map $\att{i}$ is well defined since $k'\at{i}\in K$ for all $k'\in K'$. Thus we can write
+$\Gamma_3^{q_1,q_2,n,X_0}(\gamma)$ as $\Gamma_3^{q,X_0}(\gamma)$ and
+$\Gamma_4^{q_1,q_2}(\gamma)$ as $\Gamma_4^q(\gamma)$, and filter out
+those constraints that do not fulfill the requested properties; we
+finally define
  \begin{align}
  \Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
   \act(\gamma')\neq\id, \gamma'({Y_{\gamma'}}) \in \pi(S) \right\}. 
@@ -874,12 +883,13 @@ and define
  \end{align}
 
 Note that (*) holds automatically by construction.
- \begin{pro}\label{pro:existsNextPair}
+\begin{pro}\label{pro:existsNextPair}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{\act}$ the set $\Gamma^q(\gamma)$ 
  contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $\tau(g)=q$ the
  pair $\left((g\at{2})^{\rep(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
 \end{pro}
-For the proof of this proposition we need an auxiliary lemma:
+
+\noindent For the proof of this proposition we need an auxiliary lemma:
 % This Lemma is now obsolet since we have Lemma \ref{lem:H'}.
 % Also the fact that p_1(G) \subset K is only needed implicetely in the proof that cw(K)>1
 %
@@ -903,10 +913,9 @@ For the proof of this proposition we need an auxiliary lemma:
 % \end{proof}
 \begin{lem} \label{lem:pIsDefinedModK'}
  The map 
- \begin{align*} 
-  \bar p_h\colon \RNK{G'}{K'} &\to \RNK{G'}{K\times K}\\
+ \[\bar p_h\colon\begin{array}{rl} \RNK{G'}{K'} &\to \RNK{G'}{K\times K}\\
   gK'&\mapsto \left((g\at{2})^h\cdot g\at{1}\right){K\times K}
- \end{align*}
+ \end{array}\]
 is well defined.
 \end{lem}
 \begin{proof}
@@ -925,12 +934,6 @@ and therefore
  Then for $k\in K'$ we have
  \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in ((g\at{2})^h\cdot g\at{1})K\times K.\]
 \end{proof}
-% \begin{lem} \label{lem:atIsWellDefinedModK'}
-%  The maps $\at{i}\colon G\to G, g\mapsto g\at{i}$ induce well defined maps \[\att{i}\colon \RNK{G}{K'}\to\RNK{G}{K}.\]
-% \end{lem}
-% \begin{proof}
-%  As before we have $k'\at{i} \in K\times K < K$.
-% \end{proof}
 \begin{proof}[Proof of Proposition~\ref{pro:existsNextPair}]
  In the construction before it is clear that the sets $\Gamma_3^{q,X_0}$ and hence $\Gamma_4^{q,X_0}$,
  are nonempty. For the finitely many $\gamma\in \Red_{\act}$ checking whether some of the finitely many 
@@ -953,7 +956,7 @@ and therefore
  \[\forall q\in\RNK{G'}{K'}\;
       \forall \gamma\in\Red_{\act} \;
 	 \exists \gamma'\in \Gamma^q(\gamma)\;
-	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)):
+	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q))\colon
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  
  This last formula quantifies only over finite sets and is implemented in GAP 
@@ -975,7 +978,7 @@ and therefore
   \begin{lem}
   Let $(g_k,\gamma_k)$ be the succeeding sequence of a good pair $(g,\gamma)$. 
   If $(g_i,\gamma_i) = (g_j,\gamma_j)$ for some distinct $i,j$ then the equation $(R_ng,\gamma)$ is solvable for 
-  any $n \ge 3$.
+  all $n \ge 3$.
   \end{lem}
   %
   \begin{proof}
@@ -1100,7 +1103,7 @@ The proof is the same as for Proposition~\ref{pro:existsNextPair}. The correspon
 \[\forall q\in\RNK{G'}{K'}\;
       \forall \gamma\in\Red^4_{\act}\;
 	 \exists \gamma'\in \Gamma^q(\gamma)\;
-	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)):
+	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q))\colon
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
 \end{proof}
@@ -1433,11 +1436,11 @@ The argument is a string and can be one of the following:
 		      with decorated $X=Y_{\gamma'}\in S$ as defined in equation~\ref{def:Gammaq} which 
 		      fulfills depending whether $\gamma\in\Red^4_{\act}$ or $\gamma\in\Red_{\act}$ 
 		      either Proposition~\ref{pro:existsNextPair} or Proposition~\ref{pro:existsNextPair4}.
-		      This computation will take about half an hours on ordinary machines
+		      This computation will take about half an hour on ordinary machines
            and is equipped with a progress bar. 
 		      
-		      Afterwards the succeeding pairs of $(1,\id)$ are computed which are 
-          needed for Corollary~\ref{cor:KhasCW2}. 
+		      Afterwards the succeeding pairs of $(1,\id)$ which are 
+          needed for Corollary~\ref{cor:KhasCW2} are computed. 
    \item [\texttt{``conjugacywidth''}] Denote by $\eq{E}_g$ the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
 		      For each $\tau(g)=q\in\RNK{G'}{K'}$ this will compute a constraint 
 		      $\gamma\colon F_5 \to Q$ for the equations $\eq{E}_g$
