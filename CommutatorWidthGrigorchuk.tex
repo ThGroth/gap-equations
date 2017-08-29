@@ -753,52 +753,57 @@ a map $\Gamma^q$ which for any $n \ge 3$ maps a reduced constraint
 $\gamma\in\Red_{\act}$, say $\gamma\colon F_{2n} \to Q$, to a set of
 constraints $\gamma'\colon F_{4n-1}\to Q$ with the following property:
 \begin{itemize}
-  \item[(*)]
-  There is a generator $Y_{\gamma'}$ in $F_{4n-1}$ and $x\in S$ such that
-  $F_{4n-1}$ factorizes as $F_{4n-2} * \langle Y_{\gamma'} \rangle$ where $\gamma'(Y_{\gamma'})=\pi(x)$; 
-  the solvability of the constrained equation $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma'|_{F_{4n-2}})$
-  implies the solvability of $(R_ng,\gamma)$.
- \end{itemize}
+\item[(*)] There is a generator $Y_{\gamma'}$ in $F_{4n-1}$ and
+  $x\in S$ with $\gamma'(Y_{\gamma'})=\pi(x)$, such that $F_{4n-1}$
+  factorizes as $F_{4n-2} * \langle Y_{\gamma'} \rangle$ and the
+  solvability of the constrained equation
+  $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma'|_{F_{4n-2}})$ implies
+  the solvability of $(R_ng,\gamma)$.
+\end{itemize}
 
- We will define this map in several steps and afterwards show that for all good 
- pairs $(q,\gamma)$ and all $g$ such that $\tau(g)=q$ there is some constraint 
- $\gamma' \in \Gamma^q(\gamma)$ such that $((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
+We will define this map in several steps and afterwards show that for
+all good pairs $(q,\gamma)$ and all $g$ such that $\tau(g)=q$ there is
+some constraint $\gamma' \in \Gamma^q(\gamma)$ such that
+$((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
  
- For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$ of the 
- Grigorchuk group as before and complete the set $S$ to a transversal $S'$ 
- of $\RNK{G}{K}$. Denote by $\rep\colon Q\to S'$  the map such that 
- $\pi(\rep(q)) = q$.
+For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$
+of the Grigorchuk group as before and complete the set $S$ to a
+transversal $S'$ of $\RNK{G}{K}$. Denote by $\rep\colon Q\to S'$ the
+map such that $\pi(\rep(q)) = q$.
  
- Let $X_i\in\mathcal{X}$ be the generators such that
- $\supp(\gamma) \subset \left<X_1,\dotsc,X_{2n}\right>$ and choose
- some other
- $Y_1,\dotsc,Y_{4n} \in\mathcal{X} \setminus \{X_1,\dotsc,X_{2n}\}$.
- Now define
-  \[\Gamma_1^n(\gamma) = \left \{\gamma' 
-  \colon \left< Y_1,\ldots ,Y_{4n}\right> \to Q \bigmid
-  \begin{array}{l}
-   \pair{\gamma'(Y_{2i-1}),\gamma'(Y_{2i})}\in \omega^{-1}(\gamma(X_i)),\ \\
-   \gamma'(Y_k) = \id,\ 1\leq i\leq 6,\ k>12
+Let $X_i\in\mathcal{X}$ be the generators such that
+$\supp(\gamma) \subset \left<X_1,\dotsc,X_{2n}\right>$ and choose some
+other
+$Y_1,\dotsc,Y_{4n} \in\mathcal{X} \setminus \{X_1,\dotsc,X_{2n}\}$.
+Now define
+\[\Gamma_1^n(\gamma) = \left \{\gamma' 
+    \colon \left< Y_1,\ldots ,Y_{4n}\right> \to Q \bigmid
+    \begin{array}{l}
+      \pair{\gamma'(Y_{2i-1}),\gamma'(Y_{2i})}\in \omega^{-1}(\gamma(X_i)),\ \\
+      \gamma'(Y_k) = \id,\ 1\leq i\leq 6,\ k>12
     \end{array} \right\}.\]
- Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
- Now define a homomorphism  
- \[\Phi_{\gamma}\colon\begin{array}{rl} F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2,\\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{Y_{2i-1},Y_{2i}}\act(\gamma(X_i)).
- \end{array}\]
-\begin{lem} \label{lem:commonVar}
- If $\gamma$ is a constraint with nontrivial activity, and $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ 
- then $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
+Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
+Now define a homomorphism  
+\[\Phi_{\gamma}\colon\begin{array}{rl} F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2,\\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{Y_{2i-1},Y_{2i}}\act(\gamma(X_i)).\end{array}\]
+\begin{lem}\label{lem:commonVar}
+  If $\gamma$ is a constraint with nontrivial activity, and
+  $\Phi_\gamma(R_ng)=\pair{w_1,w_2}$ then
+  $\Var(w_1)\cap\Var(w_2)\neq \emptyset$.
 \end{lem}
 \begin{proof}
- Let $X$ be generator of $F_{\mathcal{X}}$ with non vanishing constraint activity. 
- Then $R_n$ contains either a factor $[X,Y]$ or $[Y,X]$ for another generator $Y$. 
- Assume without loss of generality the first case. Let further be 
- $\Phi_\gamma(X)=\pair{X_1,X_2}(1,2)$ and $\Phi_\gamma(Y)=\pair{Y_1,Y_2}\sigma$. 
- Then $\Phi_\gamma(R_n g)$ contains a factor 
- \[ [\pair{X_1,X_2}(1,2),\pair{Y_1,Y_2}\sigma] = \begin{cases}
-                                                   \pair{X_2^{-1}Y_2^{-1}X_2Y_1,X_1^{-1}Y_1^{-1}X_1Y_2} & \textup{ if } \sigma=\id \\
-                                                   \pair{X_2^{-1}Y_1^{-1}X_1Y_2,X_1^{-1}Y_2^{-1}X_2Y_1} & \textup{ if } \sigma=(1,2) . \\
-                                                 \end{cases}
-\] In both cases $Y_1,Y_2\in \Var(w_1)\cap \Var(w_2)$. 
+  Let $X$ be generator of $F_{\mathcal{X}}$ with non vanishing
+  constraint activity.  Then $R_n$ contains either a factor $[X,Y]$ or
+  $[Y,X]$ for another generator $Y$.  Assume without loss of
+  generality the first case. Let further be
+  $\Phi_\gamma(X)=\pair{X_1,X_2}(1,2)$ and
+  $\Phi_\gamma(Y)=\pair{Y_1,Y_2}\sigma$.  Then $\Phi_\gamma(R_n g)$
+  contains a factor
+  \[ [\pair{X_1,X_2}(1,2),\pair{Y_1,Y_2}\sigma] = \begin{cases}
+      \pair{X_2^{-1}Y_2^{-1}X_2Y_1,X_1^{-1}Y_1^{-1}X_1Y_2} & \textup{ if } \sigma=\id \\
+      \pair{X_2^{-1}Y_1^{-1}X_1Y_2,X_1^{-1}Y_2^{-1}X_2Y_1} & \textup{ if } \sigma=(1,2) . \\
+    \end{cases}
+  \]
+  In both cases $Y_1,Y_2\in \Var(w_1)\cap \Var(w_2)$.
 \end{proof}
 For $q_1,q_2 \in Q$ and $n\geq3\in \NN$ define
 \[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1^n(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
