@@ -77,10 +77,10 @@ TheTest := function(n)
     Info(InfoCW,1,"\nClaim true\n");
     return [];
 end;
-Info(InfoCW,1,"Check wheter Red₄=Red₃\n");
+Info(InfoCW,1,"Check whether Red₄=Red₃\n");
 res:=TheTest(4);
 t := time;
-Info(InfoCW,1,"Took ",Int(t/(60*1000))," minutes\nCheck wheter Red₅=Red₃\n");
+Info(InfoCW,1,"Took ",Int(t/(60*1000))," minutes\nCheck whether Red₅=Red₃\n");
 res:=TheTest(5);
 t := time;
 Info(InfoCW,1,"Took ",Int(t/(60*1000))," minutes\n.");
