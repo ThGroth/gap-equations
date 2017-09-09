@@ -22,11 +22,11 @@
 \begin{abstract}
   Let $G$ be the first Grigorchuk group.  We show that the commutator
   width of $G$ is $2$: every element $g\in [G,G]$ is a product of two
-  commutators. Furthermore, we show that every finitely generated
-  subgroup $H\leq G$ has finite commutator width, which however can be
-  arbitrarily large, and that $G$ contains a subgroup of infinite
-  commutator width. The proofs were assisted by the computer algebra
-  system GAP.
+  commutators, and also of six conjugates of $a$. Furthermore, we show
+  that every finitely generated subgroup $H\leq G$ has finite
+  commutator width, which however can be arbitrarily large, and that
+  $G$ contains a subgroup of infinite commutator width. The proofs
+  were assisted by the computer algebra system GAP.
 \end{abstract}
 \maketitle
 %\tableofcontents
@@ -147,7 +147,7 @@ can be said. Danny Calegari pointed to us the following example:
 We briefly introduce the first Grigorchuk
 group~\cite{Grigorchuk:Burnside} and some of its properties. For a more
 detailed introduction into the topic of self-similar groups we refer
-to~\cite{Nekrashevych:SelfSimilarGroups} and
+to~\cite{Bartholdi-Grigorchuk-Sunik:BranchGroups,Nekrashevych:SelfSimilarGroups} and
 to~\S\ref{sec:SelfSimilarGroups}.
 
 A \emph{self-similar group} is a group $\Gamma$ endowed with an
@@ -202,8 +202,9 @@ $n\geq 2$.
 If there is a solution then the values of the variables $X_i$ have
 some activities $\sigma_i$. If we fix a possible activity of the
 variables of $\eq E$ then by passing to the states of the $X_i$ we are
-led to two new equations which are (under mild assumptions and after
-some normalization process) of the same form but of higher genus.
+led to two new equations which (under mild assumptions and after some
+normalization process) yields a single equation of the same form but
+of higher genus.
 
 Not all solutions for the new equations lead back to solutions of the
 original equation. Thus instead of pure equations we consider
@@ -221,12 +222,13 @@ build a graph of good pairs which turns out to be finite since the
 constants of the new equation are states of the old equation and we
 can use the strong contracting property of $G$.
 
-The computations are done
- using the computer algebra system GAP~\cite{GAP4}. The source
-code for these computations is distributed with this document as
-ancillary material. It can be validated using precomputed data on a
-GAP standard installation by running the command \gapinline{gap
-  verify.g} in its main directory.
+The computations could in principle be done by hand, but one of our
+motivations was precisely to see to which point they could be
+automated. We implemented them in the computer algebra system
+GAP~\cite{GAP4}. The source code for these computations is distributed
+with this document as ancillary material. It can be validated using
+precomputed data on a GAP standard installation by running the command
+\gapinline{gap verify.g} in its main directory.
 
 To perform more advanced experimentation with the code and to recreate
 the precomputed data, the required version of GAP must be at least
@@ -243,10 +245,10 @@ that its family of finite subsets is also well ordered, by size and
 then lexicographic order. We denote by $F_{\mathcal{X}}$ the free
 group on the generating set $\mathcal{X}$.
 
-\begin{defi}
+\begin{defi}[$G$-group, $G$-homomorphism]
   Let $G$ be a group. A \emph{$G$-group} is a group with a
   distinguished copy of $G$ inside it; a typical example is 
-  $G*H$ for some group $H$. A \emph{$G$-homomorphism} 
+  $H*G$ for some group $H$. A \emph{$G$-homomorphism} 
   between $G$-groups is a homomorphism
   that is the identity between the marked copies of $G$.
 
@@ -277,7 +279,7 @@ $\varphi_* \colon F_{\mathcal{X}}*G \to F_{\mathcal{X}}*H$.  In this
 manner, every $G$-equation $\eq{E}$ gives rise to an $H$-equation
 $\varphi_*(\eq{E})$, which is solvable whenever $\eq{E}$ is solvable.
 
-\begin{defi}
+\begin{defi}[Equivalence of equations]
   Let $\eq{E},\eq{F}\in F_{\mathcal{X}}* G$ be two $G$-equations. We
   say that $\eq{E}$ and $\eq{F}$ are \emph{equivalent} if there is a
   $G$-automorphism $\varphi$ of $F_{\mathcal{X}}*G$ that maps $\eq{E}$
@@ -314,7 +316,7 @@ Otherwise $\eq{E}$ is called \emph{unoriented}.
 \end{proof}
 
 \subsection{Normal form of quadratic equations} \label{sec:normal_form}
-\begin{defi}
+\begin{defi}[$\eq{O}_{n,m}, \eq{U}_{n,m}$]
   For $m,n\ge0$, $X_i,Y_i,Z_i \in\mathcal{X}$ and $c_i \in G$ the following two kinds of
   equations are called in \emph{normal form}:
  \begin{align}
@@ -323,14 +325,14 @@ Otherwise $\eq{E}$ is called \emph{unoriented}.
  \end{align} 
  The form $\eq{O}_{n,m}$ is called the oriented case and $\eq{U}_{n,m}$ for
  $n>0$ the unoriented case.  The parameter $n$ is referred to as
- \emph{genus} of the normal form of an equation.
+ the \emph{genus} of the normal form of an equation.
 \end{defi}
 
 We recall the following result, and give the details of the proof in
 an algorithmic manner, because we will need them in practice:
 \begin{thm}[\cite{Comerford-Edmunds:EquationsFreeGroups}] \label{Thm:equationNormalForm}
   Every quadratic equation $\eq{E} \in F_{\mathcal{X}}*G$ is equivalent to an equation
-  in normal form, and the isomorphism can be effectively computed.
+  in normal form, and the $G$-isomorphism can be effectively computed.
 \end{thm}
 
 \begin{proof}
@@ -415,7 +417,7 @@ and often write $R_n=R_n(X_1,\dotsc,X_{2n})$ if the $X_i$ are the
 first generators of $F_{\mathcal{X}}$.
 
 \subsection{Constrained equations}
-\begin{defi}[\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig}]
+\begin{defi}[Constrained equations~\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig}]
   Given an equation $\eq{E} \in F_{\mathcal{X}}*G$, a group $H$, a
   homomorphism $\pi\colon G \to H$ and a homomorphism
   $\gamma\colon F_{\mathcal{X}} \to H$, the pair $(\eq{E},\gamma)$ is
@@ -436,8 +438,9 @@ Let $T_{1,n},\dotsc,T_{n,n}$ be the subtrees hanging from neighbors of the root.
 Every $g\in\Aut(T_n)$ permutes the $T_{i,n}$ by a permutation $\sigma$ and simultaneously
 acts on each of them by isomorphisms $g_i\colon T_{i,n}\to T_{i^\sigma,n}$.
 
-Note that for all $i$ the tree $T_n$ is isomorphic to $T_{n,i}$; identifying each $T_{n,i}$ with $T_n$, 
-we identify each $g_i$ with an element of $\Aut(T_n)$, and obtain in this manner an isomorphism
+Note that for all $i$ the tree $T_n$ is isomorphic to $T_{i,n}$;
+identifying each $T_{i,n}$ with $T_n$, we identify each $g_i$ with an
+element of $\Aut(T_n)$, and obtain in this manner an isomorphism
 \[\psi\colon\begin{array}{r@{\;}l}
               \Aut(T_n) &\xrightarrow{\sim} \Aut(T_n)\wr S_n\\
               g &\mapsto \pair{g_1,\dotsc,g_n}\sigma.
@@ -455,7 +458,7 @@ $g\at{i}:=g_i$ to address the states, will call $\sigma \in S_n$ the
 \subsection{Commutator width of \texorpdfstring{$\mathbf{\textup{Aut}(T_2)}$}{Aut(T2)} }
 To give an idea of how the commutator width of Grigorchuk's group is
 computed, we consider as an easier example the group $\Aut(T_2)$. In
-this group we have the following useful property: For every two
+this group we have the following useful property: for every two
 elements $g,h\in \Aut(T_n)$ the element $\pair{g,h}$ is also a member
 of the group.  This is only true up to finite index in the Grigorchuk
 group and will produce extra complications there.
@@ -525,8 +528,8 @@ For the proof we need a small observation:
 \section{The first Grigorchuk Group}\label{sec:GrigorchukGroup}
 The first Grigorchuk group~\cite{Grigorchuk:Burnside} is a finitely
 generated self-similar group acting faithfully on the binary rooted
-tree with generators:
-\[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}\ . \]
+tree, with generators
+\[a=\pair{\id,\id}(1,2),\quad b=\pair{a,c},\quad c=\pair{a,d},\quad d=\pair{\id,b}. \]
 
 Some useful identities are
 \begin{gather*}
@@ -534,7 +537,7 @@ Some useful identities are
   b^a= \pair{c,a}, c^a=\pair{d,a}, d^a=\pair{b,\id},\\
   (ad)^4=(ac)^8=(ab)^{16}= \id.
 \end{gather*}
-\begin{defi}
+\begin{defi}[Regular branched group]
  A self-similar group $\Gamma$ is called \emph{regular branched} if it
  has a finite-index subgroup $K\leq \Gamma$ such that $K^{\times n} \leq \psi(K)$.
 \end{defi}
@@ -543,20 +546,21 @@ Some useful identities are
 % Roz93 was the oldest paper I found, which construced K and proved K^2<Phi(K). 
 The Grigorchuk group is regular branched with branching subgroup 
  \[K:= \left<(ab)^2\right>^G=\left< (ab)^2,(bada)^2,(abad)^2 \right>. \]
- The quotient $Q := \RNK{G}{K}$ has order $16$.
+ The quotient $Q := \RNK{G}{K}$ has order $16$.\qed
 \end{lem}
 
 For an equation $\eq E\in F_{\mathcal X}*G$, recall that
 $\Stab(\eq E)$ denotes the group of $G$-automorphisms of $\eq E$.
 
-  Denote by $U_n$ the subgroup of $\Stab(R_n)$ generated by the following automorphisms of $F_{2n}$:
+Denote by $U_n$ the subgroup of $\Stab(R_n)$ generated by the
+following automorphisms of $F_{2n}$:
  \begin{align*}
-  \varphi_i&\colon& X_i&\mapsto X_{i-1}X_i, \textup{ others fixed} & \textup{for }&i=2,4,\dotsc,2n , \\
-  \varphi_i&\colon&X_i&\mapsto X_{i+1}X_i, \textup{ others fixed} & \textup{for }&i=1,3,\dotsc,2n-1 ,\\
-  \psi_i&\colon&X_i&\mapsto X_{i+1}X_{i+2}^{-1}X_i, &X_{i+1}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+1}X_{i+2}X_{i+1}^{-1},\\  
-  &&X_{i+2}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+2}X_{i+2}X_{i+1}^{-1}, &X_{i+3}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+3},\\
-           &&&\textup{others fixed} & \textup{for }&i=1,3,\dotsc,2n-3 \\  
-% \end{align*}
+   \varphi_i&\colon& X_i&\mapsto X_{i-1}X_i, \textup{ others fixed} & \textup{for }&i=2,4,\dotsc,2n,\\[1ex]
+   \varphi_i&\colon&X_i&\mapsto X_{i+1}X_i, \textup{ others fixed} & \textup{for }&i=1,3,\dotsc,2n-1,\\[1ex]
+   && X_i&\mapsto X_{i+1}X_{i+2}^{-1}X_i,\\
+   \psi_i&\colon & X_{i+1}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+1}X_{i+2}X_{i+1}^{-1}, & \textup{for }&i=1,3,\dotsc,2n-3\\
+   && X_{i+2}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+2}X_{i+2}X_{i+1}^{-1},\\
+   && X_{i+3}&\mapsto X_{i+1}X_{i+2}^{-1}X_{i+3}, \textup{ others fixed}
 %\begin{align*}
 %  \theta_i &\colon &X_i&\mapsto X_{i+2}, 
 % 	    &X_{i+1}&\mapsto X_{i+3}&\\
@@ -567,16 +571,18 @@ $\Stab(\eq E)$ denotes the group of $G$-automorphisms of $\eq E$.
 
 
 \begin{re}
-In fact, we have $U_n = \Stab(R_n)$ though formally we do not need the equality. 
-Due to classical results of Dehn--Nielsen, $\Stab(R_n)$ is isomorphic to 
-the mapping class groups $M(n,0)$ of the closed orientable surface of genus $n$. It can be checked that
-the automorphisms $\varphi_i$ and $\psi_i$ represent the Humphries generators of $M(n,0)$.
-For details on mapping class groups, see for example~\cite{Farb-Margalit:MCG}.
+  In fact, we have $U_n = \Stab(R_n)$ though formally we do not need
+  the equality.  Due to classical results of Dehn--Nielsen,
+  $\Stab(R_n)$ is isomorphic to the mapping class groups $M(n,0)$ of
+  the closed orientable surface of genus $n$. It can be checked that
+  the automorphisms $\varphi_i$ and $\psi_i$ represent the Humphries
+  generators of $M(n,0)$.  For details on mapping class groups, see
+  for example~\cite{Farb-Margalit:MCG}.
 \end{re}
 
 \begin{lem}[\cite{Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig}]\label{lem:finitelyManyConstraints}
- Given $n\in \NN$ and any homomorphism $\gamma\colon F_{\mathcal{X}} \to Q$ with $\supp(\gamma) \subset \left<X_1,\ldots ,X_{2n}\right>$
- there is an element $\varphi \in U_n<\Aut(F_{\mathcal{X}})$ such that $\supp(\gamma\circ\varphi) \in \left<X_1,\dotsc,X_5\right>$.
+ Given $n\in \NN$ and a homomorphism $\gamma\colon F_{\mathcal{X}} \to Q$ with $\supp(\gamma) \subset \left<X_1,\ldots ,X_{2n}\right>$
+ there is an element $\varphi \in U_n<\Aut(F_{\mathcal{X}})$ such that $\supp(\gamma\circ\varphi) \in \left<X_1,\dotsc,X_5\right>$.\qed
 \end{lem}
 \begin{lem}\label{lem:90Constraints}
  Identify the set of homomorphisms $\{\gamma \colon F_{\mathcal{X}} \to Q \mid \supp(\gamma) \subset \left<X_1,\ldots, X_n\right>\}$ with $Q^{n}$. 
@@ -601,17 +607,20 @@ see Section~\ref{sec:gap_details}.
  that $\gamma\circ \theta\neq\gamma'$.
 \end{re}
 
-Lemmas~\ref{lem:finitelyManyConstraints} and~\ref{lem:90Constraints}
-imply that there is a set of $90$ homomorphisms
-$\gamma\colon F_{\mathcal{X}} \to Q$ with
-$\supp(\gamma) \subset \left<X_1,\ldots, X_5\right>$ that is a
-representative system of the orbits $Q^{2n} / U_n$ for each $n \ge 3$.
-Fix such a set $\Red$ and for $\gamma \colon F_{\mathcal{X}} \to Q$
-with finite support (say $X_1,\dots,X_{2n}$) denote by
-$\varphi_\gamma$ the $G$-homomorphism in $U_n$ such that
-$\gamma\circ \varphi_\gamma \in \Red$.
+\begin{nota}[$\Red$, reduced constraint]
+  Lemmas~\ref{lem:finitelyManyConstraints} and~\ref{lem:90Constraints}
+  imply that there is a set of $90$ homomorphisms
+  $\gamma\colon F_{\mathcal{X}} \to Q$ with
+  $\supp(\gamma) \subset \left<X_1,\ldots, X_5\right>$ that is a
+  representative system of the orbits $Q^{2n} / U_n$ for each
+  $n \ge 3$.  Fix such a set $\Red$ and for
+  $\gamma \colon F_{\mathcal{X}} \to Q$ with finite support (say
+  $X_1,\dots,X_{2n}$) denote by $\varphi_\gamma$ the $G$-homomorphism
+  in $U_n$ such that $\gamma\circ \varphi_\gamma \in \Red$.
  
- The element $\gamma \circ \varphi_\gamma$ will be called a \emph{reduced constraint}.
+  The element $\gamma \circ \varphi_\gamma$ will be called a
+  \emph{reduced constraint}.
+\end{nota}
 
 \begin{lem} \label{lem:solvabilityWithReducedConstraint}
  The solvability of a constrained equation $(R_n g,\gamma)$ is equivalent to the 
@@ -623,7 +632,7 @@ $\gamma\circ \varphi_\gamma \in \Red$.
 \end{proof}
 
 
-\begin{defi}[\cite{Bartholdi:RepresentationZetaFunctions}] 
+\begin{defi}[Branch structure~\cite{Bartholdi:RepresentationZetaFunctions}] 
 A \emph{branch structure} for a group $G\hookrightarrow G \wr S_n$ consists of  
 \begin{enumerate}
  \item a branching subgroup $K\normal G$ of finite index;
@@ -652,7 +661,7 @@ $(R_n,\gamma)$ is solvable. For example
 \[\left(R_n(ab)^2,(\gamma\colon X_i\mapsto\id\;\forall i)\right)\] 
 is not solvable for any $n$ because $(ab)^2\notin K'$.  This motivates
 the following definition.
-\begin{defi}
+\begin{defi}[Good pair]
 Given $g\in G'$ and $\gamma\in\Red$, the tuple $(g,\gamma)$ is called a \emph{good pair} if 
 $(R_ng,\gamma)$ is solvable for some $n\in\NN$.  
 \end{defi}
@@ -675,32 +684,35 @@ $(R_ng,\gamma)$ is solvable for some $n\in\NN$.
  for $g_i \in \tau^{-1}(s(X_i))$ there is some $k'\in K'$ such that
  $R_3(g_1,\dotsc,g_6)k'g=\id$ and so $(g,\gamma)$ is a good pair.
 \end{proof}
-The previous lemma shows that the question whether $(g,\gamma)$ is a good pair 
-depends only on the image $\tau(g)=q$ in $\RNK{G}{K'}$. Therefore
-$(q,\gamma)$ will be called a good pair if $(g,\gamma)$ is a good pair for 
-one (and hence all) preimages of $q$ under $\tau$.
+The previous lemma shows that the question whether $(g,\gamma)$ is a
+good pair depends only on the image of $g$ in $\RNK{G}{K'}$. For
+$q\in Q$, we call $(q,\gamma)$ a \emph{good pair} if $(g,\gamma)$ is a
+good pair for one (and hence all) preimages of $q$ under $\tau$.
 \begin{cor}\label{cor:finiteCommutatorWidthKimpliesBoundedConstraintedCommutators}
 The following are equivalent:
 \begin{enumerate}[(a)]
  \item $K$ has finite commutator width; \label{Cor:EqStatement1}
- \item there is an $N\in\NN$ such that $(R_Ng,\gamma)$ is solvable 
- for all good pairs $(g,\gamma),g \in G'$ and $\gamma\in\Red$.
+ \item there is an $n\in\NN$ such that $(R_n g,\gamma)$ is solvable 
+ for all good pairs $(g,\gamma)$ with $g \in G'$ and $\gamma\in\Red$.
  \label{Cor:EqStatement2}
 \end{enumerate} 
 \end{cor}
 \begin{proof}
- (\ref{Cor:EqStatement2})$\Rightarrow$(\ref{Cor:EqStatement1}): if $k\in K'$ then $(k,\id)$ is a good pair.
- So $(R_nk,\id)$ is solvable in $G$ for an $n\leq N$ but the constraints ensures that it is solvable in $K$.
- Therefore the commutator width of $K$ is at most $N$.
+ (\ref{Cor:EqStatement2})$\Rightarrow$(\ref{Cor:EqStatement1}): if $k\in K'$ then $(k,\id)$ is a good pair, so $(R_nk,\id)$ is solvable in $G$; and the constraints ensures that it is solvable in $K$.
+ Therefore the commutator width of $K$ is at most $n$.
  
- (\ref{Cor:EqStatement1})$\Rightarrow$(\ref{Cor:EqStatement2}): if $(g,\gamma)$ is a good pair 
- there is an $m\in \NN$ and a solution $s$ for $(R_mg,\gamma)$. As $\pi(s(X_i)) =\id$ for 
- all $i\geq 6$ there is some $k\in K'$ such that $s$ is 
- a solution for $(R_3kg,\gamma)$. By (\ref{Cor:EqStatement1}) there is 
- an $N$ such that all $k$ can be written as product of $N$ commutators of elements of $K$ and
- therefore there is a solution for $(R_{N+3}g,\gamma)$.
+ (\ref{Cor:EqStatement1})$\Rightarrow$(\ref{Cor:EqStatement2}): if
+ $(g,\gamma)$ is a good pair there is an $m'\in \NN$ and a solution
+ $s$ for $(R_{m'} g,\gamma)$. As $\pi(s(X_i)) =\id$ for all $i\geq 6$
+ there is $k\in K'$ such that $s$ is a solution for
+ $(R_3kg,\gamma)$. By (\ref{Cor:EqStatement1}) there is an $m$ such
+ that all $k$ can be written as product of $m$ commutators of elements
+ of $K$ and therefore there is a solution for $(R_{m+3}g,\gamma)$. We
+ may take $n=m+3$.
 \end{proof}
-This motivates further study of $K'$ and $\RNK{G}{K'}$.
+
+We study now more carefully the quotients $\RNK{G}{K}$, $\RNK{G}{K'}$
+and $\RNK{G}{K\times K}$.
 \begin{lem} \label{lem:subgroupsOfG}
 Let us write $k_1 := (ab)^2, k_2:=\pair{\id,k_1} = (abad)^2$ and $k_3:=\pair{k_1,\id} = (bada)^2$. Then 
  \begin{align*}
@@ -724,10 +736,10 @@ Furthermore these groups form a tower with indices
 \end{proof}
 
 \subsection{Succeeding pairs}
-\begin{defi}
-  We define the activity of an element $q\in Q$ as the activity of an
-  arbitrary element of $\pi^{-1}(q)$.  This is well defined since
-  all elements of $K$ have trivial activity.
+\begin{defi}[$\Red_{\act}$, active constraints]
+  We define the activity $\act(q)$ of an element $q\in Q$ as the
+  activity of an arbitrary element of $\pi^{-1}(q)$.  This is well
+  defined since all elements of $K$ have trivial activity.
  
   Consider a constraint $\gamma\colon F_{\mathcal{X}} \to Q$.  Define
   $\act(\gamma)\colon F_{\mathcal{X}}\to C_2$ by
@@ -745,6 +757,8 @@ Furthermore these groups form a tower with indices
  This is a finite problem which can be checked in GAP with the function \gapinline{verifyLemmaExistGoodConstraints}.
  For more details see Section~\ref{sec:gap_verify}.
 \end{proof}
+
+!!!! There's too much confusion on the different free groups here. We have $F_{\mathcal X}$ for the free group on the letters; somehow it becomes $F_{2n}$ with generators $X_1,\dots,X_{2n}$, and implicitly $F_{4n}$ with generators $Y_1,\dots,Y_{2n},Z_1,\dots,Z_{2n}$. Then we get $F_1$ and $F_2$ with respective generators $g$ and $g_1,g_2$. If that's really the notation, it should be made more explicit. However, I would favour having separate alphabets $F_{\mathcal X}$ for the original equation, leading to two (or one) equation in $F_{\mathcal Y}$, and having $F_{\mathcal V}$ have free extra variables $g,g_1,g_2$. Then we could write explicit maps between these free groups for the normalization processes.
 
 Denote by $S$ the set $\{\id,a,b,c,d,ab,ad,ba\}\subset G$.  For a
 constraint $\gamma$ we use the notation $\gamma\colon H \to Q$ if
@@ -782,8 +796,7 @@ Now define
       \pair{\gamma'(Y_{2i-1}),\gamma'(Y_{2i})}\in \omega^{-1}(\gamma(X_i)),\ \\
       \gamma'(Y_k) = \id,\ 1\leq i\leq 6,\ k>12
     \end{array} \right\}.\]
-Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups. 
-Now define a homomorphism  
+Let $F_1=\left<g\right>,F_2=\left<g_1,g_2\right>$ be free groups, and define a homomorphism  
 \[\Phi_{\gamma}\colon\begin{array}{rl} F_{\mathcal{X}}*F_1 &\to (F_{\mathcal{X}}*F_2)\wr C_2,\\ g&\mapsto \pair{g_1,g_2},\\ X_i\qquad &\mapsto \pair{Y_{2i-1},Y_{2i}}\act(\gamma(X_i)).\end{array}\]
 \begin{lem}\label{lem:commonVar}
   If $\gamma$ is a constraint with nontrivial activity, and
@@ -794,7 +807,7 @@ Now define a homomorphism
   Let $X$ be generator of $F_{\mathcal{X}}$ with non vanishing
   constraint activity.  Then $R_n$ contains either a factor $[X,Y]$ or
   $[Y,X]$ for another generator $Y$.  Assume without loss of
-  generality the first case. Let further be
+  generality the first case. Write further
   $\Phi_\gamma(X)=\pair{X_1,X_2}(1,2)$ and
   $\Phi_\gamma(Y)=\pair{Y_1,Y_2}\sigma$.  Then $\Phi_\gamma(R_n g)$
   contains a factor
@@ -806,19 +819,21 @@ Now define a homomorphism
   In both cases $Y_1,Y_2\in \Var(w_1)\cap \Var(w_2)$.
 \end{proof}
 For $q_1,q_2 \in Q$ and $n\geq3\in \NN$ define
-\[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1^n(\gamma) \bigmid \substack{\pi\colon F_2\to Q\\
+\[\Gamma_2^{q_1,q_2,n}(\gamma) = \left\{\gamma'\in \Gamma_1^n(\gamma) \bigmid \pi\colon \substack{F_2\to Q\\
       g_1\mapsto q_1 \\
-      g_2\mapsto q_2 },
+      g_2\mapsto q_2 }\text{ satisfies }
     (\gamma'*\pi)^2(\Phi_\gamma(R_ng))=\pair{\id,\id}\right\}.\]
 Denote by $v=v(n)$ and $w=w(n)$ the elements of $F_{\mathcal X}$ such
 that $\Phi_\gamma(R_ng)=\pair{v,w}\pair{g_1,g_2}$.  By
 Lemma~\ref{lem:commonVar} there is
 $X_0 \in \mathcal{X}\cup \mathcal{X}^{-1}$ such that $v=v_1X_0v_2$ and
 $w=w_1X_0^{-1}w_2$. Then the homomorphism
-\[\ell_{X_0}\colon F_{\mathcal{X}}*F_2\to F_{\mathcal{X}}*F_2, X_i \mapsto \begin{cases}
+\[\ell_{X_0}\colon\begin{array}{r@{\;}l}
+                    F_{\mathcal{X}}*F_2&\to F_{\mathcal{X}}*F_2,\\
+                    X_i &\mapsto \begin{cases}
     X_i &\text{ if } X_i\neq {X_0} \\
     w_2g_2w_1 &\text{ if }X_i= {X_0} 
-  \end{cases}
+  \end{cases}\end{array}
 \]
 maps $vg_1$ to $v_1w_2g_2w_1v_1g_1$ and $wg_2$ to $\id$.  For
 $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ we have
@@ -858,10 +873,18 @@ $\Phi_\gamma(R_ng)=\pair{v,w}\pair{R_{n-m}g_1,R_{n-m}'g_2}$, so after
 applying the homomorphism $\ell_{X_0}$ the word which needs to be
 normalized is $v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1$. The automorphisms
 \begin{align*}
-  \psi_1 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2, & \psi_2 \colon F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2\\
- Y &\mapsto Y^{g_1^{-1}}, & Y &\mapsto Y^{g_2^{X_{11}}g_1}, & &\text{ for }Y\in \Var(R_{n-m}')\\
- Z &\mapsto Z^{(g_2w_1v_1g_1)^{-1}},& Z &\mapsto Z^{g_2^{X_{11}}g_1},  & &\text{ for }Z\in \Var(R_{n-m})\\
-  X &\mapsto X & & & &\text{ for all other generators}
+  \psi_1\colon&\begin{array}{r@{\;}l}
+                 F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2\\
+                 Y &\mapsto Y^{g_1^{-1}}\\
+                 Z &\mapsto Z^{(g_2w_1v_1g_1)^{-1}}\\
+                 X &\mapsto X,
+              \end{array} &
+  \psi_2\colon&\begin{array}{r@{\;}ll}
+                 F_{\mathcal{X}}*F_2 &\to F_{\mathcal{X}}*F_2\\
+                 Y &\mapsto Y^{g_2^{X_{11}}g_1}&\text{ for }Y\in \Var(R_{n-m}')\\
+                 Z &\mapsto Z^{g_2^{X_{11}}g_1}&\text{ for }Z\in \Var(R_{n-m})\\
+                 X &\mapsto X&\text{ for all other generators}
+               \end{array}
 \end{align*}
 have the property that
 $\nf_{v_1w_2R_{n-m}g_2w_1v_1R_{n-m}'g_1} =
@@ -941,7 +964,7 @@ and therefore
  \[p_h(gk) = ((gk)\at{2})^h\cdot (gk)\at{1} = (g\at{2})^h\cdot (k\at{2})^h\cdot g\at{1}\cdot k\at{1}\in ((g\at{2})^h\cdot g\at{1})K\times K.\]
 \end{proof}
 \begin{proof}[Proof of Proposition~\ref{pro:existsNextPair}]
- In the construction before it is clear that the sets $\Gamma_3^{q,X_0}$ and hence $\Gamma_4^{q,X_0}$,
+ In the construction above it is clear that the sets $\Gamma_3^{q,X_0}$ and hence $\Gamma_4^{q,X_0}$
  are nonempty. For the finitely many $\gamma\in \Red_{\act}$ checking whether some of the finitely many 
  $\gamma'\in\Gamma_4^{q}(\gamma)$ fulfill 
  $\gamma'(Y_\gamma) \in \pi(S)$ and $\act(\gamma')\neq\id$ 
@@ -957,7 +980,7 @@ and therefore
  
   By Lemma~\ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
  and the natural homomorphism \[\rho'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
- and now only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)$ under $\rho'$ 
+ and now we only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)$ under $\rho'$ 
  form good pairs with $\gamma'$. In formulas with $\mathcal{G}$ the predicate of being a good pair what needs to be checked is: 
  \[\forall q\in\RNK{G'}{K'}\;
       \forall \gamma\in\Red_{\act} \;
@@ -965,18 +988,17 @@ and therefore
 	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q))\colon
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
  
- This last formula quantifies only over finite sets and is implemented in GAP 
- and can be verified there by using \gapinline{verifyPropExistsSuccessor}. 
+ This last formula quantifies only over finite sets, and could be implemented. It can be checked in GAP with the function \gapinline{verifyPropExistsSuccessor}. 
  \end{proof}
 
- \begin{defi}
- For each fixed $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{\act}$ such that $(q,\gamma)$ is a good pair
- fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and the element 
- $x=\rep(\gamma'(Y_{\gamma'}))\in S$ which exists by the previous proposition.
+ \begin{defi}[Succeding pair]
+ For each $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{\act}$ such that $(q,\gamma)$ is a good pair
+ fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and an element 
+ $x=\rep(\gamma'(Y_{\gamma'}))\in S$, which exists by the previous proposition.
  
- With Lemma~\ref{lem:solvabilityWithReducedConstraint} we can assume that $\gamma'|_{F_{X\setminus Y_{\gamma'}}}$ can be replaced by a reduced constraint $\gamma'_r$. 
+ By Lemma~\ref{lem:solvabilityWithReducedConstraint} we can replace $\gamma'|_{F_{X\setminus\{Y_{\gamma'}\}}}$ by a reduced constraint $\gamma'_r$. 
  For a good pair $(g,\gamma)\in G'\times\Red_{\act}$ the \emph{succeeding pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
- Moreover by applying this iteratively we get the \emph{succeeding sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$.
+ Moreover by applying this iteratively we get the \emph{succeeding sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$: $(g_0,\gamma_0)=(g,\gamma)$ and $(g_{k+1},\gamma_{k+1})$ is the succeding pair of $(g_k,\gamma_k)$.
  \end{defi}
 
   The following lemma illustrates the use of the construction.
@@ -991,7 +1013,7 @@ and therefore
   By (*) for any $i,j$ with $i < j$ and any $n \ge 3$ there exists $n' > n$ such that solvability of 
   $(R_{n'}g_j,\gamma_j)$ implies solvability of $(R_{n}g_i,\gamma_i)$. If $(g_i,\gamma_i) = (g_j,\gamma_j)$
   then $n'$ can be taken arbitrarily large. If $(g,\gamma)$ is a good pair then $(g_i,\gamma_i)$ is also a good pair
-  by construction. We obtain solvability of $(R_n g_i,\gamma_i)$ and hence solvability of $(R_n g,\gamma)$.
+  by construction. We deduce the solvability of $(R_n g_i,\gamma_i)$ and hence the solvability of $(R_n g,\gamma)$.
   \end{proof}
 
  
@@ -1024,10 +1046,10 @@ loop after finitely many steps.
 For this purpose remember the map $p_x\colon g \mapsto (g\at{2})^x g\at{1}$ from the proof of Proposition~\ref{pro:existsNextPair}.
 We will show that for each $g\in G'$ the sequence of sets 
 \[\textup{Suc}_1^g=\{g\},\ \textup{Suc}_n^g = \{p_x(h) \mid h\in \textup{Suc}_{n-1}^g, x\in S\} \]
-stagnates in a finite set. 
+stabilizes in a finite set. 
 
 In~\cite{Bartholdi:Growth} there is a choice of weights on generators which result in a length on $G$ with good properties.
-\begin{lem}[\cite{Bartholdi:Growth}] \label{lem:laurentsweights}
+\begin{lem}[\cite{Bartholdi:Growth}] \label{lem:laurentsweights}\pushQED{\qed}
  Let $\eta\approx 0.811$ be the real root of $x^3+x^2+x-2$ and set the weights 
  \begin{align*}
   \omega(a) &= 1-\eta^3 & \omega(c)&=1-\eta^2 \\ \omega(b)&= \eta^3 & \omega(d)&=1-\eta
@@ -1036,20 +1058,20 @@ In~\cite{Bartholdi:Growth} there is a choice of weights on generators which resu
  \begin{align*}
   \eta(\omega(b)+\omega(a)) &= \omega(c)+\omega(a) \\
   \eta(\omega(c)+\omega(a)) &= \omega(d)+\omega(a) \\
-  \eta(\omega(d)+\omega(a)) &= \omega(b).
+  \eta(\omega(d)+\omega(a)) &= \omega(b).\qedhere
  \end{align*}
 \end{lem}
 The next lemma is a small variation of a lemma in~\cite{Bartholdi:Growth}.
 \begin{lem}
  Denote by $\partial_\omega$ the length on $G$ induced by the weight $\omega$. Then
- there are some constants $C\in\NN$, $\delta<1$ such that for all $x\in S$, $g\in G$ 
+ there are constants $C\in\NN$, $\delta<1$ such that for all $x\in S$, $g\in G$ 
  with $\partial_\omega(g)>C$ it holds 
  $\partial_\omega(p_x(g)) \leq \delta \partial_\omega(g)$.
 \end{lem}
 \begin{cor}
 The sequences of sets
  \[\textup{Suc}_1^g=\{g\},\ \textup{Suc}_n^g = \{p_x(h) \mid h\in \textup{Suc}_{n-1}^g, x\in S\} \]
- stagnates at a finite step for all $g\in G$.
+ stabilizes at a finite step for all $g\in G$.
 \end{cor}
 \begin{proof}[Proof of Lemma (see~{\cite[Proposition~5]{Bartholdi:Growth}})] 
  Each element $g\in G$ can be written in a word of minimal length of the form $g=a^\varepsilon x_1 a x_2 a\ldots x_n a^\zeta$ where
@@ -1111,7 +1133,7 @@ The proof is the same as for Proposition~\ref{pro:existsNextPair}. The correspon
 	 \exists \gamma'\in \Gamma^q(\gamma)\;
 	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q))\colon
 	      \mathcal{G}(q,\gamma) \Rightarrow \mathcal{G}(r,\gamma').\]
- With GAP and the function \gapinline{verifyPropExistsSuccessor} this can be verified. 
+ This can be checked in GAP with the function \gapinline{verifyPropExistsSuccessor}. 
 \end{proof}
 The resulting succeeding pairs are now equations of genus $3$ with an active constraint. 
 Those are already shown to be solvable 
@@ -1126,18 +1148,18 @@ Together with Lemma~\ref{lem:existsGoodGammaForRed4} this proves the first part 
  $K$ has commutator width at most $2$. 
 \end{cor}
 \begin{proof}
- To show that $K$ has commutator width at most $2$ it is sufficient, to show that 
+ To show that $K$ has commutator width at most $2$ it is sufficient to show that 
  the constrained equations $(R_2g,\id)$ have solutions for all $g\in K'$. 
  Since $\id$ has trivial activity one cannot directly apply 
- Proposition~\ref{pro:solvableConstraintedEquations}.  But one can check that all 
+ Proposition~\ref{pro:solvableConstraintedEquations}.  However one can check that all 
  pairs $(h,\gamma_1),(f,\gamma_2)$ such that $g=\pair{h,f}$ and
  $\gamma_1=(1,1,\pi(bad),1)$, $\gamma_2=(1,1,1,\pi(ca))$ are good pairs with active
  constraints and hence admit solutions $s_1,s_2\colon F_4\to G$.
  
- Then we can define the map $s\colon F_4\to G, X_i\mapsto \pair{s_1(X_i),s_2(X_i)}$ this is a solution
+ We can then define the map $s\colon F_4\to G, X_i\mapsto \pair{s_1(X_i),s_2(X_i)}$; it is a solution
  for $R_2g$ and $s(X_i)\in K$ for all $i=1,\dotsc,4$. Therefore the commutator width of $K$ is at most $2$.
  
- The previous test is implemented in the GAP function \gapinline{verifyCorollaryFiniteCWK}. 
+ This can be checked in GAP with the function \gapinline{verifyCorollaryFiniteCWK}. 
 \end{proof}
 
 \subsection{Not every element is a commutator}
@@ -1150,21 +1172,25 @@ In fact not every element $g\in G'$ is a commutator. This can be seen by
 considering finite quotients. A commutator in the group would be also a
 commutator in the quotient group. 
 
-We will define an epimorphism to a group with commutator width $2$.
+We will define an epimorphism to a finite group with commutator width $2$.
 
 Analogously to the construction of $\psi\colon \Aut(T_n )\to \Aut(T_n) \wr S_n$
-we can define a homomorphism $\psi_n\colon G \to G\wr_{2^n} \RNK{G}{\Stab_G(n)}$ by
+we can define a homomorphism $\psi_n\colon G \to G\wr_{2^n}(\RNK{G}{\Stab_G(n)})$ by
 mapping an element $g$ to its actions on the subtrees with root in level $n$
 and the activity on th $n$-th level of the tree.
 
 Consider the following epimorphism:
 \begin{align*}
-\germ\colon G&\to\left<b,c,d\right>\simeq C_2\times C_2, \\
-a&\mapsto\id,\\
-b,c,d&\mapsto b,c,d.
-\end{align*} It extends to 
-an epimorphism $\germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to \germ(G)\wr_{2^n} \RNK{G}{\Stab_G(n)}$. 
-We will call the image $\germ(G)=:G_0$ the $0$-th \emph{germgroup} and furthermore
+  \germ\colon\begin{array}{r@{\;}l}
+               G&\to\left<b,c,d\right>\simeq C_2\times C_2, \\
+               a&\mapsto\id,\\
+               b,c,d&\mapsto b,c,d.
+             \end{array}
+\end{align*}
+It extends to an epimorphism
+$\germ_n\colon G\wr_{2^n} \RNK{G}{\Stab_G(n)}\to \germ(G)\wr_{2^n}
+\RNK{G}{\Stab_G(n)}$.  We will call the image $\germ(G)=:G_0$ the
+$0$-th \emph{germgroup} and furthermore
 $G_n := \germ_n \circ \psi_n(G)$ the $n$-th \emph{germgroup}.
 
 The $4$-th germgroup of the Grigorchuk group has order $2^{26}$ and has commutator width $2$.
@@ -1173,10 +1199,11 @@ the following command.
 \begin{lstlisting}
    gap> Range(EpimorphismGermGroup(GrigorchukGroup,4))
 \end{lstlisting}
-In this germgroup there is an element which is not a commutator 
-but in the commutator subgroup. This element is part of the
-precomputed data and can be used in gap with
-\gapinline{PCD.nonCommutatorGermGroup4}.	
+There is an element in the commutator subgroup of this germgroup which
+is not a commutator. This element is part of the precomputed data and
+can be accessed in GAP as \gapinline{PCD.nonCommutatorGermGroup4}.
+
+!!!! A word on why this is not a commutator? Uses character table? Direct enumeration seems too long
 
  A corresponding preimage in $G$ with a minimal number of states is the automaton shown in Figure~\ref{fig:noncomm}. 
 The construction of the element and a representation in the standard generators of $G$ can be found in the file
@@ -1209,10 +1236,9 @@ is solvable in $G$.
 \end{pro}
 \begin{proof}
 We need to solve the constrained equation $(\eq{E}=a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag,\gamma)$ for
-some constraint $\gamma$. Independent of the chosen constraint the replacement of
+some constraint $\gamma$. Independently of the chosen constraint, replacement of
 the variable $X_i$ by $\pair{Y_i,Z_i}\act(\gamma(X_i))$ leads after normalization to an equivalent equation 
-$R_2(g\at{2})(g\at{1})$. Similar to the construction of $\Gamma^q$ in the section
-before one can find for each $q\in\RNK{G'}{K'}$ a constraint $\gamma$ such that
+$R_2(g\at{2})(g\at{1})$. Similarly to the construction of $\Gamma^q$ in the previous section, one can find for each $q\in\RNK{G'}{K'}$ a constraint $\gamma$ such that
 $\gamma(\eq{E}^{\id*\pi})=\id$ and $\gamma'\in\Gamma_1(\gamma)$ such that for all 
 $g\in\pi^{-1}(q)$ the pairs $(g\at{2}g\at{1},\gamma')$ are good pairs and $\gamma'$ is 
 an active constraint.
@@ -1221,8 +1247,7 @@ Therefore the constrained equation $(R_2(g\at{2})(g\at{1}),\gamma')$ is solvable
 by Corollary~\ref{cor:solvableConstraintedEquations}
 for each $g\in G'$ and hence the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
 
-In GAP the function \gapinline{verifyExistGoodConjugacyConstraints} implements 
-this condition.
+This can be checked in GAP with the function \gapinline{verifyExistGoodConjugacyConstraints}.
 \end{proof}	
 \begin{lem}
  There exits an element $g\in G'$ such that the equation 
@@ -1232,17 +1257,17 @@ this condition.
  is not solvable.
 \end{lem}
 \begin{proof}
-As before independent of the activities of a possible constraint $\gamma$ and of the element $g\in G'$
+As before independently of the activities of a possible constraint $\gamma$ and of the element $g\in G'$
 the normalform of $\Phi_\gamma(a^{X_1}a^{X_2}a^{X_3}ag)$ turns out to
 be $R_1(g\at{2}) g\at{1}$. So all there is to prove is that there is an element $h\in K$
 where the products of states $h\at{2}\cdot h\at{1}$ is not a commutator.
 
 The element $g$ displayed in Figure~\ref{fig:noncomm} provides such an element. It can easily be verified 
 that $\pair{\pi(cag),\pi(ac)}\in Q_1$ and $\omega(\pair{\pi(cag),\pi(ac)})=\id$. Thus by
-the properties of the branch structure it is true that $\pair{\pi(cag),\pi(ac)}\in K<G'$. 
+the properties of the branch structure we have $\pair{\pi(cag),\pi(ac)}\in K<G'$. 
 \end{proof}
 This finishes the proof of Corollary~\ref{cor:productOf6Conjugates}.
-\begin{defi}[\cite{Fink:Conjugacy_growth}]
+\begin{defi}[Conjugacy width~\cite{Fink:Conjugacy_growth}]
  The \emph{conjugacy width} of a group $G$ with respect to a generating set $S$ 
  is the smallest number $N\in\NN$ such that every element $g\in G$ is a product of
  at most $N$ conjugates of generators $s\in S$.
@@ -1251,9 +1276,9 @@ This finishes the proof of Corollary~\ref{cor:productOf6Conjugates}.
  The Grigorchuk group $G$ with generating set $\{a,b,c,d\}$ has conjugacy width at most $8$.
 \end{cor}
 \begin{proof}
- The following set $T$ is a transversal of $\RNK{G}{G'}$. So every element $g\in G$ can be written as $g=th$ with $t\in T$ and $h\in G'$.
+ The following set $T$ is a transversal of $\RNK{G}{G'}$:
  \[T=\{1,a,d^aa,d^a,b,ab^a,ca^d,bd^a\}.\]
- As every element of $G'$ is a product of at most $6$ conjugates of $a$ this proofs the claim.
+ Therefore, every element $g\in G$ can be written as $g=th$ with $t\in T$ and $h\in G'$. As every element of $G'$ is a product of at most $6$ conjugates of $a$ this proves the claim.
 %  \begin{align}
 %   T &=\{&1&,&a&,&ad=d^aa&,&ada=d^a,\\
 %     & &b&,&ba=ab^a&,&bad=ca^d&,&bada=bd^a\}
@@ -1268,9 +1293,9 @@ This finishes the proof of Corollary~\ref{cor:productOf6Conjugates}.
 % \end{lem}
 
 \section{Proof of Theorem~\ref{thm:subgroups}}
-We will proof the statement first for finite-index subgroups. 
+We will prove the statement first for finite-index subgroups. 
 \begin{pro}\label{pro:f.i.subgroupsFiniteCW}
-  All subgroups $H \leq G$ of finite index are of finite commutator width.
+  All finite-index subgroups $H \leq G$ have finite commutator width.
 \end{pro}
 \begin{proof}
  Note that from Corollary~\ref{cor:KhasCW2} it follows that $K\times K$ and furthermore 
@@ -1278,30 +1303,35 @@ We will proof the statement first for finite-index subgroups.
  
  Let $H$ be a subgroup of finite index. Since $G$ has the congruence subgroup property
  (\cite{Bartholdi-Grigorchuk:parabolicSubgroups}) we can find a nontrivial normal subgroup $N=\Stab_G(m)<H$
- for some $m\in\NN$. Furthermore from the discussion of the top of the lattice of normal subgroups
- in $G$ done in~\cite{Bartholdi-Grigorchuk:parabolicSubgroups} we can see that 
+ for some $m\in\NN$. Furthermore since $K$ is inactive we have 
  \begin{align*}
   K&<\Stab_G(1), & K\times K&<\Stab_G(2), & K^{\times 4}&<\Stab_G(3).
  \end{align*}
  Furthermore we have $\Stab_G(n)=\Stab_G(3)^{\times 2^{n-3}}$ for $n\geq 4$ and hence for every 
  subgroup $H$ of finite index there is an $n$ such that $K^{\times 2^n}\leq H$.
   
-  Since $G$ is just infinite, $[K^{\times2^n},K^{\times2^n}]$ has finite index in $[H,H]$.
+ Since $K'$ has finite index in $K$ by Lemma~\ref{lem:subgroupsOfG}, the index in $[H,H]$ of $[K^{\times2^n},K^{\times2^n}]$ is finite.
   Taking a transversal $T$ of $\RNK{[H,H]}{[K^{\times2^n},K^{\times2^n}]}$ we can find 
   $m\in \NN$ such that every element in $T$ is a product of at most $m$ commutators in $H$.
   We can thus write each element $h\in [H,H]$ as product $kt$ with $k\in K^{\times 2^n}$, 
   $t\in T$ and thus as a product of at most $2+m$ commutators.  
 \end{proof}
-Now we can use that every infinite finitely generated subgroup of $G$ is 
-abstractly commensurable with $G$ which can be seen in~\cite[Theorem~1]{Grigorchuk-Wilson:Commensurability}.
 
-This, by definition, means that every infinite finitely generated subgroup $H\leq G$ 
-contains a finite-index subgroup which is isomorphic to a finite-index subgroup
-of $G$ and hence by Proposition~\ref{pro:f.i.subgroupsFiniteCW} has finite
-commutator width. This finishes the proof of the following proposition:
 \begin{pro} \label{pro:fgsubgroupcw}
    All finitely generated subgroups $H \leq G$ are of finite commutator width.
 \end{pro}
+\begin{proof}
+  Every infinite finitely generated subgroup of $G$ is abstractly
+  commensurable to $G$,
+  see~\cite[Theorem~1]{Grigorchuk-Wilson:Commensurability}.
+
+  This, by definition, means that every infinite finitely generated
+  subgroup $H\leq G$ contains a finite-index subgroup which is
+  isomorphic to a finite-index subgroup of $G$ and hence by
+  Proposition~\ref{pro:f.i.subgroupsFiniteCW} has finite commutator
+  width.
+\end{proof}
+
 To show that there cannot be a bound on the commutator width of subgroups
 we need some auxiliary results. They are well-known, but since we could not find an original reference we will
 sketch their proofs here.
@@ -1316,7 +1346,7 @@ sketch their proofs here.
 \begin{proof}\
  \begin{enumerate}
   \item Consider the groups $\Gamma_n=\RNK{F_n}{\langle \gamma_3(F_n),x_1^2,\dotsc,x_n^2\rangle}$. 
-  These are commutator extensions of $C_2^n$ by $C_2^{\binom{n}{2}}$ and are class $2$-nilpotent $2$-groups.
+  These are extensions of $C_2^n$ by $C_2^{\binom{n}{2}}$ and are class $2$-nilpotent $2$-groups.
   The derived subgroup is hence of order $2^{\binom{n}{2}}$.
   Let $T$ be a transversal of $\RNK{\Gamma_n}{\Gamma_n'}$. Thus $T$ is of order $2^n$ and
   for $x,y\in\Gamma_n$ there are $t,s\in T$ and $x',y'\in\Gamma'$ such that
@@ -1327,21 +1357,22 @@ sketch their proofs here.
   the commutator width of $\Gamma_{8m}$ is at least $m$.
   \item  $K$ contains for each $n$ the $n$-fold iterated wreath product
   $W_n(C_2)=C_2\wr \dots \wr C_2$. 
-  This can be found by finding finitely many vertices of the tree $T_2$ which
-  are isomorphic to a finite binary rooted tree of $k$ levels $T_2^k$ and finding 
-  elements $k_i\in K$ such that $\left<k_i\right>$ acts on $T_2^k$ like the full group of 
-  automorphisms $\Aut(T_2^k)\simeq W_k(C_2)$.
+  This can be shown by finding finitely many vertices of the tree $T_2$ which
+  define a (spaced out) copy of the finite binary rooted tree with $n$ levels $T_2^n$, and finding 
+  elements $k_i\in K$ such that $\left<k_i\right>$ acts on $T_2^n$ like the full group of 
+  automorphisms $\Aut(T_2^n)\simeq W_n(C_2)$.
   
   Then 
   since $W_n(C_2)$ is a Sylow $2$-subgroup of $S_{2^n}$ every finite $2$-group is a subgroup of
-  $W_n(C_2)$ for some $n$ and hence of $K$.
-  \item Consider again the vertices of $T_2$ which are isomorphic to a
-  the finite tree $T_2^k$ on which a subgroup of $K$ acts like $W_n(C_2)$. If we take $m$ large
-  enough such that all this vertices are above the $m$-th level we can find a copy of $W_n(C_2)$
-  inside $\RNK{G}{\Stab_G(m)}$.\qedhere
+  $W_n(C_2)$ for some $n$, and hence a subgroup of $K$.
+\item Consider again some the vertices of $T_2$ which define a copy of
+  the finite tree $T_2^n$ on which a subgroup of $K$ acts like
+  $W_n(C_2)$. If we take $m$ large enough such that all these vertices
+  are above the $m$-th level we can find a copy of $W_n(C_2)$ inside
+  $\RNK{G}{\Stab_G(m)}$.\qedhere
  \end{enumerate}
 \end{proof}
-In the following theorem we summarize our results for the commutator width of the Grigorchuk Group.
+In the following theorem we summarize our results for the commutator width of the Grigorchuk group.
 \begin{thm}\ 
  \begin{enumerate}
   \item $G$ and its branching subgroup $K$ have commutator width $2$. \label{thm:summeryStat1}
@@ -1369,40 +1400,40 @@ In the following theorem we summarize our results for the commutator width of th
  % contains every a copy of every element of the bounded product of the $H_i$'s
  % and therefore has infinite commutator width 
  %Still more Details:
- For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that
- $H_i$ has commutator width at least $i$ and groups $G_0=\id$,
- $G_{i}:=\langle \pair{\ell,h}\mid h\in H_i,\ \ell\in G_{i-1} \rangle$. The 
- infinitely generated group $H_\infty = \langle G_i \mid i \in \NN\rangle$
- contains the bounded product of the $H_i$'s and therefore has infinite
- commutator width. 
- Since we have $K\times K < K$ the groups $G_i$ define a subgroup of $K$ and 
- hence $H_\infty<K$.
-  
+ For the last claim, consider a sequence $(H_i)$ of subgroups of $K$
+ such that $H_i$ has commutator width at least $i$. Let
+ $\psi_0\colon K\to K\times K\le K$ be the map $k\mapsto\pair{k,1}$
+ and for $i\ge1$ let $\psi_i\colon K\to K\times K\le K$ be the map
+ $k\mapsto\pair{1,\psi_{i-1}(k)}$. Then
+ $H:=\langle\psi_i(H_i):i\in\NN\rangle$ is a subgroup of $K$ and hence
+ of $G$ and is isomorphic to the restricted direct product of the
+ $H_i$, so it has infinite width.  
 \end{proof}
 \section{Implementation in GAP}
-\subsection{Usage of the attached files} \label{sec:gap_verify}
-In the main directory of the archive one can type the command \gapinline{gap verify.g} and 
-will get as output a list of functions with their return value. All these functions should
-return \gapinline{true}. 
+\subsection{Usage of the attached files} \label{sec:gap_verify} Typing
+the command \gapinline{gap verify.g} in the main directory of the
+archive will produce as output a list of functions with their return
+value. All these functions should return \gapinline{true}.
 
-This approach uses precomputed data which are also in the archive. This saves a lot of
-computation time.
+This approach uses precomputed data which are also in the
+archive, and is very fast.
 
-However this data can be recomputed if a sufficiently new version of GAP and
-some packages are present. For details see Section \ref{sec:precomputation}.
+Furthermore, these data can be recomputed if a sufficiently new
+version of GAP and some packages are present. For details see Section
+\ref{sec:precomputation}.
 
 This is what the functions check:
 \begin{description}
-\item[\texttt{verifyLemma90orbits}] This function verifies that there are
-  indeed $90$ orbits of $\RNK{Q^6}{U_3}$ as claimed in 
-  Lemma~\ref{lem:90Constraints}. 
+\item[\texttt{verifyLemma90orbits}] This function verifies that there
+  are indeed $90$ orbits of $U_3$ on $Q^6$ as claimed in
+  Lemma~\ref{lem:90Constraints}.
 \item[\texttt{verifyLemma86orbits}] Analogously to the previous function 
-  this one verifies that there are $86$ orbits of $\RNK{Q^4}{U_2}$. 
+  this one verifies that there are $86$ orbits of $U_2$ on $Q^4$. 
 \item[\texttt{verifyLemmaExistGoodConstraints}] This verifies that for each 
   $q\in\RNK{G'}{K'}$ there is some $\gamma\in\Red_{\act}$ such that $(q,\gamma)$ 
   forms a good pair. This is claimed in Lemma~\ref{lem:existsGoodGamma}.
-\item[\texttt{verifyLemmaExistGoodConstraints4}] This is the sharper version
-  of the function before. It checks that the above statement is already true 
+\item[\texttt{verifyLemmaExistGoodConstraints4}] This is a sharper version
+  of the previous function. It checks that the above statement is already true 
   if one replaces $\Red_{\act}$ by $\Red_{\act}^4$ as claimed in 
   Lemma~\ref{lem:existsGoodGammaForRed4}.
 \item[\texttt{verifyPropExistsSuccessor}] This verifies that for
@@ -1416,7 +1447,7 @@ This is what the functions check:
   This function verifies this existence. 
 \item[\texttt{verifyExistGoodConjugacyConstraints}] This verifies that for the equation
   $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}a$ there are constraints $\gamma$ 
-  that inherit good succeeding pairs. This is needed in the proof of
+  that admit good succeeding pairs. This is needed in the proof of
   Proposition~\ref{pro:productOf6Conjugates}.
 \item[\texttt{verifyGermGroup4hasCW}] This function verifies the existence of 
   an element in the derived subgroup of the $4$-th level germgroup that is not a commutator.
@@ -1462,7 +1493,7 @@ The argument is a string and can be one of the following:
 		      will take about $3$ hours. There is no kind of progress bar.
    \item [\texttt{``noncommutator''}] Inside the $4$-th level germgroup there is an element which is not
 		      a commutator but in the commutator subgroup. This command will find this 
-		      element using the character table of the germgroup. The search will be 
+		      element using the character table of the germgroup. The search will
 		      almost immediately give a result. Most of the computation time is used
 		      to assert that the found element is indeed not a commutator.
 		      
@@ -1496,12 +1527,15 @@ It uses that the quotient $Q=\RNK{G}{K}$ is a polycyclic group with
 \end{align*}
 We take the generators of $U_n$ as given in the proof of
  Lemma~\ref{lem:90Constraints}
-plus additional ones which can switch two neighboring pairs:
+plus additional ones which switch two neighboring pairs:
 \begin{align*}
- s_i &\colon &X_i&\mapsto X_{i+2}&\\
-	    &&X_{i+1}&\mapsto X_{i+3}&\\
-	    &&X_{i+2}&\mapsto X_{i}^{[X_{i+2},X_{i+3}]}&\\
-	    &&X_{i+3}&\mapsto X_{i+1}^{[X_{i+2},X_{i+3}]} & \textup{ for }i = 1,3,\dotsc,2n-3.
+  s_i &\colon\begin{array}{r@{\;}l}
+               X_i&\mapsto X_{i+2}\\
+               X_{i+1}&\mapsto X_{i+3}\\
+               X_{i+2}&\mapsto X_{i}^{[X_{i+2},X_{i+3}]}\\
+               X_{i+3}&\mapsto X_{i+1}^{[X_{i+2},X_{i+3}]}
+             \end{array}
+                   \textup{ for }i = 1,3,\dotsc,2n-3.
 \end{align*}
 It can easily be checked, that these are also contained in $U_n$. 
 These elements are used to reduce a given constraint in a form of 
@@ -1524,22 +1558,26 @@ reduced constraints. For Example:
 \end{verbatim} 
 
 \subsubsection{Good pairs}
-For $g\in G$ and a constraint $\gamma$ the question if $(g,\gamma)$ is a good
-pair depends only on the image $\tau(g)\in\RNK{G}{K'}$ and the representative
+For $g\in G$ and a constraint $\gamma$ the question whether $(g,\gamma)$ is a good
+pair depends only on the image of $g$ in $\RNK{G}{K'}$ and the representative
 of $\gamma\in\Red$. (See Section~\ref{sec:good_pairs}.) So this is already a
 finite problem. 
 
-For a given constraint $\gamma$ to get all $q$ which form a good pair we can
-enumerate all possible commutators for $r_i\in\rho^{-1}(\gamma(X_i))$.
-$[r_1,r_2][r_3,r_4][r_5,r_6]$. Since $\lvert\RNK{K}{K'}\rvert=64$ considering all 
-combinations at once is far from being efficient thus the possible values for
-$[r_1,r_2]$ are computed and in a second step products of those elements.
-This is implemented in the function \gapinline{goodPairs} in the file
-\filename{gap/functions.g}.
+Given a given constraint $\gamma$, to obtain all $q$ which form a good
+pair we can enumerate all possible commutators
+$[r_1,r_2][r_3,r_4][r_5,r_6]$ with $r_i\in\rho^{-1}(\gamma(X_i))$.
+Since $\lvert\RNK{K}{K'}\rvert=64$, it would take too much time to
+consider all combinations at once; thus the possible values for
+$[r_1,r_2]$ are computed and in a second step triple products of those
+elements are enumerated.  This is implemented in the function
+\gapinline{goodPairs} in the file \filename{gap/functions.g}.
+
 \subsubsection{Successors}
-The key ingredient for the proof of Theorem~\ref{thm:CWGrigorchukGroup} is
-Proposition~\ref{pro:existsNextPair}. The computational effort there is
-to compute the sets $\Gamma_q(\gamma)$ and find good pairs inside of them.
+The key ingredient for the proof of
+Theorem~\ref{thm:CWGrigorchukGroup} is
+Proposition~\ref{pro:existsNextPair}. The main computational effort
+there is to compute the sets $\Gamma_q(\gamma)$ and find good pairs
+inside them.
 
 This is implemented exactly as explained in the construction of the map
 $\Gamma_q$ in the function \gapinline{GetSuccessor} in the file 
