@@ -30,7 +30,7 @@ GQp := DerivedSubgroup(GQ);
 CC := ConjugacyClasses(GQ);;
 tbl := CharacterTable(GQ);
 chTblFile := Filename(dir,"PCD/IrrGermGroup4.go");
-irr := List(ReadAsFunction(chTblFile)(),L->Character(tbl,L));
+irr := List(ReadAsFunction(chTblFile)(),L->Character(tbl,L));;
 SetIrr(tbl,irr);
 #	irr:= Irr( tbl );;
 derived:= Intersection(List(LinearCharacters( tbl ),ClassPositionsOfKernel) );;
