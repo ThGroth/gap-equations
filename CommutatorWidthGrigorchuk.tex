@@ -758,13 +758,16 @@ Furthermore these groups form a tower with indices
  This is a finite problem which can be checked in GAP with the function \gapinline{verifyLemmaExistGoodConstraints}.
  For more details see Section~\ref{sec:gap_verify}.
 \end{proof}
-!!!! There's too much confusion on the different free groups here. We have $F_{\mathcal X}$ for the free group on the letters; somehow it becomes $F_{2n}$ with generators $X_1,\dots,X_{2n}$, and implicitly $F_{4n}$ with generators $Y_1,\dots,Y_{2n},Z_1,\dots,Z_{2n}$. Then we get $F_1$ and $F_2$ with respective generators $g$ and $g_1,g_2$. If that's really the notation, it should be made more explicit. However, I would favour having separate alphabets $F_{\mathcal X}$ for the original equation, leading to two (or one) equation in $F_{\mathcal Y}$, and having $F_{\mathcal V}$ have free extra variables $g,g_1,g_2$. Then we could write explicit maps between these free groups for the normalization processes.
+We will now give a procedure to start with a constrained equation $\mathcal E$
+say of
+class $\mathcal{O}_{n,1}$ and result with a set of constrained equations of
+class $\mathcal{O}_{2n-1,1}$ such that the solvability of any of the later
+implies the solvability of $\mathcal E$.
 
-Any given equation uses only finitely many variables. We will start with a
-constraint oriented equation of class $\mathcal{O}_{n,1}$ and result in an
-equation of class $\mathcal{O}_{2n-1,1}$. Hence we can assume that
-for each individual step the set $\mathcal{X}$ is of order $2n$ for some
-$n\in\NN$ and fix the free groups $F_{\mathcal{X}},F_{\mathcal{Y}},F_{
+Instead of an infinitely generated free group $F_{\mathcal{X}}$ we can restrict
+ourselves to a finite set $\mathcal{X}$ of order $2n$ for the variables of $E$
+and another set $\mathcal{Y}$ for the variables of the resulting equation.
+For fixed $n$ we notate the free groups $F_{\mathcal{X}},F_{\mathcal{Y}},F_{
 \mathcal{Y''}}$ on the following generating sets:
 \begin{align*}
  \mathcal{X} &= \{ X_\ell \mid 1\leq \ell \leq 2n\},& 
@@ -772,9 +775,11 @@ $n\in\NN$ and fix the free groups $F_{\mathcal{X}},F_{\mathcal{Y}},F_{
  \mathcal{Y}' &= \mathcal{Y}\setminus\{Y_{2n,1}\}.
 \end{align*}
 
-Denote by $S$ the set $\{\id,a,b,c,d,ab,ad,ba\}\subset G$.  For a
-constraint $\gamma$ we use the notation $\gamma\colon H \to Q$ if
-$\supp(\gamma) \subset H$.  We will define for all $q\in \RNK{G'}{K'}$
+Denote by $S$ the set $\{\id,a,b,c,d,ab,ad,ba\}\subset G$.
+% For a
+% constraint $\gamma$ we use the notation $\gamma\colon H \to Q$ if
+% $\supp(\gamma) \subset H$.
+ We will define for all $q\in \RNK{G'}{K'}$
 a map $\Gamma^q$ which for any $n \ge 3$ maps a reduced constraint
 $\gamma\in\Red_{\act}$, say $\gamma\colon F_{\mathcal X} \to Q$, to a set of
 constraints $\gamma'\colon F_{\mathcal Y'}\to Q$ with the following property:
@@ -790,7 +795,7 @@ all good pairs $(q,\gamma)$ and all $g$ such that $\tau(g)=q$ there is
 some constraint $\gamma' \in \Gamma^q(\gamma)$ such that
 $((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
  
-For the first step take the branching structure $(K,Q,\pi,Q_1,\omega)$
+For the first step we take the branching structure $(K,Q,\pi,Q_1,\omega)$
 of the Grigorchuk group as before and complete the set $S$ to a
 transversal $S'$ of $\RNK{G}{K}$. Denote by $\rep\colon Q\to S'$ the
 map such that $\pi(\rep(q)) = q$.
@@ -821,7 +826,7 @@ $F_{\mathcal{H}}=\left<\mathfrak{g}_1,\mathfrak{g}_2\right>$, and define a homom
   nontrivial activity. Then $R_n$ contains either a factor $[X_\ell,X_k]$ or
   $[X_k,X_\ell]$ for another generator $X_k\neq X_\ell$.  Assume without loss of
   generality the first case. Let $\sigma$ be the activity of $\gamma(X_k)$
-  Then $\Phi_\gamma(R_n \mathfrak g)$
+  then $\Phi_\gamma(R_n \mathfrak g)$
   contains a factor
   \[ [\pair{Y_{\ell,1},Y_{\ell,2}}(1,2),\pair{Y_{k,1},Y_{k,2}}\sigma] = 
   \begin{cases}
@@ -842,11 +847,12 @@ For $q_1,q_2 \in Q$ and $n\geq3\in \NN$ define
 Denote by $v=v(n)$ and $w=w(n)$ the elements of $F_{\mathcal Y}$ such
 that $\Phi_\gamma(R_n \mathfrak g)=\pair{v,w}\pair{\mathfrak g_1, \mathfrak
 g_2}$.  By Lemma~\ref{lem:commonVar} there is $Y_0 \in \mathcal{Y}\cup 
-\mathcal{Y}^{-1}$ such that $v=v_1Y_0v_2$ and $w=w_1Y_0^{-1}w_2$. Then the homomorphism
+\mathcal{Y}^{-1}$ such that $v=v_1Y_0v_2$ and $w=w_1Y_0^{-1}w_2$. Then the
+$F_{\mathcal{H}}$-homomorphism
 \[\ell_{Y_0}\colon\begin{array}{r@{\;}l}
                     F_{\mathcal{Y}}*F_{\mathcal H}&\to F_{\mathcal{Y}}*F_
                     {\mathcal H},\\
-                    X_i &\mapsto \begin{cases}
+                    Y_i &\mapsto \begin{cases}
     Y_i &\text{ if } Y_i\neq {Y_0} \\
     w_2\mathfrak g_2w_1 &\text{ if }Y_i= {Y_0} 
   \end{cases}\end{array}
@@ -854,7 +860,9 @@ g_2}$.  By Lemma~\ref{lem:commonVar} there is $Y_0 \in \mathcal{Y}\cup
 maps $v\mathfrak g_1$ to $v_1w_2\mathfrak g_2w_1v_1\mathfrak g_1$ and
 $w\mathfrak g_2$ to $\id$. For
 $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ we have
-$(\gamma'*\varpi)(Y_0)=({\gamma'*\varpi})(w_2\mathfrak g_2w_1)$.
+$(\gamma'*\varpi)(Y_0)=({\gamma'*\varpi})(w_2\mathfrak g_2w_1)$. Thus all
+information of $\gamma'$ is already contained in its restriction to $F_
+{\mathcal{Y} \setminus \{Y_0,Y_0^{-1}\} }$.
 %  so with
 % $\mathcal Y''=\mathcal Y\setminus\{Y_0,Y_0^{-1}\}$ there is no loss of
 % information if we consider $\gamma'|_{F_{\mathcal Y''}}$ instead of
@@ -868,22 +876,39 @@ $\nf_{\gamma,n,Y_0}:=\nf_{v_1w_2\mathfrak g_2w_1v_1\mathfrak g_1}\colon F_{
   \[ \nf_{\gamma,n,Y_0}(\ell_{Y_0}(v\mathfrak g_1))=R_{2n-1}(Y_{1,1},Y_
   {1,2},\ldots,
   Y_{2n-1,1},Y_{2n-1,2})\mathfrak g_2^{{Y_{2n,1}}}\mathfrak g_1. \] 
-%TODOTODO One or the other?
  This leads to the
 following definition.
 \[\Gamma_3^{q_1,q_2,n,Y_0}(\gamma) = 
  \left\{\gamma' \circ \nf_{\gamma,n,Y_0}^{-1}\colon F_{\mathcal{Y}'}\to Q
  \bigmid
  \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
-A solution for the the constrained equation
-\[(R_{2n-1}(g\at2)^{\rep(\gamma''({Y_{2n,1}}))}(g\at1),\gamma'')\textup{
-    for }\gamma'' \in
-  \Gamma_3^{\pi(g\at{1}),\pi(g\at{2}),n,Y_0}(\gamma)\]
+Given $g\in G$, $g_i = g\at{i}$ for $i=1,2$, a constraint $\gamma\colon
+F_{
+\mathcal{X}}\to Q$
+and $\gamma''
+\in \Gamma_3^{\pi(g_1),\pi(g_1),n,Y_0}(\gamma)$
+a solution for the the constrained equation
+\[\mathcal{E}'=(R_{2n-1}(Y_{*,*})g_2^{\rep(\gamma''({Y_{2n,1}}))}
+g_1,\gamma'') \]
 can be extended by the map
 ${Y_{2n,1}}\mapsto \rep(\gamma''({Y_{2n,1}}))$ to a solution
 $s'$ of the equation
-$(R_{2n-1} (g\at{2})^{{Y_{2n,1}}} g\at{1},\gamma'')$. The map
-$s'\circ \nf_{\gamma,n,Y_0}$ is a solution for the constrained
+$(R_{2n-1}(Y_{*,*}) (g_2)^{{Y_{2n,1}}} g_1,\gamma'')$. 
+
+Notate the epimorphisms $i_{\mathcal{G}}\colon F_{\mathcal G} \to
+G, \mathfrak g
+\mapsto g$ and $i_{\mathcal{H}}\colon F_{\mathcal H} \to G, \mathfrak g_k
+\mapsto g\at{k}$ and note that since $\nf_{\gamma,n,Y_0}$ is an 
+$F_{\mathcal{H}}$-homomorphism $\mathfrak n :=(\id * i_{\mathcal H}) \circ \nf_
+{\gamma,n,Y_0}$
+maps $v_1w_2g_2w_1v_1g_1$ to $R_{2n-1}(Y_{*,*}) g_2^{{Y_{2n,1}}}
+g_1$
+
+
+%TODO: Is \nf mapping from F_X \to F_X * G or G-hom from F_X * G \to F_X *G ?
+Hence the map
+$s'\circ \mathfrak n$ is a solution for the
+constrained
 equation
 $(v_1w_2g_2w_1v_1g_1,\gamma'' \circ \nf_{\gamma,n,Y_0})$. We 
 extended this solution by $Y_0\mapsto w_2(g\at{2})w_1$ and the constraint by 
@@ -891,7 +916,7 @@ extended this solution by $Y_0\mapsto w_2(g\at{2})w_1$ and the constraint by
 (\gamma'' \circ \nf_{\gamma,n,Y_0} * \pi)(w_2(g\at{2})w_1) & \textup{ if } Y_
 {i,j}=Y_0\\
 \gamma'' \circ \nf_{\gamma,n,Y_0}(Y_{i,j}) &\textup{ otherwise.}
-\end{cases}\]
+\end{cases}\] %TODO Continue here: Phi_gamma defined on \mathfrak g ... 
 to obtain a solution $s$ of the constraint equation $(\Phi_\gamma(R_n
 g),\gamma')$. By
 definition of $\omega$ the element
