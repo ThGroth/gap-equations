@@ -809,13 +809,20 @@ map such that $\pi(\rep(q)) = q$.
     \end{array} \right\}.\]
 For some formal equalities for equations in $G$ we will need two auxiliary free
 groups $F_{\mathcal{G}}=\left<\mathfrak{g}\right>$,
-$F_{\mathcal{H}}=\left<\mathfrak{g}_1,\mathfrak{g}_2\right>$, and define a homomorphism  
+$F_{\mathcal{H}}=\left<\mathfrak{g}_1,\mathfrak{g}_2\right>$, and define  homomorphisms  
 \[\Phi_{\gamma}\colon
 \begin{array}{rl}
  F_{\mathcal{X}}*F_{\mathcal G} &\to (F_{\mathcal{Y}}*F_{\mathcal{H}})\wr C_2,\\
   \mathfrak g   &\mapsto \pair{\mathfrak g_1, \mathfrak g_2},\\ 
+  X_i\qquad &\mapsto \pair{Y_{i,1},Y_{i,2}}\act(\gamma(X_i)),
+ \end{array}
+\tilde\Phi_{\gamma}\colon
+\begin{array}{rl}
+ F_{\mathcal{X}}*G &\to (F_{\mathcal{Y}}*G)\wr C_2,\\
+   g   &\mapsto \psi(g),\\ 
   X_i\qquad &\mapsto \pair{Y_{i,1},Y_{i,2}}\act(\gamma(X_i)).
- \end{array}\]
+ \end{array}
+ \]
 \begin{lem}\label{lem:commonVar}
   If $\gamma$ is a constraint with nontrivial activity, and
   $\Phi_\gamma(R_n\mathfrak g)=\pair{w_1,w_2}$ then
@@ -882,12 +889,10 @@ following definition.
  \left\{\gamma' \circ \nf_{\gamma,n,Y_0}^{-1}\colon F_{\mathcal{Y}'}\to Q
  \bigmid
  \gamma' \in \Gamma_2^{q_1,q_2,n} \right\}.\] 
-Given $g\in G$, $g_i = g\at{i}$ for $i=1,2$, a constraint $\gamma\colon
-F_{
-\mathcal{X}}\to Q$
-and $\gamma''
-\in \Gamma_3^{\pi(g_1),\pi(g_1),n,Y_0}(\gamma)$
-a solution for the the constrained equation
+Given $g\in G'$, $g_i = g\at{i}$ for $i=1,2$, a constraint $\gamma\colon
+F_{\mathcal{X}}\to Q$ and 
+$\gamma''\in \Gamma_3^{\pi(g_1),\pi(g_1),n,Y_0}(\gamma)$ then  a solution for
+the the constrained equation
 \[\mathcal{E}'=(R_{2n-1}(Y_{*,*})g_2^{\rep(\gamma''({Y_{2n,1}}))}
 g_1,\gamma'') \]
 can be extended by the map
@@ -895,31 +900,32 @@ ${Y_{2n,1}}\mapsto \rep(\gamma''({Y_{2n,1}}))$ to a solution
 $s'$ of the equation
 $(R_{2n-1}(Y_{*,*}) (g_2)^{{Y_{2n,1}}} g_1,\gamma'')$. 
 
-Notate the epimorphisms $i_{\mathcal{G}}\colon F_{\mathcal G} \to
-G, \mathfrak g
-\mapsto g$ and $i_{\mathcal{H}}\colon F_{\mathcal H} \to G, \mathfrak g_k
-\mapsto g\at{k}$ and note that since $\nf_{\gamma,n,Y_0}$ is an 
+Notate the epimorphism $i_{\mathcal{H}}\colon F_{\mathcal H} \to G,
+ \mathfrak g_k \mapsto g_k$ and note that since $\nf_{\gamma,n,Y_0}$ is an 
 $F_{\mathcal{H}}$-homomorphism $\mathfrak n :=(\id * i_{\mathcal H}) \circ \nf_
 {\gamma,n,Y_0}$
-maps $v_1w_2g_2w_1v_1g_1$ to $R_{2n-1}(Y_{*,*}) g_2^{{Y_{2n,1}}}
-g_1$
+maps $v_1w_2g_2w_1v_1g_1$ to $R_{2n-1}(Y_{*,*}) g_2^{{Y_{2n,1}}}g_1$
 
-
-%TODO: Is \nf mapping from F_X \to F_X * G or G-hom from F_X * G \to F_X *G ?
-Hence the map
-$s'\circ \mathfrak n$ is a solution for the
-constrained
-equation
-$(v_1w_2g_2w_1v_1g_1,\gamma'' \circ \nf_{\gamma,n,Y_0})$. We 
-extended this solution by $Y_0\mapsto w_2(g\at{2})w_1$ and the constraint by 
-\[\gamma'\colon Y_{i,j}\mapsto \begin{cases}
-(\gamma'' \circ \nf_{\gamma,n,Y_0} * \pi)(w_2(g\at{2})w_1) & \textup{ if } Y_
+Hence the map $s'\circ \mathfrak n$ is a solution for the constrained
+equation $(v_1w_2g_2w_1v_1g_1,\gamma'' \circ \mathfrak{n}|_{F_{\mathcal
+Y\setminus \{Y_0,Y_0^{-1}\}}})$. We
+extended this solution and constraint to $F_{\mathcal Y}$ by 
+\[s \colon Y_{i,j}\mapsto \begin{cases}
+w_2g_2w_1 \\
+s'\circ n (Y_{i,j})
+\end{cases}
+\gamma'\colon Y_{i,j}\mapsto \begin{cases}
+(\gamma'' \circ \mathfrak{n}|_{F_{\mathcal
+Y\setminus \{Y_0,Y_0^{-1}\}}})*\pi)(w_2g_2w_1) & \textup{ if } Y_
 {i,j}=Y_0\\
-\gamma'' \circ \nf_{\gamma,n,Y_0}(Y_{i,j}) &\textup{ otherwise.}
-\end{cases}\] %TODO Continue here: Phi_gamma defined on \mathfrak g ... 
-to obtain a solution $s$ of the constraint equation $(\Phi_\gamma(R_n
-g),\gamma')$. By
-definition of $\omega$ the element
+\gamma'' \circ \mathfrak{n}|_{F_{\mathcal
+Y\setminus \{Y_0,Y_0^{-1}\}}}(Y_{i,j}) &\textup{ otherwise.}
+\end{cases}\]
+ %TODO Continue here: Phi_gamma defined on \mathfrak g ... 
+to obtain a solution $s$ of the constrained equation $\big((\id*i_{
+\mathcal{H}})\circ\Phi_\gamma(R_n\mathfrak g),\gamma'\big)$ and hence for 
+$\big(\tilde\Phi_\gamma(R_n g),\gamma'\big)$.
+By the definition of $\omega$ the element
 $t_i:=\pair{s(Y_{i,1}),s(Y_{i,2})}\act(\gamma(X_i))$ belongs to $G$
 for all $i$. Moreover we have $\pi(t_i)=\gamma(X_i)$. Thus the mapping
 $X_i\mapsto t_i$
@@ -961,20 +967,21 @@ The map $\Gamma_3^{q_1,q_2,n,Y_0}$ does depend on the choice of the
 variable $Y_0$.  To remove this dependency we observe that the set of
 all variables $Y_0 \in \Var(v)\cap \Var(w)$ does not depend on $n$ and
 define
-\[\Gamma_4^{q_1,q_2}(\gamma)=  \bigcup_{Y_0\in \Var(v)\cap\Var(w)}\Gamma_3^{q_1,q_2,n,Y_0}(\gamma).\]
+\[\Gamma_4^{q_1,q_2}(\gamma)=  \bigcup_{Y_0\in \Var(v)\cap\Var(w)}
+\Gamma_3^{q_1,q_2,n,Y_0}(\gamma).\]
 
 Note that $q_{1},q_2\in Q$ are determined by $q\in\RNK{G'}{K'}$ in the
 sense that there is a map $\att{i}\colon \RNK{G'}{K'}\to Q$ such that
 if $\tau(g) = q$ and $g_i=g\at{i}$ then $q_i = q\att{i}$. This map $\att{i}$ is well defined since $k'\at{i}\in K$ for all $k'\in K'$. Thus we can write
-$\Gamma_3^{q_1,q_2,n,Y_0}(\gamma)$ as $\Gamma_3^{q,Y_0}(\gamma)$ and
 $\Gamma_4^{q_1,q_2}(\gamma)$ as $\Gamma_4^q(\gamma)$, and filter out
 those constraints that do not fulfill the requested properties; we
 finally define
  \begin{align}
  \Gamma^q(\gamma) := \left\{\gamma' \in \Gamma_4^q(\gamma) \bigmid 
-  \act(\gamma')\neq\id, \gamma'({Y_{\gamma'}}) \in \pi(S) \right\}. 
+  \act(\gamma')\neq\id, \gamma'({Y_{2n,1}}) \in \pi(S) \right\}. 
   \label{def:Gammaq}
  \end{align}
+ %TODO Argh... dependency on n again!. Resolve this!
 
 Note that (*) holds automatically by construction.
 \begin{pro}\label{pro:existsNextPair}
