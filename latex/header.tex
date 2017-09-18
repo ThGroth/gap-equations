@@ -1,52 +1,39 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{setspace}
-%\usepackage[ngerman]{babel}
 \usepackage{lmodern}
 
 
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amssymb}
-% Boldface Zahlen
+% boldface numbers
 \usepackage{bbm}
 \usepackage{enumerate}
 \usepackage{mathtools}
 
-%Für Verlinkungen im Dokument
+%colors with names
 \usepackage[x11names]{xcolor}
-%\definecolor{white}{rgb}{1,1,1}
 
 %For include without pagebreak
 \usepackage{newclude}
 
-% For relative Textsizes
+% For relative textsizes
 \usepackage{relsize}
 
-%For units
-\usepackage[binary-units=true]{siunitx}
-
-\usepackage[disable]{todonotes}
-
 \usepackage{graphicx}
-% Bibliographi
-%\usepackage{natbib}
 
 %For multiline captions
 \usepackage[skip=2pt]{caption}
-%Für Quellcode
-\usepackage{listings}
 
+%for sources
+\usepackage{listings}
 
 \usepackage[linkbordercolor=white,urlbordercolor=white ,citebordercolor=white, plainpages=false]{hyperref}
 
-%Zum Erstellen von Graphen für Automaten
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes.geometric,automata,positioning}
 \tikzset{elliptic state/.style={draw,ellipse}}
-
-%Diagrams
-\usepackage[arrow, matrix, curve]{xy}
 
 %Strikeout in math mode
 \usepackage{cancel}
@@ -58,18 +45,7 @@
 \usepackage{chngcntr}
 \counterwithin*{equation}{section}
 \counterwithin*{equation}{subsection}
-%Für Zeilennummern
-%\usepackage[modulo]{lineno}
-%\linenumbers
 
-%Counter für Automaten
-\newcounter{automatonnumber}[section]
-\renewcommand{\theautomatonnumber}{\mathcal{A}_{\thesection,\arabic{automatonnumber}}}
-\newcommand{\autno}[1]{
-  \refstepcounter{automatonnumber}
-  \label{#1}
-  (\theautomatonnumber)
-}
 \usepackage{textcomp}
 \usepackage[space=true]{accsupp}
 % requires the latest version of package accsupp
@@ -78,7 +54,7 @@
 \ %
     \EndAccSupp{}
 }
-%Quellcode Aussehen:
+%Appearance of gap sources:
 \lstset {
   upquote=true,
   columns=fullflexible,
@@ -112,7 +88,7 @@
 \newtheorem{cordef}[pro]{Corollary/Definition}
 
 
-%Für Quotienten
+%for quotients
 \newcommand{\RRNK}[2]{
   \raisebox{1ex}{\ensuremath{#1}}
   \ensuremath{\mkern-3mu} \bigg/  \ensuremath{\mkern-3mu}
@@ -123,15 +99,13 @@
 %uppergausian bracket
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 
-%Pfeile für exakte Sequenzen
-\newcommand{\exar}[1][ ]{\overset{#1}{\longrightarrow}}
-%Normalteiler/Ideal 
+%normal divisor, ideal
 \newcommand{\normal}{{\mathrel\trianglelefteq}}
 
 %großer Strich
 \newcommand{\bigmid}{\ \middle \vert }
 
-%Besondere Buchstaben
+%bb symbols
 \newcommand{\NN}{\mathbb{N}}
 \newcommand{\ZZ}{\mathbb{Z}}
 \newcommand{\QQ}{\mathbb{Q}}
@@ -141,16 +115,14 @@
 \newcommand{\PP}{\mathbb{P}}
 \newcommand{\one}{\mathbbm{1}}
 
-%das d hinter dem Integral
+%Integrate d 
 \newcommand{\intd}{d}
-
 
 \newcommand{\emptyword}{\epsilon}
 
 %Alphabet
 \newcommand{\Al}{\mathcal{A}}
-%Zentrum
-\newcommand{\Ce}{\mathfrak{C}}
+
 %Free Variables in a groupword
 \newcommand{\Var}{\textup{Var}}
 %Commutator width
@@ -167,17 +139,12 @@
 \DeclarePairedDelimiter{\pair}{\langle\negthickspace\langle}{\rangle\negthickspace\rangle}
 %Nucleus
 \newcommand{\Nuc}{\mathcal{N}}
-%Normal normal_form
+%Normal_form
 \newcommand{\nf}{\mathfrak{nf}}
 %Reduced constraints
 \newcommand{\Red}{\mathfrak{R}}
-%Ideale
-\newcommand{\ai}{\mathfrak{a}}
-\newcommand{\bi}{\mathfrak{b}}
-\newcommand{\Ji}{\mathcal{Ji}}
 
-%Zustände von Automaten
-
+%States:
 %\newcommand{\at}[1]{  {\raisebox{-0.3ex}[1ex]{$\mathbin{@}$}#1} }
 \newcommand{\at}[1]{  {{\textup{\smaller @}}#1} }
 \newcommand{\att}[1]{  {{\bar{\textup{\smaller @}}}#1} }
@@ -192,14 +159,15 @@
 \newcommand{\eq}[1]{\mathcal{#1}}
 \newcommand{\im}{\textup{i}}
 
+%Identity
 \newcommand{\id}{\mathbbm{1}}
-%Funktionen aufrecht
+%
+
 \DeclareMathOperator{\Aut}{{Aut}}
 \DeclareMathOperator{\RAut}{{RAut}}
 \DeclareMathOperator{\FAut}{{FAut}}
 \DeclareMathOperator{\Poly}{{Poly}}
 \DeclareMathOperator{\EPoly}{\mbox{\smaller$\frac{1}{2}$}\Poly}
-%\DeclareMathOperator{\EPoly}{{EPoly}}
 \DeclareMathOperator{\Orb}{{Orb}}
 \DeclareMathOperator{\OS}{{OS}}
 \DeclareMathOperator{\OSA}{{OSA}}
@@ -226,18 +194,10 @@
 {\raise-0.22em\hbox{\huge $#1$}}%
 {\raise-0.05em\hbox{\Large $#1$}}{\hbox{\large $#1$}}{#1}}}
 \newcommand{\bigtimes}{\BIGOP{\times}}
-
 \newcommand{\bigcomp}{\BIGOP{\circ}}
 
-% nur fuer Bigboxplus andere Korrekturen
-\newcommand{\BIGboxplus}{\mathop{\mathchoice%
-{\raise-0.35em\hbox{\huge $\boxplus$}}%
-{\raise-0.15em\hbox{\Large $\boxplus$}}{\hbox{\large $\boxplus$}}{\boxplus}}}
-\parindent=0em
 
 % For filenames
 \newcommand{\filename}[1]{{\texttt{#1}}}
-%TODO replace this by a nicer one
-\newcommand*{\myfont}{\fontfamily{fvs}\selectfont}
 %\DeclareTextFontCommand{\gapinline}{\smaller\myfont}
 \newcommand{\gapinline}[1]{{\lstinline{#1}}}
