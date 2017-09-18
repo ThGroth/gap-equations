@@ -543,7 +543,8 @@ Some useful identities are
  has a finite-index subgroup $K\leq \Gamma$ such that $K^{\times n} \leq \Psi(K)$.
 \end{defi}
 \begin{lem}[\cite{Rozhkov:Centralizers}]\label{lem:subgroupK}
-%TODO make sure this is a good ref. Update: I tried to find the group K in the Paper Gri80 and Gri84 but I didn't find them. 
+% I tried to find the group K in the Paper Gri80 and Gri84 but I didn't find
+% them. 
 % Roz93 was the oldest paper I found, which construced K and proved K^2<Phi(K). 
 The Grigorchuk group is regular branched with branching subgroup 
  \[K:= \left<(ab)^2\right>^G=\left< (ab)^2,(bada)^2,(abad)^2 \right>. \]
@@ -880,10 +881,6 @@ $\gamma'(Y_0)=({\gamma'*\varpi})(w_2\mathfrak g_2w_1)=(
 \Gamma_2^{q1,q2,n}(\gamma),\varpi\colon \mathfrak{g}_i\mapsto q_i,Y_0.
 \label{eq:gamma'invariantUnderEll}
 \end{equation} 
-%TODO give this property a name so I can refer to it below to explain why
-% gamma''°n \in Gamma_2
-% Thus all information of $\gamma'$ is already contained in its restriction to
-% $F_{\mathcal{Y} \setminus \{Y_0,Y_0^{-1}\} }$.
 Consider the automorphisms
 \begin{align*}
   \psi_1\colon&\begin{array}{r@{\;}l}
@@ -1469,23 +1466,9 @@ In the following theorem we summarize our results for the commutator width of th
 \end{thm}
 \begin{proof}
  Statements~(\ref{thm:summeryStat1}) and (\ref{thm:summeryStat2}) are proven in Theorem~\ref{thm:CWGrigorchukGroup} and Proposition~\ref{pro:fgsubgroupcw}.
- %Since $G$ contains every finite $2$ group as a subgroup there are subgroups of arbitrary large commutator width. 
- %The restricted product
- %of these groups is a subgroup of the restricted product of infinite copies of $K$ and since $K^n\leq K$ for all $n$ this inverse limit is a subgroup of $G$.
- %TODO: this inverse limit is a subgroup of $G$. No it isn't ?!?
  For every $n\in\NN$ we can find two groups $H_1,H_2$ of finite index in $G$ such that $\RNK{H_1}{H_2}$ has commutator
  width at least $n$. Then $H_1$ has commutator width at least $n$ as well and thus the commutator width of finite-index subgroups can not be bounded.
 
- %For the last claim, consider a sequence $(H_i)$ of subgroups of $K$ such that $H_i$ has commutator width at least $i$. %and consider the subgroup $\langle 0^i1*H_i\mid i\in\NN\rangle$ of $G$.
- %\marginnote{\color{pink}This notation seems to be not defined in the text.}
- % More Details: Denote by $\Psi_i$ the embedding of $K\times H_i$ into $K$ and
- % by 
- % $\varphi_i=\psi_{i}\times \id_{H_{i-1}\times \cdots H_1}$ the embedding of 
- % $K\times H_i\times \cdots \times H_1$ into 
- % $K\times H_{i-1}\times \cdots \times H_1$. The inverse limit of this system
- % contains every a copy of every element of the bounded product of the $H_i$'s
- % and therefore has infinite commutator width 
- %Still more Details:
  For the last claim, consider a sequence $(H_i)$ of subgroups of $K$
  such that $H_i$ has commutator width at least $i$. Let
  $\psi_0\colon K\to K\times K\le K$ be the map $k\mapsto\pair{k,1}$
