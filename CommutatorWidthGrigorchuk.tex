@@ -587,7 +587,8 @@ following automorphisms of $F_{2n}$:
  there is an element $\varphi \in U_n<\Aut(F_{\mathcal{X}})$ such that $\supp(\gamma\circ\varphi) \in \left<X_1,\dotsc,X_5\right>$.\qed
 \end{lem}
 \begin{lem}\label{lem:90Constraints}
- Identify the homomorphisms $\{\gamma \colon F_{\mathcal{X}} \to Q \mid \supp(\gamma) \subset \left<X_1,\ldots, X_n\right>\}$ with $Q^{n}$. 
+ Identify the set $\{\gamma \colon F_{\mathcal{X}} \to Q \mid \supp(\gamma)
+ \subset \left<X_1,\ldots, X_n\right>\}$ with $Q^{n}$. 
  Then 
  \[\left|\RNK{Q^{2n}}{U_n}\right|\leq 90 \text{ for all } n.\]
 \end{lem}
@@ -871,7 +872,7 @@ $F_{\mathcal{H}}$-homomorphism
 %maps $w R_{n-3}(Y_{7,2},\ldots,Y_{2n,2})\mathfrak g_2$ to $\id$.
 maps the second coordinate of $\Phi_\gamma(R_n(X_*)\mathfrak{g})$ to $\id$
 and the first coordinate to an equation 
-\[\mathcal{E}=v_1w_2R_{n-3}(Y_{7,2},\ldots,Y_{2n,2})'\mathfrak g_2w_1v_2R_
+\[\mathcal{E}=v_1w_2R_{n-3}(Y_{7,2},\ldots,Y_{2n,2})\mathfrak g_2w_1v_2R_
 {n-3}(Y_{7,1},\ldots,Y_{2n,1}) \mathfrak g_1.\]
 For $\gamma'\in \Gamma_2^{q_1,q_2,n}(\gamma)$ we have
 $\gamma'(Y_0)=({\gamma'*\varpi})(w_2\mathfrak g_2w_1)=(
@@ -1290,8 +1291,7 @@ details see Section \ref{sec:precomputation}.
 
  A corresponding preimage in $G$ with a minimal number of states is the
  automaton shown in Figure~\ref{fig:noncomm}. The construction of the element
- can be found in the file \filename{gap/precomputeNonCommutator.g}. It is done
- with the the help of character table of $G_4$ using the 
+ can be found in the file \filename{gap/precomputeNonCommutator.g}.
  With the representation in standard
  generators it is easy to show using the homomorphism $\pi$ on the generators
  that this element is even a member of $K$.
@@ -1342,7 +1342,7 @@ This can be checked in GAP with the function \gapinline{verifyExistGoodConjugacy
 \end{lem}
 \begin{proof}
 As before independently of the activities of a possible constraint $\gamma$ and of the element $g\in G'$
-the normalform of $\Phi_\gamma(a^{X_1}a^{X_2}a^{X_3}ag)$ turns out to
+the normalform of $\tilde \Phi_\gamma(a^{X_1}a^{X_2}a^{X_3}ag)$ turns out to
 be $R_1(g\at{2}) g\at{1}$. So all there is to prove is that there is an element $h\in K$
 where the products of states $h\at{2}\cdot h\at{1}$ is not a commutator.
 
@@ -1555,7 +1555,8 @@ The argument is a string and can be one of the following:
 		      $\gamma\colon F_5 \to Q$ for the equations $\eq{E}_g$
 		      and a constraint $\gamma'\colon F_4\to Q$ such that
 		      $(\gamma * \pi)(\eq{E}_g) = \id$,
-		      \[\eq{E}'_g := \nf(\Phi_\gamma(\eq{E}_g))=[X_1,X_2][X_3,X_4](g\at{2})(g\at{1}),\] and
+		      \[\eq{E}'_g := \nf(\tilde \Phi_\gamma(\eq{E}_g))=[X_1,X_2][X_3,X_4](g
+          \at{2})(g\at{1}),\] and
 		      $(\eq{E}'_g,\gamma')$ is a good pair for all $g$ with $\tau(g)=q$.
 		      
 		      The computation will take about one hour and is equipped with a progress bar.
@@ -1622,7 +1623,7 @@ of $\RNK{\Aut(F_6)}{U_3}$.
 
 If the file \filename{verify.g} is loaded in a GAP environment with the FR package available 
 the function \gapinline{ReducedConstraint} can be used as an alias to get 
-reduced constraints. For Example:
+reduced constraints. For example:
  \begin{lstlisting}
     gap> f1 := Q.3;
     gap> gamma:= [f1,f1,f1,f1,f1,f1];
@@ -1659,7 +1660,8 @@ This is implemented exactly as explained in the construction of the map
 $\Gamma_q$ in the function \gapinline{GetSuccessor} in the file 
 \filename{gap/precomputeGoodPairs.g}. Given an element $q\in\RNK{G'}{K'}$ 
 and an active constraint $\gamma$ this function returns a tuple $(\gamma',X)$ 
-with $\gamma\in\Red$ and $X$ the decorated element $Y_\gamma'$.
+with $\gamma\in\Red$ and $X$ the decorated element $Y_{6,1}$ or $>Y_{4,1}$
+depending if $\gamma\in\Red^4$ or $\gamma\in\Red$.
 
 Given an inactive constraint $\gamma$ it returns a pair of constraints
 $\gamma_1,\gamma_2$ such that both have nontrivial activity and with
