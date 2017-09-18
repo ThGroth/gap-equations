@@ -658,7 +658,7 @@ denote by $Q$ the factor group with natural homomorphism $\pi\colon G \to \RNK{G
 \subsection{Good Pairs}\label{sec:good_pairs}
 It is not true that for every $g\in G'$ and every constraint $\gamma$
 there is an $n\in\NN$ such that the constrained equation
-$(R_n,\gamma)$ is solvable. For example
+$(R_ng,\gamma)$ is solvable. For example
 \[\left(R_n(ab)^2,(\gamma\colon X_i\mapsto\id\;\forall i)\right)\] 
 is not solvable for any $n$ because $(ab)^2\notin K'$.  This motivates
 the following definition.
@@ -767,11 +767,12 @@ Instead of an infinitely generated free group $F_{\mathcal{X}}$ we can restrict
 ourselves to a finite set $\mathcal{X}$ of order $2n$ for the variables of the
 original equation and another set $\mathcal{Y}$ for the variables of the
 resulting equation.
-For fixed $n$ we notate the free groups $F_{\mathcal{X}},F_{\mathcal{Y}}$ on the
-following generating sets:
+For fixed $n$ we notate the free groups $F_{\mathcal{X}},F_{\mathcal{Y}}$ and $F_
+{\mathcal{Y}'}$ on the following generating sets:
 \begin{align*}
  \mathcal{X} &= \{ X_\ell \mid 1\leq \ell \leq 2n\},& 
- \mathcal{Y} &= \{ Y_{\ell,i} \mid 1\leq \ell \leq 2n,\ i=1,2 \}
+ \mathcal{Y} &= \{ Y_{\ell,i} \mid 1\leq \ell \leq 2n,\ i=1,2 \}, &
+ \mathcal{Y}' &=\mathcal{Y}\setminus\{Y_{6,1},Y_{6,2}\}.
 \end{align*}
 
 Denote by $S$ the set $\{\id,a,b,c,d,ab,ad,ba\}\subset G$.
@@ -782,14 +783,14 @@ Denote by $S$ the set $\{\id,a,b,c,d,ab,ad,ba\}\subset G$.
 \begin{itemize}
 \item[(*)] There is $x\in S$ with $\gamma'(Y_{6,1})=\pi(x)$, such that 
   for all $g\in G'$ with $\tau(g)=q$ the solvability of the constrained equation
-  $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma')$ implies
+  $(R_{2n-1} (g\at{2})^x \cdot g\at{1},\gamma'|_{F_{\mathcal{Y}'}})$ implies
   the solvability of $(R_ng,\gamma)$.
 \end{itemize}
 
 We will define this map in several steps and afterwards show that for
 all good pairs $(q,\gamma)$ and all $g$ such that $\tau(g)=q$ there is
 some constraint $\gamma' \in \Gamma^q(\gamma)$ such that
-$((g\at{2})^x \cdot g\at{1},\gamma')$ is a good pair.
+$((g\at{2})^x \cdot g\at{1},\gamma'|_{F_{\mathcal{Y}'}})$ is a good pair.
  
 For the first step we take the branching structure $(K,Q,\pi,Q_1,\omega)$
 of the Grigorchuk group as before and complete the set $S$ to a
@@ -989,8 +990,9 @@ finally define
 Note that (*) holds automatically by construction.
 \begin{pro}\label{pro:existsNextPair}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red_{\act}$ the set $\Gamma^q(\gamma)$ 
- contains some $\gamma'$ such that for all $g$ with $\tau(g)=q$ the
- pair $\left((g\at{2})^{\rep(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
+ contains some constraint $\gamma'$ such that for all $g$ with $\tau(g)=q$ the
+ pair $\left((g\at{2})^{\rep(\gamma'(Y_{6,1}))}\cdot g\at{1},\gamma'|_{F_{
+ \mathcal{Y}'}}\right)$ is a good pair.
 \end{pro}
 
 \noindent For the proof of this proposition we need an auxiliary lemma:
@@ -1042,7 +1044,7 @@ and therefore
  In the construction above it is clear that the sets $\Gamma_3^{q,Y_0}$ and hence $\Gamma_4^{q,Y_0}$
  are nonempty. For the finitely many $\gamma\in \Red_{\act}$ checking whether some of the finitely many 
  $\gamma'\in\Gamma_4^{q}(\gamma)$ fulfill 
- $\gamma'(Y_\gamma) \in \pi(S)$ and $\act(\gamma')\neq\id$ 
+ $\gamma'(Y_{6,1}) \in \pi(S)$ and $\act(\gamma')\neq\id$ 
  (i.e.\ $\gamma' \in\Gamma^{q}(\gamma)$) is implemented in the procedure below.
  
  %As a next step we want to make sure that for all preimages $g$ of $q$ under $\tau$ there are good pairs among the
@@ -1055,13 +1057,14 @@ and therefore
  
   By Lemma~\ref{lem:pIsDefinedModK'} we can define the map $\bar p_h\colon \RNK{G'}{K'} \to \RNK{G'}{(K\times K)}$
  and the natural homomorphism \[\rho'\colon \RNK{G'}{K'} \to \RNK{\left(\RNK{G'}{K'}\right)}{\left(\RNK{K\times K}{K'}\right)} \simeq \RNK{G'}{(K\times K)} \]
- and now we only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of $\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q)$ under $\rho'$ 
- form good pairs with $\gamma'$. In formulas with $\mathcal{P}$ the predicate of being a good pair what needs to be checked is: 
+ and now we only need to show that there is a $\gamma'\in\Gamma^q(\gamma)$ such
+ that all preimages of $\bar p_{\rep(\gamma'(Y_{6,1}))}(q)$ under $\rho'$ 
+ form good pairs with $\gamma'|_{F_{\mathcal{Y}'}}$. In formulas with $\mathcal{P}$ the predicate of being a good pair what needs to be checked is: 
  \[\forall q\in\RNK{G'}{K'}\;
       \forall \gamma\in\Red_{\act} \;
 	 \exists \gamma'\in \Gamma^q(\gamma)\;
-	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q))\colon
-	      \mathcal{P}(q,\gamma) \Rightarrow \mathcal{P}(r,\gamma').\]
+	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{6,1}))}(q))\colon
+	      \mathcal{P}(q,\gamma) \Rightarrow \mathcal{P}(r,\gamma'|_{F_{\mathcal{Y}'}}).\]
  
  This last formula quantifies only over finite sets, and could be implemented. It can be checked in GAP with the function \gapinline{verifyPropExistsSuccessor}. 
  \end{proof}
@@ -1069,9 +1072,10 @@ and therefore
  \begin{defi}[Succeding pair]
  For each $q\in\RNK{G'}{K'}$ and $\gamma\in \Red_{\act}$ such that $(q,\gamma)$ is a good pair
  fix a constraint $\gamma'\in\Gamma^q(\gamma)$ and an element 
- $x=\rep(\gamma'(Y_{\gamma'}))\in S$, which exists by the previous proposition.
+ $x=\rep(\gamma'(Y_{6,1}))\in S$ with the property of Proposition 
+ \ref{pro:existsNextPair}.
  
- By Lemma~\ref{lem:solvabilityWithReducedConstraint} we can replace $\gamma'|_{F_{X\setminus\{Y_{\gamma'}\}}}$ by a reduced constraint $\gamma'_r$. 
+ By Lemma~\ref{lem:solvabilityWithReducedConstraint} we can replace $\gamma'|_{F_{\mathcal{Y}'}}$ by a reduced constraint $\gamma'_r$. 
  For a good pair $(g,\gamma)\in G'\times\Red_{\act}$ the \emph{succeeding pair} is defined as $\left((g\at{2})^xg\at{1},\gamma'_r\right)$.
  Moreover by applying this iteratively we get the \emph{succeeding sequence} $(g_k,\gamma_k)$ of $(g,\gamma)$: $(g_0,\gamma_0)=(g,\gamma)$ and $(g_{k+1},\gamma_{k+1})$ is the succeding pair of $(g_k,\gamma_k)$.
  \end{defi}
@@ -1192,21 +1196,25 @@ It turns out that there are $86$ orbits and we can check that there are again en
 
   To formulate an analog of Proposition~\ref{pro:existsNextPair} we literally transfer the definition 
   of the function $\Gamma^{q}$ to the case $n=2$. Denote the new function $\Gamma^{q,2}$.
-  For a constraint $\gamma\colon F_{4} \to Q$ with nontrivial activity it produces
-  a set $\Gamma^{q,2}(\gamma)$ of constraints $\gamma'\colon F_{7}\to Q$.
+  For a constraint $\gamma\colon F_{\{X_1,\ldots,X_4\}} \to Q$ with nontrivial
+  activity it produces
+  a set $\Gamma^{q,2}(\gamma)$ of constraints $\gamma'\colon F_{\{Y_
+  {1,1},\ldots,Y_{4,2}\}}\to Q$.
 
 \begin{pro}\label{pro:existsNextPair4}
  For each good pair $(q,\gamma)$ with $q\in\RNK{G'}{K'}$ and $\gamma\in\Red^4_{\act}$ the set 
   $\Gamma^{q,2}(\gamma)$
- contains some $\gamma'$ with special generator $Y_{\gamma'}$ such that for all $g$ with $\tau(g)=q$ the
- pair $\left((g\at{2})^{\rep(\gamma'(Y_{\gamma'}))}\cdot g\at{1},\gamma'\right)$ is a good pair.
+ contains some active constraint $\gamma'$ such that for all $g$ with $\tau
+ (g)=q$ the
+ pair $\left((g\at{2})^{\rep(\gamma'(Y_{4,1}))}\cdot g\at{1},\gamma'|
+ _{\mathcal F_{\{Y_{1,1},\ldots Y_{3,2}\}}}\right)$ is a good pair.
 \end{pro}
 \begin{proof}
 The proof is the same as for Proposition~\ref{pro:existsNextPair}. The corresponding formula which needs to be checked is 
 \[\forall q\in\RNK{G'}{K'}\;
       \forall \gamma\in\Red^4_{\act}\;
 	 \exists \gamma'\in \Gamma^q(\gamma)\;
-	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{\gamma'}))}(q))\colon
+	    \forall r\in \rho'^{-1}(\bar p_{\rep(\gamma'(Y_{4,1}))}(q))\colon
 	      \mathcal{P}(q,\gamma) \Rightarrow \mathcal{P}(r,\gamma').\]
  This can be checked in GAP with the function \gapinline{verifyPropExistsSuccessor}. 
 \end{proof}
@@ -1517,7 +1525,7 @@ This is what the functions check:
 \item[\texttt{verifyPropExistsSuccessor}] This verifies that for
   each good pair $(q,\gamma) \in\RNK{G'}{K'}\times(\Red_{\act}\cup \Red_{\act}^4)$ there exists 
   a $\gamma'\in\Gamma^q(\gamma)$ such that all preimages of 
-  $\bar p_{\rep(Y_{\gamma'})}(q)$ under the map $\rho'$ form
+  $\bar p_{\rep(Y_{6,1})}(q)$ under the map $\rho'$ form
   good pairs with the constraint $\gamma'$. This is needed in the proof of
   Proposition~\ref{pro:existsNextPair} and Proposition~\ref{pro:existsNextPair4}.
 \item[\texttt{verifyCorollaryFiniteCWK}] Corollary~\ref{cor:KhasCW2} needs the
@@ -1548,7 +1556,8 @@ The argument is a string and can be one of the following:
 		      the set of all $q\in\RNK{G'}{K'}$ such that $(q,\gamma)$ is a good pair.
 		      
 		      Then it computes for each good pair $(q,\gamma)$ one $\gamma'\in\Gamma_q(\gamma)$
-		      with decorated $X=Y_{\gamma'}\in S$ as defined in equation~\ref{def:Gammaq} which 
+		      with decorated $X=Y_{6,1}$ or $X=Y_{4,1}\in S$ as defined in equation~
+          \eqref{def:Gammaq} which
 		      fulfills depending whether $\gamma\in\Red^4_{\act}$ or $\gamma\in\Red_{\act}$ 
 		      either Proposition~\ref{pro:existsNextPair} or Proposition~\ref{pro:existsNextPair4}.
 		      This computation will take about half an hour on ordinary machines
