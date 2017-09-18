@@ -86,18 +86,11 @@ Assert(0,ForAll(ReducedConstraints,E->E.goodPairs = AGP[E.index]));
 
 # Rₐₜ active representatives
 ReducedConstraintsActive := Filtered(ReducedConstraints,E->HasNontrivialActivity(E.constraint));;
+
 #Make sure that forach q in G'/K' there is a good active pair involving q.
 #See verifyLemmaExistGoodGammas instead
 #Assert(0,ForAll(GPmodKP,q->ForAny(ReducedConstraintsActive,E->q in E.goodPairs)));
 
-ReducedConstraint := function(gamma)
-    if IsList(gamma) and Size(gamma) = 4 then
-        #return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
-        return FastReducedConstraint(gamma,PCD.ReducedConstraints,PCD.orbitTable2,Size(PCD.orbitReps));
-    fi;
-    #return ReducedConstraintAllModes(gamma,0,PCD.ReducedConstraints,PCD.orbitTable,0);
-    return FastReducedConstraint(gamma,PCD.ReducedConstraints,PCD.orbitTable,0);
-end;
 
 #For q in G'/K'
 #Get List of all reduced constraints γ such that (q,γ) is a good pair.
@@ -151,7 +144,7 @@ end;
 # guarantee that such a pair does not exists.
 # 
 # 
-# Given a good pair (q,γ) where γ has trivial activity 
+# Given a good pair (q,γ) where γ has t̲r̲i̲v̲i̲a̲l̲ activity 
 # 
 # This method tries to compute a pair (γ₁,γ₂) with the following property:
 # ∙ γ₁,γ₂ have both nontrivial activity
@@ -164,7 +157,7 @@ end;
 GetSuccessor  := function(q,gamma)
 	local n,q1,q2,Gamma1,Dep,i,ga,first,gp,acts,qs,Suc,
 	F2,F,EqG,DEqG,FF,DEqQ,DEqF2,Bridge,Eq,DEq,EqComp,I,normalforms,x,indx,newEq,z,
-	H,nf,gaP,ShortConstraintCase,g1,g2;
+	H,nf,gaP,ShortConstraintCase,g1,g2,gpp;
 
 
     ShortConstraintCase := false;
@@ -235,7 +228,7 @@ GetSuccessor  := function(q,gamma)
     FF := DEqG!.free;
     DEqQ := EquationGroup(Q,FF);
     DEqF2 := EquationGroup(F2,DEqG!.free);
-    #Bridge: F₂⋆Fₓ⋆Fₓ → Q⋆Fₓ⋆Fₓ, g₁,g₂↦q1,q2 
+    #Bridge: F₂⋆Fₓ⋆Fₓ → Q⋆Fₓ⋆Fₓ, g₁,g₂↦q1,q2  corresponds to i_H in the text.
     Bridge := FreeProductHomomorphism(DEqF2,DEqQ,[GroupHomomorphismByImages(F2,Q,[q1,q2]),IdentityMapping(FF)]);
     SetIsEquationHomomorphism(Bridge,true);
     
@@ -246,7 +239,7 @@ GetSuccessor  := function(q,gamma)
     I := Intersection(EquationVariables(EqComp[1]),EquationVariables(EqComp[2]));
 	#I is nonempty as #act(γ) ≠ (1,1,1…1)
 	normalforms := [];
-	for x in I do
+	for x in I do #x corresponds to Y₀ in the text.
 		#fail> n ∀n
 		newEq := []; #v1*w2*g2*w1*v2*g1;
 		indx := Minimum(Position(EqComp[1],x),Position(EqComp[1],x^-1));
@@ -266,9 +259,8 @@ GetSuccessor  := function(q,gamma)
 		Assert(0,nf.nf^nf.homInv=newEq);
 		#normal form is [x₁₁,x₁₂]…[x₅₁,x₅₂] x₆₁⁻¹g₂g₁x₆₁ 
 		Assert(0,nf.nf=Equation(DEqF2,[Product([1,3..2*n-3],i->Comm(FF.(i),FF.(i+1))),FF.(2*n-1)^-1,g2,FF.(2*n-1),g1]));
-		#z is the preimage of x₆₁ or z=x₄₁ depending on |γ|=n
+		#z is the preimage of x₆₁ or z=x₄₁ depending on |γ|=n 
 		z := Equation(FreeProductElm(DEqF2,[DEqG!.free.(2*n-1)]))^nf.homInv;
-		#Assert(0,Size(z)=1); #not nec. anymore, but true?
 		Add(normalforms,[z,nf,newEq]);
 	od;
 
@@ -277,16 +269,18 @@ GetSuccessor  := function(q,gamma)
 		
 		if IsOne(Equation(DEqF2,Concatenation(EqComp[1]!.word,[g1]))^H) and 
 		   IsOne(Equation(DEqF2,Concatenation(EqComp[2]!.word,[g2]))^H) then
+           # so gp in Γ₂
 			for nf in normalforms do
-				z := nf[1]^H;nf:=nf[2];
+				z := nf[1]^H;nf:=nf[2]; #new z is gpp(z) with gpp = gp∘nf 
                 if z in List(Q){[1,2,5,9,13,6,15,10]} then # = [1,a,b,c,d,ab,ad,ba]^π
     				#Compute the image of γ' under the normalization hommorphism and simplify it to the F₅ case
-    				
-    				gaP := [MakeImmutable( ReducedConstraint( List([1..2*n-2],i->ImageElm(nf.homInv*H,FF.(i))) ) ),z];
+                    # gaP = γ''|F_10 with γ'' ∈ Γ⁴
+                    gaP := [MakeImmutable( ReducedConstraint( List([1..2*n-2],i->ImageElm(nf.homInv*H,FF.(i))) ) ),z];
     				Suc := List(PreImages(varpiPrimeLP,p_h(q,PreImagesRepresentative(pi,z))));
                     Add(gaP,Suc); #Adding all possible succeccors mod K' to the returned list
     				#Added check for nontrivial activity.
     				if HasNontrivialActivity(gaP[1]) and ForAll(Suc, r->IsGoodPair(r,gaP[1])) then
+                        # so gaP ∈ Γ and fullfills Proposition 4.15
     					return gaP; #[γ',z,{q₁,…,q₁₆}]
     				fi;
                 fi;
@@ -298,7 +292,7 @@ end;
 
 
 # The following function computes for each active good pair (q,γ) 
-# the succesing (γ',x) as in Prop. 2.16
+# the succesing (γ',x) as in Prop. 4.15
 #
 # The resulting list RealGoodPairs contains tuples (q,γ,[γ',x,[q₁,…,q₁₆]]) foreach
 # q ∈ G'/K', γ∈Red such that γ has nontrivial activity and (q,γ) is a good pair.
