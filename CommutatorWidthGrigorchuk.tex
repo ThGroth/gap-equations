@@ -56,8 +56,7 @@ Fink~\cite[Question~3]{Fink:Conjugacy_growth}:
 \begin{cora}\label{cor:productOf6Conjugates}
   Every element of $G'$ is a product of $6$ conjugates of the
   generator $a$ and there are elements $g\in G'$ which are 
-  not products of $4$ conjugates of $a$.\marginnote{Is "a" as variable
-  readable?}
+  not products of $4$ conjugates of $a$.
 \end{cora}
 
 
@@ -245,7 +244,10 @@ We fix a set $\mathcal{X}$ and call its elements \emph{variables}.  We
 assume that $\mathcal{X}$ is infinite countable, is well ordered, and
 that its family of finite subsets is also well ordered, by size and
 then lexicographic order. We denote by $F_{\mathcal{X}}$ the free
-group on the generating set $\mathcal{X}$.
+group on the generating set $\mathcal{X}$. We use $\id$ for the
+identity element of homomorphisms, to distinguish it from the
+numerical $1$.
+
 
 \begin{defi}[$G$-group, $G$-homomorphism]
   Let $G$ be a group. A \emph{$G$-group} is a group with a
@@ -307,7 +309,7 @@ A $G$-equation $\eq{E}$ is is called \emph{oriented} if for each variable
 $X\in \Var(\eq{E})$ the number of occurrences with positive and with
 negative sign coincide, namely if $\eq{E}$ maps to the identity under the
 natural map $F_{\mathcal{X}}*G\to F_{\mathcal{X}}/[F_{\mathcal{X}},F_{
-\mathcal{X}}]*1$.\marginnote{Sometimes we write $1$ and sometimes $\id$}
+\mathcal{X}}]*\id$.
 Otherwise $\eq{E}$ is called \emph{unoriented}.
 \begin{lem}
  Being oriented or not is preserved under equivalence of equations.
@@ -718,8 +720,7 @@ The following are equivalent:
 \end{proof}
 
 We study now more carefully the quotients $\RNK{G}{K}$, $\RNK{G}{K'}$
-and $\RNK{G}{K\times K}$. \marginnote{Is $\RNK{G}{(K\times K)}$ better readable
-or overloading?}
+and $\RNK{G}{(K\times K)}$.
 \begin{lem} \label{lem:subgroupsOfG}
 Let us write $k_1 := (ab)^2, k_2:=\pair{\id,k_1} = (abad)^2$ and $k_3:=\pair{k_1,\id} = (bada)^2$. Then 
  \begin{align*}
@@ -727,9 +728,9 @@ Let us write $k_1 := (ab)^2, k_2:=\pair{\id,k_1} = (abad)^2$ and $k_3:=\pair{k_1
   K &= \left< k_1,k_2,k_3\right>, \\
   K\times K &= \{\pair{k,k'} \mid k,k'\in K\} \\&= \left< k_2,k_3,[k_1,k_2],[k_1,k_3],[k_1^{-1},k_2],[k_1^{-1},k_3] \right>,\\
   K' &= \left< [k_1,k_2] \right>^G \\ 
-  &= \left<[k_2,k_1],[k_1,k_2^{-1}],[k_2,k_1]^{k_2},[k_1^{-1},k_2], [k_2,k_1]^{k_1},[k_2^{-1},k_1^{-1}]\right>^{\{1,a\}} 
+  &= \left<[k_2,k_1],[k_1,k_2^{-1}],[k_2,k_1]^{k_2},[k_1^{-1},k_2], [k_2,k_1]^{k_1},[k_2^{-1},k_1^{-1}]\right>^{\{\id,a\}} 
  % &= \left<(dacabaca)^2(baca)^4,((ca)^2baca)^2,(dacabaca)^2c(acab)^3acad,\right.\\
- % &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{1,a}\ .
+ % &\qquad\left.((ac)^3ab)^2, bacadacab(ac)^2(acab)^3, (acadacab)^2(acab)^4\right>^{\id,a}\ .
  \end{align*}
 Furthermore these groups form a tower with indices
 \begin{align*}
@@ -882,7 +883,7 @@ $\gamma'(Y_0)=({\gamma'*\varpi})(w_2\mathfrak g_2w_1)=(
 {\gamma'*\varpi})(\ell_{Y_0,n}(Y_0))$ and hence
 \begin{equation}
 \gamma'=(\gamma'*\varpi)\circ \ell_{Y_0,n}\textup{ for all }\gamma'\in
-\Gamma_2^{q1,q2,n}(\gamma),\varpi\colon \mathfrak{g}_i\mapsto q_i,Y_0.
+\Gamma_2^{q_1,q_2,n}(\gamma),\varpi\colon \mathfrak{g}_i\mapsto q_i,Y_0.
 \label{eq:gamma'invariantUnderEll}
 \end{equation} 
 Consider the automorphisms
@@ -1015,7 +1016,7 @@ Note that (*) holds automatically by construction.
 %  \end{align*}
 %  since $b$ commutes with all generators of $G$ modulo $K$ it is
 %  \begin{align*}
-%   p(g) &= w(ac,(ab)^2,1,b) \cdot w(ca,1,(ab)^2,b)\\ &\equiv w(ac,1,1,1) \cdot w(ca,1,1,1) \cdot w(1,1,1,b)^2 \equiv 1 \mod K.
+%   p(g) &= w(ac,(ab)^2,\id,b) \cdot w(ca,\id,(ab)^2,b)\\ &\equiv w(ac,\id,\id,\id) \cdot w(ca,\id,\id,\id) \cdot w(\id,\id,\id,b)^2 \equiv \id \mod K.
 %  \end{align*}
 %  For $h\in G$ it is $p_h(g)=[h,(g\at{2})^{-1}]p(g)$ and therefore $p_h(g)\in G'$ for all $g\in G'$.
 % \end{proof}
@@ -1240,7 +1241,7 @@ Together with Lemma~\ref{lem:existsGoodGammaForRed4} this proves the first part 
  Since $\id$ has trivial activity one cannot directly apply 
  Proposition~\ref{pro:solvableConstraintedEquations}.  However one can check that all 
  pairs $(h,\gamma_1),(f,\gamma_2)$ such that $g=\pair{h,f}$ and
- $\gamma_1=(1,1,\pi(bad),1)$, $\gamma_2=(1,1,1,\pi(ca))$ are good pairs with active
+ $\gamma_1=(\id,\id,\pi(bad),\id)$, $\gamma_2=(\id,\id,\id,\pi(ca))$ are good pairs with active
  constraints and hence admit solutions $s_1,s_2\colon F_4\to G$.
  
  We can then define the map $s\colon F_4\to G, X_i\mapsto \pair{s_1(X_i),s_2(X_i)}$; it is a solution
@@ -1300,7 +1301,6 @@ details see Section \ref{sec:precomputation}.
  that this element is even a member of $K$.
 \begin{figure}
 \includegraphics[width=\textwidth]{gap/PCD/noncomm29states}
- \marginnote{Should I make a nicer picture with less overlapping arrows?}
  %\captionsetup{parskip=5pt,singlelinecheck=off}
  \caption[Noncommutator]{Element of the derived subgroup of the Grigorchuk group which is not a commutator. In standard generators:
 
@@ -1365,7 +1365,7 @@ This finishes the proof of Corollary~\ref{cor:productOf6Conjugates}.
 \end{cor}
 \begin{proof}
  The following set $T$ is a transversal of $\RNK{G}{G'}$:
- \[T=\{1,a,d^aa,d^a,b,ab^a,ca^d,bd^a\}.\]
+ \[T=\{\id,a,d^aa,d^a,b,ab^a,ca^d,bd^a\}.\]
  Therefore, every element $g\in G$ can be written as $g=th$ with $t\in T$ and $h\in G'$. As every element of $G'$ is a product of at most $6$ conjugates of $a$ this proves the claim.
 %  \begin{align}
 %   T &=\{&1&,&a&,&ad=d^aa&,&ada=d^a,\\
@@ -1477,9 +1477,9 @@ In the following theorem we summarize our results for the commutator width of th
 
  For the last claim, consider a sequence $(H_i)$ of subgroups of $K$
  such that $H_i$ has commutator width at least $i$. Let
- $\psi_0\colon K\to K\times K\le K$ be the map $k\mapsto\pair{k,1}$
+ $\psi_0\colon K\to K\times K\le K$ be the map $k\mapsto\pair{k,\id}$
  and for $i\ge1$ let $\psi_i\colon K\to K\times K\le K$ be the map
- $k\mapsto\pair{1,\psi_{i-1}(k)}$. Then
+ $k\mapsto\pair{\id,\psi_{i-1}(k)}$. Then
  $H:=\langle\psi_i(H_i):i\in\NN\rangle$ is a subgroup of $K$ and hence
  of $G$ and is isomorphic to the restricted direct product of the
  $H_i$, so it has infinite width.  
@@ -1518,7 +1518,7 @@ This is what the functions check:
   good pairs with the constraint $\gamma'$. This is needed in the proof of
   Proposition~\ref{pro:existsNextPair} and Proposition~\ref{pro:existsNextPair4}.
 \item[\texttt{verifyCorollaryFiniteCWK}] Corollary~\ref{cor:KhasCW2} needs the
-  existence of succeeding good pairs of the pair $(1,\id)\in\RNK{K'}{K'}\times\Red^4$.
+  existence of succeeding good pairs of the pair $(\id,\id)\in\RNK{K'}{K'}\times\Red^4$.
   This function verifies this existence. 
 \item[\texttt{verifyExistGoodConjugacyConstraints}] This verifies that for the equation
   $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}a$ there are constraints $\gamma$ 
@@ -1552,7 +1552,7 @@ The argument is a string and can be one of the following:
 		      This computation will take about half an hour on ordinary machines
            and is equipped with a progress bar. 
 		      
-		      Afterwards the succeeding pairs of $(1,\id)$ which are 
+		      Afterwards the succeeding pairs of $(\id,\id)$ which are 
           needed for Corollary~\ref{cor:KhasCW2} are computed. 
    \item [\texttt{``conjugacywidth''}] Denote by $\eq{E}_g$ the equation $a^{X_1}a^{X_2}a^{X_3}a^{X_4}a^{X_5}ag$.
 		      For each $\tau(g)=q\in\RNK{G'}{K'}$ this will compute a constraint 
