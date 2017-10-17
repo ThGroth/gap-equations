@@ -593,8 +593,6 @@ LoadPrecomputedData := function()
     PCD.nonCommutatorG := ReadAsFunction(Filename(dir,"PCD/noncommutator.go"))();
     PCD.epiGermGroup4 := EpimorphismGermGroup(G,4);
     PCD.GermGroup4 := Range(PCD.epiGermGroup4);
-    tbl := CharacterTable(PCD.GermGroup4);
-    SetIrr(tbl,List(ReadAsFunction(Filename(dir,"PCD/IrrGermGroup4.go"))(),L->Character(tbl,L)) );
     PCD.nonCommutatorGermGroup4 := PCD.nonCommutatorG^PCD.epiGermGroup4;
     return PCD;
 end;
