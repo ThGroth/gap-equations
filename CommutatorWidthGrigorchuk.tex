@@ -1564,16 +1564,18 @@ The argument is a string and can be one of the following:
 		      $(\eq{E}'_g,\gamma')$ is a good pair for all $g$ with $\tau(g)=q$.
 		      
 		      The computation will take about one hour and is equipped with a progress bar.
-   \item [\texttt{``charactertable''}] This will compute the character table of 
-          the $4$-th level germgroup and the set of irreducible characters. 
-		      As the germgroup is quite large, this
-		      will take about $3$ hours. There is no kind of progress bar.
    \item [\texttt{``noncommutator''}] Inside the $4$-th level germgroup there is
           an element which is not a commutator but in the commutator subgroup.
           Since this group is finite we could in principle search by brute force
           for a commutator. 
           Luckily there are only $3106$ irreducible characters in this group and
           hence we can use Burnsides formula \eqref{eq:BurnsideFormula}. 
+
+          This will compute the character table of 
+          the $4$-th level germgroup and the set of irreducible characters the
+          computation will take about $3$ hours. Then the characters are checked
+          against Burnsides formula.
+
           The search will almost immediately give a result. Most of the
           computation time is used to assert that the found element is indeed
           not a commutator.

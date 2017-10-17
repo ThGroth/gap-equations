@@ -23,9 +23,9 @@ GermGroup4 := Group(
 noncom := Product([13,14,15,16,17,18,19,20,22,24,26,28,31,35,37,38,40,41,42,44],i->GG.(i));
 
 tbl := CharacterTable(GermGroup4);
-irr := List(ReadAsFunction(Filename(dir,"PCD/IrrGermGroup4.go"))(),L->Character(tbl,L));
-SetIrr(tbl,irr);
-
+Info(InfoCW,1,"Computing character table.\n");
+irr:= Irr( tbl );;
+Info(InfoCW,1,"character table computed.\n");
 
 
 #Assert(2,not IsCommutatorInFiniteGroup(GermGroup4,noncom) and

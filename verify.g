@@ -48,10 +48,8 @@ PCD := LoadPrecomputedData();;
 # 				  the graph of the successors. Runtime: ~3/4h
 # ∙ "conjugacywidth" : computes the succecors for the product of 6 conjugate equations.
 # 				  Runtime: ~1h
-# ∙ "charactertable" : computes the character table with irreducibles of 
-# 					   the 4ᵗʰ germ group. Runtime ~3h
 # ∙ "noncommutator" : computes an element of G which is not a commutator.
-# 					  Runtime ~3h 					  
+# 					  Runtime ~6h 					  
 # ∙ "all" : Do all of the above.
 # Additionally it is possible to give a list of modes. They are then performed in
 # the given order. 
@@ -68,8 +66,6 @@ RedoPrecomputation := function(mode)
 		Read(Filename(dir,"precomputeGoodPairs.g"));
 	elif  LowercaseString(mode) = "conjugacywidth"  then
 		Read(Filename(dir,"precomputeConjugacyWidth.g"));
-	elif  LowercaseString(mode) = "charactertable"  then
-		Read(Filename(dir,"precomputeCharacterTableGermGroup.g"));	
 	elif  LowercaseString(mode) = "noncommutator"  then
 		Read(Filename(dir,"precomputeNonCommutator.g"));	
 	#	Read(Filename(dir,"precomputeNonCommutatorNoFR.g"));	
