@@ -29,9 +29,14 @@ GQ := Range(quot);
 GQp := DerivedSubgroup(GQ);
 CC := ConjugacyClasses(GQ);;
 tbl := CharacterTable(GQ);
-Info(InfoCW,1,"Computing character table.\n");
-irr:= Irr( tbl );;
-Info(InfoCW,1,"character table computed.\n");
+chTblFile := Filename(dir,"PCD/IrrGermGroup4.go");
+if IsExistingFile(chTblFile) then
+	irr := List(ReadAsFunction(chTblFile)(),L->Character(tbl,L));;
+	SetIrr(tbl,irr);
+else
+	Read(Filename(dir,"precomputeCharacterTableGermGroup.g"));
+fi;
+
 derived:= Intersection(List(LinearCharacters( tbl ),ClassPositionsOfKernel) );;
 commut:= Filtered([1 .. Length( irr )],i->not Sum( irr, chi -> chi[i]/chi[1] )=0);;
 noncommut:= List( Difference(derived,commut), i->IdentificationOfConjugacyClasses(tbl)[i]);;

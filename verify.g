@@ -66,7 +66,10 @@ RedoPrecomputation := function(mode)
 		Read(Filename(dir,"precomputeGoodPairs.g"));
 	elif  LowercaseString(mode) = "conjugacywidth"  then
 		Read(Filename(dir,"precomputeConjugacyWidth.g"));
+	elif  LowercaseString(mode) = "charactertable"  then
+		Read(Filename(dir,"precomputeCharacterTableGermGroup.g"));	
 	elif  LowercaseString(mode) = "noncommutator"  then
+
 		Read(Filename(dir,"precomputeNonCommutator.g"));	
 	#	Read(Filename(dir,"precomputeNonCommutatorNoFR.g"));	
 	elif  LowercaseString(mode) = "all"  then
