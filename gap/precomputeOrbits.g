@@ -183,16 +183,20 @@ ComputeTable2 := function(O)
 end;
 
 #Takes ~20 Minutes 
-orbitTable := ComputeTable(orbits);;
-orbitTable2 := ComputeTable2(orbits2);;
-
+orbitTable := ComputeTable(orbits);
 orbitTableFile := Filename(dir,"PCD/orbitTable.go");
-orbitTableFile2 := Filename(dir,"PCD/orbitTable2.go");
-PrintTo(orbitTableFile,Concatenation("return ",String(orbitTable),";"));
-PrintTo(orbitTableFile2,Concatenation("return ",String(orbitTable2),";"));
-
+s := String(List(orbitTable,a->List(a,b->List(b,c->List(c,d->List(d,e->e[1]))))));
+RemoveCharacters(s," ");
+PrintTo(orbitTableFile,Concatenation("return List(",s,",a->List(a,b->List(b,c->List(c,d->List(d,e->[e])))));"));
 #Check that everything worked as expected
 Assert(0,orbitTable=ReadAsFunction(orbitTableFile)());
+
+orbitTable2 := ComputeTable2(orbits2);
+orbitTableFile2 := Filename(dir,"PCD/orbitTable2.go");
+s := String(orbitTable2);
+RemoveCharacters(s," ");
+PrintTo(orbitTableFile2,Concatenation("return ",s,";"));
+#Check that everything worked as expected
 Assert(0,orbitTable2=ReadAsFunction(orbitTableFile2)());
 #######################################################################################
 #######################################################################################

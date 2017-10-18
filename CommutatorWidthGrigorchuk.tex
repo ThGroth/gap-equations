@@ -1573,16 +1573,16 @@ The argument is a string and can be one of the following:
           Since this group is finite we could in principle search by brute force
           for a commutator. 
           Luckily there are only $3106$ irreducible characters in this group and
-          hence we can use Burnsides formula \eqref{eq:BurnsideFormula}. 
+          therefore we can use Burnside's formula \eqref{eq:BurnsideFormula}. 
           The search will almost immediately give a result. Most of the
           computation time is used to assert that the found element is indeed
           not a commutator.
 		      
-		      The element is then used to compute a preimage in $G$ with a minimal 
-		      number of states.
+	  The element is then lifted to its preimage in $G$ with a minimal 
+	  number of states.
 
-		      Checking the assertion will take approximately $3$ hours and is equipped 
-		      with a progress bar. 
+	  Checking the assertion will take approximately $3$ hours and is equipped 
+	  with a progress bar. 
   \item [\texttt{``all''}] This will do all of the above one after another.		      
    \end{description}
 To recompute the orbits or the charactertable GAP should be 
