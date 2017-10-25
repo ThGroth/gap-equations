@@ -60,7 +60,7 @@ DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
 ##</ManSection>
 ##<ManSection>
 ## <Attr Name="EquationLetterRep" Arg="E"
-##		 Label="group,list"/>
+##		 Label="equation"/>
 ##   <Returns>A a new element of the equation group <A>G</A> in letter 
 ## representation which is equal to <A>E</A></Returns>
 ##   <Description>
@@ -80,6 +80,11 @@ DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
 ## FreeProductElm([ f1, f2, (1,2), f1 ])
 ## ]]></Example>
 ##   </Description>
+##</ManSection>
+##<ManSection>
+## <Attr Name="EquationLetterRep" Arg="G,L"
+##		 Label="group,list"/>
+##   <Returns>Creates a new equation in letter representation</Returns>
 ##</ManSection>
 ##<ManSection>
 ## <Prop Name="IsQuadraticEquation" Arg="E"

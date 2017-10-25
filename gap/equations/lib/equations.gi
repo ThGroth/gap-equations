@@ -25,7 +25,7 @@ InstallMethod( EquationGroup, "for two groups",
 ####	                          Equations                                  ####
 ####                                                                         ####
 #################################################################################
-InstallMethod( Equation, "(Equation) for a list of group elements and unknowns and boolean",
+InstallMethod( Equation, "(Equation) for a list of group elements and unknowns",
 	[IsEquationGroup,IsList],
 	function(eqG,elms)
 		local eq;
@@ -82,6 +82,12 @@ InstallMethod(EquationLetterRep, "for an Equation",
 													fi; return 2;
 												 end) );
 		return Equation(Eq);
+	end);
+
+InstallOtherMethod( EquationLetterRep, "For a list of group elements and unknowns",
+	[IsEquationGroup,IsList],
+	function(eqG,elms)
+		return EquationLetterRep(Equation(eqG,elms));
 	end);
 
 InstallMethod( EquationVariables, "for a Equation",
