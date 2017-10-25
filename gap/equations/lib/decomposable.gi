@@ -259,13 +259,15 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 			TryNextMethod();
 		fi;
 		#Step 1 find common variables.
-		Comp := List(EquationComponents(x),EquationLetterRep);
+		Comp := EquationComponents(x);
 		EqG := x!.group;
 		change := true;
 		Hom := EquationHomomorphism(EqG,[],[]);
 
 		while change do		
 			change := false;
+			#work in letter representation
+			Comp := List(Comp,EquationLetterRep);
 			Vars := List(Comp,eq->EquationVariables(eq));
 			for i in [1..Length(Comp)] do
 				CommonVars := [];
