@@ -298,10 +298,20 @@ InstallMethod(EquationNormalForm, "for an Equation",
 InstallMethod(EquationSignature, "for an Equation",
 	[IsEquation and IsFreeProductElmRep],
 	function(x)
+		if IsOne(x) then
+			return [0,0];
+		fi;
+		if Size(EquationVariables(x))=0 then
+			return [0,1];
+		fi;
 		if not IsQuadraticEquation(x) then
 			TryNextMethod();
 		fi;			
 		x := EquationNormalForm(x).nf;
+		#Check again for trivial equation
+		if Size(EquationVariables(x))=0 then
+			return [0,1];
+		fi;
 		if IsOrientedEquation(x) then
 			return [Int(Length(x!.word[1])/4),Int(Length(x!.word)/2)];
 		else
