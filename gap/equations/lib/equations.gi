@@ -121,23 +121,20 @@ InstallOtherMethod( One,"for an EquationGroup",
 InstallMethod( IsQuadraticEquation, "for a Equation",
 		[IsEquation and IsFreeProductElmRep],
 		function(x)
-			local i,Val;
-			Val := rec();
-			for i in Concatenation(List(
-					Filtered(x!.word,e->e in x!.free),
-					fw -> LetterRepAssocWord(fw)
-					)) do
-				i := AbsInt(i);
-				if IsBound(Val.(i)) then
-					if Val.(i) > 1 then
-						return false;
-					fi;
-					Val.(i) := 2;	
-				else
-					Val.(i) := 1;
+			local i,e,Val;
+			Val := [];
+			for e in EquationVariables(x) do
+				Val[LetterRepAssocWord(e)[1]]:=0;
+			od;
+			for e in x!.word do
+				if e in x!.free then
+					for i in LetterRepAssocWord(e) do
+						i := AbsInt(i);
+						Val[i] := Val[i]+1;
+					od;
 				fi;
 			od;
-			return true;
+			return ForAll(Val,i->IsEvenInt(i));
 		end
 );
 
