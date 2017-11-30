@@ -1,1 +1,7 @@
-<!-- empty -->
+<P/> The package is installed by unpacking the archive in the
+<File>pkg/</File> directory of your &GAP; installation. 
+
+<Example><![CDATA[
+gap> LoadPackage("equations");
+true
+]]></Example>
