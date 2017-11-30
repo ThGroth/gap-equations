@@ -1,0 +1,790 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE file SYSTEM "bibxmlext.dtd">
+<file>
+<entry id="Amir:Amenability_of_automaton_groups"><article>
+  <author>
+    <name><first>Amir</first><last>Gideon</last></name>
+    <name><first>Angel</first><last>Omer</last></name>
+    <name><first>Virág</first><last>Bálint</last></name>
+  </author>  
+  <title>Amenability of linear-activity automaton groups </title>
+  <journal>Journal of the european Mathematical society </journal>
+  <year>2013</year>
+  <volume>15</volume>
+  <number>3</number>
+  <pages>705 - 730</pages>
+  <other type="doi">10.4171/JEMS/373</other>
+</article></entry>
+<entry id="Bartholdi:Engel"><incollection>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+  </author>  
+  <title>Algorithmic decidability of <C>E</C>ngel's property for automaton
+              groups</title>
+  <booktitle>Computer science---theory and applications</booktitle>
+  <publisher>Springer, [Cham]</publisher>
+  <year>2016</year>
+  <volume>9691</volume>
+  <series>Lecture Notes in Comput. Sci.</series>
+  <pages>29--40</pages>
+  <mrnumber>3533843</mrnumber>
+  <mrclass>20F10 (20F45 68Q45 68W30)</mrclass>
+  <url>http://dx.doi.org/10.1007/978-3-319-34171-2_3</url>
+  <other type="doi">10.1007/978-3-319-34171-2_3</other>
+</incollection></entry>
+<entry id="FR2.3.6"><misc>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+  </author>  
+  <title><C>FR</C>, Computations with functionally recursive groups,
+                      <C>V</C>ersion 2.3.6</title>
+  <howpublished>\verb+https://www.gap-system.org/Packages/fr.html+</howpublished>
+  <month>Apr</month>
+  <year>2016</year>
+  <note>GAP package</note>
+</misc></entry>
+<entry id="LPRES0.3.0"><misc>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+    <name><first>Ren{\'e}</first><last>Hartung</last></name>
+  </author>  
+  <title>GAP Package <C>LPRES</C>,
+                      <C>V</C>ersion 0.3.0</title>
+  <howpublished>\verb+https://laurentbartholdi.github.io/lpres+</howpublished>
+  <month>Mai</month>
+  <year>2016</year>
+  <note>GAP package</note>
+  <url>\verb+(https://laurentbartholdi.github.io/lpres)+</url>
+</misc></entry>
+<entry id="Bartholdi:Growth"><article>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+  </author>  
+  <title>The growth of <C>G</C>rigorchuk's torsion group</title>
+  <journal>Internat. Math. Res. Notices</journal>
+  <year>1998</year>
+  <number>20</number>
+  <pages>1049--1054</pages>
+  <issn>1073-7928</issn>
+  <mrnumber>1656258</mrnumber>
+  <mrclass>20F32</mrclass>
+  <mrreviewer>Victor Petrogradsky</mrreviewer>
+  <url>http://dx.doi.org/10.1155/S1073792898000622</url>
+  <other type="doi">10.1155/S1073792898000622</other>
+  <other type="fjournal">International Mathematics Research Notices</other>
+</article></entry>
+<entry id="Bartholdi:Mothergroups"><article>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+    <name><first>Vadim A.</first><last>Kaimanovich</last></name>
+    <name><first>Volodymyr V.</first><last>Nekrashevych</last></name>
+  </author>  
+  <title>On amenability of automata groups</title>
+  <journal>Duke Math. J.</journal>
+  <year>2010</year>
+  <volume>154</volume>
+  <number>3</number>
+  <pages>575--598</pages>
+  <month>09</month>
+  <url>http://dx.doi.org/10.1215/00127094-2010-046</url>
+  <other type="doi">10.1215/00127094-2010-046</other>
+  <other type="fjournal">Duke Mathematical Journal</other>
+  <other type="publisher">Duke University Press</other>
+</article></entry>
+<entry id="Bartholdi:RepresentationZetaFunctions"><article>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+  </author>  
+  <title><C>Representation zeta functions of self-similar branched
+      groups</C></title>
+  <journal>ArXiv e-prints</journal>
+  <year>2013</year>
+  <month>STRING-NOT-KNOWN: mar</month>
+  <keywords>Mathematics - Group Theory</keywords>
+  <other type="archiveprefix">arXiv</other>
+  <other type="eprint">1303.1805</other>
+  <other type="primaryclass">math.GR</other>
+</article></entry>
+<entry id="Bartholdi:zeta_functions"><article>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+    <name><first>Pierre</first><last>de la Harpe</last></name>
+  </author>  
+  <title>Representation zeta functions of wreath products with finite
+      groups</title>
+  <journal>Groups, Geometry, and Dynamics </journal>
+  <year>2010</year>
+  <other type="publischer">European Mathematical Society</other>
+</article></entry>
+<entry id="Bartholdi:Endomorphic_presentations"><article>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+  </author>  
+  <title>Endomorphic presentations of branch groups </title>
+  <journal>Journal of Algebra </journal>
+  <year>2003</year>
+  <volume>268</volume>
+  <number>2</number>
+  <pages>419 - 443</pages>
+  <issn>0021-8693</issn>
+  <url>http://www.sciencedirect.com/science/article/pii/S0021869303002680</url>
+  <other type="doi">http://dx.doi.org/10.1016/S0021-8693(03)00268-0</other>
+</article></entry>
+<entry id="Bartholdi-Groth-Lysenok:CommutatorWithGrig"><article>
+  <author>
+    <name><first>Laurent</first><last>{Bartholdi}</last></name>
+    <name><first>Thorsten</first><last>{Groth}</last></name>
+    <name><first>Igor</first><last>{Lysenok}</last></name>
+  </author>  
+  <title><C>Commutator width in the first Grigorchuk group</C></title>
+  <journal>ArXiv e-prints</journal>
+  <year>2017</year>
+  <month>STRING-NOT-KNOWN: oct</month>
+  <keywords>Mathematics - Group Theory, Computer Science - Logic in Computer
+      Science</keywords>
+  <other type="archiveprefix">arXiv</other>
+  <other type="eprint">1710.05706</other>
+  <other type="primaryclass">math.GR</other>
+</article></entry>
+<entry id="miller1899"><article>
+  <author>
+    <name><first>G. A.</first><last>Miller</last></name>
+  </author>  
+  <title>On the commutators of a given group</title>
+  <journal>Bull. Amer. Math. Soc.</journal>
+  <year>1899</year>
+  <volume>6</volume>
+  <number>3</number>
+  <pages>105--109</pages>
+  <month>12</month>
+  <url>http://projecteuclid.org/euclid.bams/1183416038</url>
+  <other type="fjournal">Bulletin of the American Mathematical Society</other>
+  <other type="publisher">American Mathematical Society</other>
+</article></entry>
+<entry id="Bartholdi-Grigorchuk:parabolicSubgroups"><article>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+    <name><first>Rostislav I.</first><last>Grigorchuk</last></name>
+  </author>  
+  <title>On parabolic subgroups and <C>H</C>ecke algebras of some fractal
+              groups</title>
+  <journal>Serdica Math. J.</journal>
+  <year>2002</year>
+  <volume>28</volume>
+  <number>1</number>
+  <pages>47--90</pages>
+  <issn>1310-6600</issn>
+  <mrnumber>1899368</mrnumber>
+  <mrclass>20E08 (20C08)</mrclass>
+  <mrreviewer>S. Andreadakis</mrreviewer>
+  <other type="fjournal">Serdica. Mathematical Journal. Serdika.
+      Matematichesko
+              Spisanie</other>
+</article></entry>
+<entry id="Bartholdi-Grigorchuk-Sunik:BranchGroups"><incollection>
+  <author>
+    <name><first>Laurent</first><last>Bartholdi</last></name>
+    <name><first>Rostislav I.</first><last>Grigorchuk</last></name>
+    <name><first>Zoran</first><last>Sunik</last></name>
+  </author>  
+  <title>Branch groups</title>
+  <booktitle>Handbook of algebra, <C>V</C>ol. 3</booktitle>
+  <publisher>Elsevier/North-Holland, Amsterdam</publisher>
+  <year>2003</year>
+  <volume>3</volume>
+  <series>Handb. Algebr.</series>
+  <pages>989--1112</pages>
+  <mrnumber>2035113</mrnumber>
+  <mrclass>20E08 (05C25 20F10 20F65 22D10 37B05 43A07 68Q70)</mrclass>
+  <mrreviewer>Tullio G. Ceccherini-Silberstein</mrreviewer>
+  <url>http://dx.doi.org/10.1016/S1570-7954(03)80078-5</url>
+  <other type="doi">10.1016/S1570-7954(03)80078-5</other>
+</incollection></entry>
+<entry id="Bartholdi-Mitrofanov:OrderProblem"><article>
+  <author>
+    <name><first>L.</first><last>{Bartholdi}</last></name>
+    <name><first>I.</first><last>{Mitrofanov}</last></name>
+  </author>  
+  <title><C>The word and order problems for self-similar and automata
+      groups</C></title>
+  <journal>ArXiv e-prints</journal>
+  <year>2017</year>
+  <month>STRING-NOT-KNOWN: oct</month>
+  <keywords>Mathematics - Group Theory, Computer Science - Logic in Computer
+      Science</keywords>
+  <other type="archiveprefix">arXiv</other>
+  <other type="eprint">1710.10109</other>
+  <other type="primaryclass">math.GR</other>
+</article></entry>
+<entry id="Bondarenko:PostCriticallyGroups"><article>
+  <author>
+    <name><first>E.</first><last>Bondarenko</last></name>
+    <name><first>V.</first><last>Nekrashevych</last></name>
+  </author>  
+  <title>Post-critically finite self-similar groups</title>
+  <journal>Algebra Discrete Math.</journal>
+  <year>2003</year>
+  <number>4</number>
+  <pages>21--32</pages>
+  <issn>1726-3255</issn>
+  <mrnumber>2070400</mrnumber>
+  <mrclass>20E08</mrclass>
+  <mrreviewer>Olympia Talelli</mrreviewer>
+  <other type="fjournal">Algebra and Discrete Mathematics</other>
+</article></entry>
+<entry id="BBSZ:CP-for_f.s."><article>
+  <author>
+    <name><first>Ievgen V.</first><last>Bondarenko</last></name>
+    <name><first>Natalia V.</first><last>Bondarenko</last></name>
+    <name><first>Said N.</first><last>Sidki</last></name>
+    <name><first>Flavia R.</first><last>Zapata</last></name>
+  </author>  
+  <title>On the conjugacy problem for finite--state automorphisms of regular
+      rooted trees</title>
+  <journal>Noncommutative Geometry</journal>
+  <year>2013</year>
+  <volume>7</volume>
+  <number>2</number>
+  <pages>pp. 323--355</pages>
+</article></entry>
+<entry id="BrunnerSidki:GLnZAutomatongroup"><article>
+  <author>
+    <name><first>A. M.</first><last>Brunner</last></name>
+    <name><first>Said</first><last>Sidki</last></name>
+  </author>  
+  <title>The generation of <C><M>{\rm GL}(n,\bold Z)</M></C> by finite state
+              automata</title>
+  <journal>Internat. J. Algebra Comput.</journal>
+  <year>1998</year>
+  <volume>8</volume>
+  <number>1</number>
+  <pages>127--139</pages>
+  <issn>0218-1967</issn>
+  <mrnumber>1492064</mrnumber>
+  <mrclass>20F10 (68Q68)</mrclass>
+  <mrreviewer>Olympia Talelli</mrreviewer>
+  <url>https://doi.org/10.1142/S0218196798000077</url>
+  <other type="fjournal">International Journal of Algebra and
+      Computation</other>
+</article></entry>
+<entry id="Burnside:Groups"><book>
+  <author>
+    <name><first>William</first><last>Burnside</last></name>
+  </author>  
+  <title>Theory of groups of finite order</title>
+  <publisher>Dover Publications, Inc., New York</publisher>
+  <year>1955</year>
+  <note>2d ed</note>
+  <mrnumber>0069818</mrnumber>
+  <mrclass>20.0X</mrclass>
+  <other type="pages">xxiv+512</other>
+</book></entry>
+<entry id="Calegari:SCL"><book>
+  <author>
+    <name><first>Danny</first><last>Calegari</last></name>
+  </author>  
+  <title>scl</title>
+  <publisher>Mathematical Society of Japan, Tokyo</publisher>
+  <year>2009</year>
+  <volume>20</volume>
+  <series>MSJ Memoirs</series>
+  <isbn>978-4-931469-53-2</isbn>
+  <mrnumber>2527432</mrnumber>
+  <mrclass>57M07 (20F65 20F67 20J05 37E45)</mrclass>
+  <mrreviewer>Athanase Papadopoulos</mrreviewer>
+  <url>http://dx.doi.org/10.1142/e018</url>
+  <other type="doi">10.1142/e018</other>
+  <other type="pages">xii+209</other>
+</book></entry>
+<entry id="Comerford-Edmunds:EquationsFreeGroups"><article>
+  <author>
+    <name><first>Leo P.</first><last>Comerford Jr. </last></name>
+    <name><first>Charles C.</first><last>Edmunds</last></name>
+  </author>  
+  <title>Quadratic equations over free groups and free products</title>
+  <journal>J. Algebra</journal>
+  <year>1981</year>
+  <volume>68</volume>
+  <number>2</number>
+  <pages>276--297</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>608536</mrnumber>
+  <mrclass>20F10 (03D40 20E06)</mrclass>
+  <mrreviewer>Robert G. Burns</mrreviewer>
+  <url>http://dx.doi.org/10.1016/0021-8693(81)90265-9</url>
+  <other type="doi">10.1016/0021-8693(81)90265-9</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+<entry id="Dehn:DecisionProblems"><article>
+  <author>
+    <name><first>Max</first><last>Dehn</last></name>
+  </author>  
+  <title>\"Uber unendliche diskontinuierliche <C>G</C>ruppen</title>
+  <journal>Math. Ann.</journal>
+  <year>1911</year>
+  <volume>71</volume>
+  <number>1</number>
+  <pages>116--144</pages>
+  <issn>0025-5831</issn>
+  <mrnumber>1511645</mrnumber>
+  <mrclass>DML</mrclass>
+  <url>https://doi.org/10.1007/BF01456932</url>
+  <other type="fjournal">Mathematische Annalen</other>
+</article></entry>
+<entry id="Eisenbud-Hirsch-Neumann:SeifertBundles"><article>
+  <author>
+    <name><first>David</first><last>Eisenbud</last></name>
+    <name><first>Ulrich</first><last>Hirsch</last></name>
+    <name><first>Walter</first><last>Neumann</last></name>
+  </author>  
+  <title>Transverse foliations of <C>S</C>eifert bundles and
+              self-homeomorphism of the circle</title>
+  <journal>Comment. Math. Helv.</journal>
+  <year>1981</year>
+  <volume>56</volume>
+  <number>4</number>
+  <pages>638--660</pages>
+  <issn>0010-2571</issn>
+  <mrnumber>656217</mrnumber>
+  <mrclass>57R30 (57M99 58F11)</mrclass>
+  <mrreviewer>Christopher W. Stark</mrreviewer>
+  <url>http://dx.doi.org/10.1007/BF02566232</url>
+  <other type="doi">10.1007/BF02566232</other>
+  <other type="fjournal">Commentarii Mathematici Helvetici</other>
+</article></entry>
+<entry id="Neumann:questions_of_edjvet_and_pride"><article>
+  <author>
+    <name><first>Peter M.</first><last>Neumann</last></name>
+  </author>  
+  <title>Some questions of Edjvet and Pride about infinite groups</title>
+  <journal>Illinois J. Math.</journal>
+  <year>1986</year>
+  <volume>30</volume>
+  <number>2</number>
+  <pages>301--316</pages>
+  <month>06</month>
+  <url>http://projecteuclid.org/euclid.ijm/1256044639</url>
+  <other type="fjournal">Illinois Journal of Mathematics</other>
+  <other type="publisher">University of Illinois at Urbana-Champaign,
+      Department of Mathematics</other>
+</article></entry>
+<entry id="Farb-Margalit:MCG"><book>
+  <author>
+    <name><first>Benson</first><last>Farb</last></name>
+    <name><first>Dan</first><last>Margalit</last></name>
+  </author>  
+  <title><C>A primer on mapping class groups</C></title>
+  <publisher>Princeton University Press</publisher>
+  <year>2011</year>
+</book></entry>
+<entry id="Fink:Conjugacy_growth"><article>
+  <author>
+    <name><first>Elisabeth</first><last>Fink</last></name>
+  </author>  
+  <title>Conjugacy growth and width of certain branch groups</title>
+  <journal>Internat. J. Algebra Comput.</journal>
+  <year>2014</year>
+  <volume>24</volume>
+  <number>8</number>
+  <pages>1213--1231</pages>
+  <issn>0218-1967</issn>
+  <mrnumber>3296364</mrnumber>
+  <mrclass>20F65 (20F69)</mrclass>
+  <mrreviewer>Mustafa G{\"o}khan Benli</mrreviewer>
+  <url>http://dx.doi.org/10.1142/S0218196714500544</url>
+  <other type="doi">10.1142/S0218196714500544</other>
+  <other type="fjournal">International Journal of Algebra and
+      Computation</other>
+</article></entry>
+<entry id="GAP4"><manual>
+  <title><C>GAP -- Groups, Algorithms, and Programming, Version
+      4.7.5</C></title>
+  <organization>The GAP~Group</organization>
+  <year>2014</year>
+  <key>GAP</key>
+  <url>\verb+(http://www.gap-system.org)+</url>
+</manual></entry>
+<entry id="Gillibert:OrderProblem"><article>
+  <author>
+    <name><first>P.</first><last>{Gillibert}</last></name>
+  </author>  
+  <title><C>An automaton group with undecidable order and Engel
+      problems</C></title>
+  <journal>ArXiv e-prints</journal>
+  <year>2017</year>
+  <month>STRING-NOT-KNOWN: oct</month>
+  <keywords>Mathematics - Group Theory</keywords>
+  <other type="archiveprefix">arXiv</other>
+  <other type="eprint">1710.09733</other>
+  <other type="primaryclass">math.GR</other>
+</article></entry>
+<entry id="Grigorchuk:Burnside"><article>
+  <author>
+    <name><first>Rostislav I.</first><last>Grigorchuk</last></name>
+  </author>  
+  <title>On <C>B</C>urnside's problem on periodic groups</title>
+  <journal>Funktsional. Anal. i Prilozhen.</journal>
+  <year>1980</year>
+  <volume>14</volume>
+  <number>1</number>
+  <pages>53--54</pages>
+  <issn>0374-1990</issn>
+  <mrnumber>565099</mrnumber>
+  <mrclass>20F05</mrclass>
+  <mrreviewer>N. S. Chernikov</mrreviewer>
+  <other type="fjournal">Akademiya Nauk SSSR. Funktsional$\prime$ny\u\i \
+      Analiz i ego
+              Prilozheniya</other>
+</article></entry>
+<entry id="Grigorchuk:Milnor"><article>
+  <author>
+    <name><first>Rostislav I.</first><last>Grigorchuk</last></name>
+  </author>  
+  <title>On the <C>M</C>ilnor problem of group growth</title>
+  <journal>Dokl. Akad. Nauk SSSR</journal>
+  <year>1983</year>
+  <volume>271</volume>
+  <number>1</number>
+  <pages>30--33</pages>
+  <issn>0002-3264</issn>
+  <mrnumber>712546</mrnumber>
+  <mrclass>20F05 (22D99)</mrclass>
+  <mrreviewer>Martha K. Smith</mrreviewer>
+  <other type="fjournal">Doklady Akademii Nauk SSSR</other>
+</article></entry>
+<entry id="Grigorchuk-Wilson:Commensurability"><article>
+  <author>
+    <name><first>Rostislav I.</first><last>Grigorchuk</last></name>
+    <name><first>John S.</first><last>Wilson</last></name>
+  </author>  
+  <title>A structural property concerning abstract commensurability of
+              subgroups</title>
+  <journal>J. London Math. Soc. (2)</journal>
+  <year>2003</year>
+  <volume>68</volume>
+  <number>3</number>
+  <pages>671--682</pages>
+  <issn>0024-6107</issn>
+  <mrnumber>2009443</mrnumber>
+  <mrclass>20F10 (20E08 20E34)</mrclass>
+  <mrreviewer>Tullio G. Ceccherini-Silberstein</mrreviewer>
+  <url>http://dx.doi.org/10.1112/S0024610703004745</url>
+  <other type="doi">10.1112/S0024610703004745</other>
+  <other type="fjournal">Journal of the London Mathematical Society. Second
+      Series</other>
+</article></entry>
+<entry id="Grigorchuk-Wilson:ConjugacyProblem"><article>
+  <author>
+    <name><first>R. I.</first><last>Grigorchuk</last></name>
+    <name><first>J. S.</first><last>Wilson</last></name>
+  </author>  
+  <title>The conjugacy problem for certain branch groups</title>
+  <journal>Tr. Mat. Inst. Steklova</journal>
+  <year>2000</year>
+  <volume>231</volume>
+  <number>Din. Sist., Avtom. i Beskon. Gruppy</number>
+  <pages>215--230</pages>
+  <issn>0371-9685</issn>
+  <mrnumber>1841756</mrnumber>
+  <mrclass>20F10 (20E22)</mrclass>
+  <mrreviewer>Martin Edjvet</mrreviewer>
+  <other type="fjournal">Trudy Matematicheskogo Instituta Imeni V. A.
+      Steklova.
+              Rossi\u\i skaya Akademiya Nauk</other>
+</article></entry>
+<entry id="Gupta-Sidki:PGroups"><article>
+  <author>
+    <name><first>Narain</first><last>Gupta</last></name>
+    <name><first>Sa\"\i d</first><last>Sidki</last></name>
+  </author>  
+  <title>On the <C>B</C>urnside problem for periodic groups</title>
+  <journal>Math. Z.</journal>
+  <year>1983</year>
+  <volume>182</volume>
+  <number>3</number>
+  <pages>385--388</pages>
+  <issn>0025-5874</issn>
+  <mrnumber>696534</mrnumber>
+  <mrclass>20F50</mrclass>
+  <mrreviewer>Seymour Bachmuth</mrreviewer>
+  <url>http://dx.doi.org/10.1007/BF01179757</url>
+  <other type="doi">10.1007/BF01179757</other>
+  <other type="fjournal">Mathematische Zeitschrift</other>
+</article></entry>
+<entry id="Guralnick:Group96"><article>
+  <author>
+    <name><first>Robert M.</first><last>Guralnick</last></name>
+  </author>  
+  <title>Expressing group elements as commutators</title>
+  <journal>Rocky Mountain J. Math.</journal>
+  <year>1980</year>
+  <volume>10</volume>
+  <number>3</number>
+  <pages>651--654</pages>
+  <issn>0035-7596</issn>
+  <mrnumber>590227</mrnumber>
+  <mrclass>20F12</mrclass>
+  <mrreviewer>I. D. Macdonald</mrreviewer>
+  <url>http://dx.doi.org/10.1216/RMJ-1980-10-3-651</url>
+  <other type="doi">10.1216/RMJ-1980-10-3-651</other>
+  <other type="fjournal">The Rocky Mountain Journal of Mathematics</other>
+</article></entry>
+<entry id="Leonov:ConjugacyProblemGrig"><article>
+  <author>
+    <name><first>Yu. G.</first><last>Leonov</last></name>
+  </author>  
+  <title>The conjugacy problem in a class of <C><M>2</M></C>-groups</title>
+  <journal>Mat. Zametki</journal>
+  <year>1998</year>
+  <volume>64</volume>
+  <number>4</number>
+  <pages>573--583</pages>
+  <issn>0025-567X</issn>
+  <mrnumber>1687212</mrnumber>
+  <mrclass>20F10</mrclass>
+  <mrreviewer>Yuri M. Vazhenin</mrreviewer>
+  <url>https://doi.org/10.1007/BF02314631</url>
+  <other type="fjournal">Rossi\u\i skaya Akademiya Nauk. Matematicheskie
+      Zametki</other>
+</article></entry>
+<entry id="Liebeck:OreConjecture"><article>
+  <author>
+    <name><first>Martin W.</first><last>Liebeck</last></name>
+    <name><first>Eamonn A.</first><last>O'Brien</last></name>
+    <name><first>Aner</first><last>Shalev</last></name>
+    <name><first>Pham Huu</first><last>Tiep</last></name>
+  </author>  
+  <title>The <C>O</C>re conjecture</title>
+  <journal>J. Eur. Math. Soc. (JEMS)</journal>
+  <year>2010</year>
+  <volume>12</volume>
+  <number>4</number>
+  <pages>939--1008</pages>
+  <issn>1435-9855</issn>
+  <mrnumber>2654085</mrnumber>
+  <mrclass>20D05 (20C15 20D06)</mrclass>
+  <mrreviewer>Ronald Solomon</mrreviewer>
+  <url>http://dx.doi.org/10.4171/JEMS/220</url>
+  <other type="doi">10.4171/JEMS/220</other>
+  <other type="fjournal">Journal of the European Mathematical Society
+      (JEMS)</other>
+</article></entry>
+<entry id="Lysenok-Miasnikov-Ushakov:QuadraticEquationsInGrig"><article>
+  <author>
+    <name><first>Igor</first><last>Lysenok</last></name>
+    <name><first>Alexei</first><last>Miasnikov</last></name>
+    <name><first>Alexander</first><last>Ushakov</last></name>
+  </author>  
+  <title>Quadratic equations in the <C>G</C>rigorchuk group</title>
+  <journal>Groups Geom. Dyn.</journal>
+  <year>2016</year>
+  <volume>10</volume>
+  <number>1</number>
+  <pages>201--239</pages>
+  <issn>1661-7207</issn>
+  <mrnumber>3460336</mrnumber>
+  <mrclass>68W30 (20F10)</mrclass>
+  <url>http://dx.doi.org/10.4171/GGD/348</url>
+  <other type="doi">10.4171/GGD/348</other>
+  <other type="eprint">1304.5579</other>
+  <other type="fjournal">Groups, Geometry, and Dynamics</other>
+</article></entry>
+<entry id="Nekrashevych:SelfSimilarGroups"><book>
+  <author>
+    <name><first>Volodymyr</first><last>Nekrashevych</last></name>
+  </author>  
+  <title>Self-similar groups</title>
+  <publisher>American Mathematical Society, Providence, RI</publisher>
+  <year>2005</year>
+  <volume>117</volume>
+  <series>Mathematical Surveys and Monographs</series>
+  <isbn>0-8218-3831-8</isbn>
+  <mrnumber>2162164</mrnumber>
+  <mrclass>20E08 (20F65 37B15 37F10)</mrclass>
+  <mrreviewer>Laurent Bartholdi</mrreviewer>
+  <url>http://dx.doi.org/10.1090/surv/117</url>
+  <other type="doi">10.1090/surv/117</other>
+  <other type="pages">xii+231</other>
+</book></entry>
+<entry id="Ore:Commutators"><article>
+  <author>
+    <name><first>Oystein</first><last>Ore</last></name>
+  </author>  
+  <title>Some remarks on commutators</title>
+  <journal>Proc. Amer. Math. Soc.</journal>
+  <year>1951</year>
+  <volume>2</volume>
+  <pages>307--314</pages>
+  <issn>0002-9939</issn>
+  <mrnumber>0040298</mrnumber>
+  <mrclass>20.0X</mrclass>
+  <mrreviewer>G. Higman</mrreviewer>
+  <url>http://dx.doi.org/10.2307/2032506</url>
+  <other type="doi">10.2307/2032506</other>
+  <other type="fjournal">Proceedings of the American Mathematical
+      Society</other>
+</article></entry>
+<entry id="Rozhkov:Centralizers"><article>
+  <author>
+    <name><first>Alexander V.</first><last>Rozhkov</last></name>
+  </author>  
+  <title>Centralizers of elements in a group of tree automorphisms</title>
+  <journal>Izv. Ross. Akad. Nauk Ser. Mat.</journal>
+  <year>1993</year>
+  <volume>57</volume>
+  <number>no.~6</number>
+  <pages>82--105</pages>
+  <issn>0373-2436</issn>
+  <mrnumber>1256568</mrnumber>
+  <mrclass>20E08</mrclass>
+  <mrreviewer>N. F. Kuzennyi</mrreviewer>
+  <url>http://dx.doi.org/10.1070/IM1994v043n03ABEH001639</url>
+  <other type="doi">10.1070/IM1994v043n03ABEH001639</other>
+  <other type="fjournal">Rossi\u\i skaya Akademiya Nauk. Izvestiya. Seriya
+              Matematicheskaya</other>
+</article></entry>
+<entry id="Rozhkov:ConjugacyProblemInGrig"><article>
+  <author>
+    <name><first>Alexander V.</first><last>Rozhkov</last></name>
+  </author>  
+  <title>The conjugacy problem in an automorphism group of an infinite
+              tree</title>
+  <journal>Mat. Zametki</journal>
+  <year>1998</year>
+  <volume>64</volume>
+  <number>4</number>
+  <pages>592--597</pages>
+  <issn>0025-567X</issn>
+  <mrnumber>1687204</mrnumber>
+  <mrclass>20F10 (05C25)</mrclass>
+  <mrreviewer>G. A. Noskov</mrreviewer>
+  <url>https://doi.org/10.1007/BF02314633</url>
+  <other type="fjournal">Rossi\u\i skaya Akademiya Nauk. Matematicheskie
+      Zametki</other>
+</article></entry>
+<entry id="Rhemtulla:Commutators"><article>
+  <author>
+    <name><first>A. H.</first><last>Rhemtulla</last></name>
+  </author>  
+  <title>Commutators of certain finitely generated soluble groups</title>
+  <journal>Can. J. Math.</journal>
+  <year>1969</year>
+  <volume>21</volume>
+  <number>5</number>
+  <pages>1160--1164</pages>
+  <other type="fjournal">Canadian Journal of Mathematics</other>
+</article></entry>
+<entry id="Rhemtulla:CommutatorsF2"><article>
+  <author>
+    <name><first>A. H.</first><last>Rhemtulla</last></name>
+  </author>  
+  <title>A problem of bounded expressibility in free products</title>
+  <journal>Mathematical Proceedings of the Cambridge Philosophical
+      Society</journal>
+  <year>1968</year>
+  <volume>64</volume>
+  <number>3</number>
+  <pages>573–584</pages>
+  <other type="doi">10.1017/S0305004100043231</other>
+  <other type="publisher">Cambridge University Press</other>
+</article></entry>
+<entry id="Segal:Words"><book>
+  <author>
+    <name><first>Dan</first><last>Segal</last></name>
+  </author>  
+  <title>Words. Notes on Verbal Width in Groups</title>
+  <publisher>Cambridge University Press</publisher>
+  <year>2009</year>
+  <series>London Mathematical Society Lecture Note Series 361</series>
+  <isbn>052174766X,9780521747660</isbn>
+</book></entry>
+<entry id="Segal:Finite_Image_of_f.g._groups"><article>
+  <author>
+    <name><first></first><last>Segal,Dan</last></name>
+  </author>  
+  <title>The finite images of finitely generated groups</title>
+  <journal>Proceedings of the London Mathematical Society</journal>
+  <year>2000</year>
+  <volume>82</volume>
+  <pages>597--613</pages>
+  <month>5</month>
+  <issn>1460-244X</issn>
+  <url>http://journals.cambridge.org/article_S0024611501012886</url>
+  <other type="issue">03</other>
+  <other type="numpages">17</other>
+</article></entry>
+<entry id="Sidki:CircuitStructure"><article>
+  <author>
+    <name><first>Said</first><last>Sidki</last></name>
+  </author>  
+  <title>Automorphisms of one-rooted trees: growth, circuit structure,
+              and acyclicity</title>
+  <journal>J. Math. Sci. (New York)</journal>
+  <year>2000</year>
+  <volume>100</volume>
+  <number>1</number>
+  <pages>1925--1943</pages>
+  <note>Algebra, 12</note>
+  <issn>1072-3374</issn>
+  <mrnumber>1774362</mrnumber>
+  <mrclass>05C25 (05C45 68Q45)</mrclass>
+  <url>http://dx.doi.org/10.1007/BF02677504</url>
+  <other type="doi">10.1007/BF02677504</other>
+  <other type="fjournal">Journal of Mathematical Sciences (New York)</other>
+</article></entry>
+<entry id="Sidki:GSGsubgroupsAndAutomorphisms"><article>
+  <author>
+    <name><first>Said</first><last>Sidki</last></name>
+  </author>  
+  <title>On a <C><M>2</M></C>-generated infinite <C><M>3</M></C>-group:
+      subgroups and
+              automorphisms</title>
+  <journal>J. Algebra</journal>
+  <year>1987</year>
+  <volume>110</volume>
+  <number>1</number>
+  <pages>24--55</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>904180</mrnumber>
+  <mrclass>20F50</mrclass>
+  <mrreviewer>Seymour Bachmuth</mrreviewer>
+  <url>http://dx.doi.org/10.1016/0021-8693(87)90035-4</url>
+  <other type="doi">10.1016/0021-8693(87)90035-4</other>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+<entry id="SunicVentura:ConjugacyProblemUndecidable"><article>
+  <author>
+    <name><first>Zoran</first><last>\v Suni\'c</last></name>
+    <name><first>Enric</first><last>Ventura</last></name>
+  </author>  
+  <title>The conjugacy problem in automaton groups is not solvable</title>
+  <journal>J. Algebra</journal>
+  <year>2012</year>
+  <volume>364</volume>
+  <pages>148--154</pages>
+  <issn>0021-8693</issn>
+  <mrnumber>2927052</mrnumber>
+  <mrclass>20F10 (20E08)</mrclass>
+  <mrreviewer>Volker Gebhardt</mrreviewer>
+  <url>https://doi.org/10.1016/j.jalgebra.2012.04.014</url>
+  <other type="fjournal">Journal of Algebra</other>
+</article></entry>
+<entry id="Wilson-Zalesskii:ConjugacySepGrigGuptaSidki"><article>
+  <author>
+    <name><first>J. S.</first><last>Wilson</last></name>
+    <name><first>P. A.</first><last>Zalesskii</last></name>
+  </author>  
+  <title>Conjugacy separability of certain torsion groups</title>
+  <journal>Arch. Math. (Basel)</journal>
+  <year>1997</year>
+  <volume>68</volume>
+  <number>6</number>
+  <pages>441--449</pages>
+  <issn>0003-889X</issn>
+  <mrnumber>1444655</mrnumber>
+  <mrclass>20F50</mrclass>
+  <mrreviewer>Sa\"\i d N. Sidki</mrreviewer>
+  <url>https://doi.org/10.1007/s000130050076</url>
+  <other type="fjournal">Archiv der Mathematik</other>
+</article></entry>
+</file>

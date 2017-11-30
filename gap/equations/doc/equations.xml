@@ -26,7 +26,12 @@
     <URL Text="GNU General Public License">http://www.fsf.org/licenses/gpl.html</URL> 
     as published by the Free Software Foundation; either version 2 of the License, 
     or (at your option) any later version.
+    <P/> This program is distributed WITHOUT ANY WARRANTY;
+     without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
   </Copyright>
+
 </TitlePage>
 
 <TableOfContents/>
@@ -35,31 +40,160 @@
 
 <#Include SYSTEM "examples.xml">
 
+<Chapter><Heading>Installation</Heading>
 <#Include SYSTEM "install.xml">
-
+</Chapter>
 <Chapter><Heading>Example Session</Heading>
-For example if one is interested how the decomposition
-of a single commutator <M>g=[f,h]</M> into <M>g@2\cdot g@1</M> with 
-<M>f=\langle\langle f_1,f_2\rangle\rangle\sigma_f</M> and
-<M>h=\langle\langle h_1,h_2\rangle\rangle\sigma_h</M> looks like 
-for all combinations of <M>\sigma_f,\sigma_h</M> one can find out by:
+We show some examples for using this package. The used methods are described in 
+the latter chapter. 
+<Section><Heading>Normal form of equations</Heading>
+Let us consider some equations over the alternating group <M>\textup{A}_5</M>.
+We start with defining the group in which our equations live in: 
 <Example><![CDATA[
-gap> F := FreeGroup("f","h");; 
-gap> S2 := SymmetricGroup(2);;
-gap> acts := Cartesian([S2,S2]);;
-gap> acts := List(acts,g->GroupHomomorphismByImages(F,S2,g));;
-gap> eg := EquationGroup(FreeGroup([]),F);;
-gap> eq := Equation(eg,[Comm(F.1,F.2)]);;
-gap> deg := DecompositionEquationGroup(eg,2,[]);;
-gap> for act in acts do
->       new := DecompositionEquation(deg,eq,act);
->       Print(Product(Reversed(EquationComponents(new))),"\n");
-> od;
-FreeProductElm([ f2^-1*h2^-1*f2*h2*f1^-1*h1^-1*f1*h1 ])
-FreeProductElm([ f2^-1*h1^-1*f1*h1*f1^-1*h2^-1*f2*h2 ])
-FreeProductElm([ f1^-1*h1^-1*f1*h2*f2^-1*h2^-1*f2*h1 ])
-FreeProductElm([ f1^-1*h2^-1*f2*h1*f2^-1*h1^-1*f1*h2 ])
+gap> LoadPackage("equations");
+true
+gap> A5 := AlternatingGroup(5);;SetName(A5,"A5"); 
+gap> F := FreeGroup(3,"X");;SetName(F,"F");
+gap> EqG := EquationGroup(A5,F);
+A5*F
  ]]></Example>
+Now we enter the equation <M>E=X_2(1,2,3)X_1^{-1}X_2^{-1}(1,3)(4,5)X_3X_1X_3^{-1}</M>.
+<Example><![CDATA[
+gap> g := (1,2,3);;h := (1,3)(4,5);;
+gap> eq := Equation(EqG,[F.2,g,F.1^-1*F.2^-1,h,F.3*F.1*F.3^-1]);
+Equation in [ X1, X2, X3 ]
+gap> Print(eq);
+FreeProductElm([ X2, (1,2,3), X1^-1*X2^-1, (1,3)(4,5), X3*X1*X3^-1 ])
+ ]]></Example>
+Let us see what the normal form of this equation is:
+<Example><![CDATA[
+gap> Genus(eq);
+1
+gap> Nf := EquationNormalForm(eq);;
+gap> Print(Nf.nf);
+FreeProductElm([ X1^-1*X2^-1*X1*X2*X3^-1, (1,2,3), X3, (1,3)(4,5) ])
+ ]]></Example>
+We know a solution for this normal form:
+<M>s\colon X_1 \mapsto (1,2,4),\ X_2 \mapsto (1,2,5),\ X_3\mapsto ()</M>.
+<Example><![CDATA[
+gap> s:=EquationEvaluation(EqG,[F.1,F.2,F.3],[(1,2,4),(1,2,5),()]);
+[ X1, X2, X3 ]"->"[ (1,2,4), (1,2,5), () ]
+gap> IsSolution(s,Nf.nf);
+true
+gap> Nf.nf^s;
+()
+gap> IsSolution(s,eq);
+false
+gap> eq^s;
+(1,2,4,3,5)
+ ]]></Example>
+Let us compute the solution for <M>E</M>.
+<Example><![CDATA[
+gap> sE:= Nf.hom*s;;
+gap> IsSolution(sE,eq);
+true;
+List([1,2,3],i->ImageElm(sE,F.(i)));
+[ (2,3,4), (), (1,2,5,4,3) ]
+ ]]></Example>
+ Thus
+ <M>s_E\colon X_1 \mapsto (2,3,4),\ X_2 \mapsto (),\ X_3\mapsto (1,2,5,4,3)</M>
+is a solution for the equaition <M>E</M>
+</Section>
+<Section><Heading>Decomposition</Heading>
+Let us now study equations over groups acting on a rooted tree without having any 
+explicitly given group in mind.
+
+Say <M>G\leq\operatorname{Aut}(\{1,2\}^*)</M> and <M>g,h\in G</M> and assume we want to see
+how the decomposition <M>\Phi_\gamma</M> of the equation <M>E=[X,Y]g^Zh</M> looks
+like. This decomposition will depend on the activity of <M>g</M> and on 
+<M>\gamma_{\textup{act}}</M>.
+
+
+<Example><![CDATA[
+gap> F := FreeGroup("X","Y","Z");; x:=F.1; y:=F.2; z:=F.3;
+X
+Y
+Z
+gap> G := FreeGroup("g","h");; g:=G.1; h := G.2;
+g
+h
+gap> S2 := [(),(1,2)];
+gap> EqG := EquationGroup(G,F);;
+gap> eq := Equation(EqG,[Comm(x,y)*z^-1,g,z,h]);
+Equation in [ X, Y, Z ]
+gap> PhiE := [];
+[ ]
+gap> for actg in S2 do
+>       DeqG := DecompositionEquationGroup(EqG,2,[actg,()]);;
+>       for gamma_act in Cartesian([S2,S2,S2]) do
+>         Add(PhiE,DecompositionEquation(DeqG,eq,gamma_act));
+>       od;
+>    od;
+gap> Print(PhiE[1]);
+Equation([ FreeProductElm([ X1^-1*Y1^-1*X1*Y1*Z1^-1, g1, Z1, h1 ]), 
+      FreeProductElm([ X2^-1*Y2^-1*X2*Y2*Z2^-1, g2, Z2, h2 ]) ]) 
+gap> Print(PhiE[16]);
+Equation([ FreeProductElm([ X2^-1*Y1^-1*X1*Y2*Z2^-1, g2, Z1, h2 ]), 
+      FreeProductElm([ X1^-1*Y2^-1*X2*Y1*Z1^-1, g1, Z2, h1 ]) ])       
+ ]]></Example>
+
+We see that for some (indeed for all but the first two cases) the states
+of the decomposition do not form independent systems. Let us see how 
+an equivalent independent system looks like and find out which genus the 
+corresponding equations have:
+<Example><![CDATA[
+gap> Apply(PhiE,E->DecomposedEquationDisjointForm(E).eq);;
+gap> Print(PhiE[16]);
+Equation([ FreeProductElm([ X2^-1*Y1^-1*Y2^-1*X2*Y1*Z1^-1, g1, Z2, h1, Y2*Z2^-1,
+ g2, Z1, h2 ]), FreeProductElm([  ]) ])
+gap> Genus(EquationComponent(PhiE[16],1));
+2
+gap> List(PhiE,E->Genus(EquationComponent(E,1)));
+[ 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2 ]
+ ]]></Example>
+ </Section><Section><Heading>Using the fr package</Heading>
+Finally let us do some computations in the Grigorchuk group.
+
+For example let us compute a solution for the equation 
+<M>E=[X,Y]dacab</M>. 
+ <Example><![CDATA[
+gap> LoadPackage("fr");;
+gap> F := FreeGroup("X","Y");; SetName(F,"F"); x:=F.1;; y:=F.2;;
+gap> G := GrigorchukGroup;;
+gap> a:= G.1;; b:=G.2;; c:=G.3;; d:= G.4;;
+gap> EqG := EquationGroup(G,F);;
+gap> DeqG := DecompositionEquationGroup(EqG);
+GrigorchukGroup*F*F
+gap> gamma_a := GroupHomomorphismByImages(F,SymmetricGroup(2),[(),(1,2)]);
+[ X, Y ] -> [ (), (1,2) ]
+gap> eq := Equation(EqG,[Comm(x,y),d*a*c*a*b]);
+Equation in [ X, Y ]
+gap> neq := DecompositionEquation(DeqG,eq,gamma_a);
+DecomposedEquation in [ X1, X2, Y1, Y2 ]
+gap> deq := DecomposedEquationDisjointForm(neq);
+rec( eq := DecomposedEquation in [ X1, X2, Y2 ], 
+  hom := [ X1 ]"->"[ FreeProductElm of length 3 ] )
+gap> Nf := EquationNormalForm(EquationComponent(deq.eq,1));;
+gap> F2 := FreeProductInfo(DeqG).groups[2];
+F*F
+gap> s := EquationEvaluation(DeqG,[F2.1,F2.2,F2.3],[d,b,b]);
+[ X1, X2, Y1 ]"->"[ d, b, b ]
+gap> IsSolution(s,Nf.nf);
+true
+gap> IsSolution(Nf.hom*s,EquationComponent(deq.eq,1));
+true
+gap> ForAll(EquationComponents(neq),E->IsSolution(deq.hom*Nf.hom*s,E));
+true;
+gap> imgs := List(GeneratorsOfGroup(F2),x->ImageElm(deq.hom*Nf.hom*s,x));
+[ <Mealy element on alphabet [ 1 .. 2 ] with 6 states>, 
+  <Mealy element on alphabet [ 1 .. 2 ] with 7 states>, b^-1, 
+  <Mealy element on alphabet [ 1 .. 2 ] with 9 states> ]
+gap> s2 := LiftSolution(neq,eq,gamma_a,deq.hom*Nf.hom*s);
+[ X, Y ]"->"[ <Mealy element on alphabet [ 1 .. 2 ] with 9 states>, 
+  <Mealy element on alphabet [ 1 .. 2 ] with 10 states> ]
+gap> IsSolution(s2,eq);
+true;
+ ]]></Example></Section>
 </Chapter>
 
 <Chapter><Heading>FreeProducts</Heading>
@@ -94,37 +228,57 @@ There are two representations for this kind of elements.
 </Section>
 </Chapter>
 <Chapter><Heading>Equations</Heading>
-We fix a set <M>X</M> and call its elements <E>variables</E>.  We assume
-that <M>X</M> is infinite countable, is well ordered, and its family of finite
+We fix a set <M>\mathcal{X}</M> and call its elements <E>variables</E>.  We assume
+that <M>\mathcal{X}</M> is infinite countable, is well ordered, and its family of finite
 subsets is also well ordered, by size and then lexicographic order. We
-denote by <M>F_X</M> the free group on the generating set <M>X</M>.
+denote by <M>F_\mathcal{X}</M> the free group on the generating set <M>\mathcal{X}</M>.
 <P/>
   Let <M>G</M> be a group. The <E>equation group</E> will
-  be the free product <M>G*F_X</M> and the elements belonging 
+  be the free product <M>G*F_\mathcal{X}</M> and the elements belonging 
   to <M>G</M> will be called <E>constants</E>.
 <P/>
-  A <M>G</M>-equation is an element <M>E</M> of the group <M>F_X*G</M>
+  A <M>G</M>-equation is an element <M>E</M> of the group <M>F_\mathcal{X}*G</M>
   regarded as a reduced word. For <M>E</M> a <M>G</M>-equation, its set of
-  <E>variables</E> <M>\textup{Var}(E)\subset X</M> is the set of symbols in <M>X</M>
-  that occur in it; namely, <M>\textup{Var}(E)</M> is the minimal subset of <M>X</M>
+  <E>variables</E> <M>\textup{Var}(E)\subset \mathcal{X}</M> is the set of symbols in <M>\mathcal{X}</M>
+  that occur in it; namely, <M>\textup{Var}(E)</M> is the minimal subset of <M>\mathcal{X}</M>
   such that <M>E</M> belongs to <M>F_{\textup{Var}(E)}*G</M>.
 <P/> 
   A <E>quadratic</E> equation is an equation in which each variable
-  <M>x\in\textup{Var}(E)</M> occurs exactly twice. A quadratic equation
-  is called <E>oriented</E> if for each variable <M>x\in\textup{Var(X)}</M>
-  both letters <M>x</M> and <M>x^{-1}</M> occure in the reduced word <M>E</M>.
+  <M>X\in\textup{Var}(E)</M> occurs exactly twice. A quadratic equation
+  is called <E>oriented</E> if for each variable <M>X\in\textup{Var(\mathcal{X})}</M>
+  both letters <M>X</M> and <M>X^{-1}</M> occure in the reduced word <M>E</M>.
 <Section><Heading>Construction</Heading>
 <#Include Label="EquationGroup">
 <#Include Label="Equation">
 </Section><Section><Heading>Homomorphisms</Heading>
-  An <E>evaluation</E> is a <M>G</M>-homomorphism <M>e\colon F_{X} * G \to G</M>.
+  An <E>evaluation</E> is a <M>G</M>-homomorphism <M>e\colon F_{\mathcal{X}} * G \to G</M>.
   A <E>solution</E> of an equation <M>E</M> is an evaluation <M>s</M>
   satisfying <M>s(E)=1</M>. If a solution exists for <M>E</M> then the
   equation <M>E</M> is called <E>solvable</E>. The set of elements
-  <M>x\in X</M> with <M>s(x)\neq 1</M> is called the <E>support</E> of the solution.
+  <M>X\in \mathcal{X}</M> with <M>s(X)\neq 1</M> is called the <E>support</E> of the solution.
 <#Include Label="EquationHom">
 </Section>
 <Section><Heading>Normal Form</Heading>
+  For <M>m,n\ge0</M>, <M>X_i,Y_i,Z_i \in \mathcal{X}</M> and <M>c_i \in G</M> the following two kinds of
+  equations are called in <E>normal form</E>:
+      <Table Align="rl"><Row>
+        <Item><M>O_{n,m}:</M></Item>
+      <Item><M>[X_1,Y_1][X_2,Y_2]\cdots[X_n,Y_n]c_1^{Z_1}\cdots c_{m-1}^{Z_{m-1}}c_m</M></Item>
+      </Row><Row>
+      <Item><M>U_{n,m}:</M></Item>
+      <Item><M>X_1^2X_2^2\cdots X_n^2 c_1^{Z_1}\cdots c_{m-1}^{Z_{m-1}}c_m\ .</M></Item>
+      </Row></Table>
+
+  <P/>
+ The form <M>O_{n,m}</M> is called the oriented case and <M>U_{n,m}</M> for
+ <M>n>0</M> the unoriented case.  The parameter <M>n</M> is referred to as
+ <E>genus</E> of the normal form of an equation.
+ The pair <M>(n,m)</M> will be called the <E>signature</E> of the quadratic equation.
+
+It was proven by Commerford and Edmunds 
+(<Cite Key="Comerford-Edmunds:EquationsFreeGroups"/>) that every quadratic equation
+ is isomorphic to one of the form <M>O_{n,m}</M> or <M>U_{n,m}</M> by an 
+ <M>G</M>-isomorphism. 
 <#Include Label="EquationNormalForm">
 </Section>
 </Chapter>
@@ -132,7 +286,8 @@ denote by <M>F_X</M> the free group on the generating set <M>X</M>.
   <Section><Heading>Decomposable equations</Heading>
   For self-similar groups one strategy to solve equations is to consider
   the inherit equations by passing to states.
-  To use this methods the package FR from Laurent Bartholdi is needed.
+  To use this methods the package FR  (<Cite Key="FR2.3.6"/>)
+   from Laurent Bartholdi is needed.
 <P/>
   Let <M>G</M> be a group which lies in the filter <A>IsFRGroup</A> and which admitts 
   an embedding <M>\psi\colon G \to \tilde G\wr S_n</M> where <M>\tilde G </M> is the group
@@ -161,7 +316,7 @@ denote by <M>F_X</M> the free group on the generating set <M>X</M>.
 </Body>
 
 <#Include SYSTEM "hints.xml">
-
+<Bibliography Databases="bio.xml"/>
 <TheIndex/>
 
 </Book>
