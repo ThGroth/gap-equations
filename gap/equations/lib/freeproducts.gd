@@ -67,8 +67,27 @@ DeclareCategory("IsFreeProductHomomorphism",IsGroupHomomorphism);
 ## </ManSection>
 ## <#/GAPDoc>
 DeclareOperation("GeneralFreeProduct", [IsGroup]);
+#############################################################################
+#							general Operations
+#O GeneratorsOfGroup . . . . . . . . . . . . returns the generators
+#O \=	. . . . . . . . . . . . . . . . . . . compares if coincide
+##
+## <#GAPDoc Label="GeneralFreeProductOps">
+## <ManSection>
+##   <Oper Name="GeneratorsOfGroup" Arg="group" Label="group"/>
+##   <Returns>The generators of <A>group</A>.</Returns>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="\=" Arg="group,group"
+##		 Label="G,H"/>
+##   <Returns>True if the free factors of the groups <A>G</A> and <A>H</A>
+##  are equal.</Returns>
+## </ManSection>
+## <#/GAPDoc>
+#############################################################################
+##
 #O FreeProductElm . . . . . . . . . . . . . . create a free product element
-#O FreeProductElmLetterReo . . . . . . . . . create a f.p.e. in letter repr
+#O FreeProductElmLetterRep . . . . . . . . . create a f.p.e. in letter repr
 ##
 ## <#GAPDoc Label="FreeProductElm">
 ## <ManSection>
@@ -108,7 +127,76 @@ DeclareOperation("GeneralFreeProduct", [IsGroup]);
 ## </ManSection>
 ## <#/GAPDoc>
 DeclareOperation("FreeProductElm", [IsGeneralFreeProduct,IsList,IsList]);
+DeclareOperation("FreeProductElmNC", [IsGeneralFreeProduct,IsList,IsList]);
 DeclareOperation("FreeProductElmLetterRep", [IsGeneralFreeProduct,IsList,IsList]);
+DeclareOperation("FreeProductElmLetterRepNC", [IsGeneralFreeProduct,IsList,IsList]);
+#############################################################################
+#							general Operations
+#O Length . . . . . . . . . . . . returns the generators
+#O Position	. . . . . . . . . . . . . . . . . . . compares if coincide
+#O PrintObj
+#O \=
+#O \<
+#O OneOp
+#O \[\]
+#O \*
+#O InverseOp
+##
+## <#GAPDoc Label="FreeProductElementsOp">
+## <ManSection>
+##   <Oper Name="\*" Arg="e1,e2"
+##		 Label="freeproductelm,freeproductelm"/>
+##   <Returns>The product of the two elements.</Returns>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="\*" Arg="elm"
+##		 Label="freeproductelm"/>
+##   <Returns>The inverse element</Returns>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="OneOp" Arg="elm"
+##		 Label="freeproductelm"/>
+##   <Returns>The identity element</Returns>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="\=" Arg="e1,ee2"
+##		 Label="freeproductelm,freeproductelm"/>
+##   <Returns>True if the two elements are equal.</Returns>
+## </ManSection>
+### <ManSection>
+##   <Oper Name="Length" Arg="e1"
+##		 Label="freeproductelm"/>
+##   <Returns>The length of the list that stores the elements of the free factors</Returns>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="\[\]" Arg="e1,i"
+##		 Label="freeproductelm,integer"/> 
+##   <Returns>The free product element consisting only of the <A>i</A>-th entry 
+##	of the underlying list of elements.</Returns>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="Position" Arg="e1"
+##		 Label="freeproductelm"/>
+##		<Returns>The position of the element <A>el</A> in the underlyig list.</Returns>
+##   <Description>
+## <Example><![CDATA[
+## gap> F2 := FreeGroup(2);; SetName(F2,"F2");
+## gap> S4 := SymmetricGroup(4);; SetName(S4,"S4");
+## gap> G := FreeProduct(F2,S4);
+## F2*S4
+## gap> e := FreeProductElm(G,[F2.1,F2.2,(1,2),F2.1],[1,1,2,1]);;Print(e);
+## FreeProductElm([ f1*f2, (1,2), f1 ])
+## gap> Length(e);
+## 3
+## gap> Position(e,(1,2));
+## 2
+## gap> Print(e[1]);
+## FreeProductElm([ f1*f2 ])
+## ]]></Example>
+## </Description>
+## </ManSection>
+## <#/GAPDoc>
+#
 #############################################################################
 ##
 #O FreeProductHomomorphism. . . . . . . . . . . create a free product element
@@ -174,7 +262,8 @@ DeclareRepresentation("IsGeneralFreeProductRep",
 ##
 ## <#GAPDoc Label="IsFreeProductElmRep">
 ## <ManSection>
-##   <Filt Name="IsGeneralFreeProductRep" Arg="obj"/>
+##   <Filt Name="IsFreeProductElmRep" Arg="obj"/>
+##   <Filt Name="IsFreeProductElmLetterRep" Arg="obj"/>
 ##   <Returns><K>true</K> if <A>obj</A> is a general free product element 
 ##	 in standard/letter storing representation.</Returns>
 ##   <Description>
@@ -190,6 +279,21 @@ DeclareRepresentation("IsFreeProductElmLetterRep",
  IsFreeProductElmRep,
  ["word","factors","group"]
 );
+#############################################################################
+##						Basic Operations
+#R IsFreeProductElmRep
+#R IsFreeProductElmLetterRep
+##
+## <#GAPDoc Label="IsFreeProductElmRep">
+## <ManSection>
+##   <Filt Name="IsFreeProductElmRep" Arg="obj"/>
+##   <Filt Name="IsFreeProductElmLetterRep" Arg="obj"/>
+##   <Returns><K>true</K> if <A>obj</A> is a general free product element 
+##	 in standard/letter storing representation.</Returns>
+##   <Description>
+##   </Description>
+## </ManSection>
+## <#/GAPDoc>
 #############################################################################
 ##
 #R IsFreeProductHomomorphismRep

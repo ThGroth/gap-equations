@@ -10,16 +10,7 @@
 ##   <Returns>A record with two <M>3</M> components:  <A>nf</A>, <A>hom</A> and <A>homInv</A></Returns>
 ##   <Description>
 ##		The argument <A>E</A> needs to be a quadratic equation. For each such
-##		equation there exists an equivalent equation in one of the following forms:
-##		<Table Align="rl"><Row>
-##		  	<Item><M>O_{n,m}:</M></Item>
-##			<Item><M>[X_1,Y_1][X_2,Y_2]\cdots[X_n,Y_n]c_1^{Z_1}\cdots c_{m-1}^{Z_{m-1}}c_m</M></Item>
-##			</Row><Row>
-##   		<Item><M>U_{n,m}:</M></Item>
-##			<Item><M>X_1^2X_2^2\cdots X_n^2 c_1^{Z_1}\cdots c_{m-1}^{Z_{m-1}}c_m\ .</M></Item>
-##			</Row></Table>
-##		The parameter <M>n</M> is refered to as <E>genus</E> and 
-##		the tuple <M>(n,m)</M> as signature of the quadratic equation.<P/>
+##		equation there exists an equivalent equation in normal form.<P/>
 ##		The component <A>nf</A> is an equation in one of the forms
 ##		<M>O_{n,m},U_{n,m}</M> equivalent to the equation <A>E</A>. 
 ##		The component <A>hom</A> is an equation homomorphism which maps

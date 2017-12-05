@@ -211,13 +211,16 @@ filter: <C>IsGeneralFreeProduct</C>
 </Section>
 <Section><Heading>Construction</Heading>
 <#Include Label="GeneralFreeProduct">
-</Section>
+<#Include Label="GeneralFreeProductOps">
+</Section>  
 <Section><Heading>Elements</Heading>
 <#Include Label="FreeProductElm">
 There are two representations for this kind of elements. 
 <#Include Label="IsFreeProductElmRep">
 </Section>
-
+<Section><Heading>Basic operations</Heading>
+<#Include Label="FreeProductElementsOp">
+</Section>
 <Section><Heading>Homomorphisms</Heading>
 <#Include Label="FreeProductHomomorphism">
 <#Include Label="IsFreeProductHomomorphismRep">  

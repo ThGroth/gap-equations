@@ -30,13 +30,13 @@ InstallMethod( Equation, "(Equation) for a list of group elements and unknowns",
 	function(eqG,elms)
 		local eq;
 		#always reduce equation cyclicaly 
-		if Length(elms)>= 1 and elms[1] in eqG!.const then
+		if Length(elms)>= 1 and not elms[1] in eqG!.free then
 			elms := Concatenation(elms{[2..Size(elms)]},[elms[1]]);
 		fi;
-		eq := FreeProductElm(eqG,elms,List(elms,function(e)
-													if e in eqG!.const then
-														return 1; 
-													fi; return 2;
+		eq := FreeProductElmNC(eqG,elms,List(elms,function(e)
+													if e in eqG!.free then
+														return 2; 
+													fi; return 1;
 												 end) );
 		eq!.const := eqG!.const;
 		eq!.free := eqG!.free;
@@ -68,7 +68,7 @@ InstallMethod(EquationLetterRep, "for an Equation",
 		local nw,elm,i,Eq;
 		nw := [];
 		for elm in eq!.word do
-			if elm in eq!.const then
+			if not elm in eq!.free then
 				Add(nw,elm); 
 			else
 				for i in LetterRepAssocWord(elm) do
@@ -76,10 +76,10 @@ InstallMethod(EquationLetterRep, "for an Equation",
 				od;
 			fi;
 		od;
-		Eq:= FreeProductElmLetterRep(eq!.group,nw,List(nw,function(e)
-													if e in eq!.const then
-														return 1;
-													fi; return 2;
+		Eq:= FreeProductElmLetterRepNC(eq!.group,nw,List(nw,function(e)
+													if e in eq!.free then
+														return 2;
+													fi; return 1;
 												 end) );
 		return Equation(Eq);
 	end);
@@ -212,9 +212,9 @@ InstallMethod( EquationHomomorphism, "For an EquationGroup, a list of variables,
 			TryNextMethod();
 		fi;
 		fac := (w->List(w,function(e)
-								if e in eqG!.const then
-									return 1; 
-								fi; return 2;
+								if e in eqG!.free then
+									return 2; 
+								fi; return 1;
 								end));
 
 		ngens := List(gens,gen->LetterRepAssocWord(gen)[1]);
@@ -342,10 +342,25 @@ InstallMethod( IsSolution, "For an EquationsHomomorphism and an Equation",
 		return IsOne(eq^hom); 
 	end);
 
+InstallOtherMethod( IsSolution, "For an EquationsHomomorphism and an Equation",
+	[IsGroupHomomorphism, IsEquation],
+	function(hom,eq)
+		if not IsEvaluation(hom) then
+			TryNextMethod();
+		fi;
+		if IsConstrainedEquation(eq) then
+			TryNextMethod();
+		fi;
+		return IsOne(eq^hom); 
+	end);
+
 InstallMethod( IsSolution, "For an EquationsHomomorphism and an Equation",
 	[IsEvaluation, IsConstrainedEquation],
 	function(hom,eq)
 		local data;
+		if not IsEvaluation(hom) then
+			TryNextMethod();
+		fi;
 		data := EquationHomomorphismImageData(hom);
 		return IsOne(eq^hom) and ForAll([1..Size(EquationVariables(eq))],
 			i->data.imgs[Position(data.gens,EquationVariables(eq)[i])]^eq!.constrainthom = eq!.constraint[i]) ; 

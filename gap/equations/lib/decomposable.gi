@@ -132,7 +132,7 @@ InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and 
 			DecompEq := List(alph,a->[]);
 			lastperm := ();
 			for x in eq!.word do
-				if x in eq!.const then
+				if not x in eq!.free then
 					for i in [1..Size(alph)] do
 						Add(DecompEq[i^(lastperm^-1)],DEqG!.statefunc(x,alph[i]));
 					od;
