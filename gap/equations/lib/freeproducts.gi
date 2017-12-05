@@ -268,6 +268,21 @@ InstallMethod( FreeProductElm, "For a FreeProduct and a list of letters and a li
        			group := G));
 	end);
 
+InstallMethod( FreeProductElmNC, "For a FreeProduct and a list of letters and a list of corresponding factors",
+	[IsGeneralFreeProduct,IsList,IsList],
+	function(G,elms,factors)
+		local red;
+		if not Length(elms) = Length(factors) then
+			Error("The list of letters must be of the same length as the list of factors");
+		fi;
+		#Reduce the word
+		red := FREE_PRODUCTS_REDUCE_WORDS(elms,factors);
+		return Objectify(NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsFreeProductElmRep),
+    		rec(word := red.word,
+    			factors := red.factors,
+       			group := G));
+	end);
+
 InstallMethod( FreeProductElmLetterRep, "For a FreeProduct and a list of letters and a list of corresponding factors",
 	[IsGeneralFreeProduct,IsList,IsList],
 	function(G,elms,factors)
@@ -277,6 +292,20 @@ InstallMethod( FreeProductElmLetterRep, "For a FreeProduct and a list of letters
 		fi;
 		if not ForAll([1..Length(elms)],i->elms[i] in G!.groups[factors[i]]) then
 			Error("elements must be in the corresponding free factor");
+		fi;
+		Ob := Objectify(NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsFreeProductElmLetterRep),
+    		rec(word := elms,
+    			factors := factors,
+       			group := G));
+		return Ob;
+	end);
+
+InstallMethod( FreeProductElmLetterRepNC, "For a FreeProduct and a list of letters and a list of corresponding factors",
+	[IsGeneralFreeProduct,IsList,IsList],
+	function(G,elms,factors)
+		local lastfactor,newword,newfactors,i,first,elm,Ob;
+		if not Length(elms) = Length(factors) then
+			Error("The list of letters must be of the same length as the list of factors");
 		fi;
 		Ob := Objectify(NewType(ElementsFamily(FamilyObj(G)), IsFreeProductElm and IsFreeProductElmLetterRep),
     		rec(word := elms,
@@ -411,20 +440,20 @@ InstallOtherMethod( One,"for a GeneralFreeProduct",
 InstallOtherMethod( \[\], "for an FreeProductElm",
 	[IsFreeProductElm and IsFreeProductElmRep,IsInt],
 	function(w,i) 
-		return FreeProductElm(w!.group,[w!.word[i]],[w!.factors[i]]);
+		return FreeProductElmNC(w!.group,[w!.word[i]],[w!.factors[i]]);
 	end);
 
 InstallOtherMethod( \{\}, "for an FreeProductElm",
 	[IsFreeProductElm and IsFreeProductElmRep,IsList],
 	function(w,i) 
-		return FreeProductElm(w!.group,w!.word{i},w!.factors{i});
+		return FreeProductElmNC(w!.group,w!.word{i},w!.factors{i});
 	end);
 
 InstallMethod( \*,   "for two FreeProductElms",
 	IsIdenticalObj,
     [ IsFreeProductElm and IsFreeProductElmRep, IsFreeProductElm and IsFreeProductElmRep ],0,
     function( x, y )
-		return FreeProductElm(x!.group,
+		return FreeProductElmNC(x!.group,
 							Concatenation(x!.word,y!.word),
 							Concatenation(x!.factors,y!.factors));
    
@@ -433,7 +462,7 @@ InstallMethod( \*,   "for two FreeProductElms",
 InstallMethod( InverseOp, "for a FreeProductElms",
 	[IsFreeProductElm and IsFreeProductElmRep],
 	function(x)
-		return FreeProductElm(x!.group,
+		return FreeProductElmNC(x!.group,
 							Reversed(List(x!.word,InverseOp)),
 							Reversed(x!.factors) );	
 	end);

@@ -1,10 +1,10 @@
 InstallOtherMethod( FreeProductElm, "For an EquationGroup and a list",
 	[IsEquationGroup,IsList],
 	function(eqG,elms)
-		return FreeProductElm(eqG,elms,List(elms,function(e)
-													if e in eqG!.const then
-														return 1; 
-													fi; return 2;
+		return FreeProductElmNC(eqG,elms,List(elms,function(e)
+													if e in eqG!.free then
+														return 2; 
+													fi; return 1;
 												 end) );
 	end);
 
