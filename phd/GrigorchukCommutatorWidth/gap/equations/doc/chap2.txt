@@ -1,0 +1,176 @@
+  
+  [1X2 [33X[0;0YExample Session[133X[101X
+  
+  [33X[0;0YWe show some examples for using this package. The used methods are described
+  in the latter chapter.[133X
+  
+  
+  [1X2.1 [33X[0;0YNormal form of equations[133X[101X
+  
+  [33X[0;0YLet  us  consider  some  equations  over the alternating group [22XtextupA_5[122X. We
+  start with defining the group in which our equations live in:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XLoadPackage("equations");[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XA5 := AlternatingGroup(5);;SetName(A5,"A5"); [127X[104X
+    [4X[25Xgap>[125X [27XF := FreeGroup(3,"X");;SetName(F,"F");[127X[104X
+    [4X[25Xgap>[125X [27XEqG := EquationGroup(A5,F);[127X[104X
+    [4X[28XA5*F[128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNow we enter the equation [22XE=X_2(1,2,3)X_1^-1X_2^-1(1,3)(4,5)X_3X_1X_3^-1[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xg := (1,2,3);;h := (1,3)(4,5);;[127X[104X
+    [4X[25Xgap>[125X [27Xeq := Equation(EqG,[F.2,g,F.1^-1*F.2^-1,h,F.3*F.1*F.3^-1]);[127X[104X
+    [4X[28XEquation in [ X1, X2, X3 ][128X[104X
+    [4X[25Xgap>[125X [27XPrint(eq);[127X[104X
+    [4X[28XFreeProductElm([ X2, (1,2,3), X1^-1*X2^-1, (1,3)(4,5), X3*X1*X3^-1 ])[128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YLet us see what the normal form of this equation is:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XGenus(eq);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XNf := EquationNormalForm(eq);;[127X[104X
+    [4X[25Xgap>[125X [27XPrint(Nf.nf);[127X[104X
+    [4X[28XFreeProductElm([ X1^-1*X2^-1*X1*X2*X3^-1, (1,2,3), X3, (1,3)(4,5) ])[128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  know  a  solution for this normal form: [22Xs: X_1 ↦ (1,2,4), X_2 ↦ (1,2,5),
+  X_3↦ ()[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs:=EquationEvaluation(EqG,[F.1,F.2,F.3],[(1,2,4),(1,2,5),()]);[127X[104X
+    [4X[28X[ X1, X2, X3 ]"->"[ (1,2,4), (1,2,5), () ][128X[104X
+    [4X[25Xgap>[125X [27XIsSolution(s,Nf.nf);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XNf.nf^s;[127X[104X
+    [4X[28X()[128X[104X
+    [4X[25Xgap>[125X [27XIsSolution(s,eq);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27Xeq^s;[127X[104X
+    [4X[28X(1,2,4,3,5)[128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YLet us compute the solution for [22XE[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XsE:= Nf.hom*s;;[127X[104X
+    [4X[25Xgap>[125X [27XIsSolution(sE,eq);[127X[104X
+    [4X[28Xtrue;[128X[104X
+    [4X[28XList([1,2,3],i->ImageElm(sE,F.(i)));[128X[104X
+    [4X[28X[ (2,3,4), (), (1,2,5,4,3) ][128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThus  [22Xs_E:  X_1  ↦ (2,3,4), X_2 ↦ (), X_3↦ (1,2,5,4,3)[122X is a solution for the
+  equaition [22XE[122X[133X
+  
+  
+  [1X2.2 [33X[0;0YDecomposition[133X[101X
+  
+  [33X[0;0YLet  us  now  study  equations  over  groups acting on a rooted tree without
+  having  any  explicitly  given group in mind. Say [22XG≤operatornameAut({1,2}^*)[122X
+  and  [22Xg,h∈  G[122X  and  assume  we  want  to see how the decomposition [22XΦ_γ[122X of the
+  equation  [22XE=[X,Y]g^Zh[122X  looks  like.  This  decomposition  will depend on the
+  activity of [22Xg[122X and on [22Xγ_textupact}[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF := FreeGroup("X","Y","Z");; x:=F.1; y:=F.2; z:=F.3;[127X[104X
+    [4X[28XX[128X[104X
+    [4X[28XY[128X[104X
+    [4X[28XZ[128X[104X
+    [4X[25Xgap>[125X [27XG := FreeGroup("g","h");; g:=G.1; h := G.2;[127X[104X
+    [4X[28Xg[128X[104X
+    [4X[28Xh[128X[104X
+    [4X[25Xgap>[125X [27XS2 := [(),(1,2)];[127X[104X
+    [4X[25Xgap>[125X [27XEqG := EquationGroup(G,F);;[127X[104X
+    [4X[25Xgap>[125X [27Xeq := Equation(EqG,[Comm(x,y)*z^-1,g,z,h]);[127X[104X
+    [4X[28XEquation in [ X, Y, Z ][128X[104X
+    [4X[25Xgap>[125X [27XPhiE := [];[127X[104X
+    [4X[28X[ ][128X[104X
+    [4X[25Xgap>[125X [27Xfor actg in S2 do[127X[104X
+    [4X[25X>[125X [27X      DeqG := DecompositionEquationGroup(EqG,2,[actg,()]);;[127X[104X
+    [4X[25X>[125X [27X      for gamma_act in Cartesian([S2,S2,S2]) do[127X[104X
+    [4X[25X>[125X [27X        Add(PhiE,DecompositionEquation(DeqG,eq,gamma_act));[127X[104X
+    [4X[25X>[125X [27X      od;[127X[104X
+    [4X[25X>[125X [27X   od;[127X[104X
+    [4X[25Xgap>[125X [27XPrint(PhiE[1]);[127X[104X
+    [4X[28XEquation([ FreeProductElm([ X1^-1*Y1^-1*X1*Y1*Z1^-1, g1, Z1, h1 ]), [128X[104X
+    [4X[28X      FreeProductElm([ X2^-1*Y2^-1*X2*Y2*Z2^-1, g2, Z2, h2 ]) ]) [128X[104X
+    [4X[25Xgap>[125X [27XPrint(PhiE[16]);[127X[104X
+    [4X[28XEquation([ FreeProductElm([ X2^-1*Y1^-1*X1*Y2*Z2^-1, g2, Z1, h2 ]), [128X[104X
+    [4X[28X      FreeProductElm([ X1^-1*Y2^-1*X2*Y1*Z1^-1, g1, Z2, h1 ]) ])       [128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  see that for some (indeed for all but the first two cases) the states of
+  the  decomposition  do  not  form  independent  systems.  Let  us see how an
+  equivalent  independent  system  looks  like  and  find  out which genus the
+  corresponding equations have:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XApply(PhiE,E->DecomposedEquationDisjointForm(E).eq);;[127X[104X
+    [4X[25Xgap>[125X [27XPrint(PhiE[16]);[127X[104X
+    [4X[28XEquation([ FreeProductElm([ X2^-1*Y1^-1*Y2^-1*X2*Y1*Z1^-1, g1, Z2, h1, Y2*Z2^-1,[128X[104X
+    [4X[28X g2, Z1, h2 ]), FreeProductElm([  ]) ])[128X[104X
+    [4X[25Xgap>[125X [27XGenus(EquationComponent(PhiE[16],1));[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XList(PhiE,E->Genus(EquationComponent(E,1)));[127X[104X
+    [4X[28X[ 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2 ][128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  
+  
+  [1X2.3 [33X[0;0YUsing the fr package[133X[101X
+  
+  [33X[0;0YFinally let us do some computations in the Grigorchuk group. For example let
+  us compute a solution for the equation [22XE=[X,Y]dacab[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XLoadPackage("fr");;[127X[104X
+    [4X[25Xgap>[125X [27XF := FreeGroup("X","Y");; SetName(F,"F"); x:=F.1;; y:=F.2;;[127X[104X
+    [4X[25Xgap>[125X [27XG := GrigorchukGroup;;[127X[104X
+    [4X[25Xgap>[125X [27Xa:= G.1;; b:=G.2;; c:=G.3;; d:= G.4;;[127X[104X
+    [4X[25Xgap>[125X [27XEqG := EquationGroup(G,F);;[127X[104X
+    [4X[25Xgap>[125X [27XDeqG := DecompositionEquationGroup(EqG);[127X[104X
+    [4X[28XGrigorchukGroup*F*F[128X[104X
+    [4X[25Xgap>[125X [27Xgamma_a := GroupHomomorphismByImages(F,SymmetricGroup(2),[(),(1,2)]);[127X[104X
+    [4X[28X[ X, Y ] -> [ (), (1,2) ][128X[104X
+    [4X[25Xgap>[125X [27Xeq := Equation(EqG,[Comm(x,y),d*a*c*a*b]);[127X[104X
+    [4X[28XEquation in [ X, Y ][128X[104X
+    [4X[25Xgap>[125X [27Xneq := DecompositionEquation(DeqG,eq,gamma_a);[127X[104X
+    [4X[28XDecomposedEquation in [ X1, X2, Y1, Y2 ][128X[104X
+    [4X[25Xgap>[125X [27Xdeq := DecomposedEquationDisjointForm(neq);[127X[104X
+    [4X[28Xrec( eq := DecomposedEquation in [ X1, X2, Y2 ], [128X[104X
+    [4X[28X  hom := [ X1 ]"->"[ FreeProductElm of length 3 ] )[128X[104X
+    [4X[25Xgap>[125X [27XNf := EquationNormalForm(EquationComponent(deq.eq,1));;[127X[104X
+    [4X[25Xgap>[125X [27XF2 := FreeProductInfo(DeqG).groups[2];[127X[104X
+    [4X[28XF*F[128X[104X
+    [4X[25Xgap>[125X [27Xs := EquationEvaluation(DeqG,[F2.1,F2.2,F2.3],[d,b,b]);[127X[104X
+    [4X[28X[ X1, X2, Y1 ]"->"[ d, b, b ][128X[104X
+    [4X[25Xgap>[125X [27XIsSolution(s,Nf.nf);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsSolution(Nf.hom*s,EquationComponent(deq.eq,1));[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XForAll(EquationComponents(neq),E->IsSolution(deq.hom*Nf.hom*s,E));[127X[104X
+    [4X[28Xtrue;[128X[104X
+    [4X[25Xgap>[125X [27Ximgs := List(GeneratorsOfGroup(F2),x->ImageElm(deq.hom*Nf.hom*s,x));[127X[104X
+    [4X[28X[ <Mealy element on alphabet [ 1 .. 2 ] with 6 states>, [128X[104X
+    [4X[28X  <Mealy element on alphabet [ 1 .. 2 ] with 7 states>, b^-1, [128X[104X
+    [4X[28X  <Mealy element on alphabet [ 1 .. 2 ] with 9 states> ][128X[104X
+    [4X[25Xgap>[125X [27Xs2 := LiftSolution(neq,eq,gamma_a,deq.hom*Nf.hom*s);[127X[104X
+    [4X[28X[ X, Y ]"->"[ <Mealy element on alphabet [ 1 .. 2 ] with 9 states>, [128X[104X
+    [4X[28X  <Mealy element on alphabet [ 1 .. 2 ] with 10 states> ][128X[104X
+    [4X[25Xgap>[125X [27XIsSolution(s2,eq);[127X[104X
+    [4X[28Xtrue;[128X[104X
+    [4X[28X [128X[104X
+  [4X[32X[104X
+  

@@ -1,0 +1,214 @@
+  
+  [1X3 [33X[0;0YFreeProducts[133X[101X
+  
+  
+  [1X3.1 [33X[0;0YConstruction[133X[101X
+  
+  [33X[0;0YThis package installs some new method for the command [10XFreeProduct[110X. Before it
+  was only possible to construct free products of finitely presented groups.[133X
+  
+  [33X[0;0YIf  the  resulting  group was constructed by the new methods they will be in
+  the following filter: [10XIsGeneralFreeProduct[110X[133X
+  
+  
+  [1X3.2 [33X[0;0YFilters[133X[101X
+  
+  [1X3.2-1 IsGeneralFreeProduct[101X
+  
+  [29X[2XIsGeneralFreeProduct[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsFreeProductElm[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsFreeProductHomomorphism[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X  if  [3Xobj[103X  is a general free product,a free product element, a
+            free product homomorphism.[133X
+  
+  [33X[0;0YThese  filters  can  be  used  to check weather a given group was created as
+  general free product etc.[133X
+  
+  
+  [1X3.3 [33X[0;0YConstruction[133X[101X
+  
+  [1X3.3-1 GeneralFreeProduct[101X
+  
+  [29X[2XGeneralFreeProduct[102X( [3Xgroup[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA a new general free product isomorphic to [3Xgroup[103X.[133X
+  
+  [33X[0;0YTakes  a  group  which has free product information stored and returns a new
+  group  which  lies  in  the filter [10XIsGeneralFreeProduct[110X. The returned groups
+  represents the free product of the groups in [10XFreeProductInfo.groups[110X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS2 := SymmetricGroup(2);; SetName(S2,"S2");[127X[104X
+    [4X[25Xgap>[125X [27XS3 := SymmetricGroup(3);; SetName(F2,"F2");[127X[104X
+    [4X[25Xgap>[125X [27XG := FreeProduct(S2,S3);[127X[104X
+    [4X[28X<fp group on the generators [ f1, f2, f3 ]>[128X[104X
+    [4X[25Xgap>[125X [27XG := GeneralFreeProduct(G);[127X[104X
+    [4X[28XS2*S3[128X[104X
+  [4X[32X[104X
+  
+  [1X3.3-2 GeneratorsOfGroup[101X
+  
+  [29X[2XGeneratorsOfGroup[102X( [3Xgroup[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe generators of [3Xgroup[103X.[133X
+  
+  [1X3.3-3 \=[101X
+  
+  [29X[2X\=[102X( [3Xgroup[103X, [3Xgroup[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YTrue if the free factors of the groups [3XG[103X and [3XH[103X are equal.[133X
+  
+  
+  [1X3.4 [33X[0;0YElements[133X[101X
+  
+  [1X3.4-1 FreeProductElm[101X
+  
+  [29X[2XFreeProductElm[102X( [3Xgroup[103X, [3Xword[103X, [3Xfactors[103X ) [32X operation
+  [29X[2XFreeProductElmLetterRep[102X( [3Xgroup[103X, [3Xword[103X, [3Xfactors[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new element in the group [3Xgroup[103X.[133X
+  
+  [33X[0;0YThis  function constructs a new free product element, belonging to the group
+  [3Xgroup[103X.[133X
+  
+  [33X[0;0Y[3Xwords[103X is a dense list of elements of any of the factors of [3Xgroup[103X.[133X
+  
+  [33X[0;0Y[3Xfactors[103X  is a list of integers. [3Xword[103X[i] must lie in the factor [3Xfactors[103X[[3Xi[103X] of
+  [3Xgroup[103X. If this is not the case an error is thrown.[133X
+  
+  [33X[0;0Y[10XFreeProductElmLetterRep[110X   does   not   simplify  the  word  by  multipliying
+  neighbored equal factor elements but stores the letters as given.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF2 := FreeGroup(2);; SetName(F2,"F2");[127X[104X
+    [4X[25Xgap>[125X [27XS4 := SymmetricGroup(4);; SetName(S4,"S4");[127X[104X
+    [4X[25Xgap>[125X [27XG := FreeProduct(F2,S4);[127X[104X
+    [4X[28XF2*S4[128X[104X
+    [4X[25Xgap>[125X [27Xe := FreeProductElm(G,[F2.1,F2.2,(1,2),F2.1],[1,1,2,1]);[127X[104X
+    [4X[28XFreeProductElm of length 3[128X[104X
+    [4X[25Xgap>[125X [27XPrint(e^2);[127X[104X
+    [4X[28XFreeProductElm([ f1*f2, (1,2), f1^2*f2, (1,2), f1 ])[128X[104X
+    [4X[25Xgap>[125X [27XPrint(FreeProductElmLetterRep(G,[F2.1,F2.2,(1,2),F2.1],[1,1,2,1]));[127X[104X
+    [4X[28XFreeProductElm([ f1, f2, (1,2), f1 ])[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThere are two representations for this kind of elements.[133X
+  
+  [1X3.4-2 IsFreeProductElmRep[101X
+  
+  [29X[2XIsFreeProductElmRep[102X( [3Xobj[103X ) [32X filter
+  [29X[2XIsFreeProductElmLetterRep[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X  if  [3Xobj[103X is a general free product element in standard/letter
+            storing representation.[133X
+  
+  
+  [1X3.5 [33X[0;0YBasic operations[133X[101X
+  
+  [1X3.5-1 \*[101X
+  
+  [29X[2X\*[102X( [3Xe1[103X, [3Xe2[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe product of the two elements.[133X
+  
+  [1X3.5-2 \*[101X
+  
+  [29X[2X\*[102X( [3Xelm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe inverse element[133X
+  
+  [1X3.5-3 OneOp[101X
+  
+  [29X[2XOneOp[102X( [3Xelm[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe identity element[133X
+  
+  [1X3.5-4 \=[101X
+  
+  [29X[2X\=[102X( [3Xe1[103X, [3Xee2[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YTrue if the two elements are equal.[133X
+  
+  [33X[0;0Y#[133X
+  
+  [1X3.5-5 Length[101X
+  
+  [29X[2XLength[102X( [3Xe1[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe  length  of  the  list  that  stores  the elements of the free
+            factors[133X
+  
+  [1X3.5-6 \[\][101X
+  
+  [29X[2X\[\][102X( [3Xe1[103X, [3Xi[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe  free product element consisting only of the [3Xi[103X-th entry of the
+            underlying list of elements.[133X
+  
+  [1X3.5-7 Position[101X
+  
+  [29X[2XPosition[102X( [3Xe1[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe position of the element [3Xel[103X in the underlyig list.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF2 := FreeGroup(2);; SetName(F2,"F2");[127X[104X
+    [4X[25Xgap>[125X [27XS4 := SymmetricGroup(4);; SetName(S4,"S4");[127X[104X
+    [4X[25Xgap>[125X [27XG := FreeProduct(F2,S4);[127X[104X
+    [4X[28XF2*S4[128X[104X
+    [4X[25Xgap>[125X [27Xe := FreeProductElm(G,[F2.1,F2.2,(1,2),F2.1],[1,1,2,1]);;Print(e);[127X[104X
+    [4X[28XFreeProductElm([ f1*f2, (1,2), f1 ])[128X[104X
+    [4X[25Xgap>[125X [27XLength(e);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XPosition(e,(1,2));[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XPrint(e[1]);[127X[104X
+    [4X[28XFreeProductElm([ f1*f2 ])[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.6 [33X[0;0YHomomorphisms[133X[101X
+  
+  [1X3.6-1 FreeProductHomomorphism[101X
+  
+  [29X[2XFreeProductHomomorphism[102X( [3Xsource[103X, [3Xtarget[103X, [3Xhoms[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA new group homomorphism from [3Xsource[103X to [3Xtarget[103X.[133X
+  
+  [33X[0;0YThis  function  constructs  a  new  group homomorphism from the general free
+  product group [3Xsource[103X to the general free product group [3Xtarget[103X by mapping the
+  factor [10Xi[110X by the group homomorphism [3Xhoms[103X[[10Xi[110X] to the [10Xi[110Xth factor of [3Xtarget[103X.[133X
+  
+  [33X[0;0Y[3Xhoms[103X is a dense list of group homomorphisms where the source of [3Xhoms[103X[[10Xi[110X] must
+  be  the [10Xi[110Xth factor of [3Xsource[103X and the range of [3Xhoms[103X[[10Xi[110X] must be the [10Xi[110Xth factor
+  of [3Xtarget[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF2 := FreeGroup(2);; SetName(F2,"F2");[127X[104X
+    [4X[25Xgap>[125X [27XS4 := SymmetricGroup(4);; SetName(S4,"S4");[127X[104X
+    [4X[25Xgap>[125X [27XA4 := AlternatingGroup(4);; SetName(A4,"A4");[127X[104X
+    [4X[25Xgap>[125X [27XG := FreeProduct(F2,S4); H := FreeProduct(F2,A4);[127X[104X
+    [4X[28XF2*S4[128X[104X
+    [4X[28XF2*A4[128X[104X
+    [4X[25Xgap>[125X [27Xhf := GroupHomomorphismByImages(F2,F2,[F2.2,F2.1]);;[127X[104X
+    [4X[25Xgap>[125X [27Xhg := GroupHomomorphismByFunction(S4,A4,s->Comm(s,S4.2));;[127X[104X
+    [4X[25Xgap>[125X [27Xh := FreeProductHomomorphism(G,H,[hf,hg]);[127X[104X
+    [4X[28X<mapping: F2*S4 -> F2*A4 >[128X[104X
+    [4X[25Xgap>[125X [27Xe := FreeProductElm(G,[F2.1,F2.2,(1,2),F2.1],[1,1,2,1]);[127X[104X
+    [4X[28XFreeProductElm of length 3[128X[104X
+    [4X[25Xgap>[125X [27XPrint(e^h);[127X[104X
+    [4X[28XFreeProductElm([ f2*f1*f2 ])[128X[104X
+  [4X[32X[104X
+  
+  [1X3.6-2 IsGeneralFreeProductRep[101X
+  
+  [29X[2XIsGeneralFreeProductRep[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X  if  [3Xobj[103X is a general free product element in standard/letter
+            storing representation.[133X
+  
+  
+  [1X3.7 [33X[0;0YOther operations[133X[101X
+  
+  [1X3.7-1 Abs[101X
+  
+  [29X[2XAbs[102X( [3Xobj[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YAn assocword without inverses of generators[133X
+  
+  [33X[0;0YIn  the  word  [3Xobj[103X all occurencies of inverse generators are replaced by the
+  coresponding generators.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF2 := FreeGroup(2);; SetName(F2,"F2");[127X[104X
+    [4X[25Xgap>[125X [27Xw := F2.1^-1*F2.2*F2.1*F2.2^-1;[127X[104X
+    [4X[28Xf1^-1*f2*f1*f2^-1[128X[104X
+    [4X[25Xgap>[125X [27XAbs(w);[127X[104X
+    [4X[28X(f1*f2)^2[128X[104X
+  [4X[32X[104X
+  

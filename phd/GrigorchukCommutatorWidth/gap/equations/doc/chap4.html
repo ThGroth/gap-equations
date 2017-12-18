@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (Equations) - Chapter 4: Equations</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap4"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap3.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap5.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p><a id="X7FA73DBF8424437E" name="X7FA73DBF8424437E"></a></p>
+<div class="ChapSects"><a href="chap4.html#X7FA73DBF8424437E">4 <span class="Heading">Equations</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7F6278CD87400D49">4.1 <span class="Heading">Construction</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X808D75B58057C4D4">4.1-1 IsEquationGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7EF6B973848879A1">4.1-2 EquationGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X78102FC383761659">4.1-3 Equation</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X806BB78E7A8B9FB1">4.1-4 EquationVariables</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X82B2E4C181B54921">4.1-5 EquationLetterRep</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X798A4D65860BFA88">4.1-6 EquationLetterRep</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X86E2E96679F5A416">4.1-7 IsQuadraticEquation</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X818F7C7186D0FE91">4.1-8 IsOrientedEquation</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X84975388859F203D">4.2 <span class="Heading">Homomorphisms</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7B433C8879AECD75">4.2-1 EquationHomomorphism</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X804EE0107B532B5F">4.2-2 EquationEvaluation</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7EAA7DBE783858B7">4.3 <span class="Heading">Normal Form</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7D74F2867C61EA44">4.3-1 EquationNormalForm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X87C24CF085566CEA">4.3-2 Genus</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X801F396A7F871C54">4.3-3 EquationSignature</a></span>
+</div></div>
+</div>
+
+<h3>4 <span class="Heading">Equations</span></h3>
+
+<p>We fix a set <span class="SimpleMath">mathcalX</span> and call its elements <em>variables</em>. We assume that <span class="SimpleMath">mathcalX</span> is infinite countable, is well ordered, and its family of finite subsets is also well ordered, by size and then lexicographic order. We denote by <span class="SimpleMath">F_mathcalX</span> the free group on the generating set <span class="SimpleMath">mathcalX</span>.</p>
+
+<p>Let <span class="SimpleMath">G</span> be a group. The <em>equation group</em> will be the free product <span class="SimpleMath">G*F_mathcalX</span> and the elements belonging to <span class="SimpleMath">G</span> will be called <em>constants</em>.</p>
+
+<p>A <span class="SimpleMath">G</span>-equation is an element <span class="SimpleMath">E</span> of the group <span class="SimpleMath">F_mathcalX*G</span> regarded as a reduced word. For <span class="SimpleMath">E</span> a <span class="SimpleMath">G</span>-equation, its set of <em>variables</em> <span class="SimpleMath">textupVar(E)⊂ mathcalX</span> is the set of symbols in <span class="SimpleMath">mathcalX</span> that occur in it; namely, <span class="SimpleMath">textupVar(E)</span> is the minimal subset of <span class="SimpleMath">mathcalX</span> such that <span class="SimpleMath">E</span> belongs to <span class="SimpleMath">F_textupVar(E)*G</span>.</p>
+
+<p>A <em>quadratic</em> equation is an equation in which each variable <span class="SimpleMath">X∈textupVar(E)</span> occurs exactly twice. A quadratic equation is called <em>oriented</em> if for each variable <span class="SimpleMath">X∈textupVar(mathcalX)</span> both letters <span class="SimpleMath">X</span> and <span class="SimpleMath">X^-1</span> occure in the reduced word <span class="SimpleMath">E</span>.</p>
+
+<p><a id="X7F6278CD87400D49" name="X7F6278CD87400D49"></a></p>
+
+<h4>4.1 <span class="Heading">Construction</span></h4>
+
+<p><a id="X808D75B58057C4D4" name="X808D75B58057C4D4"></a></p>
+
+<h5>4.1-1 IsEquationGroup</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsEquationGroup</code>( <var class="Arg">obj</var> )</td><td class="tdright">( filter )</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> if <var class="Arg">obj</var> is a general free product over to groups <code class="keyw">G,F</code> where <code class="keyw">F</code> is a free group.</p>
+
+<p>The free factor <code class="keyw">F</code> represents the group of variables for the equations.</p>
+
+<p><a id="X7EF6B973848879A1" name="X7EF6B973848879A1"></a></p>
+
+<h5>4.1-2 EquationGroup</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationGroup</code>( <var class="Arg">G</var>, <var class="Arg">F</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<p>Returns: A a new <var class="Arg">G</var>-group for equations over <var class="Arg">G</var>.</p>
+
+<p>Uses the <code class="code">FreeProduct</code> method to create the free product object. The second argument <var class="Arg">F</var> must be a free group.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S2 := SymmetricGroup(2);; SetName(S2,"S2");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">F := FreeGroup(infinity,"xn",["x1","x2"]);;SetName(F,"F");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EqG := EquationGroup(S2,F);</span>
+S2*F
+</pre></div>
+
+<p><a id="X78102FC383761659" name="X78102FC383761659"></a></p>
+
+<h5>4.1-3 Equation</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Equation</code>( <var class="Arg">G</var>, <var class="Arg">L</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<p>Returns: A a new element of the equation group <var class="Arg">G</var></p>
+
+<p>Creates a <code class="code">FreeProductElm</code> from the list <var class="Arg">L</var>. By default this elements will be cyclical reduced.</p>
+
+<p><a id="X806BB78E7A8B9FB1" name="X806BB78E7A8B9FB1"></a></p>
+
+<h5>4.1-4 EquationVariables</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationVariables</code>( <var class="Arg">E</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<p>Returns: A list of all variables occuring in <var class="Arg">E</var>.</p>
+
+<p><a id="X82B2E4C181B54921" name="X82B2E4C181B54921"></a></p>
+
+<h5>4.1-5 EquationLetterRep</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationLetterRep</code>( <var class="Arg">E</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<p>Returns: A a new element of the equation group <var class="Arg">G</var> in letter representation which is equal to <var class="Arg">E</var></p>
+
+<p>In the standard representation of an equation the elements of the free group that are not devided by a constant are collected. In the letter representation they are seperate letters.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">F2 := FreeGroup(2);; SetName(F2,"F2");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S4 := SymmetricGroup(4);; SetName(S4,"S4");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := EquationGroup(S4,F2);</span>
+S4*F2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e := Equation(G,[F2.1,F2.2,(1,2),F2.1]);</span>
+Equation in [ f1, f2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Print(e);</span>
+FreeProductElm([ f1*f2, (1,2), f1 ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Print(EquationLetterRep(e));</span>
+FreeProductElm([ f1, f2, (1,2), f1 ])
+</pre></div>
+
+<p><a id="X798A4D65860BFA88" name="X798A4D65860BFA88"></a></p>
+
+<h5>4.1-6 EquationLetterRep</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationLetterRep</code>( <var class="Arg">G</var>, <var class="Arg">L</var> )</td><td class="tdright">( attribute )</td></tr></table></div>
+<p>Returns: Creates a new equation in letter representation</p>
+
+<p><a id="X86E2E96679F5A416" name="X86E2E96679F5A416"></a></p>
+
+<h5>4.1-7 IsQuadraticEquation</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsQuadraticEquation</code>( <var class="Arg">E</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> if <var class="Arg">E</var> is an quadratic equation.</p>
+
+<p><a id="X818F7C7186D0FE91" name="X818F7C7186D0FE91"></a></p>
+
+<h5>4.1-8 IsOrientedEquation</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsOrientedEquation</code>( <var class="Arg">E</var> )</td><td class="tdright">( property )</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> if <var class="Arg">E</var> is an oriented quadratic equation.</p>
+
+<p><a id="X84975388859F203D" name="X84975388859F203D"></a></p>
+
+<h4>4.2 <span class="Heading">Homomorphisms</span></h4>
+
+<p>An <em>evaluation</em> is a <span class="SimpleMath">G</span>-homomorphism <span class="SimpleMath">e: F_mathcalX} * G -&gt; G</span>. A <em>solution</em> of an equation <span class="SimpleMath">E</span> is an evaluation <span class="SimpleMath">s</span> satisfying <span class="SimpleMath">s(E)=1</span>. If a solution exists for <span class="SimpleMath">E</span> then the equation <span class="SimpleMath">E</span> is called <em>solvable</em>. The set of elements <span class="SimpleMath">X∈ mathcalX</span> with <span class="SimpleMath">s(X)≠ 1</span> is called the <em>support</em> of the solution.</p>
+
+<p><a id="X7B433C8879AECD75" name="X7B433C8879AECD75"></a></p>
+
+<h5>4.2-1 EquationHomomorphism</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationHomomorphism</code>( <var class="Arg">G</var>, <var class="Arg">vars</var>, <var class="Arg">imgs</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<p>Returns: A a new homomorphism from <var class="Arg">G</var> to <var class="Arg">G</var></p>
+
+<p>If <var class="Arg">G</var> is the group <span class="SimpleMath">H*F_X</span> the result of this command is a <span class="SimpleMath">H</span>-homomorphism that maps the <span class="SimpleMath">i</span>-th variable of the list <var class="Arg">vars</var> to the <span class="SimpleMath">i</span>-th member of <var class="Arg">imgs</var>. Therefore <var class="Arg">vars</var> can be a list without duplicates of variables. The list <var class="Arg">imgs</var> can contain elements of the following type:</p>
+
+
+<ul>
+<li><p>Element of the group <span class="SimpleMath">F_X</span></p>
+
+</li>
+<li><p>Elements of the group <span class="SimpleMath">H</span></p>
+
+</li>
+<li><p>Lists of elements from the groups <span class="SimpleMath">F_X</span> and <span class="SimpleMath">H</span>. The list is then regarded as the corresponding word in <span class="SimpleMath">G</span></p>
+
+</li>
+<li><p>Elements of the group <span class="SimpleMath">G</span></p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">F3 := FreeGroup(3);; SetName(F3,"F3");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S4 := SymmetricGroup(4);; SetName(S4,"S4");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := EquationGroup(S4,F3);</span>
+S4*F3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2)]);</span>
+Equation in [ f1, f2, f3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"> h := EquationHomomorphism(G,[F3.1,F3.2,F3.3],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[F3.1*F3.2*F3.3,(F3.2*F3.3)^(F3.1*F3.2*F3.3),(F3.2^-1*F3.1^-1)^F3.3]);</span>
+[ f1, f2, f3 ]"-&gt;"[ f1*f2*f3, f3^-1*f2^-1*f1^-1*f2*f3*f1*f2*f3, f3^-1*f2^-1*f1^-1*f3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Print(e^h);</span>
+FreeProductElm([ f1^2*f2^2*f3^2, (1,2) ])
+</pre></div>
+
+<p><a id="X804EE0107B532B5F" name="X804EE0107B532B5F"></a></p>
+
+<h5>4.2-2 EquationEvaluation</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationEvaluation</code>( <var class="Arg">G</var>, <var class="Arg">vars</var>, <var class="Arg">imgs</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<p>Returns: A a new evaluation from <var class="Arg">G</var></p>
+
+<p>Works the same as <em>EquationHomomorphism</em> but the target of the homomorphism is the group of constants and all variables which are not specified in in <var class="Arg">vars</var> are maped to the identity. Hence the only allowed input for <var class="Arg">imgs</var> are elements of the group of constants.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">F3 := FreeGroup(3);; SetName(F3,"F3");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S4 := SymmetricGroup(4);; SetName(S4,"S4");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := EquationGroup(S4,F3);</span>
+S4*F3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2,3)]);</span>
+Equation in [ f1, f2, f3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"> h := EquationHomomorphism(G,[F3.1,F3.2,F3.3],[(),(),(1,2,3)]);</span>
+[ f1, f2, f3 ]"-&gt;"[ (), (), (1,3,2) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"> he := EquationEvaluation(G,[F3.1,F3.2,F3.3],[(),(),(1,2,3)]);</span>
+MappingByFunction( S4*F3, S4, function( q ) ... end )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e^he;</span>
+()
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSolution(he,e);</span>
+true
+</pre></div>
+
+<p><a id="X7EAA7DBE783858B7" name="X7EAA7DBE783858B7"></a></p>
+
+<h4>4.3 <span class="Heading">Normal Form</span></h4>
+
+<p>For <span class="SimpleMath">m,nge0</span>, <span class="SimpleMath">X_i,Y_i,Z_i ∈ mathcalX</span> and <span class="SimpleMath">c_i ∈ G</span> the following two kinds of equations are called in <em>normal form</em>:</p>
+
+<div class="pcenter"><table class="GAPDocTablenoborder">
+<tr>
+<td class="tdright"><span class="SimpleMath">O_n,m:</span></td>
+<td class="tdleft"><span class="SimpleMath">[X_1,Y_1][X_2,Y_2]⋯[X_n,Y_n]c_1^Z_1⋯ c_m-1^Z_m-1}c_m</span></td>
+</tr>
+<tr>
+<td class="tdright"><span class="SimpleMath">U_n,m:</span></td>
+<td class="tdleft"><span class="SimpleMath">X_1^2X_2^2⋯ X_n^2 c_1^Z_1⋯ c_m-1^Z_m-1}c_m .</span></td>
+</tr>
+</table><br /><p>&nbsp;</p><br />
+</div>
+
+<p>The form <span class="SimpleMath">O_n,m</span> is called the oriented case and <span class="SimpleMath">U_n,m</span> for <span class="SimpleMath">n&gt;0</span> the unoriented case. The parameter <span class="SimpleMath">n</span> is referred to as <em>genus</em> of the normal form of an equation. The pair <span class="SimpleMath">(n,m)</span> will be called the <em>signature</em> of the quadratic equation. It was proven by Commerford and Edmunds (<a href="chapBib.html#biBComerford-Edmunds:EquationsFreeGroups">[JE81]</a>) that every quadratic equation is isomorphic to one of the form <span class="SimpleMath">O_n,m</span> or <span class="SimpleMath">U_n,m</span> by an <span class="SimpleMath">G</span>-isomorphism.</p>
+
+<p><a id="X7D74F2867C61EA44" name="X7D74F2867C61EA44"></a></p>
+
+<h5>4.3-1 EquationNormalForm</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationNormalForm</code>( <var class="Arg">E</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<p>Returns: A record with two <span class="SimpleMath">3</span> components: <var class="Arg">nf</var>, <var class="Arg">hom</var> and <var class="Arg">homInv</var></p>
+
+<p>The argument <var class="Arg">E</var> needs to be a quadratic equation. For each such equation there exists an equivalent equation in normal form.</p>
+
+<p>The component <var class="Arg">nf</var> is an equation in one of the forms <span class="SimpleMath">O_n,m,U_n,m</span> equivalent to the equation <var class="Arg">E</var>. The component <var class="Arg">hom</var> is an equation homomorphism which maps <var class="Arg">E</var> to <var class="Arg">nf</var>. The component <var class="Arg">homInv</var> is the inverse of this homomorphism.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">F3 := FreeGroup("x","y","z");; SetName(F3,"F3");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">S4 := SymmetricGroup(4);; SetName(S4,"S4");</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">G := EquationGroup(S4,F3);</span>
+S4*F3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2)]);</span>
+Equation in [ x, y, z ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"> nf := EquationNormalForm(e);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Print(nf.nf);</span>
+FreeProductElm([ x^2*y^2*z^2, (1,2) ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e^(nf.hom)=nf.nf;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">nf.nf^(nf.homInv)=e;</span>
+true
+</pre></div>
+
+<p><a id="X87C24CF085566CEA" name="X87C24CF085566CEA"></a></p>
+
+<h5>4.3-2 Genus</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Genus</code>( <var class="Arg">E</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<p>Returns: The integer that is the genus of the equation</p>
+
+<p><a id="X801F396A7F871C54" name="X801F396A7F871C54"></a></p>
+
+<h5>4.3-3 EquationSignature</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EquationSignature</code>( <var class="Arg">E</var> )</td><td class="tdright">( operation )</td></tr></table></div>
+<p>Returns: The list <var class="Arg">[n,m]</var> of integers that is the signature of the equation</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap3.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap5.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chapBib.html">Bib</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

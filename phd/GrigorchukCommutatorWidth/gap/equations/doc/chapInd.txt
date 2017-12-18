@@ -1,0 +1,49 @@
+  
+  
+  [1XIndex[101X
+  
+  [2X\*[102X (freeproductelm,freeproductelm)  3.5-1
+  [2X\*[102X (freeproductelm)  3.5-2
+  [2X\=[102X (G,H)  3.3-3
+  [2X\=[102X (freeproductelm,freeproductelm)  3.5-4
+  [2X\[\][102X (freeproductelm,integer)  3.5-6
+  [2XAbs[102X (assocword)  3.7-1
+  [2XDecomposedEquationDisjointForm[102X (equation)  5.1-4
+  [2XDecompositionEquation[102X (equation)  5.1-2
+  [2XDecompositionEquationGroup[102X (group)  5.1-1
+  [2XDecompositionEquationGroup[102X (group,int,list)  5.1-1
+  [2XEquation[102X (group,list)  4.1-3
+  [2XEquationActivity[102X (equation)  5.1-3
+  [2XEquationComponent[102X (equation,int)  5.1-3
+  [2XEquationComponents[102X (equation,int)  5.1-3
+  [2XEquationEvaluation[102X (group,list,list)  4.2-2
+  [2XEquationGroup[102X (group,group)  4.1-2
+  [2XEquationHomomorphism[102X (group,list,list)  4.2-1
+  [2XEquationLetterRep[102X (equation)  4.1-5
+  [2XEquationLetterRep[102X (group,list)  4.1-6
+  [2XEquationNormalForm[102X (equation)  4.3-1
+  [2XEquationSignature[102X (equation)  4.3-3
+  [2XEquationVariables[102X (groupelement)  4.1-4
+  [2XFreeProductElm[102X (group,list,list)  3.4-1
+  [2XFreeProductElmLetterRep[102X (group,list,list)  3.4-1
+  [2XFreeProductHomomorphism[102X (group,group,list)  3.6-1
+  [2XGeneralFreeProduct[102X (group)  3.3-1
+  [2XGeneratorsOfGroup[102X (group)  3.3-2
+  [2XGenus[102X (equation)  4.3-2
+  [2XIsEquationGroup[102X  4.1-1
+  [2XIsFreeProductElm[102X  3.2-1
+  [2XIsFreeProductElmLetterRep[102X  3.4-2
+  [2XIsFreeProductElmRep[102X  3.4-2
+  [2XIsFreeProductHomomorphism[102X  3.2-1
+  [2XIsGeneralFreeProduct[102X  3.2-1
+  [2XIsGeneralFreeProductRep[102X  3.6-2
+  [2XIsOrientedEquation[102X (equation)  4.1-8
+  [2XIsQuadraticEquation[102X (equation)  4.1-7
+  [2XLength[102X (freeproductelm)  3.5-5
+  License  .-1
+  [2XLiftSolution[102X (equation,equation,equationhom,equationhom)  5.1-5
+  [2XOneOp[102X (freeproductelm)  3.5-3
+  [2XPosition[102X (freeproductelm)  3.5-7
+  
+  
+  -------------------------------------------------------

@@ -1,0 +1,220 @@
+  
+  [1X4 [33X[0;0YEquations[133X[101X
+  
+  [33X[0;0YWe  fix  a  set  [22XmathcalX[122X  and  call  its elements [13Xvariables[113X. We assume that
+  [22XmathcalX[122X  is  infinite  countable, is well ordered, and its family of finite
+  subsets  is  also  well  ordered,  by  size and then lexicographic order. We
+  denote by [22XF_mathcalX[122X the free group on the generating set [22XmathcalX[122X.[133X
+  
+  [33X[0;0YLet  [22XG[122X  be a group. The [13Xequation group[113X will be the free product [22XG*F_mathcalX[122X
+  and the elements belonging to [22XG[122X will be called [13Xconstants[113X.[133X
+  
+  [33X[0;0YA [22XG[122X-equation is an element [22XE[122X of the group [22XF_mathcalX*G[122X regarded as a reduced
+  word. For [22XE[122X a [22XG[122X-equation, its set of [13Xvariables[113X [22XtextupVar(E)⊂ mathcalX[122X is the
+  set  of  symbols  in  [22XmathcalX[122X that occur in it; namely, [22XtextupVar(E)[122X is the
+  minimal subset of [22XmathcalX[122X such that [22XE[122X belongs to [22XF_textupVar(E)*G[122X.[133X
+  
+  [33X[0;0YA  [13Xquadratic[113X  equation  is an equation in which each variable [22XX∈textupVar(E)[122X
+  occurs  exactly  twice.  A quadratic equation is called [13Xoriented[113X if for each
+  variable [22XX∈textupVar(mathcalX)[122X both letters [22XX[122X and [22XX^-1[122X occure in the reduced
+  word [22XE[122X.[133X
+  
+  
+  [1X4.1 [33X[0;0YConstruction[133X[101X
+  
+  [1X4.1-1 IsEquationGroup[101X
+  
+  [29X[2XIsEquationGroup[102X( [3Xobj[103X ) [32X filter
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X  if  [3Xobj[103X is a general free product over to groups [9XG,F[109X where [9XF[109X
+            is a free group.[133X
+  
+  [33X[0;0YThe free factor [9XF[109X represents the group of variables for the equations.[133X
+  
+  [1X4.1-2 EquationGroup[101X
+  
+  [29X[2XEquationGroup[102X( [3XG[103X, [3XF[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA a new [3XG[103X-group for equations over [3XG[103X.[133X
+  
+  [33X[0;0YUses  the  [10XFreeProduct[110X  method to create the free product object. The second
+  argument [3XF[103X must be a free group.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XS2 := SymmetricGroup(2);; SetName(S2,"S2");[127X[104X
+    [4X[25Xgap>[125X [27XF := FreeGroup(infinity,"xn",["x1","x2"]);;SetName(F,"F");[127X[104X
+    [4X[25Xgap>[125X [27XEqG := EquationGroup(S2,F);[127X[104X
+    [4X[28XS2*F[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-3 Equation[101X
+  
+  [29X[2XEquation[102X( [3XG[103X, [3XL[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA a new element of the equation group [3XG[103X[133X
+  
+  [33X[0;0YCreates  a  [10XFreeProductElm[110X from the list [3XL[103X. By default this elements will be
+  cyclical reduced.[133X
+  
+  [1X4.1-4 EquationVariables[101X
+  
+  [29X[2XEquationVariables[102X( [3XE[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA list of all variables occuring in [3XE[103X.[133X
+  
+  [1X4.1-5 EquationLetterRep[101X
+  
+  [29X[2XEquationLetterRep[102X( [3XE[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YA  a  new element of the equation group [3XG[103X in letter representation
+            which is equal to [3XE[103X[133X
+  
+  [33X[0;0YIn the standard representation of an equation the elements of the free group
+  that   are   not  devided  by  a  constant  are  collected.  In  the  letter
+  representation they are seperate letters.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF2 := FreeGroup(2);; SetName(F2,"F2");[127X[104X
+    [4X[25Xgap>[125X [27XS4 := SymmetricGroup(4);; SetName(S4,"S4");[127X[104X
+    [4X[25Xgap>[125X [27XG := EquationGroup(S4,F2);[127X[104X
+    [4X[28XS4*F2[128X[104X
+    [4X[25Xgap>[125X [27Xe := Equation(G,[F2.1,F2.2,(1,2),F2.1]);[127X[104X
+    [4X[28XEquation in [ f1, f2 ][128X[104X
+    [4X[25Xgap>[125X [27XPrint(e);[127X[104X
+    [4X[28XFreeProductElm([ f1*f2, (1,2), f1 ])[128X[104X
+    [4X[25Xgap>[125X [27XPrint(EquationLetterRep(e));[127X[104X
+    [4X[28XFreeProductElm([ f1, f2, (1,2), f1 ])[128X[104X
+  [4X[32X[104X
+  
+  [1X4.1-6 EquationLetterRep[101X
+  
+  [29X[2XEquationLetterRep[102X( [3XG[103X, [3XL[103X ) [32X attribute
+  [6XReturns:[106X  [33X[0;10YCreates a new equation in letter representation[133X
+  
+  [1X4.1-7 IsQuadraticEquation[101X
+  
+  [29X[2XIsQuadraticEquation[102X( [3XE[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3XE[103X is an quadratic equation.[133X
+  
+  [1X4.1-8 IsOrientedEquation[101X
+  
+  [29X[2XIsOrientedEquation[102X( [3XE[103X ) [32X property
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X if [3XE[103X is an oriented quadratic equation.[133X
+  
+  
+  [1X4.2 [33X[0;0YHomomorphisms[133X[101X
+  
+  [33X[0;0YAn  [13Xevaluation[113X is a [22XG[122X-homomorphism [22Xe: F_mathcalX} * G -> G[122X. A [13Xsolution[113X of an
+  equation  [22XE[122X is an evaluation [22Xs[122X satisfying [22Xs(E)=1[122X. If a solution exists for [22XE[122X
+  then the equation [22XE[122X is called [13Xsolvable[113X. The set of elements [22XX∈ mathcalX[122X with
+  [22Xs(X)≠ 1[122X is called the [13Xsupport[113X of the solution.[133X
+  
+  [1X4.2-1 EquationHomomorphism[101X
+  
+  [29X[2XEquationHomomorphism[102X( [3XG[103X, [3Xvars[103X, [3Ximgs[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA a new homomorphism from [3XG[103X to [3XG[103X[133X
+  
+  [33X[0;0YIf  [3XG[103X is the group [22XH*F_X[122X the result of this command is a [22XH[122X-homomorphism that
+  maps  the  [22Xi[122X-th  variable  of  the  list  [3Xvars[103X  to  the [22Xi[122X-th member of [3Ximgs[103X.
+  Therefore  [3Xvars[103X can be a list without duplicates of variables. The list [3Ximgs[103X
+  can contain elements of the following type:[133X
+  
+  [30X    [33X[0;6YElement of the group [22XF_X[122X[133X
+  
+  [30X    [33X[0;6YElements of the group [22XH[122X[133X
+  
+  [30X    [33X[0;6YLists of elements from the groups [22XF_X[122X and [22XH[122X. The list is then regarded
+        as the corresponding word in [22XG[122X[133X
+  
+  [30X    [33X[0;6YElements of the group [22XG[122X[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF3 := FreeGroup(3);; SetName(F3,"F3");[127X[104X
+    [4X[25Xgap>[125X [27XS4 := SymmetricGroup(4);; SetName(S4,"S4");[127X[104X
+    [4X[25Xgap>[125X [27XG := EquationGroup(S4,F3);[127X[104X
+    [4X[28XS4*F3[128X[104X
+    [4X[25Xgap>[125X [27Xe := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2)]);[127X[104X
+    [4X[28XEquation in [ f1, f2, f3 ][128X[104X
+    [4X[25Xgap>[125X [27X h := EquationHomomorphism(G,[F3.1,F3.2,F3.3],[127X[104X
+    [4X[25X>[125X [27X[F3.1*F3.2*F3.3,(F3.2*F3.3)^(F3.1*F3.2*F3.3),(F3.2^-1*F3.1^-1)^F3.3]);[127X[104X
+    [4X[28X[ f1, f2, f3 ]"->"[ f1*f2*f3, f3^-1*f2^-1*f1^-1*f2*f3*f1*f2*f3, f3^-1*f2^-1*f1^-1*f3 ][128X[104X
+    [4X[25Xgap>[125X [27XPrint(e^h);[127X[104X
+    [4X[28XFreeProductElm([ f1^2*f2^2*f3^2, (1,2) ])[128X[104X
+  [4X[32X[104X
+  
+  [1X4.2-2 EquationEvaluation[101X
+  
+  [29X[2XEquationEvaluation[102X( [3XG[103X, [3Xvars[103X, [3Ximgs[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA a new evaluation from [3XG[103X[133X
+  
+  [33X[0;0YWorks the same as [13XEquationHomomorphism[113X but the target of the homomorphism is
+  the  group of constants and all variables which are not specified in in [3Xvars[103X
+  are  maped  to  the  identity.  Hence  the  only  allowed input for [3Ximgs[103X are
+  elements of the group of constants.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF3 := FreeGroup(3);; SetName(F3,"F3");[127X[104X
+    [4X[25Xgap>[125X [27XS4 := SymmetricGroup(4);; SetName(S4,"S4");[127X[104X
+    [4X[25Xgap>[125X [27XG := EquationGroup(S4,F3);[127X[104X
+    [4X[28XS4*F3[128X[104X
+    [4X[25Xgap>[125X [27Xe := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2,3)]);[127X[104X
+    [4X[28XEquation in [ f1, f2, f3 ][128X[104X
+    [4X[25Xgap>[125X [27X h := EquationHomomorphism(G,[F3.1,F3.2,F3.3],[(),(),(1,2,3)]);[127X[104X
+    [4X[28X[ f1, f2, f3 ]"->"[ (), (), (1,3,2) ][128X[104X
+    [4X[25Xgap>[125X [27X he := EquationEvaluation(G,[F3.1,F3.2,F3.3],[(),(),(1,2,3)]);[127X[104X
+    [4X[28XMappingByFunction( S4*F3, S4, function( q ) ... end )[128X[104X
+    [4X[25Xgap>[125X [27Xe^he;[127X[104X
+    [4X[28X()[128X[104X
+    [4X[25Xgap>[125X [27XIsSolution(he,e);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X4.3 [33X[0;0YNormal Form[133X[101X
+  
+  [33X[0;0YFor  [22Xm,nge0[122X,  [22XX_i,Y_i,Z_i  ∈ mathcalX[122X and [22Xc_i ∈ G[122X the following two kinds of
+  equations are called in [13Xnormal form[113X:[133X
+  
+        [22XO_n,m:[122X   [22X[X_1,Y_1][X_2,Y_2]⋯[X_n,Y_n]c_1^Z_1⋯ c_m-1^Z_m-1}c_m[122X
+        [22XU_n,m:[122X   [22XX_1^2X_2^2⋯ X_n^2 c_1^Z_1⋯ c_m-1^Z_m-1}c_m .[122X        
+  
+  [33X[0;0YThe  form [22XO_n,m[122X is called the oriented case and [22XU_n,m[122X for [22Xn>0[122X the unoriented
+  case.  The  parameter  [22Xn[122X  is  referred  to as [13Xgenus[113X of the normal form of an
+  equation.  The  pair  [22X(n,m)[122X  will  be  called the [13Xsignature[113X of the quadratic
+  equation.  It  was  proven  by  Commerford  and  Edmunds ([JE81]) that every
+  quadratic  equation  is  isomorphic  to one of the form [22XO_n,m[122X or [22XU_n,m[122X by an
+  [22XG[122X-isomorphism.[133X
+  
+  [1X4.3-1 EquationNormalForm[101X
+  
+  [29X[2XEquationNormalForm[102X( [3XE[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YA record with two [22X3[122X components: [3Xnf[103X, [3Xhom[103X and [3XhomInv[103X[133X
+  
+  [33X[0;0YThe  argument  [3XE[103X  needs  to  be a quadratic equation. For each such equation
+  there exists an equivalent equation in normal form.[133X
+  
+  [33X[0;0YThe  component  [3Xnf[103X is an equation in one of the forms [22XO_n,m,U_n,m[122X equivalent
+  to  the equation [3XE[103X. The component [3Xhom[103X is an equation homomorphism which maps
+  [3XE[103X to [3Xnf[103X. The component [3XhomInv[103X is the inverse of this homomorphism.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XF3 := FreeGroup("x","y","z");; SetName(F3,"F3");[127X[104X
+    [4X[25Xgap>[125X [27XS4 := SymmetricGroup(4);; SetName(S4,"S4");[127X[104X
+    [4X[25Xgap>[125X [27XG := EquationGroup(S4,F3);[127X[104X
+    [4X[28XS4*F3[128X[104X
+    [4X[25Xgap>[125X [27Xe := Equation(G,[Comm(F3.2,F3.1)*F3.3^2,(1,2)]);[127X[104X
+    [4X[28XEquation in [ x, y, z ][128X[104X
+    [4X[25Xgap>[125X [27X nf := EquationNormalForm(e);;[127X[104X
+    [4X[25Xgap>[125X [27XPrint(nf.nf);[127X[104X
+    [4X[28XFreeProductElm([ x^2*y^2*z^2, (1,2) ])[128X[104X
+    [4X[25Xgap>[125X [27Xe^(nf.hom)=nf.nf;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xnf.nf^(nf.homInv)=e;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X4.3-2 Genus[101X
+  
+  [29X[2XGenus[102X( [3XE[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe integer that is the genus of the equation[133X
+  
+  [1X4.3-3 EquationSignature[101X
+  
+  [29X[2XEquationSignature[102X( [3XE[103X ) [32X operation
+  [6XReturns:[106X  [33X[0;10YThe list [3X[n,m][103X of integers that is the signature of the equation[133X
+  

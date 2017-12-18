@@ -1,0 +1,94 @@
+  
+  
+                                   [1X[5XEquations[105X[101X
+  
+  
+                                 Version 0.1.2
+  
+  
+                                 15 March 2017
+  
+  
+                                 Thorsten Groth
+  
+  
+  
+  Thorsten Groth
+      Email:    [7Xmailto:thorsten.groth@mathematik.uni-goettingen.de[107X
+  
+  -------------------------------------------------------
+  [1XCopyright[101X
+  [33X[0;0Y© 2016 by Thorsten Groth[133X
+  
+  [33X[0;0Y[5XEquations[105X package is free software; you can redistribute it and/or modify it
+  under     the     terms     of    the    GNU    General    Public    License
+  ([7Xhttp://www.fsf.org/licenses/gpl.html[107X)  as  published  by  the Free Software
+  Foundation;  either  version 2 of the License, or (at your option) any later
+  version.[133X
+  
+  [33X[0;0YThis  program  is distributed WITHOUT ANY WARRANTY; without even the implied
+  warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+  General Public License for more details.[133X
+  
+  
+  -------------------------------------------------------
+  
+  
+  [1XContents (Equations)[101X
+  
+  1 [33X[0;0YInstallation[133X
+  2 [33X[0;0YExample Session[133X
+    2.1 [33X[0;0YNormal form of equations[133X
+    2.2 [33X[0;0YDecomposition[133X
+    2.3 [33X[0;0YUsing the fr package[133X
+  3 [33X[0;0YFreeProducts[133X
+    3.1 [33X[0;0YConstruction[133X
+    3.2 [33X[0;0YFilters[133X
+      3.2-1 IsGeneralFreeProduct
+    3.3 [33X[0;0YConstruction[133X
+      3.3-1 GeneralFreeProduct
+      3.3-2 GeneratorsOfGroup
+      3.3-3 \=
+    3.4 [33X[0;0YElements[133X
+      3.4-1 FreeProductElm
+      3.4-2 IsFreeProductElmRep
+    3.5 [33X[0;0YBasic operations[133X
+      3.5-1 \*
+      3.5-2 \*
+      3.5-3 OneOp
+      3.5-4 \=
+      3.5-5 Length
+      3.5-6 \[\]
+      3.5-7 Position
+    3.6 [33X[0;0YHomomorphisms[133X
+      3.6-1 FreeProductHomomorphism
+      3.6-2 IsGeneralFreeProductRep
+    3.7 [33X[0;0YOther operations[133X
+      3.7-1 Abs
+  4 [33X[0;0YEquations[133X
+    4.1 [33X[0;0YConstruction[133X
+      4.1-1 IsEquationGroup
+      4.1-2 EquationGroup
+      4.1-3 Equation
+      4.1-4 EquationVariables
+      4.1-5 EquationLetterRep
+      4.1-6 EquationLetterRep
+      4.1-7 IsQuadraticEquation
+      4.1-8 IsOrientedEquation
+    4.2 [33X[0;0YHomomorphisms[133X
+      4.2-1 EquationHomomorphism
+      4.2-2 EquationEvaluation
+    4.3 [33X[0;0YNormal Form[133X
+      4.3-1 EquationNormalForm
+      4.3-2 Genus
+      4.3-3 EquationSignature
+  5 [33X[0;0YFR-Equations[133X
+    5.1 [33X[0;0YDecomposable equations[133X
+      5.1-1 DecompositionEquationGroup
+      5.1-2 DecompositionEquation
+      5.1-3 EquationComponent
+      5.1-4 DecomposedEquationDisjointForm
+      5.1-5 LiftSolution
+  
+  
+  [32X

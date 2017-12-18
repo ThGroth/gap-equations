@@ -1,0 +1,13 @@
+  
+  
+  [1XReferences[101X
+  
+  [[20XBar16[120X]  [16XBartholdi,  L.[116X,  [17XFR,  Computations  with functionally recursive groups, Version 2.3.6[117X
+  (2016), ((GAP package)), \verb+https://www.gap-system.org/Packages/fr.html+.
+  
+  [[20XJE81[120X]  [16XComerford Jr., L. P. and Edmunds, C. C.[116X, [17XQuadratic equations over free groups and free
+  products[117X, [18XJ. Algebra[118X, [19X68[119X, 2 (1981), 276--297.
+  
+  
+  
+  [32X
