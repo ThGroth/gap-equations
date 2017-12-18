@@ -8,11 +8,15 @@
 *.fls
 *.synctex.gz
 *.orig
-CommutatorWidthGrigorchuk.pdf
+*.backup
+*.ilg
+*.ind
+*.lof
+*.pnr
+*.idx
+*.lot
 *~
 #Exclude the documentation help files.
-gap/equations/doc/*
-!gap/equations/doc/*.xml
-#Exclude some aux files
-gap/tempstuff.g
-paranth.py
+doc/*
+!doc/*.xml
+
