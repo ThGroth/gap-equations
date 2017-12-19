@@ -146,16 +146,15 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 InstallMethod( \[\], "for infinite list of generators",
 	[IsList and IsFreeProductInfiniteListOfGenerators,IsInt],
 	function(L,i)
-		local G,j,K;
+		local G,j,groups;
 		if Length(L![2])>= i then
 			return L![2][i];
 		fi;
-		j:=0;
-		for G in First(FREE_PRODUCT_GROUP_FAMILIES,K->K[3]=L![1])[1] do
-			if not IsFinitelyGeneratedGroup(G) then
-				return G.(i-j);
+		G := First(FREE_PRODUCT_GROUP_FAMILIES,K->K[3]=L![1]);
+		for j in [1..Size(G[1])] do
+			if not IsFinitelyGeneratedGroup(G[1][j]) then
+				return ImageElm(Embedding(G[2],j), G[1][j].(i-Length(L![2])));
 			fi;
-			j:=j+Size(GeneratorsOfGroup(G));
 		od;
     end );
 

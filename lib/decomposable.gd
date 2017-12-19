@@ -169,7 +169,7 @@ DeclareOperation("EquationComponents", [IsEquation]);
 ## DecomposedEquation in [ f11, f21, f12, f22 ]
 ## gap> dedj := DecomposedEquationDisjointForm(de);
 ## rec( eq := DecomposedEquation in [ f11, f12, f22 ], 
-##   hom := [ f21 ]"->"[ FreeProductElm of length 3 ] )
+##   hom := [ f21 ]->[ FreeProductElm of length 3 ] )
 ## gap> EquationComponents(dedj.eq);
 ## [ Equation in [ f11, f12, f22 ], Equation in [  ] ]
 ## gap> s := EquationEvaluation(DG,EquationVariables(dedj.eq),[One(Gr),One(Gr),Gr.2]);

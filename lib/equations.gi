@@ -30,11 +30,19 @@ InstallOtherMethod( EquationGroup, "for one group",
 
 InstallMethod( VariablesOfEquationGroup, "For an EquationGroup",
 	[IsEquationGroup],
-	G->G!.free);
+	function(G)
+		local res;
+		if IsFinitelyGeneratedGroup(G!.free) then
+			return List(GeneratorsOfGroup(G!.free,x->x^Embedding(G,2)));
+		fi;
+		res:= InfiniteListOfGenerators(FamilyObj(G));
+		SetIsFreeProductInfiniteListOfGenerators(res,true);
+		return res;
+	end);
 
 InstallMethod( ConstantsOfEquationGroup, "For an EquationGroup",
 	[IsEquationGroup],
-	G->G!.const);
+	G->Image(Embedding(G,1)));
 #################################################################################
 ####                                                                         ####
 ####	                          Equations                                  ####
@@ -281,7 +289,9 @@ InstallMethod( ViewObj, "For an EquationHomomorphism",
 		local imDa;
 		if HasEquationHomomorphismImageData(hom) then
 			imDa := EquationHomomorphismImageData(hom);
-			View(imDa.gens,"->",imDa.imgs);
+			View(imDa.gens);
+			Print("->");
+			View(imDa.imgs);
 		else
 			TryNextMethod();
 		fi;

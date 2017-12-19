@@ -44,9 +44,27 @@
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+## <ManSection>
+## <Attr Name="VariablesOfEquationGroup" Arg="G"
+##		 Label="group"/>
+##   <Returns>A list of the embedded free generators of the free facotor</Returns>
+##   <Description>
+##		If the equation group <A>G</A> was constructed with an infinitely 
+##		generated free group as the group of variables, this returns an 
+##		infinite list of generators.
+##   </Description>
+##</ManSection>
+### <ManSection>
+## <Attr Name="ConstantsOfEquationGroup" Arg="G"
+##		 Label="group"/>
+##   <Returns>The image of the embedding of the group of constants in <A>G</A></Returns>
+##</ManSection>
 ## <#/GAPDoc>
 DeclareAttribute( "IsEquationGroup", IsGeneralFreeProduct);
 DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
+
+DeclareAttribute( "VariablesOfEquationGroup", IsEquationGroup);
+DeclareAttribute( "ConstantsOfEquationGroup", IsEquationGroup);
 
 #############################################################################
 ##
@@ -116,9 +134,6 @@ DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
 ## <#/GAPDoc>
 DeclareOperation("Equation", [IsEquationGroup,IsList]);
 DeclareProperty("IsEquation", IsFreeProductElm);
-
-DeclareAttribute( "VariablesOfEquationGroup", IsEquationGroup);
-DeclareAttribute( "ConstantsOfEquationGroup", IsEquationGroup);
 
 DeclareAttribute("EquationVariables",IsEquation);
 DeclareAttribute("EquationLetterRep",IsEquation);
