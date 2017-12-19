@@ -31,6 +31,19 @@
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+## <Oper Name="EquationGroup" Arg="G"
+##		 Label="group"/>
+##   <Returns>A a new <A>G</A>-group for equations over <A>G</A>.</Returns>
+##   <Description>
+##		Uses the <C>FreeProduct</C> method to create the free product
+##		object of the given group and the free group on infinitely many generators
+## <Example><![CDATA[
+## gap> S2 := SymmetricGroup(2);; SetName(S2,"S2");
+## gap> EqG := EquationGroup(S2);
+## S2*Free(oo)
+## ]]></Example>
+##   </Description>
+## </ManSection>
 ## <#/GAPDoc>
 DeclareAttribute( "IsEquationGroup", IsGeneralFreeProduct);
 DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
@@ -50,7 +63,7 @@ DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
 ##   <Returns>A a new element of the equation group <A>G</A></Returns>
 ##   <Description>
 ##		Creates a <C>FreeProductElm</C> from the list <A>L</A>. By default 
-#		this elements will be cyclical reduced.  
+##		this elements will be cyclical reduced.  
 ##   </Description>
 ##</ManSection>
 ##<ManSection>
@@ -103,6 +116,9 @@ DeclareOperation( "EquationGroup", [IsGroup,IsGroup]);
 ## <#/GAPDoc>
 DeclareOperation("Equation", [IsEquationGroup,IsList]);
 DeclareProperty("IsEquation", IsFreeProductElm);
+
+DeclareAttribute( "VariablesOfEquationGroup", IsEquationGroup);
+DeclareAttribute( "ConstantsOfEquationGroup", IsEquationGroup);
 
 DeclareAttribute("EquationVariables",IsEquation);
 DeclareAttribute("EquationLetterRep",IsEquation);

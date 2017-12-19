@@ -38,6 +38,15 @@ DeclareCategory("IsFreeProductElm", IsMultiplicativeElementWithInverse);
 DeclareCategoryCollections("IsFreeProductElm");
 DeclareCategory("IsFreeProductHomomorphism",IsGroupHomomorphism);
 
+
+#############################################################################
+#							general Operations
+#O PrintObj
+#O ViewObj
+#O \=
+#O \<
+#O OneOp
+#
 ###########################################################################
 ####                                                                   ####
 ####                         Constructors                              ####
@@ -315,6 +324,10 @@ DeclareRepresentation("IsFreeProductHomomorphismRep",
 DeclareRepresentation("IsFreeProductHomomorphismFactorwiseRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
  ["homs","Source","Range"]
+
+DeclareProperty("IsFreeProductInfiniteListOfGenerators",
+	IsList and IsInfiniteListOfGeneratorsRep)
+
 );
 #############################################################################
 ##

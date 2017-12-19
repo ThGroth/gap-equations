@@ -19,7 +19,26 @@ InstallMethod( EquationGroup, "for two groups",
 		return Ob;
 	end);
 
+InstallOtherMethod( EquationGroup, "for one group",
+	[IsGroup],
+	function(G)
+		local Ob,Free;
+		Free := FreeGroup(infinity,"X");
+		SetName(Free,"Free(oo)");
+		Ob := GeneralFreeProduct(FreeProduct(G,Free));
+		Ob!.free := Free;
+		Ob!.const :=G;
+		SetIsEquationGroup(Ob,true);
+		return Ob;
+	end);
 
+InstallMethod( VariablesOfEquationGroup, "For an EquationGroup",
+	[IsEquationGroup],
+	G->G!.free);
+
+InstallMethod( ConstantsOfEquationGroup, "For an EquationGroup",
+	[IsEquationGroup],
+	G->G!.const);
 #################################################################################
 ####                                                                         ####
 ####	                          Equations                                  ####
@@ -131,6 +150,9 @@ InstallMethod( IsQuadraticEquation, "for a Equation",
 					for i in LetterRepAssocWord(e) do
 						i := AbsInt(i);
 						Val[i] := Val[i]+1;
+						if Val[i]>2 then
+							return false;
+						fi;
 					od;
 				fi;
 			od;

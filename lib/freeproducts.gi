@@ -29,6 +29,22 @@ InstallMethod( \in, "for infinite list of generators",
     	fi;
     end );
 
+InstallMethod( \[\], "for infinite list of generators",
+	[IsList and IsFreeProductInfiniteListOfGenerators,IsInt],
+	function(L,i)
+		local G,j;
+		if Length(L![2])>= i then
+			return L![2][i];
+		fi;
+		j:=0;
+		for G in First(FREE_PRODUCT_GROUP_FAMILIES,K->K[3]=L![1])[1] do
+			if not IsFinitelyGeneratedGroup(G) then
+				return G.(i-j);
+			fi;
+			j:=j+Size(GeneratorsOfGroup(G));
+		od;
+    end );
+
 
 InstallMethod(FreeProductOp, "for f.g. free groups",
 	[IsList,IsFreeGroup],
@@ -155,7 +171,7 @@ InstallMethod(GeneralFreeProduct, "For a group",
 			Ob := Objectify(NewType(
 					CollectionsFamily(NewFamily("GeneralFreeProductGroup(..)")), IsGeneralFreeProduct and IsGeneralFreeProductRep),
     				rec(groups := L));
-			Add(FREE_PRODUCT_GROUP_FAMILIES,[L,Ob]);
+			Add(FREE_PRODUCT_GROUP_FAMILIES,[L,Ob,FamilyObj(Ob)]);
 			SetIsWholeFamily(Ob,true);
 		else
 			Ob := Ob[2];
@@ -179,25 +195,29 @@ InstallMethod(GeneralFreeProduct, "For a group",
 		SetFreeProductInfo( Ob, 
         rec( groups := L,
              embeddings := embeddings ) );
+		if Size(Filtered([1..Length(L)],i->not IsFinitelyGeneratedGroup(L[i])))<2 then
+			GeneratorsOfGroup(Ob);
+		fi;
 		return Ob;
+		
 	end);
 
-InstallMethod(GeneratorsOfGroup, "for an f.g. GeneralFreeProduct",
-	[IsGeneralFreeProduct],
-	function(G)
-		local inf,fin,init;
-		inf := Filtered([1..Length(G!.groups)],i->not IsFinitelyGeneratedGroup(G!.groups[i]));
-		if Length(inf)=1 then
-			fin := Filtered([1..Length(G!.groups)],i->IsFinitelyGeneratedGroup(G!.groups[i]));
-			init := Concatenation(List(fin,i->List(GeneratorsOfGroup(G!.groups[i]),
-						gen -> gen^Embedding(G,i) )));
-			return InfiniteListOfGenerators(FamilyObj(G),init);
-		elif Length(inf)=0 then
-			return Concatenation(List([1..Length(G!.groups)],
-				i->List(GeneratorsOfGroup(G!.groups[i]),
-					gen -> gen^Embedding(G,i) )));
+InstallMethod( PrintObj, "for a GeneralFreeProduct",
+   [IsGeneralFreeProduct],
+    function( x )
+		if HasName (x) then
+			Print(Name(x));	
 		else
-			TryNextMethod();
+			Print("<free product group>");
+		fi;
+	end);
+InstallMethod( ViewObj, "for a GeneralFreeProduct",
+   [IsGeneralFreeProduct],
+    function( x )
+		if HasName (x) then
+			Print(Name(x));	
+		else
+			Print("<free product group>");
 		fi;
 	end);
 
@@ -208,6 +228,47 @@ InstallMethod( \=,  "for two GeneralFreeProducts",
 			return x!.groups = y!.groups;
 		end 
 );
+
+InstallMethod(GeneratorsOfGroup, "for an f.g. GeneralFreeProduct",
+	[IsGeneralFreeProduct],
+	function(G)
+		local inf,fin,init,res;
+		inf := Filtered([1..Length(G!.groups)],i->not IsFinitelyGeneratedGroup(G!.groups[i]));
+		if Length(inf)=1 then
+			fin := Filtered([1..Length(G!.groups)],i->IsFinitelyGeneratedGroup(G!.groups[i]));
+			init := Concatenation(List(fin,i->List(GeneratorsOfGroup(G!.groups[i]),
+						gen -> gen^Embedding(G,i) )));
+			res:= InfiniteListOfGenerators(FamilyObj(G),init);
+			SetIsFreeProductInfiniteListOfGenerators(res,true);
+			return res;
+
+		elif Length(inf)=0 then
+			return Concatenation(List([1..Length(G!.groups)],
+				i->List(GeneratorsOfGroup(G!.groups[i]),
+					gen -> gen^Embedding(G,i) )));
+		else
+			TryNextMethod();
+		fi;
+	end);
+
+# InstallMethod(\. "For a GeneralFreeProduct",[IsGeneralFreeProduct],
+# 	function(i)
+# 		local j,G,inf,fin,init;
+# 		inf := Filtered([1..Length(G!.groups)],i->not IsFinitelyGeneratedGroup(G!.groups[i]));
+# 		j:=0;
+# 		for G in G!.groups do
+# 			if not IsFinitelyGeneratedGroup(G) then
+# 				return G.(i-j);
+# 			fi;
+# 			k := Size(GeneratorsOfGroup(G));
+# 			if k>=i-j then
+# 				return G.(i-j);
+# 			else
+# 				j:=j+k;
+# 			fi;
+# 		od;
+# 		Error("Generator number ",i," does not exist");
+# 	end);
 #################################################################################
 ####                                                                         ####
 ####					         Free ProductsElm     			 			 ####
@@ -380,9 +441,14 @@ InstallMethod( PrintObj, "for a FreeProductElm",
 InstallMethod( ViewObj, "for a FreeProductElm",
    [IsFreeProductElm and IsFreeProductElmRep],
     function( x )
-		local s;
+		local s,l;
 		if ForAll(x!.word,HasName) then
-			View("(",x!.word,")");
+			s := "(";
+			for l in [1..Size(x!.word-1] do
+				Append(s,Concatenation(ViewString(x!.word[l]),","));
+			od;
+			Append(s,Concatenation(x!.word[l+1]),")"));
+			Print(s);
 		else
 			Print("FreeProductElm of length ",Length(x));
 		fi;
