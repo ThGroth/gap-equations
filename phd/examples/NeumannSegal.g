@@ -166,6 +166,64 @@ NeumannSegalRandomTest := function(deg,len,num)
 end;
 
 
+SolveEquation := function(eq)
+	local grp,nf,g,res,sol;
+	if not IsQuadraticEquation(eq) then
+		Error("Not implemented yet");
+	fi;
+	grp := eq!.group;
+	nf := NormalFormOfEquation(eq);
+	
+	if IsOrientedEquation(eq) then
+		if Genus(nf)=0 then
+			if IsOne(eq) then
+				return EquationHomomorphism(grp,[],[]);
+			elif  Size(EquationVariables(nf)=0)  then
+				return fail;
+			else
+				Error("Not implemented yet");
+			fi;
+		fi;
+		g :=ImageElm( EquationEvaluationNC(
+					grp,
+					EquationVariables(nf),
+					List(EquationVariables(nf),i->One(Nn))),nf );
+		res := Solver(g);
+		sol := EquationEvaluationNC(
+					grp,
+					EquationVariables(nf),
+					Concatenation(res,
+						ListWithIdenticalEntries(Size(EquationVariables(nf))-2,One(Nn))));
+		return NormalizingHomomorphism(nf)*sol;
+	fi;
+	Error("Not implemented yet");		
+end;
+
+RandomQuadraticEquation := function(EqG,l)
+	local Vars,randEq;
+	Vars := VariablesOfEquationGroup(EqG);
+	randEq := Set(List([1..l],i->Random(Vars)));
+	return Equation(Product(Shuffle(Concatenation(randEq,
+		List(randEq,x->x^-1),List([1..l],i->Random(GeneratorsOfGroup(Nn)))))));
+end;
+RandomQuadraticUnorientedEquation := function(EqG,l)
+	local Vars,randEq;
+	Vars := VariablesOfEquationGroup(EqG);
+	randEq := Set(List([1..l],i->Random(Vars)));
+	return Equation(Product(Shuffle(Concatenation(randEq,
+		List(randEq,x->x^Random([-1,1])),List([1..l],i->Random(GeneratorsOfGroup(Nn)))))));
+end;
+#######################
+#
+#  Examples : 
+#  
+
+# Nn := NeumannSegalGroup(5);;
+# eq := RandomQuadraticEquation(EquationGroup(Nn),10);
+# sol :=SolveEquation(eq);;
+# List(EquationVariablesEmbedded(eq),x->x^sol);
+# IsSolution(sol,eq);
+
 ####################################################################
 ####################################################################
 #		All equations in the Neumann-Segal Group
