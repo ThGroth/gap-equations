@@ -130,11 +130,12 @@ BindGlobal("EQUATIONNORMALFORM@", function(x,rename)
 					        x*y*(x*z*x)^-1,
 					        x*z]);
 					N2 := case3(z,N[1]{[5..Length(N[1])]});
-					return [x^2*y^2*N2[1],Hom*N[2]*N2[2],N2[3]*N[3]*HomIn];
+					return [x^2*y^2*N2[1],N[2]*Hom*N2[2],N2[3]*HomIn*N[3]];
+					# return [x^2*y^2*N2[1],Hom*N[2]*N2[2],N2[3]*N[3]*HomIn];
 					#return [x^2*y^2*N2[1],Hom*N2[2]*N[2],N[3]*N2[3]*HomIn];
 				fi;
 			end;
-			eq := Equation(FreeProductElmLetterRep(eq,2));
+			eq :=Equation(FreeProductElmLetterRep(eq,2));
 			
 			if Length(eq)<3 then
 				return [eq,EquationHomomorphism(EqG,[],[]),EquationHomomorphism(EqG,[],[])];

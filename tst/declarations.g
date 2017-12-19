@@ -15,5 +15,5 @@ elms:=List(elms,e->List(e,function(i)
 						 	return AssocWordByLetterRep(FamilyObj(Representative(F)),[i]);
 						 fi; 
 						 return i; end));
-others := [	[F.9^-1,f1,F.8^-1,f2,F.9,F.8,f3],[F.1^-1*F.2^-1*F.1*F.3*F.2, f2, F.3^-1, f1] ];
+others := [[F.1^-1,F.2,f1,F.1,F.2^2,f.1,F.2^-1],[F.9^-1,f1,F.8^-1,f2,F.9,F.8,f3],[F.1^-1*F.2^-1*F.1*F.3*F.2, f2, F.3^-1, f1] ];
 
