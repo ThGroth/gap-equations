@@ -24,7 +24,7 @@ InstallOtherMethod( EquationGroup, "for one group",
 	function(G)
 		local Free;
 		Free := FreeGroup(infinity,"X");
-		SetName(Free,"Free(oo)");
+		# SetName(Free,"Free(oo)");
 		return EquationGroup(G,Free);
 	end);
 
@@ -126,7 +126,7 @@ InstallMethod( ViewObj,   "for Equations)",
    [ IsEquation and IsFreeProductElmRep ],
     function( x )
 		local s;
-		Print("Equation in ",EquationVariables(x));
+		Print("<Equation in ",EquationVariables(x),">");
 	end);
 
 InstallMethod( OneOp, "for an Equation",
@@ -138,7 +138,6 @@ InstallOtherMethod( One,"for an EquationGroup",
     [ IsEquationGroup ],
     eqG -> Equation(eqG,[]) 
 	);
-
 
 
 InstallMethod( IsQuadraticEquation, "for a Equation",
