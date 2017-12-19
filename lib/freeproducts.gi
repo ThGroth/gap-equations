@@ -431,7 +431,9 @@ InstallMethod( ViewObj, "for a FreeProductElm",
    [IsFreeProductElm and IsFreeProductElmRep],
     function( x )
 		local s,l;
-		if ForAll(x!.word,y->HasName(y) or Length(StringView(y))<8) then
+		if Length(x!.word)=0 then
+			Print("<identity>");
+		elif ForAll(x!.word,y->HasName(y) or Length(StringView(y))<8) then
 			s := "(";
 			l := 0;
 			for l in [1..Size(x!.word)-1] do
