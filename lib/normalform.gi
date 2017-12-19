@@ -12,7 +12,7 @@ InstallOtherMethod( \*,   "for FreeProductElms and GroupElements",
     [ IsFreeProductElm and IsFreeProductElmRep, IsMultiplicativeElementWithInverse ],
     function( x, y )
     	local pos;
-    	pos := PositionProperty(x!.group!.groups,G->y in G);
+    	pos := PositionProperty(x!.group!.groups,G->CollectionsFamily(FamilyObj(y)) =FamilyObj(G));
     	if pos = fail then
     		TryNextMethod();
     	fi;
@@ -23,7 +23,7 @@ InstallOtherMethod( \*,   "for GroupElements and FreeProductElms",
     [ IsMultiplicativeElementWithInverse , IsFreeProductElm and IsFreeProductElmRep ],
     function( y, x )
     	local pos;
-    	pos := PositionProperty(x!.group!.groups,G->y in G);
+    	pos := PositionProperty(x!.group!.groups,G->CollectionsFamily(FamilyObj(y)) =FamilyObj(G));
     	if pos = fail then
     		TryNextMethod();
     	fi;

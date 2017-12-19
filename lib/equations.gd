@@ -137,6 +137,7 @@ DeclareOperation("Equation", [IsEquationGroup,IsList]);
 DeclareProperty("IsEquation", IsFreeProductElm);
 
 DeclareAttribute("EquationVariables",IsEquation);
+DeclareAttribute("EquationVariablesEmbedded",IsEquation);
 DeclareAttribute("EquationLetterRep",IsEquation);
 
 DeclareProperty("IsQuadraticEquation", IsEquation);

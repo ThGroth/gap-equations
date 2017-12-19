@@ -122,6 +122,12 @@ InstallMethod( EquationVariables, "for a Equation",
 			v->AssocWordByLetterRep(FamilyObj(One(x!.free)),[v]));
 	end);
 
+InstallMethod( EquationVariablesEmbedded, "for a Equation",
+	[IsEquation and IsFreeProductElmRep],
+	function(x)
+		return List(EquationVariables(x),y->y^Embedding(x!.group,2));
+	end);
+
 InstallMethod( ViewObj,   "for Equations)",
    [ IsEquation and IsFreeProductElmRep ],
     function( x )
