@@ -96,7 +96,7 @@ InstallMethod(FreeProductOp, "for infinitely generated free groups",
 			names := [];
 		fi;
 				
-		FP := FreeGroup(infinity,"yn",names);
+		FP := FreeGroup(infinity,"Xn",names);
 		if ForAll(L,HasName) then
 			SetName(FP,Concatenation(Concatenation(
 				List(L{[1..Size(L)-1]},H->Concatenation(Name(H),"*")),
@@ -307,7 +307,9 @@ InstallMethod( FreeProductElm, "For a FreeProduct and a list of letters and a li
 		if not Length(elms) = Length(factors) then
 			Error("The list of letters must be of the same length as the list of factors");
 		fi;
-		if not ForAll([1..Length(elms)],i->elms[i] in G!.groups[factors[i]]) then
+		#if not ForAll([1..Length(elms)],i->elms[i] in G!.groups[factors[i]]) then
+		if not ForAll([1..Length(elms)],
+			i->CollectionsFamily(FamilyObj(elms[i])) = FamilyObj(G!.groups[factors[i]])) then
 			Error("elements must be in the corresponding free factor");
 		fi;
 		#Reduce the word
