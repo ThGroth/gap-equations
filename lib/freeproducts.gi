@@ -431,16 +431,16 @@ InstallMethod( ViewObj, "for a FreeProductElm",
    [IsFreeProductElm and IsFreeProductElmRep],
     function( x )
 		local s,l;
-		if ForAll(x!.word,HasName) then
+		if ForAll(x!.word,y->HasName(y) or Length(StringView(y))<8) then
 			s := "(";
 			l := 0;
 			for l in [1..Size(x!.word)-1] do
-				Append(s,Concatenation(ViewString(x!.word[l]),","));
+				Append(s,Concatenation(StringView(x!.word[l]),","));
 			od;
-			Append(s,Concatenation(ViewString(x!.word[l+1]),")"));
+			Append(s,Concatenation(StringView(x!.word[l+1]),")"));
 			Print(s);
 		else
-			Print("FreeProductElm of length ",Length(x));
+			Print("<Free product element of length ",Length(x),">");
 		fi;
 	end);
 

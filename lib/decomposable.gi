@@ -1,4 +1,4 @@
-InstallMethod( DecompositionEquationGroup, "for an EquationGroup with fr const group",
+InstallMethod( DecomposedEquationGroup, "for an EquationGroup with fr const group",
 	[IsEquationGroup],
 	function(eqG)
 		local DG,alph,DEqG;
@@ -19,11 +19,20 @@ InstallMethod( DecompositionEquationGroup, "for an EquationGroup with fr const g
 		DEqG!.alph := alph;
 		DEqG!.statefunc := State;
 		DEqG!.activityfunc := Activity;
+		SetIsDecomposedEquationGroup(DEqG,true);
+		return DEqG;
+	end);
+#Old just to be backward compatible
+InstallMethod( DecompositionEquationGroup, "for an EquationGroup with fr const group",
+	[IsEquationGroup],
+	function(eqG)
+		local DEqG;
+		DEqG := DecomposedEquationGroup(eqG);
 		SetIsDecompositionEquationGroup(DEqG,true);
 		return DEqG;
 	end);
 
-InstallOtherMethod( DecompositionEquationGroup, "for an EquationGroup with free const group, size of alphabet and activities of generators",
+InstallOtherMethod( DecomposedEquationGroup, "for an EquationGroup with free const group, size of alphabet and activities of generators",
 	[IsEquationGroup,IsInt,IsList],
 	function(eqG,alphsize,acts)
 		local DG,DEqG;
@@ -62,7 +71,16 @@ InstallOtherMethod( DecompositionEquationGroup, "for an EquationGroup with free 
 			od;
 			return newelm;
 		end;
+		SetIsDecomposedEquationGroup(DEqG,true);
+		return DEqG;
+	end);
 
+#Old just to be backward compatible
+InstallOtherMethod( DecompositionEquationGroup, "for an EquationGroup with free const group, size of alphabet and activities of generators",
+	[IsEquationGroup,IsInt,IsList],
+	function(eqG,alphsize,acts)
+		local DEqG;
+		DEqG := DecomposedEquationGroup(eqG,alphsize,acts);
 		SetIsDecompositionEquationGroup(DEqG,true);
 		return DEqG;
 	end);
@@ -76,6 +94,7 @@ InstallMethod( IsDecompositionEquationGroup, "for an EquationGroup",
 ####	                     DecomposedEquations                             #### 
 ####                                                                         ####
 #################################################################################
+
 InstallOtherMethod( Equation, "(Equation) for a list of lists, a DecompositionEquationGroup and a permutation",
 	[IsEquationGroup,IsList,IsPerm],
 	function(G,words,perm)
@@ -97,6 +116,24 @@ InstallOtherMethod( Equation, "(Equation) for a list of lists, a DecompositionEq
 		SetIsEquation(Ob,true);
 		return Ob;
 	end);
+
+
+InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
+		[IsEquation,IsGroupHomomorphism],
+		function(eq,acts)
+			return DecompositionEquation(DecomposedEquationGroup(eq!.group),eq,acts);
+		end);
+InstallOtherMethod( DecompositionEquation, "for an Equation a list and an DecompositionEquationGroup",
+		[IsEquation,IsList],
+		function(eq,acts)
+			local DEqG;
+			DEqG := DecomposedEquationGroup(eq!.group);
+			return DecompositionEquation( DEqG,eq,
+										 GroupHomomorphismByImages(
+										 	Group(EquationVariables(eq)),
+										 	SymmetricGroup(DEqG!.alph),
+										 	acts));
+		end);
 InstallOtherMethod( DecompositionEquation, "for an Equation a list and an DecompositionEquationGroup",
 		[IsEquationGroup,IsEquation,IsList],
 		function(DEqG,eq,acts)
@@ -107,7 +144,7 @@ InstallOtherMethod( DecompositionEquation, "for an Equation a list and an Decomp
 										 	SymmetricGroup(DEqG!.alph),
 										 	acts));
 		end);
-InstallMethod( DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
+InstallOtherMethod( DecompositionEquation, "for an Equation a group homomorphism and an DecompositionEquationGroup",
 		[IsEquationGroup,IsEquation,IsGroupHomomorphism],
 		function(DEqG,eq,acts)
 			local alph,vars,DecompEq,lastperm,x,i;
@@ -246,6 +283,17 @@ InstallMethod( InverseOp, "for a DecomposedEquation",
 				Permuted(List(x!.words,w->Reversed(List(w,Inverse))),x!.activity^-1),
     			x!.activity^-1);
 	end);
+
+InstallOtherMethod( ImageElm,
+    "For an EquationHomomorphisms in CompositionMappingRep and an element",
+    FamSourceEqFamElm,
+    [ IsEquationHomomorphism, IsEquation and IsDecomposedEquationRep ], 0,
+    function( map, elm )
+    	local comps;
+    	comps := List(EquationComponents(elm),e->ImageElm(map,e));
+    	return Equation(elm!.group,List(comps,c->c!.word),elm!.activity);
+    end );
+
 #################################################################################
 ####                                                                         ####
 ####	          Normalization for Decomposed Equations                     ####
@@ -307,6 +355,15 @@ InstallMethod(DecomposedEquationDisjointForm," for a decomposed Equation",
 		# variables of all components are pairwise disjoint.
 		return rec(eq:=Equation(EqG,List(Comp,eq->eq!.word),x!.activity),hom:=Hom);
 	end);
+
+InstallMethod(DisjointFormOfDecomposedEquation," for a decomposed Equation",
+		[IsEquation and IsDecomposedEquationRep],
+		function(x)
+			local deq;
+			deq := DecomposedEquationDisjointForm(x);
+			SetDisjointFormHomomorphism(deq.eq,deq.hom);
+			return deq.eq;
+		end);
 
 
 InstallMethod(LiftSolution, "For a Decomposed Equation, an Equation, a group hom, and a solution for Deq",

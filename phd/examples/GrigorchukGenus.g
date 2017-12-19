@@ -8,7 +8,7 @@ Read(Filename(dir,"init.g"));
 
 ####
 #
-# For an equation of signature (g,l) E = ∏ᵢ₌₁ᵍ[X₂ᵢ₋₁,Xᵢ] ∏ᵢ₌₁ˡ⁻¹ gᵢ^Yᵢ gₗ 
+# For an equation of signature (g,l) E = ∏ᵢ₌₁ᵍ[X₂ᵢ₋₁,X₂ᵢ] ∏ᵢ₌₁ˡ⁻¹ gᵢ^Yᵢ gₗ 
 # compute the signature of the equations nf(Φ_γ(E)) under all 
 # possible activities of g₁,…,gₗ and constraints γ:⟨Xᵢ,Yⱼ|i,j⟩→S₂
 #

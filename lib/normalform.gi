@@ -19,7 +19,7 @@ InstallOtherMethod( \*,   "for FreeProductElms and GroupElements",
     	return x*y^Embedding(x!.group,pos);
     end );
 
-InstallOtherMethod( \*,   "for FreeProductElms and GroupElements",
+InstallOtherMethod( \*,   "for GroupElements and FreeProductElms",
     [ IsMultiplicativeElementWithInverse , IsFreeProductElm and IsFreeProductElmRep ],
     function( y, x )
     	local pos;
@@ -125,7 +125,6 @@ BindGlobal("EQUATIONNORMALFORM@", function(x,rename)
 							x*y*z,
 					        (y*z)^(x*y*z),
 					        (y^-1*x^-1)^z]);
-					#TODO If some Error occurs look here!
 					HomIn := EquationHomomorphism(EqG,[x,y,z],[
 							x^2*y^-1*x^-1,
 					        x*y*(x*z*x)^-1,

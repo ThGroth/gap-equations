@@ -116,10 +116,15 @@ DeclareRepresentation("IsDecomposedEquationRep",
  ["words","factors","group","free","const","activity"]
 );
 
-DeclareOperation("DecompositionEquation", [IsEquationGroup,IsEquation,IsGroupHomomorphism]);
+DeclareAttribute("DecomposedEquationGroup", IsEquationGroup);
+DeclareProperty("IsDecomposedEquationGroup",IsEquationGroup);
+
+DeclareOperation("DecompositionEquation", [IsEquation,IsGroupHomomorphism]);
 DeclareOperation("EquationComponent", [IsEquation,IsInt]);
 DeclareOperation("EquationActivity", [IsEquation]);
 DeclareOperation("EquationComponents", [IsEquation]); 
+
+
 
 #############################################################################
 ##
@@ -188,6 +193,31 @@ DeclareOperation("EquationComponents", [IsEquation]);
 ## ]]></Example>
 ## </Description>
 ## </ManSection>
+#
+#
+#
+## <ManSection>
+## <Oper Name="DisjointFormoFDecomposedEquation" Arg="E"
+##		 Label="equation"/>
+##   <Returns>A decomposed Equation with disjoint components.</Returns>
+##   <Description>
+##		If <A>E</A> is a decomposed equation there may be an 
+##		overlap of the set of variables of some components. If <A>E</A> is a quadratic
+##		equation there is an equation homomorphism <M>\varphi</M> that 
+##		maps each component to a new quadratic equation. Hence all maped components have
+##		pairwise disjoint sets of variables. This method computes such an homomorphism
+##		<M>\varphi</M> such that the solvability of the system of components remains 
+##		unchanged. If <M>s</M> is a solution for the new system of components, then
+##		<M>s\circ\varphi</M> is a solution for the old system.<P/> 
+##		The method returns a the neq decomposed equation, that has the attribute
+## 		<E>DisjointFormHomomorphism</E> that is the 
+##		the homomorphism <M>\varphi</M>.
+## </Description>
+## </ManSection>
 ## <#/GAPDoc>
 DeclareAttribute("DecomposedEquationDisjointForm", IsEquation);
+
+DeclareAttribute("DisjointFormOfDecomposedEquation", IsEquation);
+DeclareAttribute("DisjointFormHomomorphism", IsEquation);
+
 DeclareOperation("LiftSolution",[IsEquation,IsEquation, IsGroupHomomorphism, IsGroupHomomorphism]);
