@@ -45,10 +45,7 @@ InstallOtherMethod( ImageElm,
     	fi;
     end );
 
-
-InstallMethod(EquationNormalForm, "for an Equation",
-	[IsEquation and IsFreeProductElmRep],
-	function(x)
+BindGlobal("EQUATIONNORMALFORM@", function(x,rename)		
 		local G,F,EqG,NormalForm,N,H,NormalVars;
 		if not IsQuadraticEquation(x) then
 			TryNextMethod();
@@ -78,8 +75,10 @@ InstallMethod(EquationNormalForm, "for an Equation",
 				if c in F then
 					return [N[1]*FreeProductElm(EqG,[x^-1,v,x]),Hom*N[2],N[3]*HomIn];
 				else
-					Hom := EquationHomomorphism(EqG,[x],[x*(c*w2^-1)]);
-					HomIn := EquationHomomorphism(EqG,[x],[x*w2*c^-1]);
+					#Needs costy test if c in G
+					#Hom := EquationHomomorphism(EqG,[x],[x*(c*w2^-1)]);
+					Hom := EquationHomomorphism(EqG,[x],[x*(FreeProductElm(EqG,[c])*w2^-1)]);
+					HomIn := EquationHomomorphism(EqG,[x],[x*w2*FreeProductElm(EqG,[c^-1])]);
 					return [N[1]*FreeProductElm(EqG,[c^-1,x^-1,v,x,c]),Hom*N[2],N[3]*HomIn];
 				fi;
 			end;
@@ -143,7 +142,7 @@ InstallMethod(EquationNormalForm, "for an Equation",
 			fi;
 			#Added for the case the const group is also free and hence
 			#Length(eq) could be >1 although it is constant.
-			if ForAll(eq!.word,x->x in G) then
+			if ForAll(eq!.word,x->not x in F) then
 				return [eq,EquationHomomorphism(EqG,[],[]),EquationHomomorphism(EqG,[],[])];
 			fi;
 				
@@ -291,9 +290,23 @@ InstallMethod(EquationNormalForm, "for an Equation",
 		end;
 		Info(InfoEQFP,2,"Computing NormalForm of: ",x);
 		N := NormalForm(x);
-		H :=NormalVars(N[1]);
-		return rec(nf := Equation(N[1]^H[1]), hom := N[2]*H[1], homInv:=H[2]*N[3]);
+		if rename then
+			H :=NormalVars(N[1]);
+			return rec(nf := Equation(N[1]^H[1]), hom := N[2]*H[1], homInv:=H[2]*N[3]);
+		fi;
+		return rec(nf := Equation(N[1]), hom := N[2], homInv:=N[3]);
 	end);
+InstallMethod(EquationNormalFormNoRename, "for an Equation",
+	[IsEquation and IsFreeProductElmRep],
+	function(x)
+		return EQUATIONNORMALFORM@(x,false);
+	end);
+InstallMethod(EquationNormalForm, "for an Equation",
+	[IsEquation and IsFreeProductElmRep],
+	function(x)
+		return EQUATIONNORMALFORM@(x,true);
+	end);
+
 
 InstallMethod(EquationSignature, "for an Equation",
 	[IsEquation and IsFreeProductElmRep],

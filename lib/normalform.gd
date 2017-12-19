@@ -44,6 +44,8 @@
 ##</ManSection>
 ## <#/GAPDoc>
 DeclareAttribute("EquationNormalForm", IsEquation);
+DeclareAttribute("EquationNormalFormNoRename", IsEquation);
+
 
 DeclareAttribute("Genus", IsEquation);
 DeclareAttribute("EquationSignature", IsEquation);

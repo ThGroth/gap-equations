@@ -324,10 +324,10 @@ DeclareRepresentation("IsFreeProductHomomorphismRep",
 DeclareRepresentation("IsFreeProductHomomorphismFactorwiseRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
  ["homs","Source","Range"]
+ );
 
 DeclareProperty("IsFreeProductInfiniteListOfGenerators",
-	IsList and IsInfiniteListOfGeneratorsRep)
-
+	IsList and IsInfiniteListOfGeneratorsRep
 );
 #############################################################################
 ##

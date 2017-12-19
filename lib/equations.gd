@@ -215,6 +215,7 @@ DeclareOperation("EquationHomomorphism", [IsEquationGroup, IsList, IsList]);
 DeclareAttribute("EquationHomomorphismImageData", IsGroupHomomorphism, "mutable" );
 
 DeclareOperation("EquationEvaluation", [IsEquation, IsList, IsList]);
+DeclareOperation("EquationEvaluationNC", [IsEquation, IsList, IsList]);
 
 DeclareProperty("IsEvaluation", IsGroupHomomorphism);
 

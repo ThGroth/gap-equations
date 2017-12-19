@@ -22,14 +22,10 @@ InstallMethod( EquationGroup, "for two groups",
 InstallOtherMethod( EquationGroup, "for one group",
 	[IsGroup],
 	function(G)
-		local Ob,Free;
+		local Free;
 		Free := FreeGroup(infinity,"X");
 		SetName(Free,"Free(oo)");
-		Ob := GeneralFreeProduct(FreeProduct(G,Free));
-		Ob!.free := Free;
-		Ob!.const :=G;
-		SetIsEquationGroup(Ob,true);
-		return Ob;
+		return EquationGroup(G,Free);
 	end);
 
 InstallMethod( VariablesOfEquationGroup, "For an EquationGroup",
@@ -243,20 +239,21 @@ InstallMethod( EquationHomomorphism, "For an EquationGroup, a list of variables,
 		
 		nimgs := List(imgs,function(x)
 				if IsList(x) then
-					return FreeProductElm(eqG,x,fac(x));
+					return FreeProductElmNC(eqG,x,fac(x));
 				elif x in eqG then
 					return x;
-				elif x in eqG!.const then
-					return FreeProductElm(eqG,[x],[1]);
 				elif x in eqG!.free then
-					return FreeProductElm(eqG,[x],[2]);
+					return FreeProductElmNC(eqG,[x],[2]);	
+				#elif x in eqG!.const then
 				else
-					Error("Wrong Input!");
+					return FreeProductElmNC(eqG,[x],[1]);
+				# else
+				# 	Error("Wrong Input!");
 				fi; end);
 		hom := GroupHomomorphismByFunction(eqG,eqG,function(eq)
 			local newword;
 			newword := Flat(List(eq!.word,function(x)
-					if x in eq!.group!.const then
+					if not x in eq!.group!.free then
 						return x;
 					fi;
 					return List(LetterRepAssocWord(x),function(l)
@@ -270,7 +267,7 @@ InstallMethod( EquationHomomorphism, "For an EquationGroup, a list of variables,
 							fi;	
 						end);
 					end));
-				return FreeProductElm(eqG,newword,fac(newword));
+				return FreeProductElmNC(eqG,newword,fac(newword));
 			end);
 
 		SetEquationHomomorphismImageData(hom,rec(imgs:=imgs,gens:=gens));
@@ -332,6 +329,27 @@ InstallMethod( EquationEvaluation, "For an Equation, the list of variables and a
 		SetIsEvaluation(hom2,true);
 		return hom2;
 	end);
+InstallMethod( EquationEvaluationNC, "For an Equation, the list of variables and a list of images",
+	[IsEquation, IsList, IsList],
+	function(eq,gens,imgs)
+		local var,hom,hom2;
+		var := EquationVariables(eq);
+		if not Length(var)=Length(gens) then
+			Error("There must be as many images as variables.");
+		fi;
+		if not Length(imgs)=Length(gens) then
+			Error("There must be as many images as generators.");
+		fi;
+		if not ForAll(var,v->v in gens) then
+			Error("All free variables must have an image.");
+		fi;
+		hom := EquationHomomorphism(eq!.group,gens,imgs);
+		hom2 := GroupHomomorphismByFunction(eq!.group,eq!.const,q->Product(Image(hom,q)!.word),One(eq!.const));
+		SetIsEquationHomomorphism(hom2,true);
+		SetEquationHomomorphismImageData(hom2,rec(imgs:=imgs,gens:=gens));
+		SetIsEvaluation(hom2,true);
+		return hom2;
+	end);
 
 InstallOtherMethod( EquationEvaluation, "For an Equation, the list of variables and a list of images",
 	[IsEquationGroup, IsList, IsList],
@@ -340,6 +358,20 @@ InstallOtherMethod( EquationEvaluation, "For an Equation, the list of variables 
 		if not ForAll(imgs,elm->elm in eqG!.const) then
 			Error("All images need to be in the group of constants.");
 		fi;
+		if not Length(imgs)=Length(gens) then
+			Error("There must be as many images as generators.");
+		fi;
+		hom := EquationHomomorphism(eqG,gens,imgs);
+		hom2 := GroupHomomorphismByFunction(eqG,eqG!.const,q->Product(Image(hom,q)!.word,One(eqG!.const)));
+		SetIsEquationHomomorphism(hom2,true);
+		SetEquationHomomorphismImageData(hom2,rec(imgs:=imgs,gens:=gens));
+		SetIsEvaluation(hom2,true);
+		return hom2;
+	end);
+InstallOtherMethod( EquationEvaluationNC, "For an Equation, the list of variables and a list of images",
+	[IsEquationGroup, IsList, IsList],
+	function(eqG,gens,imgs)
+		local var,hom,hom2;
 		if not Length(imgs)=Length(gens) then
 			Error("There must be as many images as generators.");
 		fi;

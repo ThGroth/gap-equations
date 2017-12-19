@@ -14,9 +14,9 @@ PackageName := "Equations",
 
 Subtitle := "Equations in groups",
 
-Version := "0.1.2",
+Version := "0.1.4",
 
-Date := "15/03/2017",
+Date := "19/12/2017",
 ##  <#GAPDoc Label="PKGVERSIONDATA">
 ##  <!ENTITY VERSION "0.1.2">
 ##  <!ENTITY RELEASEDATE "15 March 2017">

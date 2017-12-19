@@ -29,21 +29,6 @@ InstallMethod( \in, "for infinite list of generators",
     	fi;
     end );
 
-InstallMethod( \[\], "for infinite list of generators",
-	[IsList and IsFreeProductInfiniteListOfGenerators,IsInt],
-	function(L,i)
-		local G,j;
-		if Length(L![2])>= i then
-			return L![2][i];
-		fi;
-		j:=0;
-		for G in First(FREE_PRODUCT_GROUP_FAMILIES,K->K[3]=L![1])[1] do
-			if not IsFinitelyGeneratedGroup(G) then
-				return G.(i-j);
-			fi;
-			j:=j+Size(GeneratorsOfGroup(G));
-		od;
-    end );
 
 
 InstallMethod(FreeProductOp, "for f.g. free groups",
@@ -158,6 +143,22 @@ InstallMethod(FreeProductOp, "For arbitrary groups",
 		return GeneralFreeProduct(H);
 	end);
 
+InstallMethod( \[\], "for infinite list of generators",
+	[IsList and IsFreeProductInfiniteListOfGenerators,IsInt],
+	function(L,i)
+		local G,j,K;
+		if Length(L![2])>= i then
+			return L![2][i];
+		fi;
+		j:=0;
+		for G in First(FREE_PRODUCT_GROUP_FAMILIES,K->K[3]=L![1])[1] do
+			if not IsFinitelyGeneratedGroup(G) then
+				return G.(i-j);
+			fi;
+			j:=j+Size(GeneratorsOfGroup(G));
+		od;
+    end );
+
 InstallMethod(GeneralFreeProduct, "For a group",
 	[ IsGroup and HasFreeProductInfo],
 	function(G)
@@ -251,24 +252,13 @@ InstallMethod(GeneratorsOfGroup, "for an f.g. GeneralFreeProduct",
 		fi;
 	end);
 
-# InstallMethod(\. "For a GeneralFreeProduct",[IsGeneralFreeProduct],
-# 	function(i)
-# 		local j,G,inf,fin,init;
-# 		inf := Filtered([1..Length(G!.groups)],i->not IsFinitelyGeneratedGroup(G!.groups[i]));
-# 		j:=0;
-# 		for G in G!.groups do
-# 			if not IsFinitelyGeneratedGroup(G) then
-# 				return G.(i-j);
-# 			fi;
-# 			k := Size(GeneratorsOfGroup(G));
-# 			if k>=i-j then
-# 				return G.(i-j);
-# 			else
-# 				j:=j+k;
-# 			fi;
-# 		od;
-# 		Error("Generator number ",i," does not exist");
-# 	end);
+InstallMethod( \=,  "for two GeneralFreeProducts",
+	IsIdenticalObj,
+    [ IsGeneralFreeProduct, IsGeneralFreeProduct],0,
+    function( x, y )
+			return x!.groups = y!.groups;
+		end 
+);
 #################################################################################
 ####                                                                         ####
 ####					         Free ProductsElm     			 			 ####
@@ -392,7 +382,7 @@ InstallOtherMethod( FreeProductElmLetterRep, "For a FreeProductElm",
 				Add(nfactors,elm!.factors[i]);
 			fi;
 		od;
-		return FreeProductElmLetterRep(elm!.group,nw,nfactors);
+		return FreeProductElmLetterRepNC(elm!.group,nw,nfactors);
 	end);
 
 InstallOtherMethod( FreeProductElmLetterRep, "For a FreeProductElm and an integer",
@@ -412,7 +402,7 @@ InstallOtherMethod( FreeProductElmLetterRep, "For a FreeProductElm and an intege
 				Add(nfactors,elm!.factors[i]);
 			fi;
 		od;
-		return FreeProductElmLetterRep(elm!.group,nw,nfactors);
+		return FreeProductElmLetterRepNC(elm!.group,nw,nfactors);
 	end);
 
 InstallOtherMethod( Length, "for a FreeProductElm",
@@ -444,10 +434,11 @@ InstallMethod( ViewObj, "for a FreeProductElm",
 		local s,l;
 		if ForAll(x!.word,HasName) then
 			s := "(";
-			for l in [1..Size(x!.word-1] do
+			l := 0;
+			for l in [1..Size(x!.word)-1] do
 				Append(s,Concatenation(ViewString(x!.word[l]),","));
 			od;
-			Append(s,Concatenation(x!.word[l+1]),")"));
+			Append(s,Concatenation(ViewString(x!.word[l+1]),")"));
 			Print(s);
 		else
 			Print("FreeProductElm of length ",Length(x));
