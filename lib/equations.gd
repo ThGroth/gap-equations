@@ -31,6 +31,7 @@
 ## ]]></Example>
 ##   </Description>
 ## </ManSection>
+## <ManSection>
 ## <Oper Name="EquationGroup" Arg="G"
 ##		 Label="group"/>
 ##   <Returns>A a new <A>G</A>-group for equations over <A>G</A>.</Returns>

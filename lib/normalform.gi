@@ -306,7 +306,15 @@ InstallMethod(EquationNormalForm, "for an Equation",
 	function(x)
 		return EQUATIONNORMALFORM@(x,true);
 	end);
-
+InstallMethod(NormalFormOfEquation, "for an Equation",
+	[IsEquation and IsFreeProductElmRep],
+	function(x)
+		local nf;
+		nf := EQUATIONNORMALFORM@(x,true);
+		SetNormalizingHomomorphism(nf.nf,nf.hom);
+		SetNormalizingInverseHomomorphism(nf.nf,nf.homInv);
+		return nf.nf;
+	end);
 
 InstallMethod(EquationSignature, "for an Equation",
 	[IsEquation and IsFreeProductElmRep],
@@ -320,7 +328,7 @@ InstallMethod(EquationSignature, "for an Equation",
 		if not IsQuadraticEquation(x) then
 			TryNextMethod();
 		fi;			
-		x := EquationNormalForm(x).nf;
+		x := NormalFormOfEquation(x);
 		#Check again for trivial equation
 		if Size(EquationVariables(x))=0 then
 			return [0,1];
