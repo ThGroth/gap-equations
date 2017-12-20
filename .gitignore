@@ -19,4 +19,7 @@
 #Exclude the documentation help files.
 doc/*
 !doc/*.xml
+#include the final help file
+!doc/*.pdf
+!doc/*.html
 
