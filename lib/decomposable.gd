@@ -1,26 +1,26 @@
 #############################################################################
 ##
-#O DecompositionEquationGroup . . .create the Decomposition of an EquationGroup
-#O DecompositionEquation . . . . . . . . . . . . . .Decompose an Equation
+#A DecompositionEquationGroup . . .create the Decomposition of an EquationGroup
+#A DecompositionEquation . . . . . . . . . . . . . .Decompose an Equation
 #O EquationComponent
 #O EquationComponents
 ##
 ## <#GAPDoc Label="DecompositionEquation">
 ## <ManSection>
-## <Oper Name="DecompositionEquationGroup" Arg="G"
+## <Attr Name="DecomposedEquationGroup" Arg="G"
 ##		 Label="group"/>
 ##   <Returns>A new <A>EquationGroup</A>.</Returns>
 ##   <Description>
 ##		This method needs <A>G</A> to be an equation group where the
 ##		group of constants is an fr-group. For <A>G</A> a group with
 ##		free constant group see 
-##		<Ref Oper="DecompositionEquationGroup" Label="group,int,list" Style="Text"/>.
+##		<Ref Oper="DecomposedEquationGroup" Label="group,int,list" Style="Text"/>.
 ##		If <M>F</M> is the free group on the generating set <M>X</M> then
 ##		the free group on the gerating set <M>X^n</M> is isomorphic to <M>F^{*n}</M> the
 ##		<M>n</M>-fold free product of <M>F</M> . 
 ##		<P/> This method returns the <A>EquationGroup</A> <M>G*F^{*n}</M>.<P/>
 ## </Description>
-## <Oper Name="DecompositionEquationGroup" Arg="G,deg,acts"
+## <Oper Name="DecomposedEquationGroup" Arg="G,deg,acts"
 ##		 Label="group,int,list"/>
 ##   <Returns>A new <A>EquationGroup</A>.</Returns>
 ##   <Description>
@@ -33,8 +33,42 @@
 ## </Description>
 ## </ManSection>
 ## <ManSection>
+## <Oper Name="DecompositionEquation" Arg="E,sigma"
+##		 Label="equation,group homorphism"/>
+##   <Returns>A new equation in <A>G</A> which is the
+##	 decomposed of the equation <A>E</A>.</Returns>
+##   <Description>
+##		The equation <A>E</A> needs to be a member of a EquationGroup
+##		<M>H=K*F</M> where <M>K</M> is an <C>FRGroup</C>. 
+##		
+##		<P/> The argument <A>sigma</A> needs to be a group homomorphism
+##		<M>\sigma\colon F\to S_n</M>. Alternatively it can be a list of 
+##		elements of <M>S_n</M> it is then regarded as the group homomorphism
+##		that maps the <M>i</M>-th variable of <A>eq</A> to the <M>i</M>-th
+##		element of the list.
+##
+##		<P/>
+##		The representation of the returned equation stores a list of 
+## 		words such that the <M>i</M>-th word represents an element in 
+##		<M>G*\phi_i(F)</M>.
+## <Example><![CDATA[
+## gap> F := FreeGroup(1);; SetName(F,"F");
+## gap> G := EquationGroup(GrigorchukGroup,F);
+## GrigorchukGroup*F
+## gap>  sigma := GroupHomomorphismByImages(F,SymmetricGroup(2),[(1,2)]);
+## [ f1 ] -> [ (1,2) ]
+## gap>  e := Equation(G,[F.1^2,GrigorchukGroup.2]);
+## Equation in [ f1 ]
+## gap>  de := DecompositionEquation(e,sigma);
+## DecomposedEquation in [ f11, f12 ]
+## gap> Print(de);
+## Equation([ FreeProductElm([ f11*f12,a ]), FreeProductElm([ f12*f11,c ]) ])
+## ]]></Example>
+##   </Description>
+##</ManSection>
+## <ManSection>
 ## <Oper Name="DecompositionEquation" Arg="G,E,sigma"
-##		 Label="equation"/>
+##		 Label="EquationGroup,equation,group homomorphism"/>
 ##   <Returns>A new equation in <A>G</A> which is the
 ##	 decomposed of the equation <A>E</A>.</Returns>
 ##   <Description>
@@ -51,21 +85,6 @@
 ##		The representation of the returned equation stores a list of 
 ## 		words such that the <M>i</M>-th word represents an element in 
 ##		<M>G*\phi_i(F)</M>.
-## <Example><![CDATA[
-## gap> F := FreeGroup(1);; SetName(F,"F");
-## gap> G := EquationGroup(GrigorchukGroup,F);
-## GrigorchukGroup*F
-## gap> DG := DecompositionEquationGroup(G);
-## GrigorchukGroup*F*F
-## gap>  sigma := GroupHomomorphismByImages(F,SymmetricGroup(2),[(1,2)]);
-## [ f1 ] -> [ (1,2) ]
-## gap>  e := Equation(G,[F.1^2,GrigorchukGroup.2]);
-## Equation in [ f1 ]
-## gap>  de := DecompositionEquation(DG,e,sigma);
-## DecomposedEquation in [ f11, f12 ]
-## gap> Print(de);
-## Equation([ FreeProductElm([ f11*f12,a ]), FreeProductElm([ f12*f11,c ]) ])
-## ]]></Example>
 ## <Example><![CDATA[
 ## gap> F := FreeGroup("x1","x2");; SetName(F,"F");
 ## gap> G := FreeGroup("g");; SetName(G,"G");
@@ -109,7 +128,6 @@
 ## </ManSection>
 ## <#/GAPDoc>
 DeclareOperation("DecompositionEquationGroup", [IsEquationGroup]);
-DeclareAttribute("IsDecompositionEquationGroup",IsEquationGroup);
 
 DeclareRepresentation("IsDecomposedEquationRep",
  IsComponentObjectRep  and IsAttributeStoringRep,
@@ -133,10 +151,9 @@ DeclareOperation("EquationComponents", [IsEquation]);
 ##
 ## <#GAPDoc Label="DecomposedEquationDisjointForm">
 ## <ManSection>
-## <Oper Name="DecomposedEquationDisjointForm" Arg="E"
+## <Attr Name="DecomposedEquationDisjointForm" Arg="E"
 ##		 Label="equation"/>
-##   <Returns>A record with components <A>eq</A> 
-##	 and <A>hom</A>.</Returns>
+##   <Returns>A decomposed equation that is a disjoint system.</Returns>
 ##   <Description>
 ##		If <A>E</A> is a decomposed equation there may be an 
 ##		overlap of the set of variables of some components. If <A>E</A> is a quadratic
@@ -146,8 +163,33 @@ DeclareOperation("EquationComponents", [IsEquation]);
 ##		<M>\varphi</M> such that the solvability of the system of components remains 
 ##		unchanged. If <M>s</M> is a solution for the new system of components, then
 ##		<M>s\circ\varphi</M> is a solution for the old system.<P/> 
-##		The method returns a record with two components. <A>hom</A> 
-##		is the homomorphism <M>\varphi</M> and <A>eq</A> the new decomposed equation.
+## </Description>
+## </ManSection>
+## <ManSection>
+## <Attr Name="DisjointFormOfDecomposedEquation" Arg="E"
+##		 Label="equation"/>
+##   <Returns>A decomposed Equation with disjoint components.</Returns>
+##   <Description>
+##		If <A>E</A> is a decomposed equation there may be an 
+##		overlap of the set of variables of some components. If <A>E</A> is a quadratic
+##		equation there is an equation homomorphism <M>\varphi</M> that 
+##		maps each component to a new quadratic equation. Hence all maped components have
+##		pairwise disjoint sets of variables. This method computes such an homomorphism
+##		<M>\varphi</M> such that the solvability of the system of components remains 
+##		unchanged. If <M>s</M> is a solution for the new system of components, then
+##		<M>s\circ\varphi</M> is a solution for the old system.<P/> 
+##		The method returns a the neq decomposed equation, that has the attribute
+## 		<C>DisjointFormHomomorphism</C> that is the 
+##		the homomorphism <M>\varphi</M>.
+## </Description>
+## </ManSection>
+## <ManSection>
+## <Attr Name="DisjointFormHomomorphism" Arg="E"
+##		 Label="equation"/>
+##   <Returns>The homomorphism that maps to <A>E</A>.</Returns>
+##   <Description>
+##		Only available if <A>E</A> was obtained via the method
+##		<C>DisjointFormOfDecomposedEquation</C>.
 ## </Description>
 ## </ManSection>
 ## <ManSection>
@@ -188,30 +230,9 @@ DeclareOperation("EquationComponents", [IsEquation]);
 ## gap> ls := LiftSolution(de,e,sigma,ns);;
 ## gap> IsSolution(ls,e);
 ## true
-## gap> ForAll(EquationVariables(e),x->Equation(G,[x])^ls in Gr);
-## true //only good luck
+## gap> ForAll(EquationVariables(e),x->Equation(G,[x])^ls in Gr); # only good luck
+## true 
 ## ]]></Example>
-## </Description>
-## </ManSection>
-#
-#
-#
-## <ManSection>
-## <Oper Name="DisjointFormoFDecomposedEquation" Arg="E"
-##		 Label="equation"/>
-##   <Returns>A decomposed Equation with disjoint components.</Returns>
-##   <Description>
-##		If <A>E</A> is a decomposed equation there may be an 
-##		overlap of the set of variables of some components. If <A>E</A> is a quadratic
-##		equation there is an equation homomorphism <M>\varphi</M> that 
-##		maps each component to a new quadratic equation. Hence all maped components have
-##		pairwise disjoint sets of variables. This method computes such an homomorphism
-##		<M>\varphi</M> such that the solvability of the system of components remains 
-##		unchanged. If <M>s</M> is a solution for the new system of components, then
-##		<M>s\circ\varphi</M> is a solution for the old system.<P/> 
-##		The method returns a the neq decomposed equation, that has the attribute
-## 		<E>DisjointFormHomomorphism</E> that is the 
-##		the homomorphism <M>\varphi</M>.
 ## </Description>
 ## </ManSection>
 ## <#/GAPDoc>

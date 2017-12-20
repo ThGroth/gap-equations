@@ -28,7 +28,7 @@ InstallMethod( DecompositionEquationGroup, "for an EquationGroup with fr const g
 	function(eqG)
 		local DEqG;
 		DEqG := DecomposedEquationGroup(eqG);
-		SetIsDecompositionEquationGroup(DEqG,true);
+		SetIsDecomposedEquationGroup(DEqG,true);
 		return DEqG;
 	end);
 
@@ -81,7 +81,7 @@ InstallOtherMethod( DecompositionEquationGroup, "for an EquationGroup with free 
 	function(eqG,alphsize,acts)
 		local DEqG;
 		DEqG := DecomposedEquationGroup(eqG,alphsize,acts);
-		SetIsDecompositionEquationGroup(DEqG,true);
+		SetIsDecomposedEquationGroup(DEqG,true);
 		return DEqG;
 	end);
 
@@ -99,7 +99,7 @@ InstallOtherMethod( Equation, "(Equation) for a list of lists, a DecompositionEq
 	[IsEquationGroup,IsList,IsPerm],
 	function(G,words,perm)
 		local factors,red,Ob;
-		if not IsDecompositionEquationGroup(G)then
+		if not IsDecomposedEquationGroup(G)then
 			TryNextMethod();
 		fi;
 		factors := List(words,w->List(w,function(e) 
@@ -148,7 +148,7 @@ InstallOtherMethod( DecompositionEquation, "for an Equation a group homomorphism
 		[IsEquationGroup,IsEquation,IsGroupHomomorphism],
 		function(DEqG,eq,acts)
 			local alph,vars,DecompEq,lastperm,x,i;
-			if not IsDecompositionEquationGroup(DEqG)then
+			if not IsDecomposedEquationGroup(DEqG)then
 				TryNextMethod();
 			fi;
 			alph := DEqG!.alph;
@@ -388,6 +388,8 @@ InstallMethod(LiftSolution, "For a Decomposed Equation, an Equation, a group hom
 				 [1] )) );
 		return EquationEvaluation(eq,EquationVariables(eq),imgs);
 	end);
+
+
 #
 # Let sol be a list of solutions [s₁,…,sₙ] such that 
 # sᵢ is a solution for the NormalForm of th iᵗʰ component
@@ -418,4 +420,6 @@ InstallOtherMethod(LiftSolution, "For a Decomposed Equation, an Eqation, a group
 				 [1] )) );
 		return EquationEvaluation(eq,EquationVariables(eq),imgs);
 	end);
+# TODO can be improved, needs far few arguments. neq should know how
+# to compose again.
 

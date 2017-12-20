@@ -52,15 +52,18 @@ We start with defining the group in which our equations live in:
 <Example><![CDATA[
 gap> LoadPackage("equations");
 true
-gap> A5 := AlternatingGroup(5);;SetName(A5,"A5"); 
-gap> F := FreeGroup(3,"X");;SetName(F,"F");
-gap> EqG := EquationGroup(A5,F);
-A5*F
+gap> A5 := AlternatingGroup(5);
+Alt( [ 1 .. 5 ] )
+gap> EqG := EquationGroup(A5);
+<free product group>
  ]]></Example>
 Now we enter the equation <M>E=X_2(1,2,3)X_1^{-1}X_2^{-1}(1,3)(4,5)X_3X_1X_3^{-1}</M>.
 <Example><![CDATA[
 gap> g := (1,2,3);;h := (1,3)(4,5);;
-gap> eq := Equation(EqG,[F.2,g,F.1^-1*F.2^-1,h,F.3*F.1*F.3^-1]);
+gap> vars := VariablesOfEquationGroup(EqG);
+[ FreeProductElm([ X1 ]), FreeProductElm([ X2 ]), ... ]
+gap> x1 := vars[1];; x2 := vars[2];; x3 := vars[3];;
+gap> eq := Equation(x2*g*x1^-1*x2^-1*h*x3*x1*x3^-1);
 Equation in [ X1, X2, X3 ]
 gap> Print(eq);
 FreeProductElm([ X2, (1,2,3), X1^-1*X2^-1, (1,3)(4,5), X3*X1*X3^-1 ])
@@ -69,18 +72,19 @@ Let us see what the normal form of this equation is:
 <Example><![CDATA[
 gap> Genus(eq);
 1
-gap> Nf := EquationNormalForm(eq);;
-gap> Print(Nf.nf);
+gap> nf := NormalFormOfEquation(eq);
+Equation in [ X1, X2, X3 ]
+gap> Print(nf);
 FreeProductElm([ X1^-1*X2^-1*X1*X2*X3^-1, (1,2,3), X3, (1,3)(4,5) ])
  ]]></Example>
 We know a solution for this normal form:
 <M>s\colon X_1 \mapsto (1,2,4),\ X_2 \mapsto (1,2,5),\ X_3\mapsto ()</M>.
 <Example><![CDATA[
-gap> s:=EquationEvaluation(EqG,[F.1,F.2,F.3],[(1,2,4),(1,2,5),()]);
+gap> s:=EquationEvaluation(EqG,EquationVariables(eq),[(1,2,4),(1,2,5),()]);
 [ X1, X2, X3 ]"->"[ (1,2,4), (1,2,5), () ]
-gap> IsSolution(s,Nf.nf);
+gap> IsSolution(s,nf);
 true
-gap> Nf.nf^s;
+gap> nf^s;
 ()
 gap> IsSolution(s,eq);
 false
@@ -89,10 +93,16 @@ gap> eq^s;
  ]]></Example>
 Let us compute the solution for <M>E</M>.
 <Example><![CDATA[
-gap> sE:= Nf.hom*s;;
+gap> sE:= NormalizingHomomorphism(nf)*s;
+CompositionMapping( [ X1, X2, X3 ]->[ (1,2,4), (1,2,5), () ],
+ CompositionMapping( [ X3, X2 ]->[ X2, X3 ], CompositionMapping( 
+CompositionMapping( CompositionMapping( [ X2 ]->[ (X2) ], [ X2 ]->[ X2^-1 ] ),
+[ X3, X1 ]->[ <Free product element of length 5>, 
+  <Free product element of length 3> ] ), CompositionMapping( [ X1 ]->[ X1 ], 
+[ X3 ]->[ X3^-1 ] ) ) ) )
 gap> IsSolution(sE,eq);
 true;
-List([1,2,3],i->ImageElm(sE,F.(i)));
+gap> List(EquationVariables(eq),x->ImageElm(sE,x));
 [ (2,3,4), (), (1,2,5,4,3) ]
  ]]></Example>
  Thus
@@ -142,7 +152,7 @@ of the decomposition do not form independent systems. Let us see how
 an equivalent independent system looks like and find out which genus the 
 corresponding equations have:
 <Example><![CDATA[
-gap> Apply(PhiE,E->DecomposedEquationDisjointForm(E).eq);;
+gap> Apply(PhiE,E->DisjointFormOfDecomposedEquation(E));
 gap> Print(PhiE[16]);
 Equation([ FreeProductElm([ X2^-1*Y1^-1*Y2^-1*X2*Y1*Z1^-1, g1, Z2, h1, Y2*Z2^-1,
  g2, Z1, h2 ]), FreeProductElm([  ]) ])
@@ -158,40 +168,43 @@ For example let us compute a solution for the equation
 <M>E=[X,Y]dacab</M>. 
  <Example><![CDATA[
 gap> LoadPackage("fr");;
-gap> F := FreeGroup("X","Y");; SetName(F,"F"); x:=F.1;; y:=F.2;;
 gap> G := GrigorchukGroup;;
 gap> a:= G.1;; b:=G.2;; c:=G.3;; d:= G.4;;
-gap> EqG := EquationGroup(G,F);;
-gap> DeqG := DecompositionEquationGroup(EqG);
-GrigorchukGroup*F*F
-gap> gamma_a := GroupHomomorphismByImages(F,SymmetricGroup(2),[(),(1,2)]);
-[ X, Y ] -> [ (), (1,2) ]
-gap> eq := Equation(EqG,[Comm(x,y),d*a*c*a*b]);
-Equation in [ X, Y ]
-gap> neq := DecompositionEquation(DeqG,eq,gamma_a);
-DecomposedEquation in [ X1, X2, Y1, Y2 ]
-gap> deq := DecomposedEquationDisjointForm(neq);
-rec( eq := DecomposedEquation in [ X1, X2, Y2 ], 
-  hom := [ X1 ]"->"[ FreeProductElm of length 3 ] )
-gap> Nf := EquationNormalForm(EquationComponent(deq.eq,1));;
-gap> F2 := FreeProductInfo(DeqG).groups[2];
-F*F
-gap> s := EquationEvaluation(DeqG,[F2.1,F2.2,F2.3],[d,b,b]);
-[ X1, X2, Y1 ]"->"[ d, b, b ]
-gap> IsSolution(s,Nf.nf);
+gap> EqG := EquationGroup(G);;
+gap> x:=EqG.5;y:=EqG.6;
+(X1)
+(X2)
+gap> eq := Equation(Comm(x,y)*d*a*c*a*b);
+<Equation in [ X1, X2 ]>
+gap> gamma_a := GroupHomomorphismByImages(
+>       Group(EquationVariables(eq)),SymmetricGroup(2),[(),(1,2)]);
+[ X1, X2 ] -> [ (), (1,2) ]
+gap> neq := DecompositionEquation(eq,gamma_a);
+DecomposedEquation in [ Xn1, Xn2, Xn3, Xn4 ]
+gap> deq := DisjointFormOfDecomposedEquation(neq);
+DecomposedEquation in [ Xn2, Xn3, Xn4 ]
+gap> nf := NormalFormOfEquation(EquationComponent(deq,1));
+<Equation in [ Xn1, Xn2, Xn3 ]>
+gap> s := EquationEvaluation(DecomposedEquationGroup(EqG),
+>            EquationVariables(nf),[d,b,b]);
+[ Xn1, Xn2, Xn3 ]->[ d, b, b ]
+gap> IsSolution(s,nf);
 true
-gap> IsSolution(Nf.hom*s,EquationComponent(deq.eq,1));
+gap> IsSolution(NormalizingHomomorphism(nf)*s,EquationComponent(deq,1));
 true
-gap> ForAll(EquationComponents(neq),E->IsSolution(deq.hom*Nf.hom*s,E));
+gap> sol := DisjointFormHomomorphism(deq)*NormalizingHomomorphism(nf)*s;;
+gap> ForAll(EquationComponents(neq),E->IsSolution(sol,E));
 true;
-gap> imgs := List(GeneratorsOfGroup(F2),x->ImageElm(deq.hom*Nf.hom*s,x));
+gap> imgs := List(EquationVariables(neq),x->ImageElm(sol,x));
 [ <Mealy element on alphabet [ 1 .. 2 ] with 6 states>, 
   <Mealy element on alphabet [ 1 .. 2 ] with 7 states>, b^-1, 
   <Mealy element on alphabet [ 1 .. 2 ] with 9 states> ]
-gap> s2 := LiftSolution(neq,eq,gamma_a,deq.hom*Nf.hom*s);
-[ X, Y ]"->"[ <Mealy element on alphabet [ 1 .. 2 ] with 9 states>, 
+gap> soleq := EquationEvaluation(EqG,EquationVariables(eq),
+                [ComposeElement([imgs[1],imgs[2]],()),
+                 ComposeElement([imgs[3],imgs[4]],(1,2))] );
+[ X1, X2 ]->[ <Mealy element on alphabet [ 1 .. 2 ] with 9 states>, 
   <Mealy element on alphabet [ 1 .. 2 ] with 10 states> ]
-gap> IsSolution(s2,eq);
+gap> IsSolution(soleq,eq);
 true;
  ]]></Example></Section>
 </Chapter>
@@ -201,9 +214,9 @@ true;
 This package installs some new method for the command 
 <C>FreeProduct</C>. Before it was only possible to construct
 free products of finitely presented groups.
-
+<#Include Label="FreeProductOperations">
 <P/> If the resulting group was constructed
-by the new methods they will be in the following 
+by one of the new methods they will be in the following 
 filter: <C>IsGeneralFreeProduct</C>
 </Section>
 <Section><Heading>Filters</Heading>

@@ -54,8 +54,8 @@
 ##		generated free group as the group of variables, this returns an 
 ##		infinite list of generators.
 ##   </Description>
-##</ManSection>
-### <ManSection>
+## </ManSection>
+## <ManSection>
 ## <Attr Name="ConstantsOfEquationGroup" Arg="G"
 ##		 Label="group"/>
 ##   <Returns>The image of the embedding of the group of constants in <A>G</A></Returns>
@@ -82,13 +82,55 @@ DeclareAttribute( "ConstantsOfEquationGroup", IsEquationGroup);
 ##   <Returns>A a new element of the equation group <A>G</A></Returns>
 ##   <Description>
 ##		Creates a <C>FreeProductElm</C> from the list <A>L</A>. By default 
-##		this elements will be cyclical reduced.  
+##		this elements will be cyclicaly reduced.
+## <Example><![CDATA[
+## gap> F2 := FreeGroup(2);; SetName(F2,"F2");
+## gap> S4 := SymmetricGroup(4);; SetName(S4,"S4");
+## gap> G := EquationGroup(S4,F2);
+## S4*F2
+## gap> e := Equation(G,[F2.1,F2.2,(1,2),F2.1]);
+## Equation in [ f1, f2 ]
+## gap> Print(e);
+## FreeProductElm([ f1*f2, (1,2), f1 ])
+## ]]></Example>  
+##   </Description>
+##</ManSection>
+##<ManSection>
+## <Oper Name="Equation" Arg="elm"
+##		 Label="free product elm"/>
+##   <Returns>A a new element of the equation group <A>G</A></Returns>
+##   <Description>
+##		Creates a <C>FreeProductElm</C> from the <C>FreeProductElm</C>
+##		 <A>elm</A>. By default this elements will be cyclicaly reduced.  
+## <Example><![CDATA[
+## gap> G := EquationGroup(SymmetricGroup(4));
+## <free product group>
+## gap> e := Equation(G.4*G.1*G.2*G.3);
+## <Equation in [ X1, X2 ]>
+## gap> Print(e);
+## FreeProductElm([ X2, (2,3,4), X1 ])
+## ]]></Example>  
 ##   </Description>
 ##</ManSection>
 ##<ManSection>
 ## <Attr Name="EquationVariables" Arg="E"
 ##		 Label="groupelement"/>
 ##   <Returns>A list of all variables occuring in <A>E</A>.</Returns>
+##  <Description>
+##		The elements of the result are elements of the group of variables
+##		in the <C>EquationGroup</C>. See in contrast the attribute
+##		<C>EquationVariablesEmbedded</C>.
+##   </Description>
+##</ManSection>
+##<ManSection>
+## <Attr Name="EquationVariablesEmbedded" Arg="E"
+##		 Label="groupelement"/>
+##   <Returns>A list of all variables occuring in <A>E</A>.</Returns>
+##  <Description>
+##		The elements of the result are elements of the <C>EquationGroup</C>.
+##		 and thus <C>FreeProductElm</C>s of length 1. 
+##		See in contrast the attribute<C>EquationVariables</C>.
+##   </Description>
 ##</ManSection>
 ##<ManSection>
 ## <Attr Name="EquationLetterRep" Arg="E"

@@ -16,6 +16,41 @@
 
 #############################################################################
 ##
+#O FreeProduct . . . . . . . . . . . . . . . . . .free product groups
+#C IsFreeProductElm . . . . . . . . . . . . . elements of free product groups
+#C IsFreeProductHomomorphism. . . . . . . homomorphism of free product groups
+##
+## <#GAPDoc Label="FreeProductOperations">
+## <ManSection>
+##   <Oper Name="FreeProductOp" Arg="list, f.g. free group"/>
+##   <Returns>The free product of all groups in <A>list</A>.</Returns>
+##   <Description>
+##		This is the method of choice if <A>list</A> contains at least
+##		one finetely generated free group but not only free groups.
+##   </Description>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="FreeProductOp" Arg="list, inf.g. free group"/>
+##   <Returns>The free product of all groups in <A>list</A>.</Returns>
+##   <Description>
+##		We choose this is the method if <A>list</A> contains at least
+##		one infinetely generated free group but not only free groups.
+##   </Description>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="FreeProductOp" Arg="list, group"/>
+##   <Returns>The free product of all groups in <A>list</A>.</Returns>
+##   <Description>
+##		This method does always work. We refer to a more specific 
+##		method if all of the groups are finitely presented. I.e. they
+##		are in the filter <C>IsFpGroup</C> and finitely generated.
+##   </Description>
+## </ManSection>
+## <#/GAPDoc>
+
+
+#############################################################################
+##
 #C IsGeneralFreeProduct. . . . . . . . . . . . . . . . . .free product groups
 #C IsFreeProductElm . . . . . . . . . . . . . elements of free product groups
 #C IsFreeProductHomomorphism. . . . . . . homomorphism of free product groups
@@ -23,14 +58,17 @@
 ## <#GAPDoc Label="IsGeneralFreeProduct">
 ## <ManSection>
 ##   <Filt Name="IsGeneralFreeProduct" Arg="obj"/>
-##   <Filt Name="IsFreeProductElm" Arg="obj"/>
-##   <Filt Name="IsFreeProductHomomorphism" Arg="obj"/>
-##   <Returns><K>true</K> if <A>obj</A> is a general free product,a free 
-##			product element, a free product homomorphism.</Returns>
+##   <Returns><K>true</K> if <A>obj</A> is a general free product.</Returns>
 ##   <Description>
-##      These filters can be used to check weather a given group was created as 
-##		general free product etc.
+##      This filter can be used to check whether a given group was created as 
+##		general free product.
 ##   </Description>
+## </ManSection>
+## <ManSection>
+##   <Filt Name="IsFreeProductElm" Arg="obj"/>
+## </ManSection>
+## <ManSection>
+##   <Filt Name="IsFreeProductHomomorphism" Arg="obj"/>
 ## </ManSection>
 ## <#/GAPDoc>
 DeclareCategory("IsGeneralFreeProduct", IsGroup);
@@ -158,7 +196,16 @@ DeclareOperation("FreeProductElmLetterRepNC", [IsGeneralFreeProduct,IsList,IsLis
 ##   <Returns>The product of the two elements.</Returns>
 ## </ManSection>
 ## <ManSection>
-##   <Oper Name="\*" Arg="elm"
+##   <Oper Name="\*" Arg="e1,e2"
+##		 Label="freeproductelm,group elm"/>
+##   <Returns>The product of <A>e1</A> and the image of <A>e2</A>
+##				 under the embedding  into the free product group.
+##	</Returns><Description>
+##				Only works if <A>e2</A> lies in one of the free factors
+##				of the free product group.</Description>	
+## </ManSection>
+## <ManSection>
+##   <Oper Name="InverseOp" Arg="elm"
 ##		 Label="freeproductelm"/>
 ##   <Returns>The inverse element</Returns>
 ## </ManSection>
@@ -349,6 +396,11 @@ DeclareProperty("IsFreeProductInfiniteListOfGenerators",
 ## (f1*f2)^2
 ## ]]></Example>
 ##   </Description>
+## </ManSection>
+## <ManSection>
+##   <Oper Name="\in" Arg="elm,list"
+##		 Label="elm,list"/>
+##   <Returns>true if elm is in the infinite list <A>list</A></Returns>
 ## </ManSection>
 ## <#/GAPDoc>
 DeclareOperation("Abs", [IsObject]);

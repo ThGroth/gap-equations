@@ -28,7 +28,7 @@ end;
 # Output: h,f ∈ NeumanSegalGroup such that [h,f]g is the identity.
 #
 #######
-Solver := function(g,arg...)
+CommutatorEquationSolver := function(g,arg...)
 	local n,Nn,G,F,EqG,EqGN,DEqGN,DEqG,eq,Solverinner,N,M;
 	n := Size(AlphabetOfFRObject(g));
 	Nn := NeumannSegalGroup(n);
@@ -141,7 +141,7 @@ end;
 
 #####  Example
 # g := api((1,2,3,4,5),6)*alphapi((1,2,3)(4,5,6),6);
-# s := Solver(g);
+# s := CommutatorEquationSolver(g);
 # IsOne(Comm(s)*g);
 
 #####
@@ -157,12 +157,12 @@ NeumannSegalRandomTest := function(deg,len,num)
 	Info(InfoExamples,2,"Nucleus computed\n");
 	for i in [1..num] do
 		g := RandomNn(Random([1..len]));
-		if not IsOne(Comm(Solver(g,N,M))*g) then
+		if not IsOne(Comm(CommutatorEquationSolver(g,N,M))*g) then
 			Error("There is a problem with g",g);
 		fi;
 		Info(InfoExamples,1,Int(i*100/num),"% done.\r");
 	od;
-	Info(InfoExamples,1,"100% done. Everythings great\n");
+	Info(InfoExamples,1,"100% done. Everything great\n");
 end;
 
 
@@ -187,13 +187,13 @@ SolveEquation := function(eq)
 		g :=ImageElm( EquationEvaluationNC(
 					grp,
 					EquationVariables(nf),
-					List(EquationVariables(nf),i->One(Nn))),nf );
-		res := Solver(g);
+					List(EquationVariables(nf),i->One(grp!.const))),nf );
+		res := CommutatorEquationSolver(g);
 		sol := EquationEvaluationNC(
 					grp,
 					EquationVariables(nf),
 					Concatenation(res,
-						ListWithIdenticalEntries(Size(EquationVariables(nf))-2,One(Nn))));
+						ListWithIdenticalEntries(Size(EquationVariables(nf))-2,One(grp!.const))));
 		return NormalizingHomomorphism(nf)*sol;
 	fi;
 	Error("Not implemented yet");		
@@ -204,14 +204,16 @@ RandomQuadraticEquation := function(EqG,l)
 	Vars := VariablesOfEquationGroup(EqG);
 	randEq := Set(List([1..l],i->Random(Vars)));
 	return Equation(Product(Shuffle(Concatenation(randEq,
-		List(randEq,x->x^-1),List([1..l],i->Random(GeneratorsOfGroup(Nn)))))));
+		List(randEq,x->x^-1),List([1..l],
+			i->Random(GeneratorsOfGroup(ConstantsOfEquationGroup(EqG))))))));
 end;
 RandomQuadraticUnorientedEquation := function(EqG,l)
 	local Vars,randEq;
 	Vars := VariablesOfEquationGroup(EqG);
 	randEq := Set(List([1..l],i->Random(Vars)));
 	return Equation(Product(Shuffle(Concatenation(randEq,
-		List(randEq,x->x^Random([-1,1])),List([1..l],i->Random(GeneratorsOfGroup(Nn)))))));
+		List(randEq,x->x^Random([-1,1])),List([1..l],
+			i->Random(GeneratorsOfGroup(ConstantsOfEquationGroup(EqG))))))));
 end;
 #######################
 #
