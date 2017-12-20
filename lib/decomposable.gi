@@ -85,7 +85,7 @@ InstallOtherMethod( DecompositionEquationGroup, "for an EquationGroup with free 
 		return DEqG;
 	end);
 
-InstallMethod( IsDecompositionEquationGroup, "for an EquationGroup",
+InstallMethod( IsDecomposedEquationGroup, "for an EquationGroup",
 	[IsEquationGroup],
 	EqG->HasFreeProductInfo(EqG!.free));
 
