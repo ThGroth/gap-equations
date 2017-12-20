@@ -1,11 +1,15 @@
 #Read the definition of GetCommutators
 if not IsExistingFile("./examples/init.g") then
+  if not IsExistingFile("./phd/examples/init.g") then
     Error("Please start this script in the main directory.");
+  fi;
+  dir := Directory("phd");
+else
+  dir := Directory("./");
 fi;
 
-dir := Directory("examples");
-Read(Filename(dir,"init.g"));
-Read(Filename(dir,"Ore.g"));
+Read(Filename(dir,"examples/init.g"));
+Read(Filename(dir,"examples/Ore.g"));
 
 #Definition of the Neumann Segal group with its generators. 
 api := function(pi,n)

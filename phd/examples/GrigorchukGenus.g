@@ -1,10 +1,14 @@
 
 #Load fr and equation package
 if not IsExistingFile("./examples/init.g") then
+  if not IsExistingFile("./phd/examples/init.g") then
     Error("Please start this script in the main directory.");
+  fi;
+  dir := Directory("phd");
+else
+  dir := Directory("./");
 fi;
-dir := Directory("examples");
-Read(Filename(dir,"init.g"));
+Read(Filename(dir,"examples/init.g"));
 
 ####
 #
