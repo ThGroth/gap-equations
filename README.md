@@ -2,7 +2,7 @@
 
 A package for the computer algebra system GAP. 
 The package generalizes free products of groups and installs methods for dealing with quadratic equations.
-For more information see the manual under doc/manual.pdf
+For more information see the manual under [doc/manual.pdf](doc/manual.pdf)
 
 ### First steps
 A few examples can be found in the directory phd/examples. 
