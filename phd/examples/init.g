@@ -1,3 +1,12 @@
+if not IsExistingFile("./examples/init.g") then
+  if not IsExistingFile("./phd/examples/init.g") then
+    Error("Please start this script in the main directory.");
+  fi;
+  dir := Directory("phd");
+else
+  dir := Directory("./");
+fi;
+
 DeclareInfoClass("InfoExamples");
 SetInfoLevel(InfoExamples,2);
 
@@ -41,7 +50,7 @@ end);
 if not TestPackageAvailability( "LPRES","0.3") = fail then
 	LoadPackage("lpres");
 else
-	SetPackagePath("lpres","extern/lpres/");
+	SetPackagePath("lpres",Filename(dir,"extern/lpres/"));
 fi;
 
 if not TestPackageAvailability( "fr","2.3") = fail then
@@ -52,13 +61,13 @@ else
 		Info(InfoExamples,0,"Try to use Verion ",InstalledPackageVersion("fr")," instead.\n");
 		LoadPackage("fr");	
 	else
-		SetPackagePath("fr","extern/fr/");
+		SetPackagePath("fr",Filename(dir,"extern/fr/"));
 	fi;
 fi;
-if not TestPackageAvailability("equations","0.1.3") = fail then
+if not TestPackageAvailability("equations","0.2") = fail then
 	LoadPackage("equations");
 else
-	SetPackagePath("equations","../");
+	SetPackagePath("equations",Filename(dir,"../"));
 	LoadPackage("equations");
 fi;
 
